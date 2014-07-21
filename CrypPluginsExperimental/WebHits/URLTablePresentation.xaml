@@ -33,7 +33,7 @@
                         <TextBlock Name="labelSearchVal" Text="{Loc SearchValue}" Grid.Column="1" Margin="5" />
                         <TextBlock Name="searchValue" Grid.Column="2"  Grid.Row="0" Margin="5" />                      
                       
-                        <TextBlock Name="labelSearchTime" Text="{Loc Searchtime}" Grid.Column="1" Grid.Row="1" Margin="5" />
+                        <TextBlock Name="labelSearchTime" Text="{Loc SearchTime}" Grid.Column="1" Grid.Row="1" Margin="5" />
                         <TextBlock Name="searchTime"  Grid.Column="2" Grid.Row="1" Margin="5" />
                         <TextBlock Name="labelTotalResults" Text="{Loc TotalResults}" HorizontalAlignment="Left" Grid.Column="1" Grid.Row="2" Margin="5" />
                         <TextBlock Name="totalResults"  Grid.Column="2" Grid.Row="2" Margin="5" />     
