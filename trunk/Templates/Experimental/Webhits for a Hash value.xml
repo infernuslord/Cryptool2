@@ -7,7 +7,7 @@
   <keywords>Search, WebHits, Hash, Google</keywords>
 
   <title lang="de">Webhits für einen bestimmten Hashwert</title>
-  <summary lang="de">Suche nach einem bestimmten Hashwert mit Hilfe der <i>SWebHits/i>-Komponente</summary>
+  <summary lang="de">Suche nach einem bestimmten Hashwert mit Hilfe der <i>WebHits</i>-Komponente</summary>
   <description lang="de">Diese Vorlage zeigt, wie mithilfe der <i>WebHits</i>-Komponente geprüft werden kann, ob ein bestimmter Hashwert von der Google-Suchmaschine im Web gefunden wird.</description>
   <keywords lang="de">Suche, WebHits, Hash, Google</keywords>
 
