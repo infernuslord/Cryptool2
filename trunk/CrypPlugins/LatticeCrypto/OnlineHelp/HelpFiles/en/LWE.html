@@ -14,7 +14,7 @@ Then the LWE problem is to determine the vector s.
 <p>
 In other words, from a set of 'approximated' linear equations find the vector s in Zq^n (see the following example).
 If no error vector e was used, the linear equations could be solved with the Gaussian elimination method.
-But the approximation makes this problem much more difficult.
+However, the approximation makes this problem much more difficult.
 </p>
 
 <img src="ImgLWE1" />
@@ -26,16 +26,16 @@ The equations are correct apart from a small error value, for example 1, which w
 <p>
 The error distribution is a normal distribution that is rounded up to the next integer and taken modulo q.
 The standard deviation is sigma = alpha * q, with alpha > 0.
-For an example of such a distribution see figure 2 in [Reg10].
+For an example of such a distribution see figure 2, taken from [Reg10].
 </p>
 
 <img src="ImgLWE2" />
 
-<p>The error distribution is given as q = 113 and alpha = 0,05.</p>
+<p>The error distribution is given as q = 113 and alpha = 0.05.</p>
 
 <p>
 The private key is s, the public key is b = As + e, where A is random and e is generated according to the distribution X.
-For the encryption, a random vector r in {0,1}^m is generated.
+For encryption, a random vector r in {0,1}^m is generated.
 It is used to determine a subset of A, as not the entire matrix A is used for the encryption process.
 In the next step, calculate u = r^T * A.
 Now the ciphertext can be generated: c = r^T * b + Bit * [q / 2] (floor function).
@@ -56,10 +56,10 @@ The third parameter gives the size of the plaintext vector.
 If the message is bigger than l, it must be divided into blocks.
 
 In the multi-bit variant, the private key is no longer a vector s from Zq^n, but a matrix from Zq^(n x l).
-The error vector e also becomes a matrix from Zq^(m x l).
-The public key is B = As+e mod q.
+The error vector e also becomes a matrix E from Zq^(m x l).
+The public key is B = As+E mod q.
 For encryption, a random vector r from {-1,0,1}^m is generated.
-Encryption and decryption are then performed analogous to the single-bit encryption by Regev.
+Encryption and decryption are then performed analogously to the single-bit encryption by Regev.
 </p>
 
 <br/>

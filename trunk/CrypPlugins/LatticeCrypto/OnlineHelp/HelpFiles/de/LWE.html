@@ -1,12 +1,12 @@
 <h2>LWE-Kryptosystem</h2>
 
 <p>
-<i>Learning with errors</i> (kurz LWE) ist ein Problem, welches im Jahr 2005 von Oded Regev eingeführt wurde, siehe [Reg05].
+<i>Learning with errors</i> (kurz LWE) ist ein Problem, das im Jahr 2005 von Oded Regev eingeführt wurde, siehe [Reg05].
 Es kann folgendermaßen definiert werden:
 </p>
 
 <p>
-Seien m, n und q ganze Zahlen und sei X auf Zq eine (normale) Wahrscheinlichkeitsverteilung. Gegeben sei nun das Paar (A, b), wobei die quadratische Matrix A aus Zq^(m x n) zufällig gewählt sei, und der Vektor b = As + e, mit einem ebenfalls zufällig gewählten Vektor s aus Zq^n und einem Störvektor e aus Zq^m, welcher gemäß X^m gewählt sei. Das Problem ist, den Vektor s zu finden.
+Seien m, n und q ganze Zahlen und sei X auf Zq eine (normale) Wahrscheinlichkeitsverteilung. Gegeben sei nun das Paar (A, b), wobei die quadratische Matrix A aus Zq^(m x n) zufällig gewählt sei, und der Vektor b = As + e, mit einem ebenfalls zufällig gewählten Vektor s aus Zq^n und einem Störvektor e aus Zq^m, der gemäß X^m gewählt sei. Das Problem ist, den Vektor s zu finden.
 </p>
 
 <p>
@@ -16,11 +16,11 @@ Anders formuliert soll auf Basis einer Anzahl von 'approximierten' linearen Glei
 <img src="ImgLWE1" />
 
 <p>
-Die Gleichungen sind korrekt bis auf einen kleinen Störwert, z.B. 1, welcher dazu addiert wurde. In diesem Beispiel ist der Vektor s = [5 7 11].
+Die Gleichungen sind korrekt bis auf einen kleinen Störwert, z.B. 1, der dazu addiert wurde. In diesem Beispiel ist der Vektor s = [5 7 11].
 </p>
 
 <p>
-Die Fehlerverteilung ist eine Normalverteilung, welche auf die nächste ganze Zahl gerundet und modulo q gerechnet wird. Die Standardabweichung ist sigma = alpha * q, mit alpha > 0. Als Beispiel für eine solche Fehlerverteilung siehe Abbildung 2 aus [Reg10]
+Die Fehlerverteilung ist eine Normalverteilung, die auf die nächste ganze Zahl gerundet und modulo q gerechnet wird. Die Standardabweichung ist sigma = alpha * q, mit alpha > 0. Als Beispiel für eine solche Fehlerverteilung siehe Abbildung 2 aus [Reg10]
 </p>
 
 <img src="ImgLWE2" />
@@ -28,11 +28,11 @@ Die Fehlerverteilung ist eine Normalverteilung, welche auf die nächste ganze Za
 <p>Die Fehlerverteilung ist angegeben mit q = 113 und alpha= 0,05.</p>
 
 <p>
-Der private Schlüssel ist s, der öffentliche Schlüssel ist b = As + e, wobei A zufällig und e anhand X generiert werden. Für die Verschlüsselung wird ein Zufallsvektor r aus {0,1}^m generiert. Dieser dient dazu, eine Teilmenge von A zu bestimmen, da für den Verschlüsselungsprozess nicht die gesamte Matrix verwendet werden muss. Im nächsten Schritt kann dann u = r^T*A berechnet werden. Nun wird der Geheimtext erzeugt: c = r^T * b + Bit * [q /2] (untere Gaussklammer). Die Verschlüsselung verläuft für jedes Bit einzeln. Je nachdem welchen Wert das zu verschlüsselnde Bit hat, wird [q /2] entweder hinzu addiert oder nicht. Der Sender verschickt (u, c) an den Besitzer des privaten Schlüssels. Dieser überprüft nun, ob das Ergebnis aus c - u*s näher an 0 oder näher an [q /2] liegt. Im ersten Fall wäre eine 0 verschlüsselt worden, im zweiten eine 1.
+Der private Schlüssel ist s, der öffentliche Schlüssel ist b = As + e, wobei A zufällig und e anhand X generiert werden. Für die Verschlüsselung wird ein Zufallsvektor r aus {0,1}^m generiert. Dieser dient dazu, eine Teilmenge von A zu bestimmen, da für den Verschlüsselungsprozess nicht die gesamte Matrix verwendet werden muss. Im nächsten Schritt kann dann u = r^T*A berechnet werden. Nun wird der Geheimtext erzeugt: c = r^T * b + Bit * [q / 2] (untere Gaußklammer). Die Verschlüsselung verläuft für jedes Bit einzeln. Je nachdem, welchen Wert das zu verschlüsselnde Bit hat, wird [q / 2] entweder hinzu addiert oder nicht. Der Sender verschickt (u, c) an den Besitzer des privaten Schlüssels. Dieser überprüft nun, ob aus c - u*s näher an 0 oder näher an [q / 2] liegt. Im ersten Fall wäre eine 0 verschlüsselt worden, im zweiten eine 1.
 </p>
 
 <p>
-Das LWE-Kryptosystem ist als Einzel-Bit-Verschlüsselung konzipiert. Das heißt, dass der Vorgang der Verschlüsselung für alle Bits eines Klartextvektors einzeln durchgeführt werden muss. Eine Multi-Bit-Variante wurde 2010 von Tore Kasper Frederiksen in [Fre10] vorgestellt. Insgesamt werden darin drei neue Parameter t, r und l eingeführt. Im Nachfolgenden sei für eine binäre Verschlüsselung t = 2 gewählt und für den Optimierungsvektor gelte r = 1. Der dritte Parameter l gibt die Größe des Klartextvektors vor. Falls die Klartextnachricht also größer als l sein sollte, wäre hier eine Aufteilung in Blöcke nötig. In der Multi-Bit-Variante sei nun der private Schlüssel kein Vektor s aus Zq^n mehr, sondern eine Matrix S aus Zq^(n x l). Der Störvektor e wird ebenfalls zur Matrix, es gelte E aus Zq^(m x l). Der öffentliche Schlüssel sei B = AS+E mod q. Für die Verschlüsselung wird wie gewohnt ein Zufallsvektor r generiert. Es sei r aus {-1,0,1}^m. Der Rest der Verschlüsselung und die Entschlüsselung verlaufen analog der von Regev eingeführten Einzel-Bit-Verschlüsselung.
+Das LWE-Kryptosystem ist als Einzel-Bit-Verschlüsselung konzipiert. Das heißt, dass der Vorgang der Verschlüsselung für jedes Bit eines Klartextvektors einzeln durchgeführt werden muss. Eine Multi-Bit-Variante wurde 2010 von Tore Kasper Frederiksen in [Fre10] vorgestellt. Insgesamt werden darin drei neue Parameter t, r und l eingeführt. Im Folgenden sei für eine binäre Verschlüsselung t = 2 gewählt und für den Optimierungsvektor gelte r = 1. Der dritte Parameter l gibt die Größe des Klartextvektors vor. Falls die Klartextnachricht also größer als l ist, ist hier eine Aufteilung in Blöcke nötig. In der Multi-Bit-Variante sei nun der private Schlüssel kein Vektor s aus Zq^n mehr, sondern eine Matrix S aus Zq^(n x l). Der Störvektor e wird ebenfalls zur Matrix, es gelte E aus Zq^(m x l). Der öffentliche Schlüssel sei B = AS+E mod q. Für die Verschlüsselung wird wie gewohnt ein Zufallsvektor r generiert. Es sei r aus {-1,0,1}^m. Der Rest der Verschlüsselung und die Entschlüsselung verlaufen analog der von Regev eingeführten Einzel-Bit-Verschlüsselung.
 </p>
 
 <br/>
