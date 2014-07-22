@@ -121,13 +121,13 @@
     <value>Clipboard Input</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Simple clipboard input plugin.</value>
+    <value>Simple clipboard input component.</value>
   </data>
   <data name="StreamOutputCaption" xml:space="preserve">
     <value>Clipboard data stream</value>
   </data>
   <data name="StreamOutputTooltip" xml:space="preserve">
-    <value>Stream of data recieved from clipboard</value>
+    <value>Stream of data received from clipboard</value>
   </data>
   <data name="FormatCaption" xml:space="preserve">
     <value>Format</value>

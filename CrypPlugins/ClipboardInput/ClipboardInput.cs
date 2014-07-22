@@ -147,21 +147,21 @@ namespace ClipboardInput
 
     public byte[] ToByteArray(String HexString)
     {
-      int NumberChars = HexString.Length;
-      byte[] bytes = new byte[NumberChars / 2];
-      for (int i = 0; i < NumberChars; i += 2)
+      byte[] bytes = new byte[(HexString.Length + 1) / 2];
+
+      for (int i = 0; i < bytes.Count(); i++)
       {
         try
         {
-          bytes[i / 2] = Convert.ToByte(HexString.Substring(i, 2), 16);
+          bytes[i] = Convert.ToByte(HexString.Substring(2*i, 2), 16);
         }
         catch (Exception exception)
         {
-
           GuiLogMessage(exception.Message, NotificationLevel.Error);
-          bytes[i / 2] = 0;
+          bytes[i] = 0;
         }
       }
+
       return bytes;
     }
 
