@@ -1,17 +1,44 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <documentation>
+  
   <language culture="en" />
   <language culture="de-DE" />
-  <introduction lang="en"></introduction>
-  <introduction lang="de-DE"></introduction>
-  <usage lang="en"></usage>
-  <usage lang="de-DE"></usage>
+  
+  <introduction lang="en">
+    This component displays a configurable progress bar in its presentation view.
+  </introduction>
+  
+  <introduction lang="de-DE">
+    Diese Komponente stellt in ihrer Präsentationsansicht einen konfigurierbaren Fortschrittsbalken dar.
+  </introduction>
+  
+  <usage lang="en">
+    The component has two inputs. On both inputs, it expects integer values.
+    On the input <it>Maximum</it>, the maximum value it has to expect on the input <it>Value</it> must be provided. This value corresponds to 100%, the value for which the progress bar will appear completely filled.
+    The value that is provided at the input <it>Value</it> is compared to the maximum value, and the displayed progress bar will be filled up to the resulting percentage.
+  </usage>
+  
+  <usage lang="de-DE">
+    Die Komponente hat zwei Eingänge. An beiden Eingängen werden ganzzahlige Werte erwartet.
+    Am Eingang <it>Maximum</it> muss der maximal zu erwartende Wert angegeben werden, der 100% entspicht und bei dem der Fortschrittsbalken vollständig ausgefüllt ist.
+    Am Eingang <it>Wert</it> wird der aktuelle darzustellende Wert erwartet. Der Fortschrittsbalken in der Präsentationsansicht der Komponente wird zu dem Prozentsatz ausgefüllt, dem dieser Wert im Vergleich zum Maximum etnspricht.
+  </usage>
+  
   <presentation lang="en">
-</presentation>
+    Open the component in presentation view in order to display the progress bar.
+  </presentation>
+  
   <presentation lang="de-DE">
-</presentation>
+    Um den Fortschrittsbalken darzustellen, muss die Komponente in der Präsentationsansicht geöffnet sein.
+  </presentation>
 
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Progress_bar"/>
+      <caption lang="en">Progress bar</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Fortschrittsbalken"/>
+      <caption lang="de-DE">Fortschrittsbalken</caption>
+    </linkReference>
   </references>
-  
+
 </documentation>

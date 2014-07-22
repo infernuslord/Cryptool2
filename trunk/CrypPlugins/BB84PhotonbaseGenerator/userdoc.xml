@@ -41,7 +41,20 @@ Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem 
   <presentation lang="de-DE">
   Für dieses Plugin ist keine Präsentation implementiert.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/BB84"/>
+      <caption lang="en">BB84 (Wikipedia)</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Quantenschlüsselaustausch#BB84-Protokoll"/>
+      <caption lang="de-DE">BB84 (Wikipedia)</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Quantum_key_distribution"/>
+      <caption lang="en">Quantum key distribution (Wikipedia)</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Quantenschlüsselaustausch"/>
+      <caption lang="de-DE">Quantenschlüsselaustausch (Wikipedia)</caption>
+    </linkReference>
   </references>
+
 </documentation>

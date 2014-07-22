@@ -1,19 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The <i>Splitter</i> component splits a given string based on a set of separator characters and thus creates an array of words. Triggered by the control input, the words are sequentially sent to the output of the component.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die <i>Splitter</i>-Komponente zerlegt eine gegebene Zeichenkette anhand einer Menge von Trennzeichen in eine Liste von Worten und gibt die Worte, gesteuert durch einen Kontrolleingang, sequentiell am Ausgang aus.
   </introduction>
 
   <usage lang="en">
+    The component expects a string at the input labeled <i>Dictionary</i>. This string is split into an arry of words based on the delimiter characters that can be specified in the settings of the component.
+    You can enter multiple delimiter characters. If several delimiter characters are adjacent in the input string, they will be treated as a single delimiter character, so that the resulting word array will not contain empty entries.<newline/>
+    The found words are sent to the output of the component sequentially, triggered by the control input labeled <i>Fire next</i>. This input expects a boolean value. Depending on the selection made in the settings of the component,
+    a new word will be output if the control input changes to <i>true</i> or to <i>false</i>.
   </usage>
 
   <usage lang="de-DE">
+    Die Komponente erwartet am Eingang <i>Wörterbuch</i> die Zeichenkette, die anhand der in den Einstellungen der Komponente angegebenen Trennzeichen in eine Liste von Worten aufgeteilt wird.
+    Es können mehrere Trennzeichen angegeben werden. Mehrere aufeinander folgende Trennzeichen in der Eingabe werden als ein einzelnes Trennzeichen interpretiert, so dass die resultierende Wortliste keine
+    leeren Einträge enthält.<newline/>
+    Die gefundenen Worte werden sequentiell am Ausgang der Komponente ausgegeben. Die Ausgabe erfolgt ereignisgesteuert. Ein neues Wort wird ausgegeben, wenn sich der Wert der boolschen Variable, die am Steuerungseingang
+    anliegen muss, ändert. In den Einstellungen der Komponente kann angegeben werden, ob ein neues Wort ausgegeben wird, wenn der boolesche Wert <i>wahr</i> oder wenn er <i>falsch</i> ist.
+    
   </usage>
   
   <presentation lang="en">
@@ -24,4 +37,5 @@
   
   <references>
   </references>
+  
 </documentation>

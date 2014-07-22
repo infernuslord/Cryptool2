@@ -1,27 +1,47 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component reads the clipboard of the operating system and provides it as a data stream.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente liest die Zwischenablage des Betriebssystems aus und stellt sie als Datenstrom zur Verfügung.
   </introduction>
 
   <usage lang="en">
+    Connect the output of the component with the component, that should receive the contents of the clipboard as input.
+    The component can apply a conversion, if the content of the clipboard is base64-encoded or is a string of hexadecimal characters.
+    You can choose the appropriate format in the settings.
+    If the content of the clipboard does not comply with the selected format, an error message will be issued.
+    Choose the format 'text', if the clipboard content should be sent to the output unchanged.
   </usage>
 
   <usage lang="de-DE">
+    Verbinden Sie den Ausgang der Komponente mit einer Komponente, die den Inhalt der Zwischenablage als Eingabe erhalten soll.
+    Die Komponente kann eine automatische Konvertierung vornehmen, falls der Inhalt der Zwischenablage im Base-64-Format oder als Folge von Hexadezimalzeichen kodiert ist.
+    In den Einstellungen können Sie das Format angeben.
+    Entspricht das Format der Zwischenablage nicht dem eingestellten Format, so wird eine Fehlermeldung ausgegeben.
+    Soll der Inhalt der Zwischenablage unverändert ausgegeben werden, so wählen Sie das Format 'Text'.
   </usage>
-  
+
   <presentation lang="en">
   </presentation>
-  
+
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Clipboard_(software)"/>
+      <caption lang="en">Clipboard</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Zwischenablage"/>
+      <caption lang="de-DE">Zwischenablage</caption>
+    </linkReference>
   </references>
+
 </documentation>
