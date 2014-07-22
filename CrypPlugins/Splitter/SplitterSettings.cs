@@ -44,7 +44,7 @@ namespace Splitter
     }
 
     private string delimiterDictionary = " ";
-    [TaskPaneAttribute( "DelimiterDictionaryCaption", "DelimiterDictionaryTooltip", null, 1, false, ControlType.TextBox, ValidationType.RegEx, "^.?$")]
+    [TaskPaneAttribute( "DelimiterDictionaryCaption", "DelimiterDictionaryTooltip", null, 1, false, ControlType.TextBox)]
     public string DelimiterDictionary
     {
       get { return this.delimiterDictionary; }
