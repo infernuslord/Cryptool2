@@ -49,7 +49,14 @@
     Wählt man die Methode 'Suche nächstkleinere Primzahl', so wird die größte Primzahl, die kleiner als die angegebene Zahl n ist, ausgegeben.
     Analog wird die kleinste Primzahl, die größer als die angegebene Zahl n ist, ausgegeben, wenn man die Methode 'Suche nächstgrößere Primzahl' wählt.
   </usage>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Prime_number"/>
+      <caption lang="en">Prime numbers</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Primzahl"/>
+      <caption lang="de-DE">Primzahlen</caption>
+    </linkReference>
   </references>
+  
 </documentation>

@@ -15,7 +15,6 @@
 		<item> '/' : right diagonal photon </item>
 	</enum> 
 	The created chars are taken together as a string and then put out.
-	
   </introduction>
 
   <introduction lang="de-DE">   
@@ -28,7 +27,6 @@
 		<item> '/' : rechtsdiagonales Photon </item>
 	</enum> 
 	Die so erzeugten Zeichen werden als String zusammengefügt und ausgegeben.
-
   </introduction>
 
   <usage lang="en">
@@ -36,7 +34,6 @@
 	The key is typically entered by a text-input plugin, the photon bases are created by the BB84 Photonbase Generator which is also part of the BB84-protocol-plugins.<newline/>
 	The encoding table can be changed in the plugin settings. For correct use of the protocol, this table settings should be equal to these of the BB84 Photon Decoder.
 	Executing the plugin a new string will be created, in which every bit-char is exchanged by the related photon-char. Finally this string is sent to the output.
-	
   </usage>
 
   <usage lang="de-DE">
@@ -60,7 +57,20 @@
   des Plugins verändert werden, wobei diese Einstellung die Geschwindigkeit aller Photonencodierer, Photonendecodierer und Mittelsmänner gleichzeitig verändert,
 	um Synchronität zu gewährleisten.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/BB84"/>
+      <caption lang="en">BB84 (Wikipedia)</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Quantenschlüsselaustausch#BB84-Protokoll"/>
+      <caption lang="de-DE">BB84 (Wikipedia)</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Quantum_key_distribution"/>
+      <caption lang="en">Quantum key distribution (Wikipedia)</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Quantenschlüsselaustausch"/>
+      <caption lang="de-DE">Quantenschlüsselaustausch (Wikipedia)</caption>
+    </linkReference>
   </references>
+
 </documentation>
