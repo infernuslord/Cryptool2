@@ -121,18 +121,24 @@
     <value>Concatenate</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Concatenates two input values.</value>
+    <value>Concatenates two input data streams.</value>
   </data>
-  <data name="InputStreamCaption" xml:space="preserve">
-    <value>Input data</value>
+  <data name="InputStream1Caption" xml:space="preserve">
+    <value>First input</value>
   </data>
-  <data name="InputStreamTooltip" xml:space="preserve">
-    <value>Input data as stream</value>
+  <data name="InputStream1Tooltip" xml:space="preserve">
+    <value>First input data stream</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Output data</value>
   </data>
   <data name="OutputStreamTooltip" xml:space="preserve">
     <value>Concatenation of the two input streams</value>
+  </data>
+  <data name="InputStream2Caption" xml:space="preserve">
+    <value>Second input</value>
+  </data>
+  <data name="InputStream2Tooltip" xml:space="preserve">
+    <value>Second input data stream</value>
   </data>
 </root>

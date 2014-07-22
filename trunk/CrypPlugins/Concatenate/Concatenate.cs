@@ -39,10 +39,10 @@ namespace Concatenate
 
         private CStreamWriter outputStreamWriter;
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
+        [PropertyInfo(Direction.InputData, "InputStream1Caption", "InputStream1Tooltip", true)]
         public ICryptoolStream InputStreamOne { get; set; }
 
-        [PropertyInfo(Direction.InputData, "InputStreamCaption", "InputStreamTooltip", true)]
+        [PropertyInfo(Direction.InputData, "InputStream2Caption", "InputStream2Tooltip", true)]
         public ICryptoolStream InputStreamTwo { get; set; }
 
         [PropertyInfo(Direction.OutputData, "OutputStreamCaption", "OutputStreamTooltip", true)]
