@@ -17,9 +17,9 @@ namespace Transcriptor
     {
         String rectangleColor;
         int strokeThicknes;
-        List<Rectangle> rectangleList = new List<Rectangle>();
+        List<Sign> SignList = new List<Sign>();
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
-
+                
         public TranscriptorPresentation()
         {
             InitializeComponent();
@@ -59,12 +59,12 @@ namespace Transcriptor
                     Fill = Brushes.Transparent,
                     Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor),
                     StrokeThickness = strokeThicknes,
-                    Width = (int) (xCordinateUp - xCordinateDown),
-                    Height = (int) (yCordinateUp - yCordinateDown),
+                    Width = (int) (Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
+                    Height = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)),
                 };
 
-                Canvas.SetLeft(rectangle, xCordinateDown);
-                Canvas.SetTop(rectangle, yCordinateDown);
+                Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, xCordinateUp));
+                Canvas.SetTop(rectangle, Math.Min(yCordinateDown, yCordinateUp));
                 canvas.Children.Add(rectangle);
 
                 Rect rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
@@ -76,6 +76,11 @@ namespace Transcriptor
                 BitmapSource bs = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
                 croppedImage.Source = bs;
             }
+        }
+
+        private void addSignButton_Click(object sender, RoutedEventArgs e)
+        {
+           
         }
     }
 }
