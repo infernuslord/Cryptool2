@@ -121,7 +121,7 @@
     <value>Zwischenablage-Ausgabe</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Plugin zur Ausgabe in die Zwischenablage</value>
+    <value>Komponente zur Ausgabe in die Zwischenablage</value>
   </data>
   <data name="StreamInputCaption" xml:space="preserve">
     <value>Daten für die Zwischenablage</value>
