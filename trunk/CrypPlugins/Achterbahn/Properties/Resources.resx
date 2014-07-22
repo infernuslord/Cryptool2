@@ -133,7 +133,7 @@
     <value>Key</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>The key size must be at least 5 bytes and at most 10 bytes (Achterbahn-80) or 16 bytes (Achterbahn-128).</value>
+    <value>The key size must be at least 5 bytes and at most 10 bytes (Achterbahn-80) or 16 bytes (Achterbahn-128) long.</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
     <value>Mode</value>
