@@ -946,4 +946,13 @@
   <data name="Homepage" xml:space="preserve">
     <value>https://www.cryptool.org/en/cryptool2-en</value>
   </data>
+  <data name="SI_System_Type" xml:space="preserve">
+    <value>System Type</value>
+  </data>
+  <data name="SI_System_Type_32" xml:space="preserve">
+    <value>32-bit Operating System</value>
+  </data>
+  <data name="SI_System_Type_64" xml:space="preserve">
+    <value>64-bit Operating System</value>
+  </data>
 </root>

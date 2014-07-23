@@ -60,7 +60,8 @@ namespace Cryptool.CrypWin
 
             //informations.Add(new Info() { Description = Properties.Resources.SI_User_Name, Value = System.Environment.UserName });    //personal information
             informations.Add(new Info() { Description = Properties.Resources.SI_Operating_System, Value = System.Environment.OSVersion.ToString() });
-            //informations.Add(new Info() { Description = "Plattform", Value = Environment.OSVersion.Platform.ToString() }); // always Win32NT
+            informations.Add(new Info() { Description = Properties.Resources.SI_System_Type, Value = System.Environment.Is64BitOperatingSystem ? Properties.Resources.SI_System_Type_64 : Properties.Resources.SI_System_Type_32 });
+            //informations.Add(new Info() { Description = "Platform", Value = Environment.OSVersion.Platform.ToString() }); // always Win32NT
             //informations.Add(new Info() { Description = Properties.Resources.SI_Machine_Name, Value = System.Environment.MachineName });      //personal information
             informations.Add(new Info() { Description = Properties.Resources.SI_Processors, Value = System.Environment.ProcessorCount.ToString() });
             //informations.Add(new Info() { Description = "Process Info", Value = (System.Environment.Is64BitProcess ? "64 Bit" : "32 Bit") }); // always 32 Bit
