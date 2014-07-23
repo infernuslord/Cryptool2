@@ -28,6 +28,15 @@ namespace Cryptool.CrypWin
             InitializeComponent();
             VersionInfoRun.Text = AssemblyHelper.BuildType.ToString() + " Build – Version " +
                                   AssemblyHelper.Version.ToString();
+
+            if (DateTime.Now.Month == 10 && DateTime.Now.Day >= 28 || DateTime.Now.Month == 11 && DateTime.Now.Day == 1)
+            {
+                HwImage.Visibility = Visibility.Visible;
+            }
+            if (DateTime.Now.Month == 12 && DateTime.Now.Day >= 17 || DateTime.Now.Month == 1 && DateTime.Now.Day <= 3)
+            {
+                XmImage.Visibility = Visibility.Visible;
+            }
         }
 
         public Splash(bool staticAboutWindow) : this()
