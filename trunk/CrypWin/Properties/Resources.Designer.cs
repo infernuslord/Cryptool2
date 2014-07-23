@@ -2058,6 +2058,33 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die System Type ähnelt.
+        /// </summary>
+        internal static string SI_System_Type {
+            get {
+                return ResourceManager.GetString("SI_System_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 32-bit Operating System ähnelt.
+        /// </summary>
+        internal static string SI_System_Type_32 {
+            get {
+                return ResourceManager.GetString("SI_System_Type_32", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die 64-bit Operating System ähnelt.
+        /// </summary>
+        internal static string SI_System_Type_64 {
+            get {
+                return ResourceManager.GetString("SI_System_Type_64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Unique identifier of the certificate ähnelt.
         /// </summary>
         internal static string SI_Unique_Identifier {
