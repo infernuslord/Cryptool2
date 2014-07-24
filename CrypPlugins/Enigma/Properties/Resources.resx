@@ -208,7 +208,7 @@
     <value>If checked, the analysis tries to detect the correct plug settings. If unchecked, the values from the plugboard are used.</value>
   </data>
   <data name="AnalyzeRingsCaption" xml:space="preserve">
-    <value>Analyze rings settings</value>
+    <value>Analyze ring settings</value>
   </data>
   <data name="AnalyzeRingsTooltip" xml:space="preserve">
     <value>If checked, the analysis tries to detect the correct rings settings. If unchecked, the values from the ring settings are used.</value>
@@ -244,7 +244,7 @@
     <value>Which method should be used to assess the best rotor configuration?</value>
   </data>
   <data name="MaxSearchedPlugsCaption" xml:space="preserve">
-    <value>Max. plugs searched</value>
+    <value>Maximal number of plugs searched</value>
   </data>
   <data name="MaxSearchedPlugsTooltip" xml:space="preserve">
     <value>Select how many plugs should be searched at most. Note that the search algorithm might return less plugs - this number is just an upper limit</value>
@@ -430,7 +430,7 @@
     <value>Which method should be used to assess the best plugboard configuration?</value>
   </data>
   <data name="PresentationSpeedCaption" xml:space="preserve">
-    <value>Presentation Speed</value>
+    <value>Presentation speed</value>
   </data>
   <data name="PresentationSpeedTooltip" xml:space="preserve">
     <value>Change the pace of the presentation</value>
