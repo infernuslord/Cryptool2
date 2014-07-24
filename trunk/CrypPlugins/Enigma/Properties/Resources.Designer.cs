@@ -304,7 +304,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Analyze rings settings ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Analyze ring settings ähnelt.
         /// </summary>
         public static string AnalyzeRingsCaption {
             get {
@@ -808,7 +808,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Max. plugs searched ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximal number of plugs searched ähnelt.
         /// </summary>
         public static string MaxSearchedPlugsCaption {
             get {
@@ -1519,7 +1519,7 @@ namespace Cryptool.Enigma.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation Speed ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Presentation speed ähnelt.
         /// </summary>
         public static string PresentationSpeedCaption {
             get {
