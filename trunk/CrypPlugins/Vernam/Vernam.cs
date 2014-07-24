@@ -23,40 +23,21 @@ namespace Cryptool.Plugins.Vernam
 {
    
     [Author("Benedict Beuscher", "benedict.beuscher@hotmail.com", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
-
-    [PluginInfo("Vernam Cipher", "Combines any alphanumeric plaintext with a keytext to get a vernam-encrypted ciphertext", "Vernam/userdoc.xml", new[] { "Vernam/Images/Vernam.png" })]
-
+    [PluginInfo("Vernam.Properties.Resources", "VernamCipher", "VernamCipherTooltip", "Vernam/userdoc.xml", new[] { "Vernam/Images/Vernam.png" })]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Vernam : ICrypComponent
     {
         #region Private Variables
 
         private readonly VernamSettings settings = new VernamSettings();
-    
-        #endregion
-
-        #region Data Properties
-
         private string inputString;
         private string outputString;
         private string keyString;
 
+        #endregion
 
-        [PropertyInfo(Direction.InputData, "Key input", "KeyTooltip", false)]
-        public string KeyString
-        {
-            get { return this.keyString; }
-            set
-            {
-                if (value != keyString)
-                {
-                    this.keyString = value;
-                    OnPropertyChanged("newKeyString");
-                }
-            }
-        }
-
-        [PropertyInfo(Direction.InputData, "Text input", "Input a string to be encrypted by the Vernam Cipher",true)]
+        #region Data Properties 
+        [PropertyInfo(Direction.InputData, "TextInput", "TextInputTooltip", true)]
         public string InputString
         {
             get { return this.inputString; }
@@ -70,9 +51,38 @@ namespace Cryptool.Plugins.Vernam
             }
         }
 
-        
+        [PropertyInfo(Direction.InputData, "KeyInput", "KeyTooltip", true)]
+        public string KeyString
+        {
+            get { return this.keyString; }
+            set
+            {
+                if (value != keyString)
+                {
+                    this.keyString = value;
+                    OnPropertyChanged("newKeyString");
+                }
+            }
+        }
 
-        [PropertyInfo(Direction.OutputData, "Text output", "The string encrypted by the Vernam Cipher",false)]
+
+        [PropertyInfo(Direction.InputData, "AlphabetInput", "AlphabetInputTooltip", false)]
+        public string AlphabetSymbols
+        {
+            get { return settings.AlphabetSymbols; }
+            set
+            {
+                if (value != settings.AlphabetSymbols)
+                {
+                    settings.alphabet = value;
+                    OnPropertyChanged("AlphabetSymbols");
+                }
+            }
+        }
+
+
+
+        [PropertyInfo(Direction.OutputData, "TextOutput", "TextOutputTooltip", false)]
         public string OutputString
         {
             get { return this.outputString; }
@@ -111,61 +121,65 @@ namespace Cryptool.Plugins.Vernam
         /// </summary>
         public void Execute()
         {
-            ProgressChanged(0, 1);
-            StringBuilder newOutputString = new StringBuilder();
-            string alphabet = settings.alphabet;
-            
-            if (!string.IsNullOrEmpty(InputString))
+            if (KeyString.Length == 0 || InputString.Length == 0)
             {
-                for (int i = 0; i < InputString.Length; i++)
+                OutputString = "";
+                OnPropertyChanged("OutputString");
+                return;
+            }
+            ProgressChanged(0, 1);
+
+            var alphabet = settings.alphabet;
+            var newOutputString = new StringBuilder();
+            for (var i = 0; i < InputString.Length; i++)
+            {
+                var currentKeyChar = KeyString[i % KeyString.Length];
+                var currentCharPosition = alphabet.IndexOf(InputString[i]);
+                if (currentCharPosition < 0)
                 {
-                    char currentChar = InputString[i];
-                    char currentKeyChar = KeyString[i%KeyString.Length];
-                    int currentCharPosition = alphabet.IndexOf(currentChar);
-                    int currentKeyCharPosition = alphabet.IndexOf(currentKeyChar);
-                    int cipherCharPosition = 0;
-                    if (currentCharPosition >= 0)
-                    {
-
-                        if (settings.Action == VernamSettings.CipherMode.Encrypt)
-                        {
-                            cipherCharPosition = (currentCharPosition + currentKeyCharPosition) % alphabet.Length;
-                        }
-                        else if (settings.Action == VernamSettings.CipherMode.Decrypt)
-                        {
-                            cipherCharPosition = (currentCharPosition - currentKeyCharPosition + alphabet.Length) % alphabet.Length;
-                        }
-                        newOutputString.Append(alphabet[cipherCharPosition]);
-                    }
-                    else
-                    {
-                        if (settings.UnknownSymbolHandling == VernamSettings.UnknownSymbolHandlingMode.Ignore)
-                        {
-                            newOutputString.Append(currentKeyChar);
-                        }
-                        else if (settings.UnknownSymbolHandling == VernamSettings.UnknownSymbolHandlingMode.Replace)
-                        {
-                            newOutputString.Append("#");
-                        }
-                    }
-
-                    
-
+                    var visibileChar = HandleUnknownSymbol(currentKeyChar);
+                    newOutputString.Append(visibileChar);
+                    continue;
                 }
 
+                var currentKeyCharPosition = alphabet.IndexOf(currentKeyChar);
 
+                //encrypt
+                var cipherCharPosition = currentCharPosition + currentKeyCharPosition;
+
+                if (settings.Action == VernamSettings.CipherMode.Decrypt)
+                {
+                    cipherCharPosition = currentCharPosition - currentKeyCharPosition + alphabet.Length;
+                }
+                cipherCharPosition %= alphabet.Length;
+
+                newOutputString.Append(alphabet[cipherCharPosition]);
             }
 
-
-
-            ProgressChanged(1, 1);
             OutputString = newOutputString.ToString();
             OnPropertyChanged("OutputString");
 
-
+            ProgressChanged(1, 1);
         }
 
-        
+        private string HandleUnknownSymbol(char currentKeyChar)
+        {  
+            //remove
+            var visibileChar = "";
+
+            if (settings.UnknownSymbolHandling == VernamSettings.UnknownSymbolHandlingMode.Replace)
+            {
+                visibileChar = "#";
+            }
+
+            if (settings.UnknownSymbolHandling == VernamSettings.UnknownSymbolHandlingMode.Ignore)
+            {
+                visibileChar = "" + currentKeyChar;
+            }
+
+            return visibileChar;
+        }
+
 
         /// <summary>
         /// Called once after workflow execution has stopped.
@@ -201,11 +215,8 @@ namespace Cryptool.Plugins.Vernam
         #region Event Handling
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
-
         public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
         public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void GuiLogMessage(string message, NotificationLevel logLevel)
