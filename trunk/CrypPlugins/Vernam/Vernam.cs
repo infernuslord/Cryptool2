@@ -23,7 +23,7 @@ namespace Cryptool.Plugins.Vernam
 {
    
     [Author("Benedict Beuscher", "benedict.beuscher@hotmail.com", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
-    [PluginInfo("Vernam.Properties.Resources", "VernamCipher", "VernamCipherTooltip", "Vernam/userdoc.xml", new[] { "Vernam/Images/Vernam.png" })]
+    [PluginInfo("Vernam.Properties.Resources", "PluginCaption", "PluginTooltip", "Vernam/userdoc.xml", new[] { "Vernam/Images/Vernam.png" })]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Vernam : ICrypComponent
     {
@@ -165,19 +165,19 @@ namespace Cryptool.Plugins.Vernam
         private string HandleUnknownSymbol(char currentKeyChar)
         {  
             //remove
-            var visibileChar = "";
+            var visibleChar = "";
 
             if (settings.UnknownSymbolHandling == VernamSettings.UnknownSymbolHandlingMode.Replace)
             {
-                visibileChar = "#";
+                visibleChar = "#";
             }
 
             if (settings.UnknownSymbolHandling == VernamSettings.UnknownSymbolHandlingMode.Ignore)
             {
-                visibileChar = "" + currentKeyChar;
+                visibleChar = "" + currentKeyChar;
             }
 
-            return visibileChar;
+            return visibleChar;
         }
 
 

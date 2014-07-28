@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AlphabetInput" xml:space="preserve">
-    <value>Alphabet eingabe</value>
+    <value>Alphabeteingabe</value>
   </data>
   <data name="AlphabetInputTooltip" xml:space="preserve">
     <value>Optionales Alphabet für die Texteingabe.</value>
@@ -135,6 +135,12 @@
   <data name="KeyTooltip" xml:space="preserve">
     <value>geheimer Schlüssel</value>
   </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Vernam</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Bei der Vernam-Chiffre wird ein alphanumerischer Klartext mit einem alphanumerischen Schlüsseltext kombiniert, um einen verschlüsselten Text zu erhalten.</value>
+  </data>
   <data name="TextInput" xml:space="preserve">
     <value>Texteingabe</value>
   </data>
@@ -148,15 +154,9 @@
     <value>ver-/entschlüsselte Daten</value>
   </data>
   <data name="UnknownSymbolHandle" xml:space="preserve">
-    <value>unbekante Symbole</value>
+    <value>unbekannte Symbole</value>
   </data>
   <data name="UnknownSymbolHandleTooltip" xml:space="preserve">
-    <value>Wählen Sie, wie unbekannte Symbole behandelt werden sollten</value>
-  </data>
-  <data name="VernamCipher" xml:space="preserve">
-    <value>Vernam cipher</value>
-  </data>
-  <data name="VernamCipherTooltip" xml:space="preserve">
-    <value>Bei der Vernam-Chiffre wird ein alphanumerischer Klartext mit einem alphanumerischem Schlüsseltext kombiniert um einen verschlüsselten Text zu erhalten.</value>
+    <value>Wählen Sie, wie unbekannte Symbole behandelt werden sollten.</value>
   </data>
 </root>

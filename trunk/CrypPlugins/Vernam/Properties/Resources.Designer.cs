@@ -88,7 +88,7 @@ namespace Vernam.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want the text input data to be encrypted or decrypted? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Do you want the input data to be encrypted or decrypted? ähnelt.
         /// </summary>
         internal static string CipherModeTooltip {
             get {
@@ -111,6 +111,24 @@ namespace Vernam.Properties {
         internal static string KeyTooltip {
             get {
                 return ResourceManager.GetString("KeyTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vernam ähnelt.
+        /// </summary>
+        internal static string PluginCaption {
+            get {
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The Vernam Cipher combines an alphanumeric plaintext with a chosen alphanumeric key to generate a ciphertext. ähnelt.
+        /// </summary>
+        internal static string PluginTooltip {
+            get {
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
         }
         
@@ -160,29 +178,11 @@ namespace Vernam.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose an option how unknown symbols should be treated. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose how unknown symbols should be treated. ähnelt.
         /// </summary>
         internal static string UnknownSymbolHandleTooltip {
             get {
                 return ResourceManager.GetString("UnknownSymbolHandleTooltip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Vernam cipher ähnelt.
-        /// </summary>
-        internal static string VernamCipher {
-            get {
-                return ResourceManager.GetString("VernamCipher", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die In the Vernam Cipher an alphanumeric plaintext is combined with a chosen alphanumeric key-text to generate a ciphertext. ähnelt.
-        /// </summary>
-        internal static string VernamCipherTooltip {
-            get {
-                return ResourceManager.GetString("VernamCipherTooltip", resourceCulture);
             }
         }
     }
