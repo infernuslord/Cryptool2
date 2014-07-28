@@ -1,49 +1,61 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-
 <documentation>
+
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">  
-  Vernam is symmetrical stream cipher which was originally invented by Gilbert Vernam in 1917
+  <introduction lang="en">
+  Vernam is symmetrical stream cipher which was originally invented by Gilbert Vernam in 1917.
   <newline/>
-  In the Vernam Cipher an alphanumeric plaintext is combined with a chosen alphanumeric key-text to generate a ciphertext. 
+  In the Vernam Cipher an alphanumeric plaintext is combined with a chosen alphanumeric key-text to generate a ciphertext.
   This combination results from shifting each character of the plaintext cyclically by the corresponding value of the keytext-character.
-  So if e.g. the plaintext is "a" and the keytext "c" and our alphabet is the basic one from a-z, the character "a" would be shifted by 3 and result into "d"  
+  So if e.g. the plaintext is "a" and the keytext "c" and our alphabet is the basic one from a-z, the character "a" would be shifted by 3 and result into "d".
   </introduction>
 
-  
-  <introduction lang="de-DE">   
-Vernam ist eine symmetrische Stromchiffre, die 1917 von Gilbert Vernam erfunden wurde
-<newline/>
-Bei der Vernam-Chiffre wird ein alphanumerischer Klartext mit einem alphanumerischem Schlüsseltext kombiniert um einen verschlüsselten Text zu erhalten.
-Die Kombination der Texte geschieht durch zyklisches Verschieben jedes einzelnen Buchstabens des Klartextes um den Wert des jeweiligen Buchstabens des Schlüsseltextes.
-Wenn z.B. der Klartext "a" und der Schlüsseltext "c" lautet und das Alphabet aus den Zeichen a-z besteht, würde der Buchstabe "a" um 3 Stellen verschoben werden und verschlüsselt "d" ergeben.
+  <introduction lang="de-DE">
+  Vernam ist eine symmetrische Stromchiffre, die 1917 von Gilbert Vernam erfunden wurde.
+  <newline/>
+  Bei der Vernam-Chiffre wird ein alphanumerischer Klartext mit einem alphanumerischem Schlüsseltext kombiniert um einen verschlüsselten Text zu erhalten.
+  Die Kombination der Texte geschieht durch zyklisches Verschieben jedes einzelnen Buchstabens des Klartextes um den Wert des jeweiligen Buchstabens des Schlüsseltextes.
+  Wenn z.B. der Klartext "a" und der Schlüsseltext "c" lautet und das Alphabet aus den Zeichen a-z besteht, würde der Buchstabe "a" um 3 Stellen verschoben werden und verschlüsselt "d" ergeben.
   </introduction>
 
   <usage lang="en">
-   After dragging the Vernam-component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
-    <newline/>
-	Next you have to do the same to specify the data source for you key text. This input is not mandatory but your text will not be encrypted or decrypted if you don't set a key.
-	<newline/>
-    In the component settings you can decide whether you want to encrypt or decrypt, and you can change the alphabet. You can also specify how unknown symbols (characters which are not part of the alphabet) are treated.
+  After dragging the Vernam-component onto the workspace, you need to specify a data source that represents the text to be encrypted or decrypted. This input is mandatory.
+  <newline/>
+  Next you have to do the same to specify the data source for you key text. This input is not mandatory but your text will not be encrypted or decrypted if you don't set a key.
+  <newline/>
+  In the component settings you can decide whether you want to encrypt or decrypt, and you can change the alphabet. You can also specify how unknown symbols (characters which are not part of the alphabet) are treated.
   </usage>
 
   <usage lang="de-DE">
   Nachdem Sie die Vernam-Komponente auf den Arbeitsbereich gezogen haben, müssen Sie eine Datenquelle definieren, die den zu verschlüsselnden oder entschlüsselnden Text repräsentiert. Diese Datenquelle ist notwendig.
-    <newline/>
-Als nächstes müssen Sie obigen Schritt wiederholen, um die Datenquelle zu definieren, die den Schlüsseltext darstellt. Diese Datenquelle ist nicht zwingend notwendig, jedoch wird Ihr Text nicht verschlüsselt, wenn Sie keinen Schlüsseltext eingeben.
-	<newline/>
-    In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen. Außerdem können Sie das Alphabet verändern und einstellen, und wie unbekannte Zeichen (solche, die nicht im Alphabet enthalten sind) behandelt werden.
+  <newline/>
+  Als nächstes müssen Sie obigen Schritt wiederholen, um die Datenquelle zu definieren, die den Schlüsseltext darstellt. Diese Datenquelle ist nicht zwingend notwendig, jedoch wird Ihr Text nicht verschlüsselt, wenn Sie keinen Schlüsseltext eingeben.
+  <newline/>
+  In den Einstellungen für die Komponente können Sie entscheiden, ob Sie verschlüsseln oder entschlüsseln wollen. Außerdem können Sie das Alphabet verändern und einstellen, und wie unbekannte Zeichen (solche, die nicht im Alphabet enthalten sind) behandelt werden.
   </usage>
-  
+
   <presentation lang="en">
   </presentation>
-  
+
   <presentation lang="de-DE">
   </presentation>
   
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Gilbert_Vernam" lang="en" />
+      <caption lang="en">Gilbert Vernam</caption>
+      <link url="http://de.wikipedia.org/wiki/Gilbert_Vernam" lang="de-DE" />
+      <caption lang="de-DE">Gilbert Vernam</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/One-time_pad" lang="en" />
+      <caption lang="en">One-time pad</caption>
+      <link url="http://de.wikipedia.org/wiki/One-Time-Pad" lang="de-DE" />
+      <caption lang="de-DE">One-Time-Pad</caption>
+    </linkReference>
   </references>
+
 </documentation>

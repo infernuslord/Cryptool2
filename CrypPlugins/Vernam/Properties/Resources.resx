@@ -127,13 +127,19 @@
     <value>Cipher mode</value>
   </data>
   <data name="CipherModeTooltip" xml:space="preserve">
-    <value>Do you want the text input data to be encrypted or decrypted?</value>
+    <value>Do you want the input data to be encrypted or decrypted?</value>
   </data>
   <data name="KeyInput" xml:space="preserve">
     <value>Key</value>
   </data>
   <data name="KeyTooltip" xml:space="preserve">
     <value>Secret key </value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Vernam</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>The Vernam Cipher combines an alphanumeric plaintext with a chosen alphanumeric key to generate a ciphertext.</value>
   </data>
   <data name="TextInput" xml:space="preserve">
     <value>Text input</value>
@@ -151,12 +157,6 @@
     <value>Unknown symbols</value>
   </data>
   <data name="UnknownSymbolHandleTooltip" xml:space="preserve">
-    <value>Choose an option how unknown symbols should be treated.</value>
-  </data>
-  <data name="VernamCipher" xml:space="preserve">
-    <value>Vernam cipher</value>
-  </data>
-  <data name="VernamCipherTooltip" xml:space="preserve">
-    <value>In the Vernam Cipher an alphanumeric plaintext is combined with a chosen alphanumeric key-text to generate a ciphertext.</value>
+    <value>Choose how unknown symbols should be treated.</value>
   </data>
 </root>
