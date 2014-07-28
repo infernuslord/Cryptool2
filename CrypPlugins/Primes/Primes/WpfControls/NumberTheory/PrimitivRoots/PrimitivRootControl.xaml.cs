@@ -311,12 +311,13 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                     if (PrimesBigInteger.GCD(i, primeMinus1).Equals(PrimesBigInteger.One))
                     {
                         roots.Add(primitiveroot.ModPow(i, prime));
-                        log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_resultcalc, roots.Count, prime.ToString()), 0, row1);
                     }
                     i = i.Add(PrimesBigInteger.One);
                 }
 
                 roots.Sort(PrimesBigInteger.Compare);
+                
+                log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_resultcalc, roots.Count, prime.ToString()), 0, row1);
                 log.Info(string.Join(" ", roots.ToArray().Select(x => x.ToString())), 0, row2);
 
                 log.NewLine();
