@@ -214,6 +214,15 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Starten ähnelt.
+        /// </summary>
+        public static string buttonStart {
+            get {
+                return ResourceManager.GetString("buttonStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Transponieren ähnelt.
         /// </summary>
         public static string buttonTranspose {
@@ -732,6 +741,15 @@ namespace LatticeCrypto.Properties {
         public static string labelMinimalVector {
             get {
                 return ResourceManager.GetString("labelMinimalVector", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Modus: ähnelt.
+        /// </summary>
+        public static string labelMode {
+            get {
+                return ResourceManager.GetString("labelMode", resourceCulture);
             }
         }
         
