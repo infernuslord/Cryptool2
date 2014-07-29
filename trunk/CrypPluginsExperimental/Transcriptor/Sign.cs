@@ -12,10 +12,17 @@ namespace Transcriptor
         int id, xCordinate, yCordinate;
         Rectangle rectangle;
         char letter;
-        BitmapSource signImage;
+        BitmapSource image;
 
         public Sign()
         {
+        }
+
+        public Sign(int SignId, char signLetter, BitmapSource signImage)
+        {
+            id = SignId;
+            letter = signLetter;
+            image = signImage;
         }
 
         public int Id
@@ -48,10 +55,15 @@ namespace Transcriptor
             set { this.letter = value; }
         }
 
-        public BitmapSource SignImage
+        public BitmapSource Image
         {
-            get { return signImage; }
-            set { this.signImage = value; }
+            get { return image; }
+            set { this.image = value; }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1}", Image, Letter);
         }
 
     }
