@@ -549,4 +549,10 @@
   <data name="labelPublicKeyB1" xml:space="preserve">
     <value>Inverse B^(-1) of the public key B</value>
   </data>
+  <data name="buttonStart" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="labelMode" xml:space="preserve">
+    <value>Mode:</value>
+  </data>
 </root>

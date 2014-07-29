@@ -120,12 +120,12 @@
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" Margin="0,10,0,10">
-                    <Label Content="Modus:"/>
+                    <Label Content="{x:Static Properties:Languages.labelMode}"/>
                     <ComboBox Name="cbModus" Margin="10,0,20,0">
                         <ComboBoxItem Content="{x:Static Properties:Languages.buttonEncrypt}" IsSelected="True"/>
                         <ComboBoxItem Content="{x:Static Properties:Languages.buttonDecrypt}"/>
                     </ComboBox>
-                    <Button Name="btnStart" Content="Starten" Click="btnStart_Click" />
+                    <Button Name="btnStart" Content="{x:Static Properties:Languages.buttonStart}" Click="btnStart_Click" />
                 </StackPanel>
 
                 <Label Content="{x:Static Properties:Languages.labelBitwiseEncryption}" FontWeight="Bold" />
