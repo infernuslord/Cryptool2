@@ -9,9 +9,18 @@
     <Grid Height="500" Width="800">
             <GroupBox Header="Selection" Height="491" HorizontalAlignment="Left" Margin="575,0,0,0" Name="groupBox1" VerticalAlignment="Top" Width="225" FontWeight="Bold">
             <Grid>
-                    <ListBox Height="211" HorizontalAlignment="Left" Margin="7,220,0,0" Name="signListbox" VerticalAlignment="Top" Width="200" ItemsSource="{Binding}" />
+                    <ListBox Height="211" HorizontalAlignment="Left" Margin="7,220,0,0" Name="signListbox" VerticalAlignment="Top" Width="200" ItemsSource="{Binding Sign}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Image}" Stretch="Fill" Width="50" Height="50"></Image>
+                                    <TextBlock Text="{Binding Letter}" Margin="10,0,0,0"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                     <Image Height="173" HorizontalAlignment="Left" Margin="6,8,0,0" Name="croppedImage" Stretch="Fill" VerticalAlignment="Top" Width="200" />
-                    <Button Content="New Sign" Height="24" HorizontalAlignment="Left" Margin="104,0,0,5" Name="addSignButton" VerticalAlignment="Bottom" Width="104" Click="addSignButton_Click" />
+                    <Button Content="New Sign" Height="24" HorizontalAlignment="Left" Margin="104,0,0,5" Name="addSignButton" VerticalAlignment="Bottom" Width="104" Click="addSignButton_Click"/>
                     <Label Content="Likeliest sign:" Height="30" HorizontalAlignment="Left" Margin="7,195,0,0" Name="label1" VerticalAlignment="Top" Width="142" FontWeight="Bold" FontStretch="Normal" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
                 </Grid>
         </GroupBox>
