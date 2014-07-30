@@ -34,6 +34,7 @@ using Primes.Bignum;
 using Primes.WpfControls.Validation;
 using Primes.WpfControls.Validation.Validator;
 using System.Diagnostics;
+using rsc = Primes.Resources.lang.Numbertheory.Numbertheory;
 
 namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 {
@@ -50,8 +51,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
             InitializeComponent();
             this.OnStart += new VoidDelegate(PrimitivRootControl_OnStart);
             this.OnStop += new VoidDelegate(PrimitivRootControl_OnStop);
-            validator = new BigIntegerMinValueMaxValueValidator(null, PrimesBigInteger.One, MAX);
-            primes = new List<PrimesBigInteger>();
+            validator = new BigIntegerMinValueMaxValueValidator(null, MIN, MAX);
             log.OverrideText = true;
             int mersenneexp = mersenneseed[new Random().Next(mersenneseed.Length - 1)];
             tbInput.Text = PrimesBigInteger.Random(2).Add(PrimesBigInteger.Three).NextProbablePrime().ToString();
@@ -87,15 +87,15 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
         private void Execute(bool doExecute)
         {
-
             ClearLog();
+            intervals.Clear();
+
             string _input = tbInput.Text;
             if (!string.IsNullOrEmpty(_input))
             {
                 string[] input = _input.Trim().Split(',');
                 if (input != null && input.Length > 0)
                 {
-                    primes.Clear();
                     foreach (string s in input)
                     {
                         if (!string.IsNullOrEmpty(s))
@@ -110,36 +110,35 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                                 {
                                     if (ipt.IsPrime(10))
                                     {
-                                        primes.Add(ipt);
+                                        intervals.Add(new List<PrimesBigInteger>{ipt,ipt});
+                                        if (ipt.CompareTo(MAX) > 0)
+                                        {
+                                            log.Info(string.Format(rsc.proot_warningbignumber, s));
+                                        }
                                     }
                                     else
                                     {
-                                        log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_noprime, s));
-                                        log.Info(" ");
+                                        log.Info(string.Format(rsc.proot_noprime, s));
                                     }
                                 }
                                 else
                                 {
-                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_novalidnumber, new object[] { s, MAX.ToString() }));
-                                    log.Info(" ");
+                                    log.Info(string.Format(rsc.proot_novalidnumber, new object[] { s, MIN.ToString(), MAX.ToString() }));
                                 }
                             }
                             else
                             {
                                 if (string.IsNullOrEmpty(_inputrange[0]) && string.IsNullOrEmpty(_inputrange[1]))
                                 {
-                                    log.Info(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangeboth);
-                                    log.Info(" ");
+                                    log.Info(rsc.proot_rangeboth);
                                 }
                                 else if (string.IsNullOrEmpty(_inputrange[0]))
                                 {
-                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangeupper, _inputrange[1]));
-                                    log.Info(" ");
+                                    log.Info(string.Format(rsc.proot_rangeupper, _inputrange[1]));
                                 }
                                 else if (string.IsNullOrEmpty(_inputrange[1]))
                                 {
-                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangedown, _inputrange[0]));
-                                    log.Info(" ");
+                                    log.Info(string.Format(rsc.proot_rangedown, _inputrange[0]));
                                 }
                                 else
                                 {
@@ -149,17 +148,14 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                                     {
                                         if (i1.CompareTo(i2) >= 0)
                                         {
-                                            log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_wronginterval, s));
-                                            log.Info(" ");
+                                            log.Info(string.Format(rsc.proot_wronginterval, s));
                                         }
                                         else
                                         {
-                                            if (i1.IsPrime(10)) primes.Add(i1);
-                                            while (i1.CompareTo(i2) <= 0)
+                                            intervals.Add(new List<PrimesBigInteger> { i1, i2 });
+                                            if (i2.CompareTo(MAXWARN) > 0)
                                             {
-                                                i1 = i1.NextProbablePrime();
-                                                if (i1.CompareTo(i2) <= 0)
-                                                    primes.Add(i1);
+                                                log.Info(string.Format(rsc.proot_warningbiginterval, s));
                                             }
                                         }
                                     }
@@ -169,14 +165,12 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                     }
                 }
 
-                if (primes.Count > 0 && doExecute)
-                {
+                if (doExecute && intervals.Count > 0)
                     StartThread();
-                }
             }
             else
             {
-                Info(Primes.Resources.lang.Numbertheory.Numbertheory.proot_insert);
+                Info(rsc.proot_insert);
             }
         }
 
@@ -187,8 +181,8 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
             Primes.WpfControls.Validation.ValidationResult res = validator.Validate(ref ipt);
             if (res != Primes.WpfControls.Validation.ValidationResult.OK)
             {
-                log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.invalidnumber, new object[] { s, MAX.ToString() }));
-                log.Info(" ");
+                log.Info(string.Format(rsc.proot_novalidnumber, new object[] { s, MIN.ToString(), MAX.ToString() }));
+                return null;
             }
             return ipt;
         }
@@ -205,13 +199,15 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
         #region Constants
 
-        private static readonly PrimesBigInteger MAX = PrimesBigInteger.ValueOf(1000000);
+        private static readonly PrimesBigInteger MIN = PrimesBigInteger.ValueOf(1);
+        private static readonly PrimesBigInteger MAX = PrimesBigInteger.ValueOf(uint.MaxValue);
+        private static readonly PrimesBigInteger MAXWARN = PrimesBigInteger.ValueOf(1000000);
 
         #endregion
 
         #region Properites
 
-        private IList<PrimesBigInteger> primes;
+        private List<List<PrimesBigInteger>> intervals = new List<List<PrimesBigInteger>>();
         private IValidator<PrimesBigInteger> validator;
         private Random rndGenerate;
 
@@ -238,7 +234,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
         void PrimitivRootControl_OnStop()
         {
-            ControlHandler.SetPropertyValue(log, "Title", Primes.Resources.lang.Numbertheory.Numbertheory.proot_result);
+            ControlHandler.SetPropertyValue(log, "Title", rsc.proot_result);
             ControlHandler.SetButtonEnabled(btnExecute, true);
             ControlHandler.SetButtonEnabled(btnCancel, false);
             ControlHandler.SetPropertyValue(btnJump, "Visibility", Visibility.Hidden);
@@ -247,7 +243,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
         void PrimitivRootControl_OnStart()
         {
-            ControlHandler.SetPropertyValue(log, "Title", Primes.Resources.lang.Numbertheory.Numbertheory.proot_progress);
+            ControlHandler.SetPropertyValue(log, "Title", rsc.proot_progress);
             ControlHandler.SetButtonEnabled(btnExecute, false);
             ControlHandler.SetButtonEnabled(btnCancel, true);
             ControlHandler.SetPropertyValue(btnJump, "Visibility", Visibility.Visible);
@@ -279,59 +275,109 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
         private void DoCalculatePrimitiveRoots()
         {
-            DateTime start = DateTime.Now;
-
-            FireOnStart();
-
-            foreach (PrimesBigInteger prime in primes)
+            try
             {
-                int row1 = log.NewLine();
-                int row2 = log.NewLine();
+                DateTime start = DateTime.Now;
 
-                StringBuilder sbResult = new StringBuilder();
+                FireOnStart();
 
-                PrimesBigInteger primitiveroot = PrimesBigInteger.One;
-                while (primitiveroot.CompareTo(prime) < 0)
+                m_Jump = false;
+
+                foreach (var interval in intervals)
                 {
-                    if (IsPrimitiveRoot(primitiveroot, prime)) break;
-                    primitiveroot = primitiveroot.Add(PrimesBigInteger.One);
-                }
-
-                List<PrimesBigInteger> roots = new List<PrimesBigInteger>();
-
-                PrimesBigInteger i = PrimesBigInteger.One;
-                PrimesBigInteger primeMinus1 = prime.Subtract(PrimesBigInteger.One);
-
-                while (i.CompareTo(prime) < 0)
-                {
-                    lock (m_JumpLockObject)
+                    PrimesBigInteger prime = interval[0];
+                    if (!prime.IsPrime(10)) prime = prime.NextProbablePrime();
+                    for (; prime.CompareTo(interval[1]) <= 0; prime = prime.NextProbablePrime())
                     {
-                        if (m_Jump)
+                        int row1 = log.NewLine();
+                        int row2 = log.NewLine();
+
+                        log.Info(string.Format(rsc.proot_calculating, prime.ToString()), 0, row1);
+
+                        PrimesBigInteger primeMinus1 = prime.Subtract(PrimesBigInteger.One);
+                        PrimesBigInteger numroots = primeMinus1.Phi();
+
+                        string fmt = numroots.CompareTo(PrimesBigInteger.One) == 0 ? rsc.proot_resultcalc : rsc.proot_resultscalc;
+                        string result = string.Format(fmt, prime.ToString(), numroots.ToString());
+                        log.Info(result + ". " + rsc.proot_calculating, 0, row1);
+
+                        PrimesBigInteger primitiveroot = PrimesBigInteger.One;
+                        while (primitiveroot.CompareTo(prime) < 0)
                         {
-                            log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_skipcalc, roots.Count, prime.ToString()), 0, row1);
-                            m_Jump = false;
-                            break;
+                            if (m_Jump) break;
+                            if (IsPrimitiveRoot(primitiveroot, prime)) break;
+                            primitiveroot = primitiveroot.Add(PrimesBigInteger.One);
                         }
+
+                        List<PrimesBigInteger> roots = new List<PrimesBigInteger>();
+
+                        PrimesBigInteger i = PrimesBigInteger.One;
+                        bool skipped = false;
+
+                        while (i.CompareTo(prime) < 0)
+                        {
+                            lock (m_JumpLockObject)
+                            {
+                                if (m_Jump)
+                                {
+                                    m_Jump = false;
+                                    skipped = true;
+                                    break;
+                                }
+                            }
+                            if (PrimesBigInteger.GCD(i, primeMinus1).Equals(PrimesBigInteger.One))
+                            {
+                                roots.Add(primitiveroot.ModPow(i, prime));
+                            }
+                            i = i.Add(PrimesBigInteger.One);
+                        }
+
+                        if (skipped)
+                        {
+                            log.Info(result + ". " + rsc.proot_skip, 0, row1);
+                        }
+                        else
+                        {
+                            log.Info(result + ". " + rsc.proot_printing, 0, row1);
+                            roots.Sort(PrimesBigInteger.Compare);
+                            //string numbers = string.Join(" ", roots.ToArray().Select(x => x.ToString()));
+                            StringBuilder sb = new StringBuilder();
+                            foreach (var r in roots)
+                            {
+                                lock (m_JumpLockObject)
+                                {
+                                    if (m_Jump)
+                                    {
+                                        m_Jump = false;
+                                        skipped = true;
+                                        break;
+                                    }
+                                }
+                                sb.Append(r.ToString() + " ");
+                            }
+                            if (skipped)
+                            {
+                                log.Info(result + ". " + rsc.proot_skip, 0, row1);
+                            }
+                            else
+                            {
+                                string numbers = sb.ToString();
+                                log.Info(numbers, 0, row2);
+                                log.Info(result + ":", 0, row1);
+                            }
+                        }
+
+                        log.NewLine();
                     }
-                    if (PrimesBigInteger.GCD(i, primeMinus1).Equals(PrimesBigInteger.One))
-                    {
-                        roots.Add(primitiveroot.ModPow(i, prime));
-                    }
-                    i = i.Add(PrimesBigInteger.One);
                 }
 
-                roots.Sort(PrimesBigInteger.Compare);
-                
-                log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_resultcalc, roots.Count, prime.ToString()), 0, row1);
-                log.Info(string.Join(" ", roots.ToArray().Select(x => x.ToString())), 0, row2);
+                TimeSpan diff = DateTime.Now - start;
 
-                log.NewLine();
-                log.Info(" ");
+                StopThread();
             }
-
-            TimeSpan diff = DateTime.Now - start;
-
-            StopThread();
+            catch (Exception ex)
+            {
+            }
         }
 
         private bool IsPrimitiveRoot(PrimesBigInteger root, PrimesBigInteger prime)
@@ -342,6 +388,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
             PrimesBigInteger k = PrimesBigInteger.One;
             while (k.CompareTo(primeMinus1) < 0)
             {
+                if (m_Jump) return false;
                 if (root.ModPow(k, prime).Equals(PrimesBigInteger.One)) return false;
                 k = k.Add(PrimesBigInteger.One);
             }
@@ -394,7 +441,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
             }
             else
             {
-                Info(Primes.Resources.lang.Numbertheory.Numbertheory.proot_insert);
+                Info(rsc.proot_insert);
             }
         }
 

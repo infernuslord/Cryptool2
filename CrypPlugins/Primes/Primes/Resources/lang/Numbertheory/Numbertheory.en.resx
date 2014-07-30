@@ -157,7 +157,7 @@
     <value>Input</value>
   </data>
   <data name="invalidnumber" xml:space="preserve">
-    <value>{0} does not lie between 5 und {1} and is not evaluated further.</value>
+    <value>{0} does not lie between {1} und {2} and is not evaluated further.</value>
   </data>
   <data name="lcm" xml:space="preserve">
     <value>Least common multiple</value>
@@ -228,6 +228,9 @@
   <data name="proot_btnSkipCalculation" xml:space="preserve">
     <value>Skip current calculation</value>
   </data>
+  <data name="proot_calculating" xml:space="preserve">
+    <value>Calculating the roots...</value>
+  </data>
   <data name="proot_genprimes" xml:space="preserve">
     <value>Generate primes</value>
   </data>
@@ -241,7 +244,10 @@
     <value>{0} is not a prime.</value>
   </data>
   <data name="proot_novalidnumber" xml:space="preserve">
-    <value>{0} is not a number between 5 and {1}. </value>
+    <value>{0} is not a number between {1} and {2}. </value>
+  </data>
+  <data name="proot_printing" xml:space="preserve">
+    <value>Printing...</value>
   </data>
   <data name="proot_progress" xml:space="preserve">
     <value>Progress</value>
@@ -259,10 +265,19 @@
     <value>Result</value>
   </data>
   <data name="proot_resultcalc" xml:space="preserve">
-    <value>{0} primitive roots for prime {1} found:</value>
+    <value>{0} has {1} primitive root</value>
   </data>
-  <data name="proot_skipcalc" xml:space="preserve">
-    <value>The calculation was skipped. {0} primitive roots for prime {1} found:</value>
+  <data name="proot_resultscalc" xml:space="preserve">
+    <value>{0} has {1} primitive roots</value>
+  </data>
+  <data name="proot_skip" xml:space="preserve">
+    <value>The calculation was skipped.</value>
+  </data>
+  <data name="proot_warningbiginterval" xml:space="preserve">
+    <value>Warning: The interval {0} contains big numbers for which the calculation may take some time.</value>
+  </data>
+  <data name="proot_warningbignumber" xml:space="preserve">
+    <value>Warning: For big numbers like {0} the calculation may take some time.</value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
     <value>The first number of the interval {0} has to be smaller than the second.</value>

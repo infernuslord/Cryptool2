@@ -157,7 +157,7 @@
     <value>Eingabe</value>
   </data>
   <data name="invalidnumber" xml:space="preserve">
-    <value>{0} ist keine Zahl zwischen 5 und {1}. Sie wird daher nicht weiter ausgewertet.</value>
+    <value>{0} ist keine Zahl zwischen {1} und {2}. Sie wird daher nicht weiter ausgewertet.</value>
   </data>
   <data name="lcm" xml:space="preserve">
     <value>Kleinstes gemeinsames Vielfaches</value>
@@ -228,6 +228,9 @@
   <data name="proot_btnSkipCalculation" xml:space="preserve">
     <value>Die aktuelle Berechnung überspringen</value>
   </data>
+  <data name="proot_calculating" xml:space="preserve">
+    <value>Primitivwurzeln werden berechnet...</value>
+  </data>
   <data name="proot_genprimes" xml:space="preserve">
     <value>Primzahlen generieren</value>
   </data>
@@ -241,7 +244,10 @@
     <value>{0}  ist keine Primzahl. Sie wird daher nicht weiter ausgewertet.</value>
   </data>
   <data name="proot_novalidnumber" xml:space="preserve">
-    <value>{0} ist keine Zahl zwischen 5 und {1}. Sie wird daher nicht weiter ausgewertet.</value>
+    <value>{0} ist keine Zahl zwischen {1} und {2}. Sie wird daher nicht weiter ausgewertet.</value>
+  </data>
+  <data name="proot_printing" xml:space="preserve">
+    <value>Ausgabe...</value>
   </data>
   <data name="proot_progress" xml:space="preserve">
     <value>Fortschritt</value>
@@ -259,10 +265,19 @@
     <value>Ergebnis</value>
   </data>
   <data name="proot_resultcalc" xml:space="preserve">
-    <value>Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden:</value>
+    <value>{0} hat {1} Primitivwurzel</value>
   </data>
-  <data name="proot_skipcalc" xml:space="preserve">
-    <value>Die Berechnung wurde abgebrochen. Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden: </value>
+  <data name="proot_resultscalc" xml:space="preserve">
+    <value>{0} hat {1} Primitivwurzeln</value>
+  </data>
+  <data name="proot_skip" xml:space="preserve">
+    <value>Die Berechnung wurde abgebrochen.</value>
+  </data>
+  <data name="proot_warningbiginterval" xml:space="preserve">
+    <value>Warnung: Das Intervall {0} enthält große Zahlen, für die die Berechnung sehr lange dauern kann.</value>
+  </data>
+  <data name="proot_warningbignumber" xml:space="preserve">
+    <value>Warnung: Für große Zahlen wie {0} kann die Berechnung sehr lange dauern.</value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
     <value>Die erste Zahl des Intervalls {0} muss kleiner sein als die zweite.</value>
