@@ -246,11 +246,14 @@
   <data name="proot_progress" xml:space="preserve">
     <value>Fortschritt</value>
   </data>
+  <data name="proot_rangeboth" xml:space="preserve">
+    <value>Bitte geben Sie beide Intervall-Grenzen an.</value>
+  </data>
   <data name="proot_rangedown" xml:space="preserve">
-    <value>Bitte geben sie die beide Intervall-Grenzen an. Die Zahl {0} wird als Untergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Obergrenze.</value>
+    <value>Bitte geben Sie beide Intervall-Grenzen an. Die Zahl {0} wird als Untergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Obergrenze.</value>
   </data>
   <data name="proot_rangeupper" xml:space="preserve">
-    <value>Bitte geben sie die beide Intervall-Grenzen an. Die Zahl {0} wird als Obergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Untergrenze.</value>
+    <value>Bitte geben Sie beide Intervall-Grenzen an. Die Zahl {0} wird als Obergrenze eines geschlossenen Intervalls interpretiert. Es fehlt noch die Eingabe für die Untergrenze.</value>
   </data>
   <data name="proot_result" xml:space="preserve">
     <value>Ergebnis</value>

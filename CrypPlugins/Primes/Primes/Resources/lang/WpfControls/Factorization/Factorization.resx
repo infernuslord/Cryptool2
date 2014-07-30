@@ -254,7 +254,7 @@ n={0} konnte mit dem quadratischen Sieb nicht faktorisiert werden.</value>
     <value>nein</value>
   </data>
   <data name="qs_step4_notproofed" xml:space="preserve">
-    <value>Die Bedingungen sind nicht erfüllt. Klicken sie auf "Neustart", um eine neue Kombination zu suchen.</value>
+    <value>Die Bedingungen sind nicht erfüllt. Klicken Sie auf "Neustart", um eine neue Kombination zu suchen.</value>
   </data>
   <data name="qs_step4_proofed" xml:space="preserve">
     <value>Beide Bedingungen sind erfüllt und wir erhalten folgende Faktoren von n={0}:</value>

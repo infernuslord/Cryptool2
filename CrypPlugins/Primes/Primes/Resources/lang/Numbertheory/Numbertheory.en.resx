@@ -238,13 +238,16 @@
     <value>Please enter a number</value>
   </data>
   <data name="proot_noprime" xml:space="preserve">
-    <value>{0}  is not a prime</value>
+    <value>{0} is not a prime.</value>
   </data>
   <data name="proot_novalidnumber" xml:space="preserve">
     <value>{0} is not a number between 5 and {1}. </value>
   </data>
   <data name="proot_progress" xml:space="preserve">
     <value>Progress</value>
+  </data>
+  <data name="proot_rangeboth" xml:space="preserve">
+    <value>Please enter the interval boundaries.</value>
   </data>
   <data name="proot_rangedown" xml:space="preserve">
     <value>Please enter the interval boundaries. The number {0} is interpreted as the lower boundary of a closed interval, the upper boundary is still missing.</value>
@@ -262,7 +265,7 @@
     <value>The calculation was skipped. {0} primitive roots for prime {1} found:</value>
   </data>
   <data name="proot_wronginterval" xml:space="preserve">
-    <value>The first number of the interval {0} has to be smaller than the second</value>
+    <value>The first number of the interval {0} has to be smaller than the second.</value>
   </data>
   <data name="secondparametermissing" xml:space="preserve">
     <value>You selected a function that requires the second parameter.</value>

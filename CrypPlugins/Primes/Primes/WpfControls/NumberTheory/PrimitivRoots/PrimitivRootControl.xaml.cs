@@ -126,14 +126,19 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                             }
                             else
                             {
-                                if (string.IsNullOrEmpty(_inputrange[0]))
+                                if (string.IsNullOrEmpty(_inputrange[0]) && string.IsNullOrEmpty(_inputrange[1]))
                                 {
-                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangedown, s));
+                                    log.Info(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangeboth);
+                                    log.Info(" ");
+                                }
+                                else if (string.IsNullOrEmpty(_inputrange[0]))
+                                {
+                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangeupper, _inputrange[1]));
                                     log.Info(" ");
                                 }
                                 else if (string.IsNullOrEmpty(_inputrange[1]))
                                 {
-                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangeupper, s));
+                                    log.Info(string.Format(Primes.Resources.lang.Numbertheory.Numbertheory.proot_rangedown, _inputrange[0]));
                                     log.Info(" ");
                                 }
                                 else
