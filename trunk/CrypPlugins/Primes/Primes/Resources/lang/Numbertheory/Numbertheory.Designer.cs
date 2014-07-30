@@ -178,7 +178,7 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Zahl zwischen 5 und {1}. Sie wird daher nicht weiter ausgewertet. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Zahl zwischen {1} und {2}. Sie wird daher nicht weiter ausgewertet. ähnelt.
         /// </summary>
         public static string invalidnumber {
             get {
@@ -394,6 +394,15 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Primitivwurzeln werden berechnet... ähnelt.
+        /// </summary>
+        public static string proot_calculating {
+            get {
+                return ResourceManager.GetString("proot_calculating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Primzahlen generieren ähnelt.
         /// </summary>
         public static string proot_genprimes {
@@ -430,11 +439,20 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Zahl zwischen 5 und {1}. Sie wird daher nicht weiter ausgewertet. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Zahl zwischen {1} und {2}. Sie wird daher nicht weiter ausgewertet. ähnelt.
         /// </summary>
         public static string proot_novalidnumber {
             get {
                 return ResourceManager.GetString("proot_novalidnumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ausgabe... ähnelt.
+        /// </summary>
+        public static string proot_printing {
+            get {
+                return ResourceManager.GetString("proot_printing", resourceCulture);
             }
         }
         
@@ -484,7 +502,7 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} hat {1} Primitivwurzel ähnelt.
         /// </summary>
         public static string proot_resultcalc {
             get {
@@ -493,11 +511,38 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Die Berechnung wurde abgebrochen. Es wurden {0} Primitivwurzeln zur Primzahl {1} gefunden:  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die {0} hat {1} Primitivwurzeln ähnelt.
         /// </summary>
-        public static string proot_skipcalc {
+        public static string proot_resultscalc {
             get {
-                return ResourceManager.GetString("proot_skipcalc", resourceCulture);
+                return ResourceManager.GetString("proot_resultscalc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Berechnung wurde abgebrochen. ähnelt.
+        /// </summary>
+        public static string proot_skip {
+            get {
+                return ResourceManager.GetString("proot_skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warnung: Das Intervall {0} enthält große Zahlen, für die die Berechnung sehr lange dauern kann. ähnelt.
+        /// </summary>
+        public static string proot_warningbiginterval {
+            get {
+                return ResourceManager.GetString("proot_warningbiginterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warnung: Für große Zahlen wie {0} kann die Berechnung sehr lange dauern. ähnelt.
+        /// </summary>
+        public static string proot_warningbignumber {
+            get {
+                return ResourceManager.GetString("proot_warningbignumber", resourceCulture);
             }
         }
         
