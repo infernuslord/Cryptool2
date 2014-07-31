@@ -117,6 +117,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
 
             transcriptorPresentation.StrokeThicknes = settings.Stroke;
+            transcriptorPresentation.Alphabet = settings.Alphabet;
 
             //transcriptorPresentation.RectangleColor = settings.Color;
 

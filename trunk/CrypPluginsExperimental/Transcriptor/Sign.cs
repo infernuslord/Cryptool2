@@ -9,7 +9,8 @@ namespace Transcriptor
 {
     class Sign
     {
-        int id, xCordinate, yCordinate;
+        int id;
+        double xCordinate, yCordinate;
         Rectangle rectangle;
         char letter;
         BitmapSource image;
@@ -31,13 +32,13 @@ namespace Transcriptor
             set { this.id = value ; }
         }
 
-        public int X
+        public double X
         {
             get { return xCordinate; }
             set { this.xCordinate = value; }
         }
 
-        public int Y
+        public double Y
         {
             get { return yCordinate; }
             set { this.yCordinate = value; }

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using System.Collections.ObjectModel;
 
 namespace Transcriptor
 {
@@ -15,9 +15,10 @@ namespace Transcriptor
     /// </summary>
     public partial class TranscriptorPresentation : UserControl
     {
-        String rectangleColor;
-        int strokeThicknes, count = 0;
-        List<Sign> signList = new List<Sign>(), signItems = new List<Sign>();
+        String rectangleColor, alphabet;
+        int strokeThicknes, alphabetCount = 0, indexCount = 0;
+        List<Sign> signList = new List<Sign>();
+        ObservableCollection<Sign> signItems = new ObservableCollection<Sign>();
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
         Rectangle rectangle;
         BitmapSource bitMap;
@@ -25,11 +26,17 @@ namespace Transcriptor
         public TranscriptorPresentation()
         {
             InitializeComponent();
-
+            this.DataContext = this;
             rectangle = new Rectangle
             {
                 Fill = Brushes.Transparent,
             };
+        }
+
+        public String Alphabet
+        {
+            get { return alphabet; }
+            set { alphabet = value; }
         }
 
         public int StrokeThicknes
@@ -84,11 +91,43 @@ namespace Transcriptor
 
         private void addSignButton_Click(object sender, RoutedEventArgs e)
         {
-            Sign newSign = new Sign(count++, 'A', bitMap);
+            Sign newSign = new Sign(indexCount, Alphabet[alphabetCount++], bitMap);
             signItems.Add(newSign);
             signListbox.ItemsSource = signItems;
-            
+            indexCount++;
 
+            AddSignToList(newSign, (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
+                (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)));
+
+            if (alphabetCount >= Alphabet.Length)
+            {
+                addSignButton.IsEnabled = false;
+            }
+        }
+
+        private void AddSignToList(Sign newSign, int width, int height)
+        {
+            double x = Math.Min(xCordinateDown, xCordinateUp);
+            double y = Math.Min(yCordinateDown, yCordinateUp);
+
+            Rectangle newRectangle = new Rectangle
+            {
+                Fill = Brushes.Transparent,
+                Stroke = rectangle.Stroke,
+                StrokeThickness = 1,
+                Width = width,
+                Height = height,
+            };
+
+            Canvas.SetLeft(newRectangle, x);
+            Canvas.SetTop(newRectangle, y);
+            canvas.Children.Add(newRectangle);
+
+            newSign.Rectangle = newRectangle;
+            newSign.X = x;
+            newSign.Y = y;
+
+            signList.Add(newSign);
         }
     }
 }
