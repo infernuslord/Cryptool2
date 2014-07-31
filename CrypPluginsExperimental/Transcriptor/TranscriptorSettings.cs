@@ -29,16 +29,29 @@ namespace Cryptool.Plugins.Transcriptor
         private String fileName;
         private int color;
         private int stroke;
+        private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         #endregion
 
         #region TaskPane Settings
+        [TaskPane("Alphabet", "AlphabetTooltip", null, 1, false, ControlType.TextBox, null)]
+        public String Alphabet
+        {
+            get
+            {
+                return alphabet;
+            }
+            set
+            {
+                if (alphabet != value)
+                {
+                    alphabet = value;
+                        OnPropertyChanged("Alphabet");
+                }
+            }
+        }
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
-        [TaskPane("Load File", "Load an old Progress", null, 1, false, ControlType.OpenFileDialog, FileExtension = "All Files (*.*)|*.*")]
+        [TaskPane("Load File", "LoadFileTooltip", null, 3, false, ControlType.OpenFileDialog, FileExtension = "All Files (*.*)|*.*")]
         public String FileName
         {
             get
@@ -50,13 +63,12 @@ namespace Cryptool.Plugins.Transcriptor
                 if (fileName != value)
                 {
                     fileName = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("FileName");
                 }
             }
         }
 
-        [TaskPane("Color", "Choose the Color of the Rectangle", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
+        [TaskPane("Color", "ColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
         public int Color
         {
             get
@@ -74,7 +86,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         }
 
-        [TaskPane("Stroke", "Choose the Thikness of the Rectangle", null, 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 3)]
+        [TaskPane("Stroke", "StrokeTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 3)]
         public int Stroke
         {
             get
