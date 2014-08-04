@@ -46,8 +46,7 @@ namespace FileOutput
     }
 
     private bool append = false;
-    [ContextMenu("AppendCaption", "AppendTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "AppendList1" })]
-    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 0, false, ControlType.CheckBox, "", null)]
+    [TaskPane("AppendCaption", "AppendTooltip", "AppendGroup", 3, false, ControlType.CheckBox)]
     public bool Append
     {
         get { return append; }
@@ -62,7 +61,7 @@ namespace FileOutput
     }
 
     private int appendBreaks = 1;
-    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 0, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
+    [TaskPane("AppendBreaksCaption", "AppendBreaksTooltip", "AppendGroup", 4, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, int.MaxValue)]
     public int AppendBreaks
     {
         get { return this.appendBreaks; }
