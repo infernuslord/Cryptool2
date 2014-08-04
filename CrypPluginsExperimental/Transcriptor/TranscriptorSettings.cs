@@ -17,7 +17,6 @@ using System;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
-using System.Windows.Forms;
 
 namespace Cryptool.Plugins.Transcriptor
 {
