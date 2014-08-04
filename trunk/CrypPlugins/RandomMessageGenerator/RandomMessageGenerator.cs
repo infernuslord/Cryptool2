@@ -29,14 +29,14 @@ namespace Cryptool.Plugins.RandomMessageGenerator
     {
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "NumberOfNumbersCaption", "NumberOfNumbersTooltip")]
+        [PropertyInfo(Direction.InputData, "NumberOfNumbersCaption", "NumberOfNumbersTooltip", true)]
         public int NumberOfNumbers
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "MaximumCaption", "MaximumTooltip")]
+        [PropertyInfo(Direction.InputData, "MaximumCaption", "MaximumTooltip", true)]
         public BigInteger Maximum
         {
             get;
