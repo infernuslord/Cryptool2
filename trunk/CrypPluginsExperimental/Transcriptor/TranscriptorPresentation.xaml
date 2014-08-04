@@ -13,21 +13,27 @@
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding Image}" Stretch="Fill" Width="50" Height="50"></Image>
+                                    <Image Source="{Binding Image}" Stretch="Fill" Width="40" Height="40"></Image>
                                     <TextBlock Text="{Binding Letter}" Margin="10,0,0,0"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"></EventSetter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                     </ListBox>
                     <Image Height="173" HorizontalAlignment="Left" Margin="6,8,0,0" Name="croppedImage" Stretch="Fill" VerticalAlignment="Top" Width="200" />
-                    <Button Content="New Sign" Height="24" HorizontalAlignment="Left" Margin="104,0,0,5" Name="addSignButton" VerticalAlignment="Bottom" Width="104" Click="addSignButton_Click"/>
+                    <Button Content="New Sign" Height="23" HorizontalAlignment="Left" Margin="127,0,0,6" Name="addSignButton" VerticalAlignment="Bottom" Width="81" Click="addSignButton_Click"/>
                     <Label Content="Likeliest sign:" Height="30" HorizontalAlignment="Left" Margin="7,195,0,0" Name="label1" VerticalAlignment="Top" Width="142" FontWeight="Bold" FontStretch="Normal" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
+                    <Button Content="Generate" Height="23" HorizontalAlignment="Left" Margin="8,438,0,0" Name="generateButton" VerticalAlignment="Top" Width="81" Click="generateButton_Click" />
                 </Grid>
         </GroupBox>
             <GroupBox Header="Image" Height="491" HorizontalAlignment="Left" Name="groupBox2" VerticalAlignment="Top" Width="568" FontWeight="Bold">
                 <Grid Margin="6,5,0,0" Width="545" Height="460" VerticalAlignment="Top">
                     <Image Height="460" HorizontalAlignment="Left" Margin="6,5,0,0" Name="picture" Stretch="Fill" VerticalAlignment="Top" Width="545" />
-                    <Canvas Height="460" HorizontalAlignment="Left" Margin="6,5,0,0" Name="canvas" VerticalAlignment="Top" Width="545" Background="Transparent" MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" />
+                    <Canvas Height="460" HorizontalAlignment="Left" Margin="6,5,0,0" Name="canvas" VerticalAlignment="Top" Width="545" Background="Transparent" MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove" />
                 </Grid>
             </GroupBox>
         </Grid>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Shapes;
+﻿using System.Windows.Shapes;
 using System.Windows.Media.Imaging;
 
 namespace Transcriptor
@@ -64,7 +60,7 @@ namespace Transcriptor
 
         public override string ToString()
         {
-            return string.Format("{0} {1}", Image, Letter);
+            return string.Format("{0}", Letter);
         }
 
     }
