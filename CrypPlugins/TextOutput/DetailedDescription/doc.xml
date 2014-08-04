@@ -1,27 +1,93 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component displays the text that is entered at its input. The input accepts not only text as input, but all data types,
+    and converts them into a format that is suitable for text output.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente zeigt den an ihrem Eingang anliegenden Text an. Der Eingang akzeptiert allerdings nicht nur Text, sondern alle Datentypen,
+    und konvertiert diese in eine passende Textdarstellung.
   </introduction>
 
   <usage lang="en">
+    Connect the input of the component with the value you want to display. The input of the component is of data type <i>Object</i>, thus it accepts all other data types.
+    Depending on the data type of the given input, the component formats the displayed text in different ways:
+    <list>
+      <item>
+        If the input is of type <i>Text</i>, it is displayed unchanged.
+      </item>
+      <item>
+        If the input is of type <i>byte[]</i> or <i>DataStream</i>, it is displayed as a sequence of bytes in hexadecimal format.
+      </item>
+      <item>
+        If the input is of type <i>Boolean</i>, the displayed text is 'True' or 'False'.
+      </item>
+      <item>
+        A numeric input is converted to a string, that represents the number in decimal notation.
+      </item>
+    </list>
+    The size of the input, that the component accepts, is limited. If the entered data is bigger, the part that exceeds the limit is ignored and will not be displayed.
+    The limit can be adjusted in the settings of the component under <i>Maximum length</i>. The default value is 64 kilobytes.
+    <newline/>
+    <newline/>
+    When the data on the input is updated, the normal behaviour of the component is to replace the displayed text with the new text.
+    You can change this by activating the checkbox <i>Append text input</i> in the settings. Updated data will then be appended to the current text.
+    The appended text is separated from the present text by an adjustable number of line breaks.
   </usage>
 
   <usage lang="de-DE">
+    Verbinden Sie den Eingang der Komponente mit dem darzustellenden Wert. Der Eingang ist vom Datentyp <i>Object</i> und akzeptiert daher alle anderen Datentypen.
+    Abhängig vom Datentyp der anliegenden Daten wird der in dieser Komponente angezeigte Text unterschiedlich formatiert:
+    <list>
+      <item>
+        Ist die Eingabe vom Typ <i>Text</i>, so wird dieser unverändert angezeigt.
+      </item>
+      <item>
+        Ist die Eingabe vom Typ <i>byte[]</i> oder <i>DataStream</i>, so wird diese als Folge von Bytes im Hexadezimalsystem angezeigt.
+      </item>
+      <item>
+        Ist die Eingabe vom Typ <i>Boolean</i>, so wird 'True' oder 'False' ausgegeben.
+      </item>
+      <item>
+        Numerische Eingaben werden in eine Zeichenkette konvertiert, die der Repäsentation der Zahl im Dezimalsystem entspricht.
+      </item>
+    </list>
+    Die Größe der Daten, die die Komponente akzeptiert, ist beschränkt. Wenn die anliegenden Daten größer sind, so wird der über das Limit hinausgehende Teil ignoriert.
+    Das Limit kann in den Einstellungen der Komponente unter dem Punkt <i>Maximale Länge</i> angepasst werden. Voreingestellt ist ein Wert von 64 Kilobytes.
+    <newline/>
+    <newline/>
+    Wenn die am Eingang anliegenden Daten aktualisiert werden, so wird der bis dahin angezeigte Text normalerweise durch den neuen Text ersetzt.
+    In den Einstellungen kann man dieses Verhalten ändern. Aktivieren Sie das Kontrollkästchen <i>Eingabe anfügen</i>, damit die neu anliegenden Daten an den bisherigen Text angehängt werden.
+    Sie können angeben, durch wie viele Zeilenumbrüche der neue Text vom bestehenden Text getrennt werden soll.
   </usage>
-  
+
   <presentation lang="en">
+    By default, the component is opened in presentation view.
+    <newline/>
+    <newline/>
+    The component has a status bar, that displays the number of characters and lines that the entered text consists of.
+    The content of the status bar can be adjusted by selecting the corresponding checkboxes in the settings of the component.
+    If the displayed text consists only of digits, it is interpreted as a decimal number. In this case, the status bar shows the number of its digits
+    and the number of bits of its binary representation.
   </presentation>
-  
+
   <presentation lang="de-DE">
+    Die Komponente wird standardmäßig in der Präsentationsansicht geöffnet.
+    <newline/>
+    <newline/>
+    Die Komponente hat eine Statuszeile, in der die Anzahl der eingegebenen Zeichen und Zeilen angezeigt wird.
+    Durch Aktivieren der entsprechenden Kontrollkästchen in den Einstellungen der Komponente kann der Inhalt der Statuszeile angepasst werden.
+    Besteht der angezeigte Text nur aus Ziffern, so wird er als Dezimalzahl interpretiert und in der Statuszeile wird die Anzahl ihrer Ziffern und
+    die Anzahl der notwendigen Bits in ihrer Binärdarstellung angezeigt.
   </presentation>
   
   <references>
   </references>
+  
 </documentation>

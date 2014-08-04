@@ -1,27 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component writes the data on its input data stream to a file of the file system.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente schreibt den an ihrem Eingang anliegenden Datenstrom in eine Datei des Filesystems.
   </introduction>
 
   <usage lang="en">
+    You must specify the name of the file you want to write to in by clicking on the 'Save file' button in the settings of the component.
+    This will open a file dialog, with which you can select a file or enter a new file name.
+    When the workspace is started, the component writes the data stream on its input to the specified file.
+    <newline/>
+    <newline/>
+    In the settings you can also specify whether the data, that is written to the file, is to be appended to the file (in case the file already exists),
+    or whether the file should be overwritten.
   </usage>
 
   <usage lang="de-DE">
+    Geben Sie in den Einstellungen der Komponente den Namen der Datei an, in die Sie die anliegenden Daten schreiben möchten. Klicken Sie hierzu auf die Schaltfläche 'Datei speichern'.
+    Daraufhin öffnet sich ein Dateiauswahldialog, mit dem Sie die gewünschte Datei wählen können.
+    Wenn der Arbeitsbereich gestartet wurde, schreibt die Komponente den an ihrem Eingang anliegenden 'Eingabedatenstrom' in die angegebene Datei.
+    <newline/>
+    <newline/>
+    In den Einstellungen der Komponente kann noch angegeben werden, ob die geschriebenen Daten an die Datei angehängt werden sollen, falls diese bereits existiert, oder ob die
+    Datei überschrieben werden soll. Falls sie angehängt werden sollen kann man außerdem festlegen, wie viele Zeilenumbrüche vor dem Anhängen der Daten eingefügt werden sollen.
   </usage>
-  
+
   <presentation lang="en">
+    The presentation view of the component has three columns. The left column shows the file position in hexadecimal notation.
+    In the middle column, the data beginning at this position is printed, also in hexadecimal notation, 16 bytes per row.
+    In the right column, these 16 bytes, interpreted as characters, are displayed as a string.
+    Nonprintable characters are replaced by a dot.
+    <newline/>
+    <newline/>
+    By clicking into the middle or the right column, you can select one or more bytes or characters. The corresponding characters or bytes in the other
+    column will then also appear highlighted.
   </presentation>
-  
+
   <presentation lang="de-DE">
+    Die Präsentationsansicht der Komponente hat drei Spalten. In der linken Spalte wird die Dateiposition in hexadezimaler Notation angegeben.
+    In der mittleren Spalte sind die an dieser Dateiposition beginnenden Daten hexadezimal dargestellt, wobei pro Zeile 16 Bytes angezeigt werden.
+    In der rechten Spalte werden diese 16 Bytes als Zeichenkette interpretiert. Zeichen, die nicht darstellbar sind, werden durch einen Punkt ersetzt.
+    <newline/>
+    <newline/>
+    Durch Klicken in die mittlere oder rechte Spalte ist es möglich, ein oder mehrere Bytes oder Zeichen zu selektieren. Die entsprechenden Zeichen bzw. Bytes in der
+    anderen Spalte werden dann ebenfalls markiert.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/File_dialog" lang="en" />
+      <caption lang="en">File dialog</caption>
+      <link url="http://en.wikipedia.org/wiki/File_dialog" lang="de-DE" />
+      <caption lang="de-DE">File dialog (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Hex_editor" lang="en" />
+      <caption lang="en">Hex editor</caption>
+      <link url="http://de.wikipedia.org/wiki/Hex-Editor" lang="de-DE" />
+      <caption lang="de-DE">Hex-Editor</caption>
+    </linkReference>
   </references>
+
 </documentation>

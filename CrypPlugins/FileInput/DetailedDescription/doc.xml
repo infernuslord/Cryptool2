@@ -1,27 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component can access files of the file system and provide their content as input to other components for further processing.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente kann auf Dateien des Filesystems zugreifen und deren Inhalt anderen Komponenten zur weiteren Verarbeitung zur Verfügung stellen.
   </introduction>
 
   <usage lang="en">
+    You must specify the name of the file you want to open. To do this, click the 'Open file' button in the settings of the component. 
+    This will open a file dialog, with which you can select a file.
+    When the workspace is started, the component reads the specified file and provides its content at the output labeled 'Stream Output' as a data stream.
+    The size of the file (in bytes) is sent as an integer to the output labeled 'File Size'.
   </usage>
 
   <usage lang="de-DE">
+    Geben Sie in den Einstellungen der Komponente die Datei an, die Sie lesen möchten. Klicken Sie hierzu auf die Schaltfläche 'Datei öffnen'. 
+    Daraufhin öffnet sich ein Dateiauswahldialog, mit dem Sie die gewünschte Datei wählen können.
+    Wenn der Arbeitsbereich gestartet wurde, liefert die Komponente an ihrem Ausgang 'Ausgabedatenstrom' den Dateiinhalt als Datenstrom.
+    Die Größe der gelesenen Datei (in Bytes) wird am Ausgang 'Dateigröße' ausgegeben.
   </usage>
   
   <presentation lang="en">
+    The presentation view of the component has three columns. The left column shows the file position in hexadecimal notation.
+    In the middle column, the data beginning at this position is printed, also in hexadecimal notation, 16 bytes per row.
+    In the right column, these 16 bytes, interpreted as characters, are displayed as a string.
+    Nonprintable characters are replaced by a dot.
+    <newline/>
+    <newline/>
+    By clicking into the middle or the right column, you can select one or more bytes or characters. The corresponding characters or bytes in the other
+    column will then also appear highlighted.
+    <newline/>
+    <newline/>
+    It is also possible to edit the file in the presentation view. Click at the position in the middle or the right column where you want to enter data, and enter bytes or characters at the cursor position.
+    By clicking on the 'Insert' button in the toolbar of the component, you can select whether the entered data is inserted at the current position or whether it overwrites the existing data.
+    <newline/>
+    <newline/>
+    You can save an altered file to the file system with the 'Save' or the 'Save As' buttons in the toolbar.
+    With the buttons 'New' and 'Open', you can create a new, empty file or open another file.
   </presentation>
   
   <presentation lang="de-DE">
+    Die Präsentationsansicht der Komponente hat drei Spalten. In der linken Spalte wird die Dateiposition in hexadezimaler Notation angegeben.
+    In der mittleren Spalte sind die an dieser Dateiposition beginnenden Daten hexadezimal dargestellt, wobei pro Zeile 16 Bytes angezeigt werden.
+    In der rechten Spalte werden diese 16 Bytes als Zeichenkette interpretiert. Zeichen, die nicht darstellbar sind, werden durch einen Punkt ersetzt.
+    <newline/>
+    <newline/>
+    Durch Klicken in die mittlere oder rechte Spalte ist es möglich, ein oder mehrere Bytes oder Zeichen zu selektieren. Die entsprechenden Zeichen bzw. Bytes in der
+    anderen Spalte werden dann ebenfalls markiert.
+    <newline/>
+    <newline/>
+    Die Datei kann in der Präsentationsansicht auch editiert werden, indem in der mittleren Spalte Hexadezimalzahlen oder in der rechten Spalte Zeichen eingegeben werden.
+    Mit der Schaltfläche 'Einfügen' in der Symbolleiste der Komponente können Sie auswählen, ob die eingegebenen Daten an der aktuellen Position eingefügt werden oder ob sie die
+    vorhandenen Daten überschreiben sollen.
+    <newline/>
+    <newline/>
+    Mit den Schaltflächen 'Speichern' und 'Speichern als' in der Symbolleiste können die vorgenommenen Änderungen in einer Datei gesichert werden.
+    Die weiteren Schaltflächen 'Neu' und 'Öffnen' gestatten es, eine neue, leere Datei anzulegen oder eine andere Datei auszuwählen.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/File_dialog" lang="en" />
+      <caption lang="en">File dialog</caption>
+      <link url="http://en.wikipedia.org/wiki/File_dialog" lang="de-DE" />
+      <caption lang="de-DE">File dialog (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Hex_editor" lang="en" />
+      <caption lang="en">Hex editor</caption>
+      <link url="http://de.wikipedia.org/wiki/Hex-Editor" lang="de-DE" />
+      <caption lang="de-DE">Hex-Editor</caption>
+    </linkReference>
   </references>
+  
 </documentation>

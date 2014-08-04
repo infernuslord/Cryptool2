@@ -4,16 +4,81 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component can convert strings, that are formatted according to certain rules, to data streams and byte arrays.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente kann Zeichenketten, die nach gewissen Regeln formatiert sind, in Datenströme und Byte-Arrays konvertieren.
   </introduction>
 
   <usage lang="en">
+    In the settings of the component you can select the format of the given input string. Depending on the chosen format, different options will be available in the settings.
+    <newline/>
+    <newline/>
+    If you choose the format <b>Text</b>, the input string will be interpreted as a UTF-8 encoded string.
+    The string is then converted to a byte sequence, based on your selection in the settings for the output data encoding.
+    The byte sequence is sent to the outputs of the component as a data stream and as a byte array.
+    <newline/>
+    <newline/>
+    <b>Example:</b> If you enter the word <i>über</i> and select UTF-8 encoding for the output, the resulting byte sequence is <i>C3 BC 62 65 72</i>.
+    If you choose ISO8859-15 as output encoding, the result is <i>FC 62 65 72</i>. The difference is caused by the different byte representations of the letter 'ü' in the two encodings.
+    <newline/>
+    <newline/>
+    If you choose the format <b>Binary</b>, the input string must consist of the characters '0' and '1'. It is split into blocks of 8 characters, that are interpreted as bytes in binary notation.
+    The output of the component consists of the resulting byte sequence. For improving the readibility, the input can be interspersed with separator characters. Check the appropriate checkbox in the settings to
+    activate the separator characters. The default separators are the space character and the comma, but you can provide your own set of characters in the settings.
+    <newline/>
+    <newline/>
+    <b>Example:</b> The input <i>1000000001000001</i> will produce the byte sequence <i>80 41</i>. If separator characters are used, <i>10000000 01000001</i> will generate the same byte sequence,
+    but the input <i>100000 0001000 001</i> will generate <i>20 08 01</i>.
+    So be aware that the position of the separator characters can change the interpretation of the input.
+    <newline/>
+    <newline/>
+    Apart from the character sets that the input may consist of, the options <b>Octal</b>, <b>Decimal</b> and <b>Hexadecimal</b> work in the same way as the option <b>Binary</b>.
+    <b>Octal</b> accepts only inputs consisting of the digits '0' to '7', <b>Decimal</b> accepts the digits '0' to '9', and <b>Hexadecimal</b> accepts '0' to '9' and 'A' to 'F'.
+    <newline/>
+    <newline/>
+    If you choose the format <b>Base64</b>, the input has to be a string in Base64 format. The component decodes the input and sends the resulting byte sequence to the output.
+    If the input string is not in Base64 format, an error message will be issued and the execution is halted.
+    <newline/>
+    <newline/>
+    <b>Example:</b> The input <i>Q3J5cFRbb2w=</i> will produce the byte sequence <i>43 72 79 70 54 6F 6F 6C</i>. This is the numeric ASCII representation of the word "CrypTool".
   </usage>
 
   <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente, in welchem Format die Eingabe vorliegt. Abhängig vom gewählten Format werden unterschiedliche
+    Optionen in den Einstellungen angezeigt.
+    <newline/>
+    <newline/>
+    Wird die Option <b>Text</b> gewählt, so wird die Eingabe als Zeichenkette in UTF-8-Kodierung interpretiert.
+    Die Zeichenkette wird dann, basierend auf der in den Einstellungen gewählten Zeichenkodierung, in eine Bytesequenz konvertiert.
+    Diese wird an den Ausgängen der Komponente als Byte-Array und als Datenstrom ausgegeben.
+    <newline/>
+    <newline/>
+    <b>Beispiel:</b> Wird als Eingabe das Wort <i>Tür</i> angegeben und UTF-8 als Zeichenkodierung der Ausgabe gewählt, so ist das Ergebnis die Bytesequenz <i>54 C3 BC 72</i>. 
+    Wird als Zeichenkodierung ISO8859-15 gewählt, so ist die resultierende Bytesequenz <i>54 FC 72</i>.
+    Der Unterschied kommt durch die verschiedene Repräsentation des Buchstabens 'ü' in den beiden Kodierungen zustande.
+    <newline/>
+    <newline/>
+    Wird die Option <b>Binär</b> gewählt, so wird als Eingabe eine Zeichenkette erwartet, die nur aus '0' und '1' besteht. Diese wird in Blöcke von 8 Zeichen zerlegt, die jeweils als ein Byte in Binärdarstellung interpretiert werden.
+    Die Ausgabe besteht dann aus der so entstandenen Bytesequenz. Die Eingabe kann zur besseren Lesbarkeit auch mit Trennzeichen formatiert werden. Aktivieren Sie dazu in den Einstellungen das zugehörige Kontrollkästchen.
+    Die Trennzeichen, die zur Formatierung verwendet werden dürfen, können ebenfalls angegeben werden. Voreingestellt sind das Leerzeichen und das Komma.
+    <newline/>
+    <newline/>
+    <b>Beispiel:</b> Die Eingabe <i>1000000001000001</i> erzeugt die Bytesequenz <i>80 41</i>. Bei Verwendung von Trennzeichen erzeugt <i>10000000 01000001</i> dieselbe Bytesequenz, aber die Eingabe <i>100000 0001000 001</i> erzeugt <i>20 08 01</i>.
+    Die Position der Trennzeichen kann die Interpretation der Eingabe also verändern.
+    <newline/>
+    <newline/>
+    Für die Optionen <b>Oktal</b>, <b>Dezimal</b> und <b>Hexadezimal</b> gilt, abgesehen von dem Zeichenvorrat, aus dem die Eingabe bestehen darf, dasselbe wie für die Option <b>Binär</b>. 
+    Bei <b>Oktal</b> darf die Eingabe aus den Ziffern '0' bis '7' bestehen, bei <b>Dezimal</b> aus den Ziffern '0' bis '9', und bei <b>Hexadezimal</b> aus den Zeichen '0' bis '9' und 'A' bis 'F'.
+    <newline/>
+    <newline/>
+    Wird die Option <b>Base64</b> gewählt, so wird als Eingabe eine Zeichenkette im Base-64-Format erwartet. Die Komponente dekodiert die Eingabe und gibt die resultierende Bytesequenz aus.
+    Ist die Eingabe nicht im Base-64-Format, so wird eine Fehlermeldung ausgegeben und die Ausführung beendet.
+    <newline/>
+    <newline/>
+    <b>Beispiel:</b> Die Eingabe <i>Q3J5cFRbb2w=</i> erzeugt die Bytesequenz <i>43 72 79 70 54 6F 6F 6C</i>. Dies ist die numerische ASCII-Darstellung des Wortes "CrypTool".
   </usage>
   
   <presentation lang="en">
@@ -21,7 +86,44 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Character_encoding"/>
+      <caption lang="en">Character encoding</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Zeichenkodierung"/>
+      <caption lang="de-DE">Zeichenkodierung</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Binary_numeral_system"/>
+      <caption lang="en">Binary numeral system</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Dualsystem"/>
+      <caption lang="de-DE">Dualsystem (Binärsystem)</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Octal"/>
+      <caption lang="en">Octal</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Oktalsystem"/>
+      <caption lang="de-DE">Oktalsystem</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Decimal"/>
+      <caption lang="en">Decimal</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Dezimalsystem"/>
+      <caption lang="de-DE">Dezimalsystem</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Hexadecimal"/>
+      <caption lang="en">Hexadecimal</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Hexadezimalsystem"/>
+      <caption lang="de-DE">Hexadezimalsystem</caption>
+    </linkReference>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Base64"/>
+      <caption lang="en">Base64</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Base64"/>
+      <caption lang="de-DE">Base64</caption>
+    </linkReference>
   </references>
+  
 </documentation>

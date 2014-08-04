@@ -1,19 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    With this component you can select an element of a given input array.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente erlaubt die Auswahl eines Elementes aus einem angegebenen Array.
   </introduction>
 
   <usage lang="en">
+    Enter the array from which you want to select an item at the input labeled <i>Array Input</i>,
+    and the index of the array item you want to select at the input labeled <i>Index of Array</i>.
+    Please note that the numbering of the array elements starts with 0.
+    If you leave the index input unconnected, the first item of the array will be selected by default.
+    If the given index is too big and doesn't point to an array item, an error message will be issued and the execution of the component stops.
   </usage>
 
   <usage lang="de-DE">
+    Geben sie am Eingang <i>Eingabe-Array</i> das Array an, aus dem Sie einen Wert auswählen möchten, und am Eingang
+    <i>Array-Index</i> den Index des gewünschten Elementes. Beachten Sie, dass die Nummerierung der Array-Elemente mit 0 beginnt.
+    Wird der Eingang <i>Array-Index</i> nicht verbunden, so wird automatisch das erste Element des Arrays ausgegeben.
+    Ist der angegebene Index zu groß und zeigt nicht auf ein Element des Arrays, so bricht die Ausführung mit einer Fehlermeldung ab.
   </usage>
   
   <presentation lang="en">
@@ -21,7 +33,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Array" lang="en" />
+      <caption lang="en">Array (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Feld_(Datentyp)" lang="de-DE" />
+      <caption lang="de-DE">Feld (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

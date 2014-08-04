@@ -4,18 +4,115 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Data Encryption Standard (DES) is a symmetric cryptosystem that was announced by the US government in 1976 as official standard (FIPS 46) <ref id="NIST" />.
+    <newline />
+    DES uses a block size of 64 bits and a key length of 56 bits.
+    The involvement of the NSA in the design of the algorithm nourished suspicions about a backdoor.
+    Today, due to the short key length, the security of DES is no longer considered sufficient.
+    <newline/>
+    <newline/>
+    A first replacement for DES, that guaranteed a higher level of security, was Triple DES. It consists of repeated applications of DES with independent keys.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Der Data Encryption Standard (DES) ist ein symmetrisches Kryptosystem, das von der US-Regierung 1976 als offizieller Standard (FIPS 46) <ref id="NIST" /> bekanntgegeben wurde.
+    <newline />
+    DES verwendet eine Blockgröße von 64 Bits und eine Schlüssellänge von 56 Bits.
+    Wegen der Beteiligung der NSA am Design des Algorithmus gab es immer wieder Spekulationen über seine Sicherheit.
+    Heute wird DES schon aufgrund der kurzen Schlüssellänge von nur 56 Bits nicht mehr als ausreichend sicher erachtet.
+    <newline/>
+    <newline/>
+    Ein erster Ersatz für DES, der eine höhere Sicherheit gewährleistete, war Triple-DES, das aus der mehrfachen Anwendung des DES-Verfahrens mit unabhängigen Schlüsseln besteht. 
   </introduction>
 
   <usage lang="en">
+    In the settings of the component, you can select whether the component should be operated in DES mode or in Triple DES mode. Both algorithms work with a block size of 64 bits (8 bytes).
+    DES expects a key consisting of 64 bits (8 bytes), Triple DES expects a key consisting of 128 bits (16 bytes) or 192 bits (24 bytes).
+    <newline/>
+    <newline/>
+    The AES component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
+    <newline />
+    <newline />
+
+    <section headline="Encryption">
+      In "Encryption" mode, the component expects the plaintext as a data stream on the input labeled "Input".
+      If the size of the input is not a multiple of the block size, as many bytes as are necessary to achieve
+      a multiple of the block size are padded. You can choose between several padding methods in the settings of the component.
+      When decrypting a ciphertext, it is important to select the same padding method as was used for encryption.
+      The key is expected as a byte array on the input labeled "Key".
+      If the selected key size does not correspond to the size of the entered key, an error message will be issued and the execution stops.
+      The encrypted data block is sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+
+    <section headline="Decryption">
+      In "Decryption" mode, the component expects the ciphertext that is to be decrypted on the input labeled "Input".
+      The size of the input must be a multiple of the block size. Otherwise, the component stops with an error message.
+      The key is entered in the same way as in "Encryption" mode.
+      Finally, the plaintext will be sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+
+    <section headline="Cryptographic Mode">
+      Block ciphers divide their input data into blocks of a fixed size and apply the encryption or decryption function on the blocks of the input.
+      The chaining mode determines the way in which consecutive blocks, after being encrypted or decryted, are combined in order to achieve better security or error tolerance.
+      The AES component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
+      Select the appropriate chaining mode in the settings of the component.
+      <newline />
+      In ECB mode, each block is encrypted separately. In the other modes however, a plaintext block is combined with the previous ciphertext block.
+      As there is no previous block for the first block, we must provide one for these modes. This extra block is given by the initialization vector (IV), which must be provided as a byte array
+      on the input of the component. Thus the size of the IV must correspond to the block size. If the provided IV is too short, it is filled with null bytes. If it is too long, it is truncated.
+      If no IV is given, the component will assume an IV consisting of null bytes.
+    </section>
   </usage>
 
   <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente, ob sie im DES-Modus oder Triple-DES-Modus betrieben werden soll. Beide Algorithmen arbeiten mit einer Blockgröße von 64 bits (8 Bytes).
+    DES erwartet einen Schlüssel bestehend aus 64 Bits (8 Bytes), Triple-DES einen Schlüssel bestehend aus 128 Bits (16 Bytes) oder 192 Bits (24 Bytes).
+    <newline/>
+    <newline/>
+    Die Komponente hat die zwei Betriebsarten "Verschlüsselung" und "Entschlüsselung", zwischen denen in den Einstellungen der Komponente umgeschaltet werden kann.
+    <newline />
+    <newline />
+    <section headline="Verschlüsselung">
+      In der Betriebsart "Verschlüsselung" erwartet die Komponente als Eingabe den zu verschlüsselnden Klartext als Datenstrom am Eingang "Eingabe".
+      Ist die Länge der Eingabe kein Vielfaches der Blockgröße, so müssen vor der Verschlüsselung so viele Bytes angehängt werden, bis sie ohne Rest in Blöcke der Blockgröße zerlegt werden kann.
+      Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen Padding-Methoden wählen.
+      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde.
+      Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet. 
+      Stimmt die Größe des eingegebenen Schlüssels nicht der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
+      Der verschlüsselte Datenblock wird am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
+      <newline />
+      <newline />
+    </section>
+    <section headline="Entschlüsselung">
+      In der Betriebsart "Entschlüsselung" erwartet die Komponente den zu entschlüsselnden Geheimtext als Datenstrom am Eingang "Eingabe".
+      Die Länge der Eingabe muss hierbei ein Vielfaches der Blockgröße sein, andernfalls wird die Berechnung mit einer Fehlermeldung abgebrochen.
+      Der Schlüssel wird wie bei der Entschlüsselung eingegeben. Der entschlüsselte Klartext wird dann schließlich am Ausgang der Komponente als Datenstrom bereitgestellt.
+      <newline />
+      <newline />
+    </section>
+    <section headline="Kryptographischer Modus">
+      Blockverschlüsselungsverfahren unterteilen die Eingabedaten in Blöcke festgelegter Größen und
+      wenden die Ver-/Entschlüsselungsfunktion dann fortlaufend auf diese Blöcke an. Der "kryptographische Modus", in dem
+      eine Blockchiffre betrieben wird, gibt an, wie die Ergebnisse der Ver- bzw. Entschlüsselung aufeinanderfolgender Blöcke
+      miteinander kombiniert werden, um z.B. größere Sicherheit oder Fehlertoleranz zu erzielen. Die AES-Komponente bietet
+      die kryptographischen Modi ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) und OFB (Output Feedback)
+      an, die in den Einstellungen ausgewählt werden können.
+      <newline />
+      Beim ECB-Modus wird dabei jeder Block separat verschlüsselt. Bei den anderen Modi hingegen
+      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Chiffretextblock verknüpft. Da für den ersten
+      Klartextblock kein vorangehender Chiffretextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
+      Dieser muss die verwendete Blockgröße haben und wird am zugehörigen Eingang der Komponente
+      als Byte-Array eingegeben. Ein zu kurzer Initialisierungsvektor wird mit Nullbytes aufgefüllt, ein zu langer auf die Blockgröße
+      beschnitten. Wird der Eingang nicht verbunden, so wird ein Initialisierungsvektor bestehend aus Nullbytes verwendet.
+    </section>
   </usage>
-  
+
+
   <presentation lang="en">
   </presentation>
   

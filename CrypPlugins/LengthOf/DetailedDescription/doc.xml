@@ -1,19 +1,29 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component determines the length of the data at its input. Depending on the data type of the given data, their length is interpreted in different ways.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente bestimmt die Länge der Daten, die an ihrem Eingang anliegen, wobei die Länge abhängig vom Datentyp der anliegenden Daten berechnet wird.
   </introduction>
 
   <usage lang="en">
+    The only input of this component is of type <i>Object</i>, so it accepts all available data types. The length is calculated differently for different data types.
+    If the input is an <i>Array</i>, the returned length is the size of the array. For a <i>Dictionary</i>, the length is the number of dictionary entries.
+    For all other data types, the input will be converted to a string and the resulting length is the length of that string.
   </usage>
 
   <usage lang="de-DE">
+    Die Komponente hat nur einen Eingang. Dieser ist vom Typ <i>Object</i> und akzeptiert daher alle vorhandenen Datentypen als Eingabedaten.
+    Die Länge der Eingabedaten wird, abhängig von ihrem Datentyp, unterschiedlich berechnet.
+    Ist die Eingabe ein <i>Array</i>, so wird als Länge die Größe des Arrays zurückgegeben. Für ein <i>Directory</i> wird die Anzahl der Einträge zurückgegeben.
+    Für alle anderen Datentypen werden die Eingabedaten in eine Zeichenkette konvertiert und als Ergebnis wird die Länge dieser Zeichenkette zurückgegeben.    
   </usage>
   
   <presentation lang="en">
@@ -24,4 +34,5 @@
   
   <references>
   </references>
+  
 </documentation>

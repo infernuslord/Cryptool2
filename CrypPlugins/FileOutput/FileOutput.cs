@@ -25,7 +25,6 @@ using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using FileOutputWPF;
-using HexBox = HexBox.HexBox;
 
 namespace FileOutput
 {
