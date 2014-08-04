@@ -121,48 +121,60 @@
     <value>Camera</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
-    <value>This component captures pictures from a webcam.</value>
+    <value>This component captures images from a webcam.</value>
   </data>
-  <data name="DeviceChoice" xml:space="preserve">
-    <value>Frame Rate</value>
+  <data name="DeviceChoiceCaption" xml:space="preserve">
+    <value>Device choice</value>
   </data>
   <data name="DeviceChoiceToolTip" xml:space="preserve">
-    <value>Sets the time in milliseconds in which the camera captures images</value>
+    <value>Shows a list of camera devices.</value>
   </data>
-  <data name="PictureOutPut" xml:space="preserve">
+  <data name="PictureOutPutCaption" xml:space="preserve">
     <value>Picture output</value>
   </data>
   <data name="PictureOutPutToolTip" xml:space="preserve">
-    <value>Sends the image file as a byte array</value>
+    <value>Sends the image file as a byte array.</value>
   </data>
-  <data name="PictureQuality" xml:space="preserve">
-    <value>Send Picture</value>
+  <data name="PictureQualityCaption" xml:space="preserve">
+    <value>Picture quality</value>
   </data>
   <data name="PictureQualityToolTip" xml:space="preserve">
-    <value>Sets the time in milliseconds in which the image file is sent from the output.</value>
+    <value>Sets the packet size and picture quality of the camera.</value>
   </data>
-  <data name="SendPicture" xml:space="preserve">
-    <value>Send Picture</value>
+  <data name="SendPictureCaption" xml:space="preserve">
+    <value>Send picture</value>
   </data>
   <data name="SendPictureToolTip" xml:space="preserve">
-    <value>Sets the time in milliseconds in which the image file is sent from the output.</value>
+    <value>Sets the time in milliseconds in which the image file is sent to the output.</value>
   </data>
-  <data name="TakePicture" xml:space="preserve">
-    <value>Take Picture</value>
+  <data name="TakePictureCaption" xml:space="preserve">
+    <value>Take picture</value>
   </data>
-  <data name="TakePictureChoice" xml:space="preserve">
-    <value>Action for "Take Picture" input</value>
+  <data name="TakePictureChoiceCaption" xml:space="preserve">
+    <value>Action for "Take picture" input</value>
   </data>
   <data name="TakePictureChoiceToolTip" xml:space="preserve">
-    <value>Represents a boolean value on which the image is to be recorded</value>
+    <value>Represents the boolean value at which the image is to be recorded</value>
   </data>
   <data name="TakePictureToolTip" xml:space="preserve">
-    <value>Capture the current camera picture and send it to the single</value>
+    <value>Capture the current camera picture and send it to the single picture output.</value>
   </data>
-  <data name="SingleOutPut" xml:space="preserve">
-    <value>Single Picture output</value>
+  <data name="SingleOutPutCaption" xml:space="preserve">
+    <value>Single picture output</value>
   </data>
   <data name="SingleOutPutToolTip" xml:space="preserve">
-    <value>Outputs a single Picture.</value>
+    <value>Outputs a single picture.</value>
+  </data>
+  <data name="DeviceSettingsGroup" xml:space="preserve">
+    <value>Device settings</value>
+  </data>
+  <data name="TakePictureChoiceList1" xml:space="preserve">
+    <value>True/False</value>
+  </data>
+  <data name="TakePictureChoiceList2" xml:space="preserve">
+    <value>True</value>
+  </data>
+  <data name="TakePictureChoiceList3" xml:space="preserve">
+    <value>False</value>
   </data>
 </root>

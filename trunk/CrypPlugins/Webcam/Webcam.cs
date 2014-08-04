@@ -54,14 +54,14 @@ namespace Cryptool.Plugins.Webcam
 
         /// <summary>
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "PictureOutPut", "PictureOutPutToolTip")]
+        [PropertyInfo(Direction.OutputData, "PictureOutPutCaption", "PictureOutPutToolTip")]
         public byte[] PictureOutput
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "SingleOutPut", "SingleOutPutToolTip")]
+        [PropertyInfo(Direction.OutputData, "SingleOutPutCaption", "SingleOutPutToolTip")]
         public byte[] SingleOutPut
         {
             get;
@@ -69,7 +69,7 @@ namespace Cryptool.Plugins.Webcam
         }
 
 
-        [PropertyInfo(Direction.InputData, "TakePicture", "TakePictureToolTip", false)]
+        [PropertyInfo(Direction.InputData, "TakePictureCaption", "TakePictureToolTip", false)]
         public bool TakePicture
         {
             get

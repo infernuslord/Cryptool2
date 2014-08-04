@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Webcam
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
 
-        [TaskPane("DeviceChoice", "DeviceChoiceToolTip", null, 0, false, ControlType.DynamicComboBox, new string[] { "Device" })]
+        [TaskPane("DeviceChoiceCaption", "DeviceChoiceToolTip", null, 0, false, ControlType.DynamicComboBox, new string[] { "Device" })]
         public int DeviceChoice
         {
             get
@@ -87,7 +87,7 @@ namespace Cryptool.Plugins.Webcam
             }
         }
 
-        [TaskPane("TakePictureChoice", "TakePictureChoiceToolTip", null, 0, false, ControlType.ComboBox, new string[] { "True/False", "True", "False" })]
+        [TaskPane("TakePictureChoiceCaption", "TakePictureChoiceToolTip", null, 0, false, ControlType.ComboBox, new string[] { "TakePictureChoiceList1", "TakePictureChoiceList2", "TakePictureChoiceList3" })]
         public int TakePictureChoice
         {
             get
@@ -104,7 +104,7 @@ namespace Cryptool.Plugins.Webcam
             }
         }
 
-        [TaskPane("PictureQuality", "PictureQualityToolTip", "DeviceSettings", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        [TaskPane("PictureQualityCaption", "PictureQualityToolTip", "DeviceSettingsGroup", 1, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int PictureQuality
         {
             get
@@ -121,7 +121,7 @@ namespace Cryptool.Plugins.Webcam
             }
         }
 
-        [TaskPane("SendPicture", "SendPictureToolTip", "DeviceSettings", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 40, 10000)]
+        [TaskPane("SendPictureCaption", "SendPictureToolTip", "DeviceSettingsGroup", 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 40, 10000)]
         public int SendPicture
         {
             get
