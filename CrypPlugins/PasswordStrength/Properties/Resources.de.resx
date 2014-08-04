@@ -121,7 +121,7 @@
     <value>Passwortstärke</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Werkzeug um die Stärke von Passwörtern zu schätzen</value>
+    <value>Werkzeug, um die Stärke von Passwörtern zu schätzen</value>
   </data>
   <data name="_Additions" xml:space="preserve">
     <value>Positive Boni</value>
