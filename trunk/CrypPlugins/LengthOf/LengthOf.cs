@@ -14,6 +14,7 @@
    limitations under the License.
 */
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,12 +47,17 @@ namespace Cryptool.Plugins.LengthOf
                 if (ObjInput is Array)
                 {
                     OutputLen = (ObjInput as Array).Length;
-                    GuiLogMessage("Object is an array. Length: " + OutputLen, NotificationLevel.Debug);
+                    GuiLogMessage("Object is an array with " + OutputLen + " entries.", NotificationLevel.Debug);
                 }
-                else //no array
+                else if (ObjInput is IDictionary)
+                {
+                    OutputLen = (ObjInput as IDictionary).Count;
+                    GuiLogMessage("Object is a dictionary with " + OutputLen + " items.", NotificationLevel.Debug);
+                }
+                else //no array or dictionary
                 {
                     OutputLen = ObjInput.ToString().Length;
-                    GuiLogMessage("Object isn't an array. Length: " + OutputLen, NotificationLevel.Debug);
+                    GuiLogMessage("Object isn't an array or dictionary. Length: " + OutputLen, NotificationLevel.Debug);
                 }
             }
 
