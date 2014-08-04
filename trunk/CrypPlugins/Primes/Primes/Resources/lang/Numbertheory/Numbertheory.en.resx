@@ -243,6 +243,9 @@
   <data name="proot_noprime" xml:space="preserve">
     <value>{0} is not a prime.</value>
   </data>
+  <data name="proot_noprimes" xml:space="preserve">
+    <value>No primes were found in the given interval(s).</value>
+  </data>
   <data name="proot_novalidnumber" xml:space="preserve">
     <value>{0} is not a number between {1} and {2}. </value>
   </data>
