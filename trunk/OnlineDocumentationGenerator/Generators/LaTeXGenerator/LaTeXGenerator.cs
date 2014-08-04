@@ -135,7 +135,7 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 }
 
                 stringBuilder.AppendLine(@"\section{" + Helper.EscapeLaTeX(pp.Name) + "}");
-                stringBuilder.AppendLine("Tooltip:" + Helper.EscapeLaTeX(pp.ToolTip) + @"\\");
+                stringBuilder.AppendLine(@"{\bf Tooltip:} " + Helper.EscapeLaTeX(pp.ToolTip) + @"\\");
 
                 StringBuilder text = new StringBuilder(); 
                 text.AppendLine(@"\subsection*{" + Properties.Resources.ComponentTemplate_Introduction + "}\n" + _objectConverter.Convert(pp.Introduction, page));
