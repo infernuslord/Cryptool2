@@ -270,11 +270,10 @@ namespace TextOutput
             string s = textOutputPresentation.textBox.Text;
             string label = "";
 
-            var value = Input as string;
-            if (value != null)
+            if (Input is string)
             {
-                var isBigInt = value.All(c => c == '0' || c == '1' || c == '2' || c == '3' || c == '4' || c == '5' || c == '6' || c == '7' || c == '8' || c == '9');
-                if (isBigInt)
+                var value = Input as string;
+                if(Regex.IsMatch(value, @"^-?\d+$"))
                 {
                     try
                     {
@@ -285,25 +284,20 @@ namespace TextOutput
                         //wtf ?
                     }
                 }
-
             }
 
-            if (Input is BigInteger || Input is Int16 || Input is Int32)
+            if (Input is Int16) input = (BigInteger)(int)(Int16)Input;
+            else if (Input is Int32) input = (BigInteger)(int)(Int32)Input;
+
+            if (Input is BigInteger)
             {
                 int digits = 0;
                 int bits;
                 try
                 {
-                    var number = (BigInteger)Input;
+                    BigInteger number = (BigInteger)input;
                     bits = number.BitCount();
-                    if (number < 0)
-                    {
-                        number = -number;
-                    }
-                    if (number != 0)
-                    {
-                        digits = (int)Math.Floor(BigInteger.Log10(number)) + 1;
-                    }
+                    digits = BigInteger.Abs(number).ToString().Length;
                 }
                 catch (Exception)
                 {

@@ -133,7 +133,7 @@
     <value>Append n-breaks</value>
   </data>
   <data name="AppendBreaksTooltip" xml:space="preserve">
-    <value>Defines how much new lines are added after new input. (Applies only if "Append text input" is active.)</value>
+    <value>Defines how many new lines are added after new input. (Applies only if "Append text input" is active.)</value>
   </data>
   <data name="MaxLengthCaption" xml:space="preserve">
     <value>Maximum length</value>

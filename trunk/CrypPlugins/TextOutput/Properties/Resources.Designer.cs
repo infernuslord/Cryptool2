@@ -70,7 +70,7 @@ namespace TextOutput.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Defines how much new lines are added after new input. (Applies only if &quot;Append text input&quot; is active.) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Defines how many new lines are added after new input. (Applies only if &quot;Append text input&quot; is active.) ähnelt.
         /// </summary>
         internal static string AppendBreaksTooltip {
             get {
