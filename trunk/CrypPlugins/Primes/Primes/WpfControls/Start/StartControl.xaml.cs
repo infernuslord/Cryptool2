@@ -97,6 +97,15 @@ namespace Primes.WpfControls.Start
                     case "primitivroot":
                         action = NavigationCommandType.PrimitivRoot;
                         break;
+                    case "powermod":
+                        action = NavigationCommandType.PowerMod;
+                        break;
+                    case "numbertheoryfunctions":
+                        action = NavigationCommandType.NumberTheoryFunctions;
+                        break;
+                    case "primedistrib_goldbach":
+                        action = NavigationCommandType.PrimeDistrib_Goldbach;
+                        break;
                 }
                 if (action != NavigationCommandType.None)
                 {
