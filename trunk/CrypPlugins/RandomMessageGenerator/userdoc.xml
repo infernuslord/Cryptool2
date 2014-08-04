@@ -2,21 +2,42 @@
 
 <!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
 <documentation>
+
   <language culture="en"/>
+  <language culture="de"/>
 
   <introduction lang="en">
-  This is plugin, that generates list of random messages. Messages are here represented as list.
+    This component generates an array of random numbers. You can specify the count of numbers that should be generated and an upper limit for the random numbers.
   </introduction>
 
-
+  <introduction lang="de">
+    Diese Komponente generiert eine Liste von Zufallszahlen. Die Anzahl der zu erzeugenden Zahlen und eine obere Schranke können als Parameter angegeben werden.
+  </introduction>
 
   <usage lang="en">
+    At the input 'Number of Numbers' of the component, you can specify how many numbers the generated array should contain.
+    Enter the upper limit for the random numbers on the input labeled 'Maximum'.
+    Both inputs are obligatory.
+    All generated numbers will be greater than or equal to 0 and less than Maximum.
+    The component generates an array of random numbers in BigInteger format, that comply with the given specifications, and provides it at the output of the component.
   </usage>
-	For this plugin you need to specify one input. In the input belongs ammount of messages you wish to generate. You can set up upper limit of generated message. Output of this plugin is list of random BigIngetegers. 
-  
+
+  <usage lang="de">
+    Geben Sie die 'Anzahl der Zahlen', die Sie generieren möchten, am entsprechend benannten Eingang der Komponente an. Die obere Schranke für die zu erzeugenden Zahlen wird am Eingang 'Maximum' erwartet.
+    Beide Angaben sind obligatorisch. Die Komponente erzeugt dann eine den Spezifikationen entsprechende Liste von Zufallszahlen im BigInteger-Format, die größer oder gleich 0 und kleiner als Maximum sind,
+    und stellt dieses am Ausgang der Komponente zur Verfügung.
+  </usage>
+
   <presentation lang="en">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Random_number_generation" lang="en" />
+      <caption lang="en">Random number generation</caption>
+      <link url="http://de.wikipedia.org/wiki/Zufallszahlengenerator" lang="de-DE" />
+      <caption lang="de-DE">Zufallszahlengenerator</caption>
+    </linkReference>
   </references>
+
 </documentation>

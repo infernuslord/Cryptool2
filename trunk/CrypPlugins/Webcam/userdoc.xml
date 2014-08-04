@@ -6,41 +6,45 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    A Webcam is a camera device, that is integrated in the computer or connected via any interface. It sends recorded pictures in
-    <newline/>
-    specified intervalls.
-    <newline/>
+    A webcam is a camera device, that is integrated in the computer or connected via an interface. This component captures images from a connected webcam in specified time intervals and provides the recorded pictures.
   </introduction>
 
   <introduction lang="de-DE">
-    Unter Webcam versteht man eine im Computer integrierte oder über eine Schnittstelle angeschlossene Kamera, die in bestimmten Intervallen
-    <newline/>
-    Bilder aufzeichnet und diese weiter sendet.
-    <newline/>
+    Eine Webcam ist eine im Computer integrierte oder über eine Schnittstelle angeschlossene Kamera.
+    Diese Komponente zeichnet Bilder über eine angeschlosssene Webcam in bestimmten Intervallen auf und stellt sie für die weitere Verarbeitung zur Verfügung.
   </introduction>
 
   <usage lang="en">
-    After you drag the component onto the workspace, you may select in the settings which of the detected cameras you want to choose.
+    After you drag the component onto the workspace, you may select in the settings which of the detected cameras you want to use.
+    Additionally, you can choose the time interval for the forwarding, and the quality of the pictures.
     <newline/>
-    Additionally, you can choose the interval for the forwarding, and the quality of the pictures. Pictures are recorded if the according boolean input is true.
+    <newline/>
+    Pictures are recorded, if the according boolean input is <i>true</i>.
   </usage>
 
   <usage lang="de-DE">
-    Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können sie in den Einstellungen bestimmen, welche der erkannten Kameras ausgewählt
+    Nachdem Sie die Komponente auf den Arbeitsbereich gezogen haben, können Sie in den Einstellungen auswählen, welche der erkannten Kameras verwendet werden soll.
+    Außerdem können Sie das Intervall für die Weiterleitung und die Aufnahmequalität der Bilder einstellen.
     <newline/>
-    werden soll. Außerdem können Sie das Intervall für die Weiterleitung und die Aufnahmequalität der Bilder einstellen.
     <newline/>
-    Einzelbilder werden aufgenommen, wenn der entsprechend Boolsche Eingangswert wahr ist.
+    Einzelbilder werden aufgenommen, wenn der entsprechende boolesche Eingangswert <i>wahr</i> ist.
   </usage>
 
   <presentation lang="en">
-    The presentation views the live picture of the camera.
+    The presentation shows the live picture of the camera.
   </presentation>
 
   <presentation lang="de-DE">
-    Die Presentation zeigt Ihnen das live Bild der Kamera.
+    Die Präsentation zeigt das Livebild der Kamera.
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Webcam" lang="en" />
+      <caption lang="en">Webcam</caption>
+      <link url="http://de.wikipedia.org/wiki/Webcam" lang="de-DE" />
+      <caption lang="de-DE">Webcam</caption>
+    </linkReference>
   </references>
+
 </documentation>

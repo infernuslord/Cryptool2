@@ -1,27 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component increases or decreases the number that is entered at its input by an adjustable amount.
+    It is usually employed in the build-up of loops, where it is responsible for updating the loop counter.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente erhöht oder vermindert die am Eingang anliegende Zahl um einen festlegbaren Betrag.
+    Sie kommt häufig beim Aufbau von Schleifen zum Einsatz, wo sie für die Aktualisierung der Schleifenvariablen zuständig ist.
   </introduction>
 
   <usage lang="en">
+    The component has two operation modes. You can switch between the modes in the settings of the component.
+    <newline/>
+    <newline/>
+    In 'Increment' mode, the component will add the value 'Delta' to the number that is entered at its input. You can adjust the value of 'Delta' in the settings of the component.
+    In 'Decrement' mode, 'Delta' will be subtracted from the input number.
+    <newline/>
+    <newline/>
+    The result of the addition or subtraction is provided at the output of the component.
   </usage>
 
   <usage lang="de-DE">
+    Die Komponente hat zwei Betriebsarten, zwischen denen Sie in den Einstellungen wählen können.
+    <newline/>
+    <newline/>
+    In der Betriebsart 'Erhöhen' wird zu der am Eingang der Komponente anliegenden Zahl der Wert 'Delta' addiert, der ebenfalls in den Einstellungen angegeben werden kann.
+    In der Betriebsart 'Vermindern' wird der Wert 'Delta' von der Eingabe subtrahiert.
+    <newline/>
+    <newline/>
+    Das Resultat der Addition oder Subtraktion steht am Ausgang der Komponente zur Verfügung.
   </usage>
-  
+
   <presentation lang="en">
   </presentation>
-  
+
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Increment_and_decrement_operators" lang="en" />
+      <caption lang="en">Increment and decrement operators</caption>
+      <link url="http://de.wikipedia.org/wiki/Inkrement" lang="de-DE" />
+      <caption lang="de-DE">Inkrement und Dekrement</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Loop_counter" lang="en" />
+      <caption lang="en">Loop counter</caption>
+      <caption lang="de-DE">Loop counter (englisch)</caption>
+    </linkReference>
   </references>
+
 </documentation>

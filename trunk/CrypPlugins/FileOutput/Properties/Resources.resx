@@ -175,7 +175,7 @@
     <value>Help</value>
   </data>
   <data name="If_you_want_to_copy" xml:space="preserve">
-    <value>If you want to copy the input stream to a specific file, please select a target. If you do not select a target the input stream will just be displayed. (To open a file please use FileInput Plugin.)</value>
+    <value>If you want to copy the input stream to a specific file, please select a target. If you do not select a target, the input stream will just be displayed. (To open a file please use the FileInput Plugin.)</value>
   </data>
   <data name="Paste" xml:space="preserve">
     <value>Paste</value>
@@ -202,7 +202,7 @@
     <value>Append n-breaks</value>
   </data>
   <data name="AppendBreaksTooltip" xml:space="preserve">
-    <value>Defines how much new lines are added after new input. (Applies only if "Append text input" is active.)</value>
+    <value>Defines how many new lines are added after new input. (Applies only if "Append text input" is active.)</value>
   </data>
   <data name="AppendGroup" xml:space="preserve">
     <value>Append</value>

@@ -1,27 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
   <introduction lang="en">
+    This component allows you to enter text.
   </introduction>
 
   <introduction lang="de-DE">
+    Diese Komponente ermöglicht die Eingabe von Text.
   </introduction>
 
   <usage lang="en">
+    If the component is opened in presentation view, it shows a text field that accepts user input.
+    Click into the text field to activate it and enter text at the cursor position via the keyboard or with <i>cut and paste</i>.
+    When the workspace is executed, the entered text will be sent to the output of the component, from where other components can
+    access and further process it.
   </usage>
 
   <usage lang="de-DE">
+    Wenn die Komponente in der Präsentationsansicht geöffnet ist, wird ein Textfeld angezeigt, das Eingaben durch den Benutzer akzeptiert.
+    Klicken Sie in das Textfeld, um es zu aktivieren und geben Sie an der Position des erscheinenden Cursors den gewünschten Text über die Tastatur oder
+    mittels <i>Cut &amp; Paste</i> ein. Wenn der Arbeitsbereich gestartet wird, wird der eingegebene Text am Ausgang der Komponente ausgegeben
+    und kann so von anderen Komponenten weiterverarbeitet werden.
   </usage>
 
   <presentation lang="en">
+    By default, the component is opened in presentation view.
+    <newline/>
+    <newline/>
+    The component has a status bar, that displays the number of characters and lines that the entered text consists of.
+    The content of the status bar can be adjusted by selecting the corresponding checkboxes in the settings of the component.
   </presentation>
 
   <presentation lang="de-DE">
+    Die Komponente wird standardmäßig in der Präsentationsansicht geöffnet.
+    <newline/>
+    <newline/>
+    Die Komponente hat eine Statuszeile, in der die Anzahl der eingegebenen Zeichen und Zeilen angezeigt wird. 
+    Durch Aktivieren der entsprechenden Kontrollkästchen in den Einstellungen der Komponente kann der Inhalt der Statuszeile angepasst werden.
   </presentation>
 
   <references>
   </references>
+  
 </documentation>

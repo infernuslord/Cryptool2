@@ -42,7 +42,7 @@ using System.Windows.Media.Imaging;
 namespace Cryptool.CLK
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("Cryptool.Plugins.CLK.Properties.Resources", "PluginCaption", "PluginTooltip", "", "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
+    [PluginInfo("Cryptool.Plugins.CLK.Properties.Resources", "PluginCaption", "PluginTooltip", "CLK/DetailedDescription/doc.xml", "CLK/icon.png", "CLK/Images/true.png", "CLK/Images/false.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
   public class CLK : DependencyObject, ICrypComponent
   {
