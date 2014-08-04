@@ -121,48 +121,60 @@
     <value>Kamera</value>
   </data>
   <data name="PluginToolTip" xml:space="preserve">
-    <value>Mit dieser Komponente kann man Bilder mit einer angeschlossenen Kamera machen.</value>
+    <value>Diese Komponente macht Bilder mit einer angeschlossenen Kamera.</value>
   </data>
-  <data name="DeviceChoice" xml:space="preserve">
+  <data name="DeviceChoiceCaption" xml:space="preserve">
     <value>Geräteauswahl</value>
   </data>
   <data name="DeviceChoiceToolTip" xml:space="preserve">
     <value>Zeigt die angeschlossenen Geräte an.</value>
   </data>
-  <data name="PictureOutPut" xml:space="preserve">
-    <value>Bild-Ausgang</value>
+  <data name="PictureOutPutCaption" xml:space="preserve">
+    <value>Bildausgang</value>
   </data>
   <data name="PictureOutPutToolTip" xml:space="preserve">
     <value>Hier wird das aktuelle Kamerabild ausgegeben.</value>
   </data>
-  <data name="PictureQuality" xml:space="preserve">
+  <data name="PictureQualityCaption" xml:space="preserve">
     <value>Bildqualität</value>
   </data>
   <data name="PictureQualityToolTip" xml:space="preserve">
-    <value>Verändert die Paket größe und Qualität der Ausgabedaten der Kamera</value>
+    <value>Verändert die Paketgröße und Bildqualität der Kamera</value>
   </data>
-  <data name="SendPicture" xml:space="preserve">
+  <data name="SendPictureCaption" xml:space="preserve">
     <value>Abtastrate</value>
   </data>
   <data name="SendPictureToolTip" xml:space="preserve">
-    <value>Bestimmt die Zeitspanne in Millisekunden, in der das Kamerabild zum Bild-Ausgang geschickt wird.</value>
+    <value>Bestimmt die Zeitspanne in Millisekunden, in der das Kamerabild zum Bildausgang geschickt wird.</value>
   </data>
-  <data name="SingleOutPut" xml:space="preserve">
-    <value>Einzelbild-Ausgang</value>
+  <data name="SingleOutPutCaption" xml:space="preserve">
+    <value>Einzelbildausgang</value>
   </data>
   <data name="SingleOutPutToolTip" xml:space="preserve">
     <value>Gibt ein einzelnes Bild aus</value>
   </data>
-  <data name="TakePicture" xml:space="preserve">
+  <data name="TakePictureCaption" xml:space="preserve">
     <value>Einzelbild aufnehmen.</value>
   </data>
   <data name="TakePictureToolTip" xml:space="preserve">
-    <value>Nimmt einen Boolschen Wert entgegen und gibt das momentane Bild am Einzelbild Ausgang aus. Siehe "Aktion für Bild</value>
+    <value>Nimmt einen booleschen Wert entgegen und gibt das momentane Bild am Einzelbildausgang aus. Siehe "Aktion für Bild".</value>
   </data>
-  <data name="TakePictureChoice" xml:space="preserve">
-    <value>Aktion für Einzel-Bildaufnahme</value>
+  <data name="TakePictureChoiceCaption" xml:space="preserve">
+    <value>Aktion für Einzelbildaufnahme</value>
   </data>
   <data name="TakePictureChoiceToolTip" xml:space="preserve">
-    <value>Stellt ein auf welchem boolschen Wert das Bild aufgenommen werden soll</value>
+    <value>Stellt ein, bei welchem booleschen Wert das Bild aufgenommen werden soll</value>
+  </data>
+  <data name="DeviceSettingsGroup" xml:space="preserve">
+    <value>Geräteeinstellungen</value>
+  </data>
+  <data name="TakePictureChoiceList1" xml:space="preserve">
+    <value>Wahr/Falsch</value>
+  </data>
+  <data name="TakePictureChoiceList2" xml:space="preserve">
+    <value>Wahr</value>
+  </data>
+  <data name="TakePictureChoiceList3" xml:space="preserve">
+    <value>Falsch</value>
   </data>
 </root>
