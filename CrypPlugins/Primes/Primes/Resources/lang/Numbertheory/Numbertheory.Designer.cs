@@ -439,6 +439,15 @@ namespace Primes.Resources.lang.Numbertheory {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die angegebenen Intervalle enthalten keine Primzahlen. ähnelt.
+        /// </summary>
+        public static string proot_noprimes {
+            get {
+                return ResourceManager.GetString("proot_noprimes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die {0} ist keine Zahl zwischen {1} und {2}. Sie wird daher nicht weiter ausgewertet. ähnelt.
         /// </summary>
         public static string proot_novalidnumber {

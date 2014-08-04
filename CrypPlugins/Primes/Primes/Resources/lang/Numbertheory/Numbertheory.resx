@@ -243,6 +243,9 @@
   <data name="proot_noprime" xml:space="preserve">
     <value>{0}  ist keine Primzahl. Sie wird daher nicht weiter ausgewertet.</value>
   </data>
+  <data name="proot_noprimes" xml:space="preserve">
+    <value>Die angegebenen Intervalle enthalten keine Primzahlen.</value>
+  </data>
   <data name="proot_novalidnumber" xml:space="preserve">
     <value>{0} ist keine Zahl zwischen {1} und {2}. Sie wird daher nicht weiter ausgewertet.</value>
   </data>

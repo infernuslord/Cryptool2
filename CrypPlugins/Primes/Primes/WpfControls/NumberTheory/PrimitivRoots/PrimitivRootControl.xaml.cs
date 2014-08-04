@@ -72,6 +72,7 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             StopThread();
+            log.Info(rsc.proot_skip);
         }
 
         private void ClearLog()
@@ -283,12 +284,16 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
 
                 m_Jump = false;
 
+                int numberOfPrimes = 0;
+
                 foreach (var interval in intervals)
                 {
                     PrimesBigInteger prime = interval[0];
                     if (!prime.IsPrime(10)) prime = prime.NextProbablePrime();
                     for (; prime.CompareTo(interval[1]) <= 0; prime = prime.NextProbablePrime())
                     {
+                        numberOfPrimes++;
+
                         int row1 = log.NewLine();
                         int row2 = log.NewLine();
 
@@ -370,6 +375,9 @@ namespace Primes.WpfControls.NumberTheory.PrimitivRoots
                         log.NewLine();
                     }
                 }
+
+                if (numberOfPrimes == 0)
+                    log.Info(rsc.proot_noprimes);
 
                 TimeSpan diff = DateTime.Now - start;
 
