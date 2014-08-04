@@ -127,36 +127,38 @@ namespace Cryptool.Plugins.Vernam
                 OnPropertyChanged("OutputString");
                 return;
             }
+
             ProgressChanged(0, 1);
 
             var alphabet = settings.alphabet;
-            var newOutputString = new StringBuilder();
+            var result = new StringBuilder();
             for (var i = 0; i < InputString.Length; i++)
             {
-                var currentKeyChar = KeyString[i % KeyString.Length];
-                var currentCharPosition = alphabet.IndexOf(InputString[i]);
-                if (currentCharPosition < 0)
+                var inputChar = InputString[i];
+                var keyChar = KeyString[i % KeyString.Length];
+
+                var positionOfInputChar = alphabet.IndexOf(inputChar);
+                var positionOfKeyChar = alphabet.IndexOf(keyChar);
+                //unknown char replacement
+                if (positionOfInputChar == -1 || positionOfKeyChar == -1)
                 {
-                    var visibileChar = HandleUnknownSymbol(currentKeyChar);
-                    newOutputString.Append(visibileChar);
+                    var visibileChar = HandleUnknownSymbol(inputChar);
+                    result.Append(visibileChar);
                     continue;
                 }
 
-                var currentKeyCharPosition = alphabet.IndexOf(currentKeyChar);
-
                 //encrypt
-                var cipherCharPosition = currentCharPosition + currentKeyCharPosition;
-
+                var positionOfcipherChar = positionOfInputChar + positionOfKeyChar;
                 if (settings.Action == VernamSettings.CipherMode.Decrypt)
                 {
-                    cipherCharPosition = currentCharPosition - currentKeyCharPosition + alphabet.Length;
+                    positionOfcipherChar = positionOfInputChar - positionOfKeyChar + alphabet.Length;
                 }
-                cipherCharPosition %= alphabet.Length;
+                positionOfcipherChar %= alphabet.Length;
 
-                newOutputString.Append(alphabet[cipherCharPosition]);
+                result.Append(alphabet[positionOfcipherChar]);
             }
 
-            OutputString = newOutputString.ToString();
+            OutputString = result.ToString();
             OnPropertyChanged("OutputString");
 
             ProgressChanged(1, 1);
