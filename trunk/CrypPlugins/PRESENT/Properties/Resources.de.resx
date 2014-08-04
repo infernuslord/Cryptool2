@@ -121,7 +121,7 @@
     <value>PRESENT</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>PRESENT ist ein ultra-leichtgewichtiger Blockchiffre</value>
+    <value>PRESENT ist eine ultra-leichtgewichtige Blockchiffre</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Eingabedatenstrom</value>
