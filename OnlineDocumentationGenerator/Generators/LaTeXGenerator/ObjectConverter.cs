@@ -85,11 +85,13 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
 
                 foreach (var setting in settings)
                 {
+                    // In LaTeX, the first word of a paragraph is not hyphenated.
+                    // Thus the \hspace{0} is necessary for the hyphenation rules to take effect on the first word of a table cell (which is also a paragraph).
                     codeBuilder.AppendLine(
                         string.Format(@" {0} & {1} & {2} \\ \hline",
-                                      Helper.EscapeLaTeX(setting.Caption),
-                                      Helper.EscapeLaTeX(setting.ToolTip),
-                                      GetControlTypeString(setting.ControlType)));
+                                      @"\hspace{0pt}" + Helper.EscapeLaTeX(setting.Caption),
+                                      @"\hspace{0pt}" + Helper.EscapeLaTeX(setting.ToolTip),
+                                      @"\hspace{0pt}" + GetControlTypeString(setting.ControlType)));
                 }
 
                 codeBuilder.AppendLine(@"\end{tabular}");
@@ -152,10 +154,10 @@ namespace OnlineDocumentationGenerator.Generators.LaTeXGenerator
                 {
                     codeBuilder.AppendLine(
                         string.Format(@" {0} & {1} & {2} & {3} \\ \hline",
-                                      Helper.EscapeLaTeX(connector.Caption),
-                                      Helper.EscapeLaTeX(connector.ToolTip),
-                                      GetDirectionString(connector.Direction),
-                                      Helper.EscapeLaTeX(connector.PropertyInfo.PropertyType.Name)));
+                                      @"\hspace{0pt}" + Helper.EscapeLaTeX(connector.Caption),
+                                      @"\hspace{0pt}" + Helper.EscapeLaTeX(connector.ToolTip),
+                                      @"\hspace{0pt}" + GetDirectionString(connector.Direction),
+                                      @"\hspace{0pt}" + Helper.EscapeLaTeX(connector.PropertyInfo.PropertyType.Name)));
                 }
 
                 codeBuilder.AppendLine(@"\end{tabular}");
