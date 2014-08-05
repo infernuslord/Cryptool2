@@ -24,7 +24,7 @@ namespace Cryptool.Plugins.Vernam
    
     [Author("Benedict Beuscher", "benedict.beuscher@hotmail.com", "Uni Duisburg-Essen", "http://www.uni-due.de/")]
     [PluginInfo("Vernam.Properties.Resources", "PluginCaption", "PluginTooltip", "Vernam/userdoc.xml", new[] { "Vernam/Images/Vernam.png" })]
-    [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
+    [ComponentCategory(ComponentCategory.CiphersClassic)]
     public class Vernam : ICrypComponent
     {
         #region Private Variables
