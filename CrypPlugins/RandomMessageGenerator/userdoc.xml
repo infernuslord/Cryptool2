@@ -7,11 +7,11 @@
   <language culture="de"/>
 
   <introduction lang="en">
-    This component generates an array of random numbers. You can specify the count of numbers that should be generated and an upper limit for the random numbers.
+    This component generates an array of random numbers. Input parameters are the count of numbers that should be generated and an upper limit for the random numbers.
   </introduction>
 
   <introduction lang="de">
-    Diese Komponente generiert eine Liste von Zufallszahlen. Die Anzahl der zu erzeugenden Zahlen und eine obere Schranke können als Parameter angegeben werden.
+    Diese Komponente generiert eine Liste von Zufallszahlen. Eingabe-Parameter sind die Anzahl der zu erzeugenden Zahlen und eine obere Schranke für die Zufallszahlen.
   </introduction>
 
   <usage lang="en">

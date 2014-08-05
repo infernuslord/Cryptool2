@@ -15,7 +15,7 @@
 
   <usage lang="en">
     If the component is opened in presentation view, it shows a text field that accepts user input.
-    Click into the text field to activate it and enter text at the cursor position via the keyboard or with <i>cut and paste</i>.
+    Click into the text field to activate it and enter text at the cursor position via the keyboard or with <i>copy and paste</i>.
     When the workspace is executed, the entered text will be sent to the output of the component, from where other components can
     access and further process it.
   </usage>
@@ -23,7 +23,7 @@
   <usage lang="de-DE">
     Wenn die Komponente in der Präsentationsansicht geöffnet ist, wird ein Textfeld angezeigt, das Eingaben durch den Benutzer akzeptiert.
     Klicken Sie in das Textfeld, um es zu aktivieren und geben Sie an der Position des erscheinenden Cursors den gewünschten Text über die Tastatur oder
-    mittels <i>Cut &amp; Paste</i> ein. Wenn der Arbeitsbereich gestartet wird, wird der eingegebene Text am Ausgang der Komponente ausgegeben
+    mittels <i>Copy &amp; Paste</i> ein. Wenn der Arbeitsbereich gestartet wird, wird der eingegebene Text am Ausgang der Komponente ausgegeben
     und kann so von anderen Komponenten weiterverarbeitet werden.
   </usage>
 

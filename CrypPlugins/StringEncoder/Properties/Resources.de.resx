@@ -121,7 +121,7 @@
     <value>String-Codierer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Konvertiert einen Datenstrom oder ein Byte-Array in einen String.</value>
+    <value>Konvertiert einen Datenstrom oder ein Byte-Array in einen String</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Ausgabe</value>

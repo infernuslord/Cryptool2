@@ -50,6 +50,7 @@
       AES works with a block size of 128 bits (16 bytes), Rijndael with 128 bits (16 bytes), 192 bits (24 bytes) or 256 bits (32 bytes). If the size of the input is not a multiple of the block size, as many bytes as are necessary to achieve
       a multiple of the block size are padded. You can choose between several padding methods in the settings of the component.
       When decrypting a ciphertext, it is important to select the same padding method as was used for encryption.
+      Otherwise the last block will be deciphered wrongly or not at all.
       The key is expected as a byte array on the input labeled "Key".
       In the settings of the component, you can determine the size of the key: 128 bits, 192 bits or 256 bits.
       If the selected key size does not correspond to the size of the entered key, a warning will be issued and the key is either padded with null bytes or
@@ -94,7 +95,8 @@
       AES arbeitet mit einer Blockgröße von 128 Bits (16 Bytes), Rijndael mit 128 Bits (16 Bytes), 192 Bits (24 Bytes) oder 256 Bits (32 Bytes).
       Ist die Länge der Eingabe kein Vielfaches der Blockgröße, so müssen vor der Verschlüsselung so viele Bytes angehängt werden, bis sie ohne Rest in Blöcke der Blockgröße zerlegt werden kann.
       Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen Padding-Methoden wählen.
-      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde.
+      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde,
+      da der letzte Block sonst falsch oder gar nicht entschlüsselt wird.
       Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet. In den Einstellungen kann
       die Größe des zu verwendenden Schlüssels bestimmt werden: 128 Bits, 192 Bits oder 256 Bits. Stimmt die Größe des eingegebenen
       Schlüssels nicht mit dieser Einstellung überein, so wird eine Warnung ausgegeben und der Schlüssel entweder mit Nullbytes aufgefüllt
