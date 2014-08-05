@@ -14,13 +14,13 @@
   </introduction>
 
   <usage lang="en">
-    You must specify the name of the file you want to write to in by clicking on the 'Save file' button in the settings of the component.
+    You must specify the name of the file you want to write to by clicking on the 'Save file' button in the settings of the component.
     This will open a file dialog, with which you can select a file or enter a new file name.
     When the workspace is started, the component writes the data stream on its input to the specified file.
     <newline/>
     <newline/>
     In the settings you can also specify whether the data, that is written to the file, is to be appended to the file (in case the file already exists),
-    or whether the file should be overwritten.
+    or whether the file should be overwritten. If the data is to be appended, it can be separated from the existing data by an adjustable number of line breaks.
   </usage>
 
   <usage lang="de-DE">
@@ -30,7 +30,7 @@
     <newline/>
     <newline/>
     In den Einstellungen der Komponente kann noch angegeben werden, ob die geschriebenen Daten an die Datei angehängt werden sollen, falls diese bereits existiert, oder ob die
-    Datei überschrieben werden soll. Falls sie angehängt werden sollen kann man außerdem festlegen, wie viele Zeilenumbrüche vor dem Anhängen der Daten eingefügt werden sollen.
+    Datei überschrieben werden soll. Falls sie angehängt werden sollen, kann man außerdem festlegen, wie viele Zeilenumbrüche vor dem Anhängen der Daten eingefügt werden sollen.
   </usage>
 
   <presentation lang="en">

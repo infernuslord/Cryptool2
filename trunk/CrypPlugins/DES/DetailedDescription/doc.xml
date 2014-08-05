@@ -31,7 +31,7 @@
     DES expects a key consisting of 64 bits (8 bytes), Triple DES expects a key consisting of 128 bits (16 bytes) or 192 bits (24 bytes).
     <newline/>
     <newline/>
-    The AES component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
+    The DES component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
     <newline />
     <newline />
 
@@ -40,6 +40,7 @@
       If the size of the input is not a multiple of the block size, as many bytes as are necessary to achieve
       a multiple of the block size are padded. You can choose between several padding methods in the settings of the component.
       When decrypting a ciphertext, it is important to select the same padding method as was used for encryption.
+      Otherwise the last block will be deciphered wrongly or not at all.
       The key is expected as a byte array on the input labeled "Key".
       If the selected key size does not correspond to the size of the entered key, an error message will be issued and the execution stops.
       The encrypted data block is sent to the output of the component as a data stream.
@@ -59,7 +60,7 @@
     <section headline="Cryptographic Mode">
       Block ciphers divide their input data into blocks of a fixed size and apply the encryption or decryption function on the blocks of the input.
       The chaining mode determines the way in which consecutive blocks, after being encrypted or decryted, are combined in order to achieve better security or error tolerance.
-      The AES component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
+      The DES component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
       Select the appropriate chaining mode in the settings of the component.
       <newline />
       In ECB mode, each block is encrypted separately. In the other modes however, a plaintext block is combined with the previous ciphertext block.
@@ -81,8 +82,9 @@
       In der Betriebsart "Verschlüsselung" erwartet die Komponente als Eingabe den zu verschlüsselnden Klartext als Datenstrom am Eingang "Eingabe".
       Ist die Länge der Eingabe kein Vielfaches der Blockgröße, so müssen vor der Verschlüsselung so viele Bytes angehängt werden, bis sie ohne Rest in Blöcke der Blockgröße zerlegt werden kann.
       Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen Padding-Methoden wählen.
-      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde.
-      Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet. 
+      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde,
+      da der letzte Block sonst falsch oder gar nicht entschlüsselt wird.
+      Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet.
       Stimmt die Größe des eingegebenen Schlüssels nicht der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
       Der verschlüsselte Datenblock wird am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
       <newline />
@@ -99,7 +101,7 @@
       Blockverschlüsselungsverfahren unterteilen die Eingabedaten in Blöcke festgelegter Größen und
       wenden die Ver-/Entschlüsselungsfunktion dann fortlaufend auf diese Blöcke an. Der "kryptographische Modus", in dem
       eine Blockchiffre betrieben wird, gibt an, wie die Ergebnisse der Ver- bzw. Entschlüsselung aufeinanderfolgender Blöcke
-      miteinander kombiniert werden, um z.B. größere Sicherheit oder Fehlertoleranz zu erzielen. Die AES-Komponente bietet
+      miteinander kombiniert werden, um z.B. größere Sicherheit oder Fehlertoleranz zu erzielen. Die DES-Komponente bietet
       die kryptographischen Modi ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) und OFB (Output Feedback)
       an, die in den Einstellungen ausgewählt werden können.
       <newline />

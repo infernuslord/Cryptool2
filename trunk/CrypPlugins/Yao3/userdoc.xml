@@ -33,7 +33,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Diese Komponente implementiert den letzten Schritt des Protokolls und stellt von Bob ausgeführte Aktionen dar. Es gibt als Resultat des Protokolls aus, welcher der beiden Millionäre reicher ist.
+    Diese Komponente implementiert den letzten Schritt des Protokolls und stellt von Bob ausgeführte Aktionen dar. Sie gibt als Resultat des Protokolls aus, welcher der beiden Millionäre reicher ist.
     <newline/>
     <newline/>
     Die Komponente erwartet am Eingang 'B' das Vermögen von Bob, am Eingang 'p' die von Alice generierte Primzahl, die auch an die Komponente Yao2 geschickt werden muss, und am Eingang 'x' die von Bob erzeugte Zufallszahl.

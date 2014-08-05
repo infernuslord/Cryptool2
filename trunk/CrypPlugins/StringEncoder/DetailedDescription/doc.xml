@@ -48,7 +48,7 @@
     Enthält die Eingabe Bytefolgen, denen in der gewählten Kodierung kein Zeichen entspricht, so wird in der resultierenden Zeichenkette an dieser Stelle ein Fragezeichen erscheinen.
     <newline/>
     <newline/>
-    <b>Beispiel:</b> Wird als Eingabe das Wort die Bytesequenz <i>61 62 63 ff</i> eingegeben und ASCII als Zeichenkodierung der Eingabe gewählt, so ist das Ergebnis die Zeichenkette <i>abc?</i>.
+    <b>Beispiel:</b> Wird als Eingabe die Bytesequenz <i>61 62 63 ff</i> eingegeben und ASCII als Zeichenkodierung der Eingabe gewählt, so ist das Ergebnis die Zeichenkette <i>abc?</i>.
     <newline/>
     <newline/>
     Wird die Option <b>Binär</b> gewählt, so werden die Bytes der Eingabe in ihre Binärdarstellung konvertiert und zur besseren Lesbarkeit der Ausgabe durch ein Leerzeichen getrennt aneinandergehängt.

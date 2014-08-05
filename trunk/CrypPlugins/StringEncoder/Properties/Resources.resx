@@ -121,13 +121,13 @@
     <value>String Encoder</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Converts a given stream or byte array into a string.</value>
+    <value>Converts a given stream or byte array into a string</value>
   </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Text output</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>The string after decoding the bytes from the input.</value>
+    <value>The string after decoding the bytes from the input</value>
   </data>
   <data name="InputStreamCaption" xml:space="preserve">
     <value>Stream input</value>

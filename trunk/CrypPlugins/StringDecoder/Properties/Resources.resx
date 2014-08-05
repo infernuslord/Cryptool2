@@ -121,7 +121,7 @@
     <value>String Decoder</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Converts a given string into a stream or a byte array.</value>
+    <value>Converts a given string into a stream or a byte array</value>
   </data>
   <data name="OutputStreamCaption" xml:space="preserve">
     <value>Stream output</value>

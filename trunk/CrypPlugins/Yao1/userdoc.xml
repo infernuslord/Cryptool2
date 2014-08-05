@@ -30,7 +30,7 @@
     Alice and Bob must agree on an upper limit m, that is bigger than the amount of money that each of them owns.
     The value of m must be entered to the component on the input 'Maximal money'.
     Bob generates a random number x that he encrypts with Alice's public RSA key. From that, he subtracts the amount of his wealth and sends the result to Alice. The value must be entered on the input 'D'.
-    The component then calculates for all integers i from $0$ to $m-1$ the values $Y(i) = dec(D+i)$, where dec is the decryption with Alice's private RSA key. The resulting list Y is then output sequentially on the output of the component.
+    The component then calculates for all integers i from $0$ to $m-1$ the values $Y(i) = dec(D+i)$, where dec is the decryption with Alice's private RSA key. The resulting list Y is then displayed sequentially on the output of the component.
   </usage>
 
   <usage lang="de-DE">
