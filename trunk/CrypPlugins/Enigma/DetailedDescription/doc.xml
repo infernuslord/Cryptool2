@@ -25,15 +25,15 @@
     Naturally, for models with plugboards, the plugboard setting is also part of the key.
     <newline />
     <newline />
-    Besides encrypting and decrypting messages, the Enigma component can also analyse ciphertexts.
+    Besides encrypting and decrypting messages, the Enigma component can also analyze ciphertexts.
   </introduction>
 
   <usage lang="en">
     In the main section of the settings, you can select the Enigma model.
-    You can enter the initial rotor setting in the key textfield and select the operation mode of the component: should the input text be analysed or encrypted/decrypted?
+    You can enter the initial rotor setting in the key textfield and select the operation mode of the component: should the input text be analyzed or encrypted/decrypted?
     <newline />
     <newline />
-    In the 'Text options' menu you can find settings that concern the handling of unknown symbols (for example spaces) and the handling of uppercase and lowercase letters.
+    In the 'Text options' menu you find settings for handling of unknown symbols (for example spaces) and for handling of uppercase and lowercase letters.
     Case handling is necessary, as Enigma can only process uppercase letters. You can convert the output of the component to uppercase, lowercase, or restore the case of the input text.
     If the input text contains an unknown symbol, you can choose whether that symbol should be removed, ignored, or replaced by the letter 'X'. If it is ignored, it will be added unmodified to the
     output text.

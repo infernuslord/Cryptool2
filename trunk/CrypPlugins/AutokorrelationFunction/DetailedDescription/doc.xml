@@ -33,8 +33,8 @@
   </introduction>
 
   <usage lang="en">
-    The component has only one input, where the text you want to examine has to be entered. Before being analysed, the text is converted to uppercase and all non-alphabetic characters are removed.
-    The component determines the most probable Vigenère key length for the given text and provides it as an integer on the output.
+    The component has only one input, where the text you want to examine has to be entered. Before being analyzed, the text is converted to uppercase and all non-alphabetic characters are removed.
+    The component determines the most probable Vigenère key length for the given text and provides this length as an integer on the output.
   </usage>
 
   <usage lang="de-DE">

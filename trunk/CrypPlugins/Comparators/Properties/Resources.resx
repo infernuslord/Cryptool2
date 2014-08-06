@@ -121,7 +121,7 @@
     <value>Comparators</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Simple comparators to compare objects of the same type.</value>
+    <value>Simple comparators to compare objects of the same type</value>
   </data>
   <data name="InputOneCaption" xml:space="preserve">
     <value>Input one</value>
