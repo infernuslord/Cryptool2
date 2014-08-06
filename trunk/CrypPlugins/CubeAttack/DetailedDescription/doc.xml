@@ -25,7 +25,7 @@
     bits of the cryptosystem. The preprocessing phase stops if n linearly independent polynomials have been found, whereby n is the number
     of secret input bits on the cryptosystem under attack.
     <newline/><newline/>
-    During the online phase of the attack, the secret bits are fixed and unknown to the attacker and may is only allowed to set the 
+    During the online phase of the attack, the secret bits are fixed and unknown to the attacker. He is only allowed to set the 
     public bits to any value and to evaluate the output bit on this combined input. The aim of the online phase is to compute the values of 
     the polynomials found in the preprocessing phase. The polynomials with their corresponding values form a system of linear equations on 
     the secret bits. If we have found n linearly independent polynomials equations in the preprocessing phase, then we can solve the system 
@@ -33,10 +33,35 @@
   </introduction>
 
   <introduction lang="de-DE">
+    Der Cube-Angriff ist ein algebraischer Angriff auf ein Kryptosystem, der den geheimen Schlüssel offenlegen soll.
+    Er wurde von Itai Dinur und Adi Shamir im September 2008 vorgestellt.
+    <newline/><newline/>
+    Der Cube-Angriff kann auf alle Blockchiffren, Stromchiffren und Nachrichtenauthentifizierungscodes (message authentication codes) durchgeführt werden,
+    bei denen mindestens ein Bit der Ausgabe als ein multivariates Polynom mit niedrigem Grad über GF(2) über den Bits des Schlüssels und des Klartextes
+    dargestellt werden kann.
+    <newline/><newline/>
+    Dazu wird das Ausgabebit des Kryptosystems für alle möglichen Belegungen einer Teilmenge der öffentlichen Eingabebits summiert. 
+    Die Teilmenge wird so gewählt, dass das Ergebnis einem Polynom in den geheimen Bits des Schlüssels entspricht.
+    Das Ziel ist, eine Menge von linear unabhängigen Polynomen über den Bits des Schlüssels zu erhalten und durch Lösen des resultierenden Gleichungssystems den Schlüssel zu rekonstruieren. 
+    <newline/><newline/>
+    Der Cube-Angriff besteht aus einer Vorverarbeitungsphase und einer Onlinephase.
+    In der Vorverarbeitungsphase hat der Angreifer die Möglichkeit, die Bits der Eingabe und des Schlüssels beliebig zu belegen
+    und in das als Black-Box vorliegende Kryptosystem einzugeben, um dessen Ausgabe auszuwerten.
+    Das Ziel der Vorverarbeitungsphase ist, Teilmengen der öffentlichen Bits zu bestimmen, die linearen Polynomen über den geheimen Bits entsprechen
+    und die algebraische Struktur dieser Polynome zu rekonstruieren.
+    Die Vorverarbeitungsphase muss für jedes Kryptosystem nur einmal durchgeführt werden und kann bei allen folgenden Onlinephasen für dieses Kryptosystem wiederverwendet werden.
+    Wenn also genügend linear unabhängige Polynome über den geheimen Bits gefunden wurden, können diese gespeichert und bei allen weiteren Onlinephasen bei der Bestimmung der geheimen Bits verwendet werden.
+    Die Vorverarbeitungsphase endet, wenn n linear unabhängige Polynome gefunden wurden, wobei n die Anzahl der geheimen Eingabebits des angegriffenen Kryptosystems ist.
+    <newline/><newline/>
+    Während der Onlinephase des Angriffs bleiben die geheimen Bits unverändert und sie sind dem Angreifer nicht bekannt.
+    Er kann nur die öffentlichen Bits mit beliebigen Werten belegen und das auf die kombinierte Eingabe resultierende Ausgabebit der Black Box auswerten.
+    Das Ziel der Onlinephase ist, die Werte der in der Vorverarbeitungsphase gefundenen Polynome zu berechnen.
+    Die Polynome ergeben zusammen mit ihren zugehörigen Werten ein lineares Gleichungssystem über den geheimen Bits.
+    Wenn n linear unabhängige Polynomgleichungen in der Vorverarbeitungsphase gefunden wurden, so kann das Gleichungssystem gelöst werden und die Werte der geheimen Bits können bestimmt werden.
   </introduction>
 
   <usage lang="en">
-    For the cube attack to work correctly we need to set it up accordingly through use of its options. The settings Panel for the plug-in
+    For the cube attack to work correctly we need to set it up accordingly through use of its options. The settings Panel for the component
     consists of the following options:
     <newline/><newline/>
     The setting "Action" is needed to decide between the cube attack modes "Preprocessing", "Online" and "Manual Public Bit Input".
@@ -45,13 +70,13 @@
     under attack.
     <newline/><newline/>
     The setting "Max Cube Size" is used to limit the size of the cube in the preprocessing phase of the attack. Any subset of public bits
-    of size k defines a k-dimensional Boolean cube of 2^k vectors in which we assign all the possible conbinations of 0/1 values to the
+    of size k defines a k-dimensional Boolean cube of 2^k vectors in which we assign all the possible combinations of 0/1 values to the
     public variables. Therefore, we have to limit the size to avoid a number of computations that are infeasible in practise.
     <newline/><newline/>
-    The "Constant Test" setting is used to set the number of constant tests for each polynomial. The test computes the value of the
+    The "Constant Tests" setting is used to set the number of constant tests for each polynomial. The test computes the value of the
     polynomial for several different secret inputs and checks that the result is always the same. If it is, it must be constant.
     <newline/><newline/>
-    The "Linearity Test" setting is used to set the number of linearity tests for each polynomial. The test always succeeds if the
+    The "Linearity Tests" setting is used to set the number of linearity tests for each polynomial. The test always succeeds if the
     polynomial is linear. However, if the polynomial is not linear, the test fails with high probability. The default value is fifty.
     Setting the value higher increases the probability that the polynomial is truly linear on the secret bits.
     <newline/><newline/>
@@ -64,26 +89,48 @@
     value 0), '1' (set bit to value 1) and '*' (sum over this bit value). Note, you have to set under "Action" the modus "Manual Public Bit
     Input" to evaluate the polynomial under this public bit input.
     <newline/><newline/>
-    The plug-in itself provides two text outputs. On the one hand the output of the linearly independent polynomials on the secret bits with
+    The component itself provides two text outputs. On the one hand the output of the linearly independent polynomials on the secret bits with
     its corresponding cube indexes and output bit index and on the other hand a text output that provides the recovered key bits.
-    <newline/><newline/>
-    To see the plug-in in action just open either the "CubeAttackParser.cte" or "CubeAttackTrivium.cte" sample file, which is located in
-    the Cryptool2.0 ProjectSamples folder. "CubeAttackParser.cte" provides a cube attack on a simple polynomial which can be entered in
-    the BooleanFunctionParser's "QuickwatchPresentation" area. The setting "Output Bit Index" in the cube attack settings Panel can be
-    ignored in this particular case.
-    <newline/><newline/>
-    "CubeAttackTrivium.cte" provides a cube attack on the stream cipher Trivium with a reduced number of initialisation rounds.
-    Standard Trivium used 1152 initialisation rounds, our sample file attacks Trivium with 480 initialisation rounds.
-    You can also increase the number of initialisation rounds in the Trivium setting Panel, but a higher number of rounds leads to bigger
-    cubes which in turn leads to a higher amount of time. Trivium takes a 80-Bit key and 80-Bit IV as input, so the preprocessing phase
-    tries to find 80 linearly independent polynomials to discover the full key. We were able to find 68 linearly independent polynomials
-    during the preprocessing phase on the Trivium variant with 480 initialisation rounds.
     <newline/><newline/>
     For computing the values of the polynomials and according to that to discover the secret bit values just click on the "Stop" button,
     select the "Online" phase and click on the "Start" button to begin with the online phase.
   </usage>
 
   <usage lang="de-DE">
+    Damit der Cube-Angriff korrekt durchgeführt werden kann, müssen die Optionen der Komponente richtig eingestellt werden.
+    Die Komponente hat die folgenden Einstellungsmöglichkeiten:
+    <newline/><newline/>
+    Unter dem Punkt "Aktion" kann die Betriebsart der Komponente gewählt werden. Es gibt die Optionen "Vorverarbeitung", "Online" und "Manuelle Eingabe der öffentlichen Bits".
+    <newline/><newline/>
+    In den Einstellungen "öffentliche Bitgröße" und "private Bitgröße" können Sie die Anzahl der öffentlichen und der geheimen Bits des angegriffenen Kryptosystems angeben.
+    <newline/><newline/>
+    Unter "Maximale Würfelgröße" können Sie die Größe des Würfels in der Vorverarbeitungsphase begrenzen.
+    Jede k-elementige Teilmenge der öffentlichen Bits definiert einen k-dimensionalen booleschen Würfel mit 2^k Ecken, denen alle 0/1-Belegungen
+    der öffentlichen Bits entsprechen. Die Angabe einer oberen Schranke vermeidet Fälle, in denen die Anzahl der Berechnungen für den praktischen Einsatz zu groß werden würde.
+    <newline/><newline/>
+    Unter "Konstantentest" können Sie die Anzahl der Tests einstellen, die für jedes Polynom durchgeführt werden sollen, um festzustellen,
+    ob es sich um ein konstantes Polynom handelt. Ein solcher Test berechnet den Wert des Polynoms für mehrere geheime Bits und prüft, ob das Resultat immer dasselbe ist.
+    <newline/><newline/>
+    Unter "Linearitätstests" können Sie die Anzahl der Tests einstellen, die für jedes Polynom durchgeführt werden sollen, um festzustellen,
+    ob es sich um ein lineares Polynom handelt. Während lineare Polynome diesen Test immer bestehen, scheitern nichtlineare Polynome mit großer Wahrscheinlichkeit daran.
+    Als Voreinstellung werden 50 Tests angenommen. Ein größerer Wert erhöht die Wahrscheinlichkeit, dass das Polynom tatsächlich linear in den geheimen Bits ist.
+    <newline/><newline/>
+    Die Einstellung "Ausgabebit" wählt das Zielbit der Ausgabe des angegriffenen Kryptosystems aus.
+    Ein Cube-Angriff kann bereits gegen ein einzelnes Ausgabebit erfolgreich sein, aber bei den meisten Kryptosystemen wird mehr als ein Ausgabebit benötigt,
+    um genügend linear unabhängige Polynome zu finden, die alle geheimen Bits abdecken.
+    Diese Option kann während der Vorverarbeitungsphase geändert werden, so dass mehrere Ausgabebits berücksichtigt werden.
+    <newline/><newline/>
+    Im Textfeld "Manuelle Eingabe der öffentlichen Bits" können die Werte der öffentlichen Bits manuell festgelegt werden.
+    Mögliche Eingaben sind '0' (setzt das Bit auf 0), '1' (setzt das Bit auf 1), und '*' (summiert dieses Bit).
+    Beachten Sie, dass unter "Aktion" die Betriebsart "Manuelle Eingabe der öffentlichen Bits" ausgewählt worden sein muss,
+    damit das Polynom mit den angegebenen öffentlichen Bits ausgewertet wird.
+    <newline/><newline/>
+    Die Komponente hat zwei Ausgänge.
+    An einem werden die linear unabhängigen Polynome über den geheimen Bits mit den zugehörigen Cube-Indices und Ausgabebits ausgegeben,
+    am anderen die gefundenen geheimen Bits.
+    <newline/><newline/>
+    Um nach Ablauf der Vorverarbeitungsphase in die Onlinephase einzutreten und die geheimen Bits zu berechnen, halten Sie den Arbeitsbereich durch Klick auf "Stop" an,
+    schalten in den Einstellungen auf den "Online"-Modus und starten den Arbeitsbereich wieder.
   </usage>
   
   <presentation lang="en">
@@ -96,6 +143,8 @@
       <linkReference>
         <link url="http://eprint.iacr.org/2008/385" lang="en" />
         <caption lang="en">A more detailed description of the cube attack.</caption>
+        <link url="http://eprint.iacr.org/2008/385" lang="de-DE" />
+        <caption lang="de-DE">Detailliertere Beschreibung des Cube-Angriffs (englisch)</caption>
       </linkReference>
   </references>
   

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    The Paillier cryptosystem, named after and invented by Pascal Paillier in 1999, is a probabilistic asymmetric algorithm for
+    public key cryptography. The problem of computing n-th residue classes is believed to be computationally difficult.
+    The decisional composite residuosity assumption is the intractability hypothesis upon which this cryptosystem is based.
+    <newline/>
+    <newline/>
+    This component generates the public and the private key of the Paillier cryptosystem,
+    that can be used by the Paillier component.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Das Paillier-Kryptosystem wurde benannt nach seinem Erfinder Pascal Paillier, der es 1999 vorgestellt hat.
+    Es handelt sich dabei um ein probabilistisches asymmetrisches Kryptosystem, dessen Sicherheit auf der Annahme beruht,
+    dass für einen zusammengesetzten Modul $n$ nicht effizient geprüft werden kann,
+    ob ein Element in $(Z/n^2Z)$ eine $n$-te Wurzel modulo $n^2$ besitzt oder nicht.
+    <newline/>
+    <newline/>
+    Diese Komponente generiert den öffentlichen und den privaten Schlüssel des Paillier-Kryptosystems,
+    die als Eingaben für die Paillier-Komponente verwendet werden können.
+  </introduction>
+
+  <usage lang="en">
+    For the generation of the key, the component needs only two prime numbers.
+    In the settings of the component you can choose whether you want to enter the primes manually, or whether the component should
+    generate a pair of random primes. If you choose the second method, you can also enter the bit length that the generated primes should have.
+  </usage>
+
+  <usage lang="de-DE">
+    Zur Erzeugung der Schlüssel ist lediglich die Angabe zweier Primzahlen notwendig.
+    Sie können in den Einstellungen angeben, ob Sie die Primzahlen eingeben oder von der Komponente automatisch generieren lassen wollen.
+    Wird die automatische Erzeugung gewählt, so können Sie noch die Bitlänge der zu erzeugenden Primzahlen einstellen.
+  </usage>
+
+  <presentation lang="en">
+  </presentation>
+
+  <presentation lang="de-DE">
+  </presentation>
+
+  <references>
+    <linkReference id="autokey">
+      <link lang="en" url="http://en.wikipedia.org/wiki/Paillier_cryptosystem"/>
+      <caption lang="en">Paillier cryptosystem</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Paillier-Kryptosystem"/>
+      <caption lang="de-DE">Paillier-Kryptosystem</caption>
+    </linkReference>
+  </references>
+
+</documentation>

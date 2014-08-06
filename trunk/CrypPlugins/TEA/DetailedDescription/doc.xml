@@ -1,47 +1,194 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <documentation>
+
   <language culture="en" />
+  <language culture="de-DE" />
+
   <introduction lang="en">
     <section headline="TEA (Tiny Encryption Algorithm)">
-      In cryptography, the Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation (typically a few lines of code). It was designed by David Wheeler and Roger Needham of the Cambridge Computer Laboratory, and first presented at the Fast Software Encryption workshop in 1994.
+      In cryptography, the Tiny Encryption Algorithm (TEA) is a block cipher notable for its simplicity of description and implementation (typically a few lines of code).
+      It was designed by David Wheeler and Roger Needham of the Cambridge Computer Laboratory, and first presented at the Fast Software Encryption workshop in 1994.
       <newline />
-      TEA operates on 64-bit blocks and uses a 128-bit key. It has a Feistel structure with a suggested 64 rounds, typically implemented in pairs termed cycles. It has an extremely simple key schedule, mixing all of the key material in exactly the same way for each cycle. Different multiples of a magic constant are used to prevent simple attacks based on the symmetry of the rounds. The magic constant, 2654435769 (Decimal) or 9E3779B9 (Hex) is chosen to be (2^32 / phi) where phi is the golden ratio.
+      TEA operates on 64-bit blocks and uses a 128-bit key. It has a Feistel structure with a suggested 64 rounds, typically implemented in pairs termed cycles.
+      It has an extremely simple key schedule, mixing all of the key material in exactly the same way for each cycle.
+      Different multiples of a magic constant are used to prevent simple attacks based on the symmetry of the rounds.
+      The magic constant, 2654435769 (Decimal) or 9E3779B9 (Hex) is chosen to be 2^32 / phi, where phi is the golden ratio.
     </section>
     <section headline="XTEA (eXtended TEA)">
-      In cryptography, XTEA (eXtended TEA) is a block cipher designed to correct weaknesses in TEA. The cipher's designers were David Wheeler and Roger Needham of the Cambridge Computer Laboratory, and the algorithm was presented in an unpublished technical report in 1997 (Needham and Wheeler, 1997).
+      In cryptography, XTEA (eXtended TEA) is a block cipher designed to correct weaknesses in TEA.
+      The cipher's designers were David Wheeler and Roger Needham of the Cambridge Computer Laboratory,
+      and the algorithm was presented in an unpublished technical report in 1997 (Needham and Wheeler, 1997).
       <newline />
-      Like TEA, XTEA is a 64-bit block Feistel network with a 128-bit key and a suggested 64 rounds. Several differences from TEA are apparent, including a somewhat more complex key-schedule and a rearrangement of the shifts, XORs, and additions.
+      Like TEA, XTEA is a 64-bit block Feistel network with a 128-bit key and a suggested 64 rounds.
+      Several differences from TEA are apparent, including a somewhat more complex key-schedule and a rearrangement of the shifts, XORs, and additions.
     </section>
     <section headline="XXTEA (Corrected Block TEA)">
-      In cryptography, Corrected Block TEA (often referred to as XXTEA) is a block cipher designed to correct weaknesses in the original Block TEA (Tiny Encryption Algorithm), which was first published together with a paper on TEA extensions (XTEA).
+      In cryptography, Corrected Block TEA (often referred to as XXTEA) is a block cipher designed to correct weaknesses in the original Block TEA (Tiny Encryption Algorithm),
+      which was first published together with a paper on TEA extensions (XTEA).
       <newline />
-      The cipher's designers were Roger Needham and David Wheeler of the Cambridge Computer Laboratory, and the algorithm was presented in an unpublished technical report in October 1998 (Wheeler and Needham, 1998). It is not subject to any patents.
+      The cipher's designers were Roger Needham and David Wheeler of the Cambridge Computer Laboratory, and the algorithm was presented in an unpublished technical report in October 1998 (Wheeler and Needham, 1998).
+      It is not subject to any patents.
       <newline />
-      Formally speaking, XXTEA is a consistent incomplete source-heavy heterogeneous UFN (unbalanced Feistel network) block cipher. XXTEA operates on variable-length blocks that are some arbitrary multiple of 32 bits in size (minimum 64 bits). The number of full cycles depends on the block size, but there are at least six (rising to 32 for small block sizes). The original Block TEA applies the XTEA round function to each word in the block and combines it additively with its leftmost neighbour. Slow diffusion rate of the decryption process was immediately exploited to break the cipher. Corrected Block TEA uses a more involved round function which makes use of both immediate neighbours in processing each word in the block.
+      Formally speaking, XXTEA is a consistent incomplete source-heavy heterogeneous UFN (unbalanced Feistel network) block cipher.
+      XXTEA operates on variable-length blocks that are some arbitrary multiple of 32 bits in size (minimum 64 bits).
+      The number of full cycles depends on the block size, but there are at least six (rising to 32 for small block sizes).
+      The original Block TEA applies the XTEA round function to each word in the block and combines it additively with its leftmost neighbour.
+      Slow diffusion rate of the decryption process was immediately exploited to break the cipher.
+      Corrected Block TEA uses a more involved round function which makes use of both immediate neighbours in processing each word in the block.
     </section>
-</introduction>
+  </introduction>
+
+  <introduction lang="de-DE">
+    <section headline="TEA (Tiny Encryption Algorithm)">
+      Der Tiny Encryption Algorithm (TEA) ist eine Blockchiffre, die besonders einfach zu beschreiben und implementieren ist (einige wenige Codezeilen genügen).
+      TEA wurde von David Wheeler und Roger Needham vom Cambridge Computer Laboratory entworfen und erstmals 1994 beim Fast Software Encryption-Workshop vorgestellt.
+      <newline />
+      TEA arbeitet auf 64-Bit-Blöcken und verwendet einen 128-Bit-Schlüssel. Er stellt eine Feistelchiffre mit einer vorgeschlagenen Rundenanzahl von 64 dar. Normalerweise wird er so implementiert, dass zwei Runden einen Zyklus darstellen.
+      Er hat einen sehr einfachen Mechanismus zur Erzeugung des jeweiligen Rundenschlüssels. Das Einbringen eines sogenannten Deltas verhindert einen Angriff, der die Symmetrie der einzelnen Runden ausnutzt.
+      Der Wert von Delta ist definiert als 2^32 / phi, wobei phi der goldene Schnitt ist, und beträgt 2654435769 (Dezimal) bzw. 9E3779B9 (Hexadezimal).
+    </section>
+    <section headline="XTEA (eXtended TEA)">
+      XTEA (eXtended TEA) ist eine Erweiterung und Verbesserung von TEA, das die Schwachstellen von TEA vermeidet,
+      und wurde ebenfalls von David Wheeler und Roger Needham entworfen.
+      Der Algorithmus wurde 1997 vorgestellt (Needham and Wheeler, 1997).
+      <newline />
+      XTEA ist ebenfalls eine Feistelchiffre mit 64-Bit-Blöcken, einem 128-Bit-Schlüssel und einer vorgeschlagenen Rundenanzahl von 64.
+      Die Unterschiede von TEA und XTEA beinhalten unter anderem eine komplexere Erzeugung des Rundenschlüssels und eine Umordnung der Shifts, XORs und Additionen.
+    </section>
+    <section headline="XXTEA (Corrected Block TEA)">
+      Der Corrected Block TEA (oft auch als XXTEA bezeichnet) ist eine Blockchiffre, die die Schwächen im ursprünglichen Block TEA (Tiny Encryption Algorithm) korrigieren sollte.
+      Er wurde erstmals in einem Paper zusammen mit dem XTEA vorgestellt.
+      <newline />
+      Roger Needham and David Wheeler veröffentlichten den Algorithmus im Oktober 1998 (Wheeler and Needham, 1998).
+      Der Algorithmus ist patentfrei.
+      <newline />
+      XXTEA arbeitet mit beliebigen Blockgrößen, die aber ein Vielfaches von 32 Bits und mindestens 64 Bits sein müssen.
+      Die Anzahl der vollständigen Zyklen hängt von der Blockgröße ab. Es werden mindestens 6 Zyklen und bei kleinen Blockgrößen bis zu 32 Zyklen ausgeführt.
+      Der originale Block TEA wendet die XTEA Rundenfunktion auf jedes Wort eines Blockes an und verknüpft es additiv mit seinem linken Nachbarn.
+      Die langsame Diffusionsrate beim Entschlüsselungsvorgang wurde bald dazu ausgenutzt, die Chiffre zu brechen.
+      Corrected Block TEA verwendet eine komplexere Rundenfunktion, die die beiden unmittelbaren Nachbarn bei der Verarbeitung eines Wortes im Block miteinbezieht.
+    </section>
+  </introduction>
+
   <usage lang="en">
-</usage>
-  <usage lang="de-DE">
+    In the settings of the component, you can select the algorithm that the component should use.
+    If you select XTEA, you can additionally specify the number of rounds.
+    <newline />
+    <newline />
+    The component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
+    <newline />
+    <newline />
+
+    <section headline="Encryption">
+      In "Encryption" mode, the component expects the plaintext as a data stream on the input labeled "Input".
+      If the size of the input is not a multiple of the block size, as many bytes as are necessary to achieve
+      a multiple of the block size are padded. You can choose between several padding methods in the settings of the component.
+      When decrypting a ciphertext, it is important to select the same padding method as was used for encryption.
+      Otherwise the last block will be deciphered wrongly or not at all.
+      The key is expected as a byte array on the input labeled "Key".
+      If the selected key size does not correspond to the size of the entered key, an error message will be issued and the execution stops.
+      The encrypted data block is sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+
+    <section headline="Decryption">
+      In "Decryption" mode, the component expects the ciphertext that is to be decrypted on the input labeled "Input".
+      The size of the input must be a multiple of the block size. Otherwise, the component stops with an error message.
+      The key is entered in the same way as in "Encryption" mode.
+      Finally, the plaintext will be sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+
+    <section headline="Cryptographic Mode">
+      Block ciphers divide their input data into blocks of a fixed size and apply the encryption or decryption function on the blocks of the input.
+      The chaining mode determines the way in which consecutive blocks, after being encrypted or decryted, are combined in order to achieve better security or error tolerance.
+      The component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
+      Select the appropriate chaining mode in the settings of the component.
+      <newline />
+      In ECB mode, each block is encrypted separately. In the other modes however, a plaintext block is combined with the previous ciphertext block.
+      As there is no previous block for the first block, we must provide one for these modes. This extra block is given by the initialization vector (IV), which must be provided as a byte array
+      on the input of the component. Thus the size of the IV must correspond to the block size. If the provided IV is too short, it is filled with null bytes. If it is too long, it is truncated.
+      If no IV is given, the component will assume an IV consisting of null bytes.
+    </section>
   </usage>
+
+  <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente, welchen Verschlüsselungsalgorithmus die Komponente anwenden soll. Wenn XTEA gewählt wurde, können sie außerdem die Anzahl der Runden bestimmen.
+    <newline />
+    <newline />
+    Die Komponente hat die zwei Betriebsarten "Verschlüsselung" und "Entschlüsselung", zwischen denen in den Einstellungen der Komponente umgeschaltet werden kann.
+    <newline />
+    <newline />
+    <section headline="Verschlüsselung">
+      In der Betriebsart "Verschlüsselung" erwartet die Komponente als Eingabe den zu verschlüsselnden Klartext als Datenstrom am Eingang "Eingabedatenstrom".
+      Ist die Länge der Eingabe kein Vielfaches der Blockgröße, so müssen vor der Verschlüsselung so viele Bytes angehängt werden, bis sie ohne Rest in Blöcke der Blockgröße zerlegt werden kann.
+      Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen Padding-Methoden wählen.
+      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde,
+      da der letzte Block sonst falsch oder gar nicht entschlüsselt wird.
+      Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet.
+      Stimmt die Größe des eingegebenen Schlüssels nicht der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
+      Der verschlüsselte Datenblock wird am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
+      <newline />
+      <newline />
+    </section>
+    <section headline="Entschlüsselung">
+      In der Betriebsart "Entschlüsselung" erwartet die Komponente den zu entschlüsselnden Geheimtext als Datenstrom am Eingang "Eingabedatestrom".
+      Die Länge der Eingabe muss hierbei ein Vielfaches der Blockgröße sein, andernfalls wird die Berechnung mit einer Fehlermeldung abgebrochen.
+      Der Schlüssel wird wie bei der Entschlüsselung eingegeben. Der entschlüsselte Klartext wird dann schließlich am Ausgang der Komponente als Datenstrom bereitgestellt.
+      <newline />
+      <newline />
+    </section>
+    <section headline="Kryptographischer Modus">
+      Blockverschlüsselungsverfahren unterteilen die Eingabedaten in Blöcke festgelegter Größen und
+      wenden die Ver-/Entschlüsselungsfunktion dann fortlaufend auf diese Blöcke an. Der "kryptographische Modus", in dem
+      eine Blockchiffre betrieben wird, gibt an, wie die Ergebnisse der Ver- bzw. Entschlüsselung aufeinanderfolgender Blöcke
+      miteinander kombiniert werden, um z.B. größere Sicherheit oder Fehlertoleranz zu erzielen. Die Komponente bietet
+      die kryptographischen Modi ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) und OFB (Output Feedback)
+      an, die in den Einstellungen ausgewählt werden können.
+      <newline />
+      Beim ECB-Modus wird dabei jeder Block separat verschlüsselt. Bei den anderen Modi hingegen
+      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Chiffretextblock verknüpft. Da für den ersten
+      Klartextblock kein vorangehender Chiffretextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
+      Dieser muss die verwendete Blockgröße haben und wird am zugehörigen Eingang der Komponente
+      als Byte-Array eingegeben. Ein zu kurzer Initialisierungsvektor wird mit Nullbytes aufgefüllt, ein zu langer auf die Blockgröße
+      beschnitten. Wird der Eingang nicht verbunden, so wird ein Initialisierungsvektor bestehend aus Nullbytes verwendet.
+    </section>
+  </usage>
+
+  <presentation lang="en">
+  </presentation>
+
+  <presentation lang="de-DE">
+  </presentation>
+
   <references>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Tiny_Encryption_Algorithm" lang="en" />
-      <caption lang="en">Wikipedia "TEA" article</caption>
+      <caption lang="en">Tiny Encryption Algorithm (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Tiny_Encryption_Algorithm" lang="de-DE" />
+      <caption lang="de-DE">Tiny Encryption Algorithm (Wikipedia)</caption>
     </linkReference>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/XTEA" lang="en" />
-      <caption lang="en">Wikipedia "XTEA" article</caption>
+      <caption lang="en">XTEA (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/XTEA" lang="de-DE" />
+      <caption lang="de-DE">XTEA (Wikipedia)</caption>
     </linkReference>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Block_TEA" lang="en" />
-      <caption lang="en">Wikipedia "Block TEA" article</caption>
+      <caption lang="en">Block TEA (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Block_TEA" lang="de-DE" />
+      <caption lang="de-DE">Block TEA (Wikipedia, englisch)</caption>
     </linkReference>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/XXTEA" lang="en" />
-      <caption lang="en">Wikipedia "XXTEA" article</caption>
+      <caption lang="en">XXTEA (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/XXTEA" lang="de-DE" />
+      <caption lang="de-DE">XXTEA (Wikipedia, englisch)</caption>
     </linkReference>
   </references>
-  <presentation lang="en">
-</presentation>
+
 </documentation>

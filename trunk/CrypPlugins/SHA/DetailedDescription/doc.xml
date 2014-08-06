@@ -4,16 +4,36 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    SHA (secure hash algorithm) is a group of cryptographic hash functions that were published by the National Institute of Standards and Technology (NIST).
+    This component implements the variants SHA-1, SHA-256, SHA-384 and SHA-512.
+    SHA-1 calculates a hash value of 160 bits (20 bytes), SHA-256 of 256 bits (32 bytes), SHA-384 of 384 bits (48 bytes) and SHA-512 of 512 bits (64 bytes).
+    For SHA-1 and SHA-256, the input may be up to 2^64 bits long, for SHA-384 and SHA-512 it may be up to 2^128 bits long.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    SHA ("secure hash algorithm", englisch für "sicherer Hash-Algorithmus") bezeichnet eine Gruppe kryptologischer Hashfunktionen, die vom National Institute of Standards and Technology (NIST) veröffentlicht wurden.
+    Diese Komponente implementiert die Varianten SHA-1, SHA-256, SHA-384 und SHA-512.
+    SHA-1 erzeugt einen Hashwert von 160 Bits (20 Bytes) Länge, SHA-256 von 256 Bits (32 Bytes), SHA-384 von 384 Bits (48 Bytes), und SHA-512 von 512 Bits (64 Bytes).
+    Für SHA-1 und SHA-256 beträgt die maximale Länge der Eingabe 2^64 Bits und für SHA-384 und SHA-512 2^128 Bits.
   </introduction>
 
   <usage lang="en">
+    In the settings of the component you can select the SHA version you want to use.
+    The component provides the variants SHA-1, SHA-256, SHA-384 und SHA-512.
+    <newline/>
+    <newline/>
+    The component expects the data of which to calculate the hash value as a data stream on the input labeled "Input stream".
+    The resulting hash value is provided at the outputs of the component as a byte array and as a data stream.
   </usage>
 
   <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente die SHA-Version, die Sie verwenden möchten.
+    Es stehen die Varianten SHA-1, SHA-256, SHA-384 und SHA-512 zur Verfügung.
+    <newline/>
+    <newline/>
+    Die Komponente erwartet die Daten, deren Hashwert berechnet werden soll, als Datenstrom am Eingang "Eingabedatenstrom".
+    Der resultierende Hashwert wird an den Ausgängen der Komponente als Datenstrom und als Byte-Array bereitgestellt.
   </usage>
   
   <presentation lang="en">

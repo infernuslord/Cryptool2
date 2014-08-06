@@ -47,25 +47,23 @@ namespace RIPEMD160
             get { return null; }
         }
 
-        // [QuickWatch(QuickWatchFormat.Hex, null)]
         [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputData
         {
             get 
             {
                 return inputData;
-              }
+            }
             set 
             {
-              if (value != inputData)
-              {
-                this.inputData = value;
-                OnPropertyChanged("InputData");
-              }
+                if (value != inputData)
+                {
+                    this.inputData = value;
+                    OnPropertyChanged("InputData");
+                }
             }
         }
 
-        // [QuickWatch(QuickWatchFormat.Hex, null)]
         [PropertyInfo(Direction.OutputData, "OutputDataStreamCaption", "OutputDataStreamTooltip", true)]
         public ICryptoolStream OutputDataStream
         {
@@ -80,44 +78,45 @@ namespace RIPEMD160
           set { } // readonly
         }
 
-        // [QuickWatch(QuickWatchFormat.Hex, null)]
         [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip", false)]
         public byte[] OutputData
         {
-          get { return this.outputData; }
-          set
-          {
-            if (value != outputData)
+            get { return this.outputData; }
+            set
             {
-              outputData = value;
-              OnPropertyChanged("OutputData");
-              OnPropertyChanged("OutputDataStream");              
+                if (value != outputData)
+                {
+                    outputData = value;
+                    OnPropertyChanged("OutputData");
+                    OnPropertyChanged("OutputDataStream");              
+                }
             }
-          }
         }
 
         public void Execute()
         {
-          Progress(0.5, 1.0);
-          if (inputData != null && inputData.Length >= 0)
-          {
-            System.Security.Cryptography.RIPEMD160 ripeMd160Hash = System.Security.Cryptography.RIPEMD160.Create();
-            using (CStreamReader reader = inputData.CreateReader())
+            Progress(0.5, 1.0);
+
+            if (inputData != null && inputData.Length >= 0)
             {
-                OutputData = ripeMd160Hash.ComputeHash(reader);
+                System.Security.Cryptography.RIPEMD160 ripeMd160Hash = System.Security.Cryptography.RIPEMD160.Create();
+                using (CStreamReader reader = inputData.CreateReader())
+                {
+                    OutputData = ripeMd160Hash.ComputeHash(reader);
+                }
+
+                GuiLogMessage("Hash created.", NotificationLevel.Info);            
+                Progress(1, 1);
+            }
+            else
+            {            
+                if (inputData == null)
+                    GuiLogMessage("Received null value for CryptoolStream.", NotificationLevel.Warning);
+                else
+                    GuiLogMessage("No input stream.", NotificationLevel.Warning);
             }
 
-            GuiLogMessage("Hash created.", NotificationLevel.Info);            
-            Progress(1, 1);
-          }
-          else
-          {            
-            if (inputData == null)
-              GuiLogMessage("Received null value for CryptoolStream.", NotificationLevel.Warning);
-            else
-              GuiLogMessage("No input stream.", NotificationLevel.Warning);
-          }
-          Progress(1.0, 1.0);
+            Progress(1.0, 1.0);
         }
 
         public void Initialize()
