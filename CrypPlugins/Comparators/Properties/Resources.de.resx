@@ -121,7 +121,7 @@
     <value>Komparatoren</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Einfache Vergleichsoperationen (=,!=, &lt;, &gt;, &lt;=, &gt;=). Siehe detaillierte Beschreibung.</value>
+    <value>Einfache Vergleichsoperationen (=, !=, &lt;, &gt;, &lt;=, &gt;=), die Objekte desselben Typs vergleichen</value>
   </data>
   <data name="InputOneCaption" xml:space="preserve">
     <value>Eingabe 1</value>
