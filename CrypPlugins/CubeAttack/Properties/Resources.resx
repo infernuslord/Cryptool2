@@ -148,7 +148,7 @@
     <value>Select the cube attack modi</value>
   </data>
   <data name="ConstTestCaption" xml:space="preserve">
-    <value>Constant test</value>
+    <value>Constant tests</value>
   </data>
   <data name="ConstTestTooltip" xml:space="preserve">
     <value>Number of tests to check if the superpoly is a constant value or not.</value>
@@ -160,7 +160,7 @@
     <value>With this checkbox enabled, a lot of log messages will be shown during preprocessing.</value>
   </data>
   <data name="LinTestCaption" xml:space="preserve">
-    <value>Linearity test</value>
+    <value>Linearity tests</value>
   </data>
   <data name="LinTestTooltip" xml:space="preserve">
     <value>Number of linearity tests to check if the superpoly is linear or not.</value>

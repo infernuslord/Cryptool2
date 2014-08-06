@@ -148,7 +148,7 @@
     <value>Wählen Sie die Art des Angriffes.</value>
   </data>
   <data name="ConstTestCaption" xml:space="preserve">
-    <value>Konstantentest</value>
+    <value>Konstantentests</value>
   </data>
   <data name="ConstTestTooltip" xml:space="preserve">
     <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom konstant ist.</value>
@@ -186,7 +186,7 @@ Beispiel: 1+x0+x5 2,6 1</value>
     <value>Wählt das Ausgabebit der Black Box, das ausgewertet werden soll.</value>
   </data>
   <data name="PublicVarCaption" xml:space="preserve">
-    <value>Größe der öffentlichen Eingabebits</value>
+    <value>öffentliche Bits</value>
   </data>
   <data name="PublicVarTooltip" xml:space="preserve">
     <value>Öffentliche Eingabebits (IV oder Klartext) des attackierten Kryptosystems.</value>
@@ -198,7 +198,7 @@ Beispiel: 1+x0+x5 2,6 1</value>
     <value>Wenn dieses Kontrollkästchen aktiviert ist, werden die Superpolynome aus einer Datei gelesen und können in der Online-Phase ausgewertet werden.</value>
   </data>
   <data name="SecretVarCaption" xml:space="preserve">
-    <value>Wähle Bitgröße</value>
+    <value>geheime Bits</value>
   </data>
   <data name="SecretVarTooltip" xml:space="preserve">
     <value>Schlüsselgröße des attackierten Kryptosystems.</value>

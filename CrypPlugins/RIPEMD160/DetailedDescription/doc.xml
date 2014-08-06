@@ -4,21 +4,33 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    RIPEMD (RACE Integrity Primitives Evaluation Message Digest) is a cryptographic hash function that was published by Hans Dobbertin, Antoon Bosselaers and Bart Preneel in 1996.
+    RIPEMD-160 is an improved version of the original RIPEMD. It calculates a hash value of 160 bits (20 bytes) length for its input of arbitrary length.
+    RIPEMD-160 operates on blocks of 512 bits and executes two parallel functions, each with 5 rounds. 
+    The algorithm is optimized for 32-bit processors and is used by the encryption program TrueCrypt and in the address generation of the digital currency Bitcoin.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    RIPEMD (RACE Integrity Primitives Evaluation Message Digest) ist eine kryptographische Hash-Funktion und wurde 1996 von Hans Dobbertin, Antoon Bosselaers und Bart Preneel veröffenlicht.
+    RIPEMD-160 ist eine verbesserte Version von RIPEMD, die für Eingaben beliebiger Länge einen Hashwert mit einer Länge von 160 Bits (20 Bytes) generiert.
+    RIPEMD-160 arbeitet auf 512-Bit-Blöcken und führt zwei parallele Funktionen mit jeweils fünf Runden aus. 
+    Der Algorithmus ist optimiert für 32-Bit-Prozessoren und wird unter anderem in dem Verschlüsselungsprogramm TrueCrypt und in der Adressgenerierung der Internetwährung Bitcoin eingesetzt.
   </introduction>
 
   <usage lang="en">
+    The component expects the data of which to calculate the hash value as a data stream on the input labeled "Input stream".
+    The resulting hash value is provided at the outputs of the component as a byte array and as a data stream.
   </usage>
 
   <usage lang="de-DE">
+    Die Komponente erwartet die Daten, deren Hashwert berechnet werden soll, als Datenstrom am Eingang "Eingabedatenstrom".
+    Der resultierende Hashwert wird an den Ausgängen der Komponente als Datenstrom und als Byte-Array bereitgestellt.
   </usage>
-  
+
   <presentation lang="en">
   </presentation>
-  
+
   <presentation lang="de-DE">
   </presentation>
 
