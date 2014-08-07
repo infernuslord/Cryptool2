@@ -25,48 +25,13 @@ namespace Cryptool.Plugins.Transcriptor
     {
         #region Private Variables
 
-        private String fileName;
         private int color;
         private int stroke;
-        private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         #endregion
 
         #region TaskPane Settings
-        [TaskPane("Alphabet", "AlphabetTooltip", null, 1, false, ControlType.TextBox, null)]
-        public String Alphabet
-        {
-            get
-            {
-                return alphabet;
-            }
-            set
-            {
-                if (alphabet != value)
-                {
-                    alphabet = value;
-                        OnPropertyChanged("Alphabet");
-                }
-            }
-        }
-
-        [TaskPane("Load File", "LoadFileTooltip", null, 3, false, ControlType.OpenFileDialog, FileExtension = "All Files (*.*)|*.*")]
-        public String FileName
-        {
-            get
-            {
-                return fileName;
-            }
-            set
-            {
-                if (fileName != value)
-                {
-                    fileName = value;
-                    OnPropertyChanged("FileName");
-                }
-            }
-        }
-
+        
         [TaskPane("Color", "ColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
         public int Color
         {
@@ -82,7 +47,6 @@ namespace Cryptool.Plugins.Transcriptor
                     OnPropertyChanged("Color");
                 }
             }
-
         }
 
         [TaskPane("Stroke", "StrokeTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 3)]

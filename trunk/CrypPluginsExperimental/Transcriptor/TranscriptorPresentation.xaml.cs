@@ -16,7 +16,8 @@ namespace Transcriptor
     /// </summary>
     public partial class TranscriptorPresentation : UserControl
     {
-        String rectangleColor, alphabet;
+        private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
+        String rectangleColor;
         int strokeThicknes, alphabetCount = 0, indexCount = 0;
         List<Sign> signList = new List<Sign>();
         ObservableCollection<Sign> signItems = new ObservableCollection<Sign>();
@@ -24,10 +25,12 @@ namespace Transcriptor
         Rectangle rectangle;
         BitmapSource bitMap;
         bool mouseDown;
-                
-        public TranscriptorPresentation()
+        
+
+        public TranscriptorPresentation(Cryptool.Plugins.Transcriptor.Transcriptor transcriptor)
         {
             InitializeComponent();
+            this.transcriptor = transcriptor;
             this.DataContext = this;
             mouseDown = false;
 
@@ -35,12 +38,6 @@ namespace Transcriptor
             {
                 Fill = Brushes.Transparent,
             };
-        }
-
-        public String Alphabet
-        {
-            get { return alphabet; }
-            set { alphabet = value; }
         }
 
         public int StrokeThicknes
@@ -122,7 +119,7 @@ namespace Transcriptor
 
         private void addSignButton_Click(object sender, RoutedEventArgs e)
         {
-            Sign newSign = new Sign(indexCount, Alphabet[alphabetCount++], bitMap);
+            Sign newSign = new Sign(indexCount, transcriptor.Alphabet[alphabetCount++], bitMap);
             signItems.Add(newSign);
             signListbox.ItemsSource = signItems;
             indexCount++;
@@ -130,7 +127,7 @@ namespace Transcriptor
             AddSignToList(newSign, (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
                 (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)));
 
-            if (alphabetCount >= Alphabet.Length)
+            if (alphabetCount >= transcriptor.Alphabet.Length)
             {
                 addSignButton.IsEnabled = false;
             }
@@ -152,7 +149,7 @@ namespace Transcriptor
         private void generateButton_Click(object sender, RoutedEventArgs e)
         {
             StringBuilder textBuilder = new StringBuilder();
-            String text = null;
+            String outputText = null;
 
             for (int i = 0; i < signList.Count; i++)
             {
@@ -160,8 +157,10 @@ namespace Transcriptor
                 textBuilder.Append(signList[i].Letter);
             }
 
-            text = textBuilder.ToString();
-            
+            outputText = textBuilder.ToString();
+
+            transcriptor.GenerateText(outputText);
+  
         }
 
         private void AddSignToList(Sign newSign, int width, int height)
