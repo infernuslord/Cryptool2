@@ -28,28 +28,28 @@ using System.Windows.Media.Imaging;
 namespace Cryptool.Plugins.Transcriptor
 {
     // HOWTO: Change author name, email address, organization and URL.
-    [Author("Olga Groh", "coredevs@cryptool.org", "Uni Kassel", "www.uni-kassel.de")]
+    [Author("Olga Groh", "o_groh@student.uni-kassel.de", "Uni Kassel", "www.uni-kassel.de")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Transcriptor", "Transcriptor", "Transcriptor/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Transcriptor", "Transcriptor", "Transcriptor/userdoc.xml", new[] {"Transcriptor/icon.png"})]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
-    [ComponentCategory(ComponentCategory.Steganography)]
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class Transcriptor : ICrypComponent
     {
         #region Private Variables
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private readonly TranscriptorSettings settings = new TranscriptorSettings();
-        private TranscriptorPresentation transcriptorPresentation = new TranscriptorPresentation();
+        private readonly TranscriptorSettings settings;
+        private TranscriptorPresentation transcriptorPresentation;
 
         #endregion
 
         public Transcriptor()
         {
-            transcriptorPresentation = new TranscriptorPresentation();
-            
-            //transcriptorPresentation.InitializeComponent();
+            transcriptorPresentation = new TranscriptorPresentation(this);
+            settings = new TranscriptorSettings();
+
             Presentation = transcriptorPresentation;
         }
 
@@ -66,11 +66,18 @@ namespace Cryptool.Plugins.Transcriptor
             set;
         }
 
+        [PropertyInfo(Direction.InputData, "Working Alphabet", "Alphabet ToolTip")]
+        public string Alphabet
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// HOWTO: Output interface to write the output data.
         /// You can add more output properties ot other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "TextOutput name", "TextOutput tooltip")]
+        [PropertyInfo(Direction.OutputData, "TextOutput name", "TextOutput Tooltip")]
         public string Text
         {
             get;
@@ -99,16 +106,6 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void PreExecution()
         {
-        }
-
-        /// <summary>
-        /// Called every time this plugin is run in the workflow execution.
-        /// </summary>
-        public void Execute()
-        {
-            // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
-            ProgressChanged(0, 1);
-
             switch (settings.Color)
             {
                 case 0: transcriptorPresentation.RectangleColor = "Black"; break;
@@ -117,10 +114,16 @@ namespace Cryptool.Plugins.Transcriptor
             }
 
             transcriptorPresentation.StrokeThicknes = settings.Stroke;
-            transcriptorPresentation.Alphabet = settings.Alphabet;
 
-            //transcriptorPresentation.RectangleColor = settings.Color;
+        }
 
+        /// <summary>
+        /// Called every time this plugin is run in the workflow execution.
+        /// </summary>
+        public void Execute()
+        {
+            ProgressChanged(0, 1);
+            
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
                 var decoder = BitmapDecoder.Create(new MemoryStream(Image.CreateReader().ReadFully()),
@@ -133,10 +136,6 @@ namespace Cryptool.Plugins.Transcriptor
 
             }, null);
             
-            
-
-            // HOWTO: Make sure the progress bar is at maximum when your Execute() finished successfully.
-            ProgressChanged(1, 1);
         }
 
         /// <summary>
@@ -197,5 +196,12 @@ namespace Cryptool.Plugins.Transcriptor
         }
 
         #endregion
+
+        internal void GenerateText(string outputText)
+        {
+            Text = outputText;
+            OnPropertyChanged("Text");
+            ProgressChanged(1, 1);
+        }
     }
 }
