@@ -4,22 +4,43 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The Berlekamp–Massey algorithm is an algorithm for finding the shortest linear feedback shift register (LFSR) with length L for a given output sequence.
+    Equivalently, it will also find the minimal polynomial C(D) of a linear recurrence sequence.
+    <newline/>
+    <newline/>
+    The algorithm was invented by Elwyn Berlekamp in 1968. Its connection to linear codes was observed by James Massey the following year.
+    It became the key to practical application of the now ubiquitous Reed–Solomon code.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Der Berlekamp-Massey-Algorithmus dient dazu, das kürzeste, linear rückgekoppelte Schieberegister (LFSR, linear feedback shift register) zu finden, das eine gegebene Folge von Symbolen ausgibt,
+    oder, äquivalent dazu, das Minimalpolynom C(D) einer linearen rekursiven Folge.
+    <newline/>
+    <newline/>
+    Das Verfahren wurde von 1968 bis 1969 von Elwyn Berlekamp und James Massey entwickelt.
+    Anwendungen liegen im Bereich der effizienten Decodierung von BCH-Codes und Untergruppen wie den Reed-Solomon-Codes.
   </introduction>
 
   <usage lang="en">
+    On the input of the component, a string consisting of "0" and "1" is expected, that represents the output of the linear feedback shift register whose minimal polynomial you want to determine.
+    When the workspace is started, the component calculates the minimal polynomial and outputs it as a string (for example "x^5 + x^3 + 1") on the output labeled "Feedback Polynomial C(D)".
+    The degree of the polynomial, that corresponds to the minimal length of a LFSR for the given input, is sent to the output "L".
   </usage>
 
   <usage lang="de-DE">
+    Geben Sie am Eingang die aus "0" und "1" bestehende Zeichenkette an, die die Ausgabe des linear rückgekoppelten Schieberegisters darstellt,
+    dessen Minimalpolynom festgestellt werden soll.
+    Nachdem der Arbeitsbereich gestartet wurde, stellt die Komponente das Minimalpolynom fest und gibt dieses als Text am Ausgang "Feedback-Polynom C(D)" aus (zum Beispiel "x^5 + x^3 + 1").
+    Der Grad des Polynoms, der der minimalen Länge des für die Eingabe benötigten Schieberegisters entspricht, wird am Ausgang "L" ausgegeben.
   </usage>
   
   <presentation lang="en">
+    The presentation view of the component displays the found minimum polynomial C(D) and the minimal length L.
   </presentation>
   
   <presentation lang="de-DE">
+    Wenn die Präsentationsansicht der Komponente geöffnet ist, werden das gefundene Minimalpolynom C(D) und die minimale Länge L angezeigt.
   </presentation>
 
   <references>

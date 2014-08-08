@@ -139,7 +139,7 @@
     <value>Zero Knowledge Checked</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Komponente für das Zero Knowledge-Protokoll</value>
+    <value>Beweiser-Komponente für das Zero Knowledge-Protokoll</value>
   </data>
   <data name="SecretCaption" xml:space="preserve">
     <value>Geheimnis ist bekannt</value>

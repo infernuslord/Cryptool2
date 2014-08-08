@@ -139,7 +139,7 @@
     <value>Zero Knowledge Checked</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Plugin for the Zero Knowledge protocol</value>
+    <value>Prover component for the Zero Knowledge protocol</value>
   </data>
   <data name="SecretCaption" xml:space="preserve">
     <value>Secret is known</value>

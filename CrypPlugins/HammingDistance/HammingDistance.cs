@@ -21,7 +21,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace HammingDistance
 {
     [Author("Nils Kopal", "nils.kopal@uni-kassel.org", "Universität Kassel", "http://www.ais.uni-kassel.de")]
-    [PluginInfo("HammingDistance.Properties.Resources", "PluginCaption", "PluginTooltip", null, "HammingDistance/icon.png")]
+    [PluginInfo("HammingDistance.Properties.Resources", "PluginCaption", "PluginTooltip", "HammingDistance/DetailedDescription/doc.xml", "HammingDistance/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class HammingDistance : ICrypComponent
     {

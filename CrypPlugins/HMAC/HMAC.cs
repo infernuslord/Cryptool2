@@ -60,11 +60,10 @@ namespace Cryptool.HMAC
         [PropertyInfo(Direction.InputData, "InputDataCaption", "InputDataTooltip", true)]
         public ICryptoolStream InputData
         {
-
             get
             {
                 return inputData;
-                }
+            }
 
             set
             {
@@ -94,13 +93,8 @@ namespace Cryptool.HMAC
             get
             {
                 if (outputData != null)
-                {
                     return new CStreamWriter(outputData);
-                }
-                else
-                {
-                    return null;
-                }
+                return null;
             }
 
             set { } // readonly
@@ -124,54 +118,43 @@ namespace Cryptool.HMAC
 
         public void Execute()
         {
-            ProgressChanged(0.5, 1.0);
-            if (inputData != null && key != null)
+            ProgressChanged(0,1);
+
+            System.Security.Cryptography.HMAC hmacAlgorithm;
+
+            switch ((HMACSettings.HashFunction)settings.SelectedHashFunction)
             {
-                System.Security.Cryptography.HMAC hmacAlgorithm;
-
-                switch ((HMACSettings.HashFunction)settings.SelectedHashFunction)
-                {
-                    case HMACSettings.HashFunction.MD5:
-                        hmacAlgorithm = new System.Security.Cryptography.HMACMD5();
-                        break;
-                    case HMACSettings.HashFunction.RIPEMD160:
-                        hmacAlgorithm = new System.Security.Cryptography.HMACRIPEMD160();
-                        break;
-                    case HMACSettings.HashFunction.SHA1:
-                        hmacAlgorithm = new System.Security.Cryptography.HMACSHA1();
-                        break;
-                    case HMACSettings.HashFunction.SHA256:
-                        hmacAlgorithm = new System.Security.Cryptography.HMACSHA256();
-                        break;
-                    case HMACSettings.HashFunction.SHA384:
-                        hmacAlgorithm = new System.Security.Cryptography.HMACSHA384();
-                        break;
-                    case HMACSettings.HashFunction.SHA512:
-                        hmacAlgorithm = new System.Security.Cryptography.HMACSHA512();
-                        break;
-                    default:
-                        GuiLogMessage("No hash algorithm for HMAC selected, using MD5.", NotificationLevel.Warning);
-                        hmacAlgorithm = new System.Security.Cryptography.HMACMD5();
-                        break;
-                }
-
-                hmacAlgorithm.Key = key;
-                using (CStreamReader reader = inputData.CreateReader())
-                {
-                    OutputData = hmacAlgorithm.ComputeHash(reader);
-                }
-
-                GuiLogMessage(String.Format("HMAC computed. (using hash algorithm {0}: {1})", settings.SelectedHashFunction, hmacAlgorithm.GetType().Name), NotificationLevel.Info);
-            }
-            else
-            {
-                if (inputData == null)
-                    GuiLogMessage("No input data for HMAC algorithm.", NotificationLevel.Warning);
-                if (key == null)
-                    GuiLogMessage("No key for HMAC algorithm.", NotificationLevel.Warning);
+                case HMACSettings.HashFunction.MD5:
+                    hmacAlgorithm = new System.Security.Cryptography.HMACMD5();
+                    break;
+                case HMACSettings.HashFunction.RIPEMD160:
+                    hmacAlgorithm = new System.Security.Cryptography.HMACRIPEMD160();
+                    break;
+                case HMACSettings.HashFunction.SHA1:
+                    hmacAlgorithm = new System.Security.Cryptography.HMACSHA1();
+                    break;
+                case HMACSettings.HashFunction.SHA256:
+                    hmacAlgorithm = new System.Security.Cryptography.HMACSHA256();
+                    break;
+                case HMACSettings.HashFunction.SHA384:
+                    hmacAlgorithm = new System.Security.Cryptography.HMACSHA384();
+                    break;
+                case HMACSettings.HashFunction.SHA512:
+                    hmacAlgorithm = new System.Security.Cryptography.HMACSHA512();
+                    break;
+                default:
+                    GuiLogMessage("No hash algorithm for HMAC selected, using MD5.", NotificationLevel.Warning);
+                    hmacAlgorithm = new System.Security.Cryptography.HMACMD5();
+                    break;
             }
 
-            ProgressChanged(1.0, 1.0);
+            hmacAlgorithm.Key = key;
+
+            OutputData = (inputData != null) ? hmacAlgorithm.ComputeHash(inputData.CreateReader()) : hmacAlgorithm.ComputeHash( new byte[] {} );
+
+            GuiLogMessage(String.Format("HMAC computed. (using hash algorithm {0}: {1})", settings.SelectedHashFunction, hmacAlgorithm.GetType().Name), NotificationLevel.Info);
+
+            ProgressChanged(1,1);
         }
 
 
@@ -179,8 +162,8 @@ namespace Cryptool.HMAC
 
         public void Dispose()
         {
-                inputData = null;
-            }
+            inputData = null;
+        }
         #endregion
 
         #region IPlugin Members

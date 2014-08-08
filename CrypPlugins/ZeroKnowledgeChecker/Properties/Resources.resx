@@ -145,7 +145,7 @@
     <value>Zero Knowledge Checker</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Checker component for the Zero Knowledge protocol</value>
+    <value>Verifier component for the Zero Knowledge protocol</value>
   </data>
   <data name="RateOfSuccessCaption" xml:space="preserve">
     <value>Rate of success</value>

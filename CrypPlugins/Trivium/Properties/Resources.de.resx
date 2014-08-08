@@ -133,19 +133,19 @@
     <value>Initialisierungsrunden</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+    <value>Bis zu 10 Bytes (80 bit) lang (in Hex).</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>Initialisierungsvektor</value>
   </data>
   <data name="InputKeySettingsTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+    <value>10 Bytes (80 bit) lang (in Hex).</value>
   </data>
   <data name="InputKeySettingsCaption" xml:space="preserve">
     <value>Schlüssel (Eingabe für Cube Attack)</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Muss 10 Bytes (80 bit) lang sein (in Hex).</value>
+    <value>10 Bytes (80 bit) lang (in Hex).</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Schlüssel</value>

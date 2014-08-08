@@ -4,16 +4,46 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    In cryptography, a keyed-hash message authentication code (HMAC) is a specific construction for calculating a message authentication code (MAC) involving a cryptographic hash function in combination with a secret cryptographic key.
+    As with any MAC, it may be used to simultaneously verify both the data integrity and the authentication of a message. Any cryptographic hash function, such as MD5 or SHA-1, may be used in the calculation of an HMAC.
+    The cryptographic strength of the HMAC depends upon the cryptographic strength of the underlying hash function and on the size and quality of the key.
+    <newline/>
+    <newline/>
+    The size of the output of HMAC is the same as that of the underlying hash function (128 or 160 bits in the case of MD5 or SHA-1, respectively).
+    <newline/>
+    <newline/>
+    The definition and analysis of the HMAC construction was first published in 1996 by Mihir Bellare, Ran Canetti, and Hugo Krawczyk.
+    FIPS PUB 198 generalizes and standardizes the use of HMACs. HMAC-SHA1 and HMAC-MD5 are used within the IPsec and TLS protocols.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Ein Keyed-Hash Message Authentication Code (HMAC) ist eine Art Message Authentication Code (MAC), dessen Konstruktion auf einer kryptografischen Hash-Funktion in Verbindung mit einem geheimen Schlüssel basiert.
+    Wie jeder MAC kann er sowohl die Integrität als auch die Authentizität einer Nachricht gewährleisten. Prinzipiell kann jede kryptographische Hashfunktion für die Berechnung eines HMAC verwendet werden.
+    Die kryptographische Stärke des HMAC hängt von der kryptographischen Stärke der zugrunde liegenden Hashfunktion und der Größe und Qualität des verwendeten Schlüssels ab.
+    <newline/>
+    <newline/>
+    Die Ausgabe von HMAC hat dieselbe Größe wie die Ausgabe der zugrunde liegenden Hashfunktion (128 Bits für MD5, 160 Bits für SHA-1).
+    <newline/>
+    <newline/>
+    Die Definition und Analyse der HMAC-Konstruktion wurde erstmals 1996 von Mihir Bellare, Ran Canetti und Hugo Krawczyk veröffentlicht.
+    HMACs werden in RFC 2104 sowie im NIST Standard FIPS 198 spezifiziert und kommen in IPSec und TLS zum Einsatz.
   </introduction>
 
   <usage lang="en">
+    In the settings of the component, you can select the hash function that the HMAC algorithm should use.
+    The data of which to calculate the hash value has to be entered at the input "Input stream" as a data stream.
+    The key must be provided as a byte array of arbitrary length at the input labeled "Key".
+    The calculated hash value is available at the outputs of the component as a data stream and as a byte array.
+    The length of the hash value depends on the selected hash function and corresponds to the length of the hash value that this function produces.
   </usage>
 
   <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente die Hashfunktion aus, auf der der verwendete HMAC-Algorithmus basieren soll.
+    Geben Sie die Daten, deren Hashwert berechnet werden soll, als Datenstrom am Eingang "Eingabedatenstrom" ein.
+    Der Schlüssel wird als Byte-Array beliebiger Länge am entsprechend benannten Eingang erwartet.
+    Der berechnete Hashwert wird an den Ausgängen der Komponente als Datenstrom und als Byte-Array ausgegeben.
+    Die Länge des Hashwertes hängt von der ausgewählten Variante ab und entspricht der Länge der zugrundeliegenden Hashfunktion.
   </usage>
   
   <presentation lang="en">
