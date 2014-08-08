@@ -26,7 +26,7 @@ using System.Text.RegularExpressions;
 namespace AlphabetPermutator
 {
     [Author("Nils Kopal", "Nils.Kopal@Uni-Kassel.de", "Universität Kassel", "http://www.uni-kassel.de")]
-    [PluginInfo("AlphabetPermutator.Properties.Resources", "AlphabetPermutatorCaption", "AlphabetPermutatorTooltip",null,"AlphabetPermutator/icon.png" )]
+    [PluginInfo("AlphabetPermutator.Properties.Resources", "AlphabetPermutatorCaption", "AlphabetPermutatorTooltip", "AlphabetPermutator/DetailedDescription/doc.xml", "AlphabetPermutator/icon.png")]
     [ComponentCategory(ComponentCategory.ToolsDataflow)]
     public class AlphabetPermutator : ICrypComponent
     {

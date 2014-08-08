@@ -2,32 +2,75 @@
 
 <!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
 <documentation>
-  <language culture="en"/>
 
+  <language culture="en"/>
+  <language culture="de-DE"/>
 
   <introduction lang="en">
-    There are two people, Alice and Bob. Alice knows secret magic password, which opens a door in magic cave. Bob doesn´t believe Alice that she knows this secret.
-    Alice don´t want to tell her secret to Bob, she just want to proof him, that she knows it. So they make a deal, Alice will go to the cave, with one of n entrances. Entrances are connected, but there is a magic door between them. Bob doesn´t know the entrance, which Alice entered the cave. Bob just shout the name of entrace and Alice must go out by named entrance. If she know magic password, she can go through the door a leave the cave with named entrace. If she doesn´t know magic password, she must be lucky, she can bluff that she know the secret only if Bob name her entrance. They repeat this until Bob is convinced that Alice knows the secret. 
-    And this problem solves Zero-Knowledge protocol. This plugin represent Bob. Bob want for Alice to prove him, that she knows the secret. So she send her number, if Alice knows the secret, she can send him that number easily back. But if she doesn´t know the secret, she must be lucky a guess that number from ammount of options. Bob will make certain ammount of attempts. If Alice send him wrong number, it means that she doesn´t know the secret. If Alice send him right number for every time, she convince Bob that she knows the secret. 
+    In cryptography, a zero-knowledge proof or zero-knowledge protocol is a method by which one party (the prover) can prove to another party (the verifier) that he knows a secret,
+    without conveying any information about the secrect apart from the fact that he knows it.
+    <newline/>
+    <newline/>
+    The implementation of the zero-knowledge protocol in CrypTool assumes, that the prover can prove that he knows the secret by influencing an experiment in such a way, that its result is a value that was requested by the verifier.
+    The result of the experiment is a number in a given interval.
+    <newline/>
+    <newline/>
+    The verifier determines the number of possible results of the experiment. He chooses a random result and challenges the prover to reproduce this result of the experiment.
+    If the prover knows the secret, he can reproduce it every time. If he doesn't know it, the result of the experiment will be random.
+    If it is different from the requested value, the verifier knows immeadiately that the prover doesn't know the secret.
+    But if the result happens to be correct, the verifier can draw no conclusion.
+    By repeating this process several times, the probability that the prover can convince the verifier without knowing the secret gets smaller and smaller.
+    <newline/>
+    <newline/>
+    This component implements the actions of the prover. After hearing the requested result, he executes the experiment and sends the result to the prover.
+    Depending on whether or not he knows the secret, the result of the experiment will either be always the requested value or a random value.
   </introduction>
 
-
+  <introduction lang="de-DE">
+    Ein Zero-Knowledge-Beweis (auch kenntnisfreier Beweis) oder Zero-Knowledge-Protokoll (auch kenntnisfreies Protokoll) ist ein Protokoll aus dem Bereich der Kryptografie.
+    Bei einem Zero-Knowledge-Protokoll kommunizieren zwei Parteien (der Beweiser und der Verifizierer) miteinander.
+    Der Beweiser überzeugt dabei den Verifizierer mit einer gewissen Wahrscheinlichkeit davon, dass er ein Geheimnis kennt, ohne dabei Informationen über das Geheimnis selbst bekannt zu geben.
+    <newline/>
+    <newline/>
+    Die Implementierung des Zero-Knowledge-Protokolls in CrypTool geht davon aus, dass der Beweiser die Kenntnis des Geheimnisses dadurch belegen kann, dass er ein Experiment so beeinflusst,
+    dass ein vom Verifizierer verlangter Wert dabei herauskommt.
+    Das Ergebnis des Experimentes ist eine Zahl aus einem vorgegebenen Intervall.
+    <newline/>
+    <newline/>
+    Der Verifizierer bestimmt die Anzahl der möglichen Ergebnisse des Experimentes. Er wählt ein beliebiges Ergebnis aus und fordert den Beweiser auf, dieses durch das Experiment zu reproduzieren.
+    Kennt der Beweiser das Geheimnis, so kann er das Experiment stets so ausführen, dass das geforderte Ergebnis zustande kommt. Kennt er es nicht, so ist das Ergebnis des Experiments zufällig.
+    Wenn das Ergebnis nicht übereinstimmt, so weiss der Verifizierer sicher, dass der Beweiser das Geheimnis nicht kennt. Ist das Ergebnis aber durch Zufall richtig, so kann der Verifizierer keine Rückschlüsse ziehen.
+    Durch mehrmalige Wiederholung wird die Wahrscheinlichkeit, dass der Beweiser bei Nichtkenntnis des Geheimnisses stets das richtige Ergebnis erzeugt, immer kleiner.
+    <newline/>
+    <newline/>
+    Diese Komponente implementiert die Aktionen des Beweisers. Nachdem er vom Verifizierer den verlangten Wert mitgeteilt bekommt, führt er das Experiment durch und teilt das Ergebnis dem Verifizierer mit.
+    Das Resultat hängt davon ab, ob er das Geheimnis kennt. Kennt er es, so wird immer das korrekte Resultat erzeugt, ansonsten ein zufälliger Wert.
+  </introduction>
 
   <usage lang="en">
-    This plugin represent Alice.
-    After dragging the Zero Knowledge Checked component onto the workspace, you need to specify two inputs. Both inputs are from Zero Knowledge Checker. First input is wanted number, that Bob from Alice want. Second input is information about ammount of options. You can set up if Alice knows secret. If she knows the secret, she will always send Bob same number. If she doesn´t know secret, she will generate random number from 1 to ammount of options and that number she will send to Bob. 
+    In the settings of the component, you can decide whether or not the prover knows the secret.
+    On the input "Amount of options" the verifier announces the number of possible results of the experiment.
+    When the workspace is executed, the value that is requested by the verifier is available at the input.
+    Then the prover executes the experiment and sends the result to the verifier via the output of the component.
   </usage>
 
-  
+  <usage lang="de-DE">
+    Geben Sie in den Einstellungen der Komponente an, ob der Beweiser das Geheimnis kennt.
+    Am Eingang "Anzahl der Optionen" gibt der Verifizierer die Anzahl der möglichen Ergebnisse des Experimentes bekannt.
+    Wenn der Arbeitsbereich ausgeführt wird, wird der vom Verifizierer angeforderte Wert am Eingang "Eingabe" angegeben.
+    Der Beweiser führt daraufhin das Experiment durch und gibt das Resultat am Ausgang an den Verifizierer weiter.
+  </usage>
+
   <presentation lang="en">
   </presentation>
-  
 
-  
   <references>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Zero-knowledge_proof" lang="en" />
-      <caption lang="en">Zero-Knowledge</caption>
+      <caption lang="en">Zero-knowledge proof</caption>
+      <link url="http://de.wikipedia.org/wiki/Zero-Knowledge-Beweis" lang="de-DE" />
+      <caption lang="de-DE">Zero-Knowledge-Beweis</caption>
     </linkReference>
   </references>
+  
 </documentation>

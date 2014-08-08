@@ -121,7 +121,7 @@
     <value>Alphabet Permutator</value>
   </data>
   <data name="AlphabetPermutatorTooltip" xml:space="preserve">
-    <value>Component to permutate an alphabet using a password</value>
+    <value>Permutes an alphabet using a password</value>
   </data>
   <data name="Ascending" xml:space="preserve">
     <value>Ascending</value>
@@ -136,13 +136,13 @@
     <value>Offset</value>
   </data>
   <data name="OffsetTooltip" xml:space="preserve">
-    <value>The offset which should be used to put the password in the destination alphabet</value>
+    <value>The offset at which to put the password in the destination alphabet</value>
   </data>
   <data name="OrderCaption" xml:space="preserve">
     <value>Order</value>
   </data>
   <data name="OrderTooltip" xml:space="preserve">
-    <value>The order which should be used to sort the destination alphabet</value>
+    <value>The sorting order for the destination alphabet</value>
   </data>
   <data name="PasswordCaption" xml:space="preserve">
     <value>Password</value>

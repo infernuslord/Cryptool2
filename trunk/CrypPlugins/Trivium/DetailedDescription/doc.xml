@@ -4,16 +4,60 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    Trivium is a synchronous stream cipher, that was designed by the cryptographers Bart Preneel and Christophe De Cannière.
+    It is one of the three winners for the profile 2 (Hardware) of the eStream Project of the eCRYPT network and has the simplest design of all eStream candidates.
+    Trivium requires a key of length 80 bits and an initialization vector of up to 80 bits and generates a key stream of up to 2^64 bits.
+    <newline/>
+    <newline/>
+    Trivium is patent-free and was adopted as ISO/IEC 29192-3 standard.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Trivium ist eine synchrone Stromchiffre, die von den Kryptographen Bart Preneel und Christophe De Cannière entwickelt wurde.
+    Es ist einer der drei Gewinner für das Profil 2 (Hardware-Verfahren) des eSTREAM-Wettbewerbs des eCRYPT-Netzwerkes und hat von allen eSTREAM-Kandidaten das einfachste Design.
+    Trivium erzeugt aus einem 80-Bit-Schlüssel und einem 80-Bit-Initialisierungsvektor bis zu 2^64 Bit Keystream.
+    <newline/>
+    <newline/>
+    Trivium ist nicht patentiert und wurde als ISO/IEC 29192-3 standardisiert.
   </introduction>
 
   <usage lang="en">
+    The key and the initialization vector must both be provided at the appropriate inputs.
+    The inputs are expected as hexadecimal strings, that the component will convert to byte arrays for internal use.
+    Trivium requires a key that is 10 bytes (80 bits) long and an initialization vector, that is up to 10 bytes (80 bits) long.
+    <newline/>
+    <newline/>
+    The data, that is to be encrypted or decrypted, mut be entered at the "Input" connector of the component, also as a hexadecimal string.
+    <newline/>
+    <newline/>
+    In the settings of the component, you can adjust the length of the key stream. The given number must be a multiple of 32.
+    <newline/>
+    <newline/>
+    By default, Trivium will execute 1152 initialization rounds. You can change the number of rounds in the settings.
+    <newline/>
+    <newline/>
+    The component can format the output as a hexadecimal string or as a binary string. For hexadecimal output, enable the checkbox in the settings.
+    With the checkbox labeled "Use byte swapping", you can also adjust, whether the output bytes should be interpreted as big endian or as little endian bytes.
   </usage>
 
   <usage lang="de-DE">
+    Der Schlüssel und der Initialisierungsvektor müssen an den entsprechend benannten Eingängen der Komponente eingegeben werden.
+    Die Eingaben werden als hexadezimale Zeichenketten erwartet, die von der Komponente für die interne Verarbeitung in Byte-Arrays konvertiert werden.
+    Trivium benötigt einen Schlüssel, der genau 10 Bytes (80 Bits) lang ist und einen Initialisierungsvektor, der höchstens 10 Bytes (80 Bits) lang ist.
+    <newline/>
+    <newline/>
+    Die zu verschlüsselnden oder entschlüsselnden Daten müssen, ebenfalls als hexadezimale Zeichenkette, am Eingang "Eingabe" anliegen.
+    <newline/>
+    <newline/>
+    In den Einstellungen der Komponente können Sie festlegen, wieviele Schlüsselstrombits generiert werden sollen. Diese Zahl muss ein Vielfaches von 32 sein.
+    <newline/>
+    <newline/>
+    Trivium führt laut der Spezifikation 1152 Initialiserungsrunden aus. Sie können in den Einstellungen eine davon abweichende Anzahl festlegen.
+    <newline/>
+    <newline/>
+    Die Komponente kann die Ausgabe als hexadezimale Zeichenkette oder als binäre Zeichenkette formatieren. Aktivieren Sie für die hexadezimale Ausgabe das zugehörige Kontrollkästchen.
+    Außerdem können Sie mit dem Kontrollkästchen "Byte-swaping benutzen" noch festlegen, ob die Bytes der Ausgabe als Big-Endian- oder als Little-Endian-Bytes interpretiert werden sollen. 
   </usage>
   
   <presentation lang="en">
