@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<documentation>
+  
+  <language culture="en" />
+  <language culture="de" />
+  
+  <introduction lang="en">
+    The Hamming distance, named after the US american mathematician Richard Wesley Hamming (1915–1998), is a measure for the difference between two strings.
+    It is calculated for two blocks of equal size (called codewords) and it represents the number of places where they differ.
+    <newline/>
+    <newline/>
+    The Hamming distance is used for error detection and error correction.
+    It is used in telecommunication to count the number of flipped bits in a fixed-length binary word as an estimate of error.
+    Whether an error can be detected or corrected depends on the detected Hamming distance.
+    <newline/>
+    <newline/>
+    If the codewords are interpreted as binary data, the Hamming distance can be calculated by XORing the codewords and counting the ones in the result.
+  </introduction>
+
+  <introduction lang="de">
+    Die Hamming-Distanz, benannt nach dem US-amerikanischen Mathematiker Richard Wesley Hamming (1915–1998), ist ein Maß für die Unterschiedlichkeit zweier Zeichenketten.
+    Die Hamming-Distanz zweier Blöcke von fester Länge (sogenannter Codewörter) ist dabei die Anzahl der unterschiedlichen Stellen.
+    <newline/>
+    <newline/>
+    Die Hamming-Distanz wird zur Fehlererkennung und zur Fehlerkorrektur benutzt, indem Dateneinheiten, die über eine Übertragungsstrecke empfangen werden, mit gültigen Zeichen verglichen werden.
+    Ob eine Fehlererkennung oder -korrektur stattfinden kann, hängt von der berechneten Hamming-Distanz ab.
+    <newline/>
+    <newline/>
+    Handelt es sich bei den Codewörtern um binär dargestellte Zahlen, so lässt sich rechnerisch der Vergleich durch eine XOR-Operation und das Abzählen der resultierenden Einsen realisieren.
+  </introduction>
+  
+  <usage lang="en">
+    Enter the codewords you want to compare at the two inputs of the component as byte arrays.
+    The codewords must have the same size, or the component will halt with an error message.
+    The Hamming distance is calculated by XORing the two codewords and counting the ones in the result.
+    That number is sent to the output of the component.
+  </usage>
+  
+  <usage lang="de-DE">
+    Geben Sie die zu vergleichenden Codewörter an den beiden Eingängen der Komponente als Byte-Arrays an.
+    Die Codewörter müssen dieselbe Größe haben, sonst bricht die Berechnung mit einer Fehlermeldung ab.
+    Die Komponente berechnet die Hamming-Distanz, indem die beiden Codewörter XOR-verknüpft werden und die Anzahl der Einsen im Resultat abgezählt wird.
+    Diese Anzahl wird am Ausgang der Komponente ausgegeben.
+  </usage>
+
+  <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Hamming_distance" lang="en" />
+      <caption lang="en">Hamming distance</caption>
+      <link url="http://de.wikipedia.org/wiki/Hamming-Abstand" lang="de-DE" />
+      <caption lang="en">Hamming-Distanz</caption>
+    </linkReference>
+  </references>
+  
+</documentation>
