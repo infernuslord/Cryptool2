@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<documentation>
+  
+  <language culture="en" />
+  <language culture="de-DE" />
+
+  <introduction lang="en">
+    Many cryptographic methods require a permutation as a key.
+    An example is the monoalphabetic substitution, for which the key can be represented as a permutation of the alphabet.
+    The more elements a permutation comprises, the harder it is to memorize it.
+    <newline/>
+    <newline/>
+    With a trick, it is easy to generate a permutation from a simple keyword that is easy to remember.
+    Choose any keyword and write it down, but use any letter of the key word only once. If a letter occurs several times, it is dropped after the first occurance. The keyword "MASSACHUSETTS" would thus become "MASCHUET".
+    Now all letters that occur in the keyword are deleted from the base alphabet: "BDFGIJKLNOPQRVWXYZ". The remaining letters are then appended to the keyword: "MASCHUETBDFGIJKLNOPQRVWXYZ".
+    The resulting string is a permutation of the base alphabet and is a good enough key for many cryptographic methods.
+    <newline/>
+    <newline/>
+    This component implements the creation of a permuted alphabet using a keyword.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Viele kryptographische Verfahren benötigen als Schlüssel eine Permutation.
+    Beispielsweise kann der Schlüssel für eine einfache monoalphabetische Substitution als eine Vertauschung der Buchstaben des Alphabets dargestellt werden.
+    Je mehr Elemente bei einer Permutation beteiligt sind, desto schwieriger ist es, sich diese zu merken.
+    <newline/>
+    <newline/>
+    Daher wurde ein Verfahren entwickelt, mit dem man aus einem leicht zu behaltenden Schlüsselwort eine Permutation generieren kann.
+    Dazu wählt man ein Schlüsselwort und notiert dieses, wobei mehrfach auftretende Buchstaben nur einmal verwendet werden. Zum Beispiel wird aus dem Schlüsselwort "GEHEIMNIS" so das Wort "GEHIMNS".
+    Aus dem Gesamtalphabet werden nun alle im Schlüsselwort vorkommenden Buchstaben entfernt: "ABCDFJKLOPQRTUVWXYZ". Die verbleibenden Buchstaben werden an das Schlüsselwort angehängt und man erhält "GEHIMNSABCDFJKLOPQRTUVWXYZ".
+    Die so erhaltene Permutation des Alphabets bietet für viele Verfahren bereits genügend Sicherheit.
+    <newline/>
+    <newline/>
+    Diese Komponente implementiert das Verfahren, das eine Permutation eines Eingabe-Alphabets mit einem Schlüsselwort generiert.
+  </introduction>
+
+  <usage lang="en">
+    On the input "Source Alphabet", the component expects the alphabet, that is to be used as the base of the permutation, as a string.
+    In the settings, you can determine whether the component should use the ascending or descending sorted alphabet as base alphabet, or whether the alphabet should be used unchanged.
+    The keyword must be entered as a string on the input labeled "Password".
+    The keyword does not have to be put at the beginning of the alphabet, but can be inserted at any position.
+    Enter the desired position at the input labeled "Offset" as a number.
+    <newline/>
+    <newline/>
+    Keyword and offset can also be specified in the settings of the component, if the respective inputs are left unconnected.
+  </usage>
+  
+  <usage lang="de-DE">
+    Geben Sie am Eingang "Quellalphabet" der Komponente das Alphabet, das die Grundlage der Permutation sein soll, als Zeichenkette an.
+    In den Einstellungen der Komponente können Sie festlegen, ob als Quellalphabet die aufsteigend oder absteigend sortierte Eingabe verwendet werden soll, oder ob die unveränderte Eingabe das Quellalphabet darstellt.
+    Am Eingang "Passwort" wird das zu verwendende Schlüsselwort als Zeichenkette erwartet.
+    Das Schlüsselwort muss nicht notwendigerweise an den Anfang des Alphabets gestellt werden, sondern kann auch an beliebigen Stellen eingefügt werden.
+    Geben Sie am Eingang "Offset" die gewünschte Position an, an der das Schlüsselwort positioniert werden soll.
+    <newline/>
+    <newline/>
+    Das Schlüsselwort und der Offset können auch in den Einstellungen festgelegt werden, falls sie nicht über die Eingänge der Komponente eingegeben werden.
+  </usage>
+
+  <references>
+  </references>
+  
+</documentation>
