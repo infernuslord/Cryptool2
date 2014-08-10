@@ -145,7 +145,7 @@
     <value>Scytale</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Scytale -- classic transposition cipher</value>
+    <value>Classic transposition cipher</value>
   </data>
   <data name="StickSizeCaption" xml:space="preserve">
     <value>Stick size</value>

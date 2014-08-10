@@ -121,7 +121,7 @@
     <value>Action</value>
   </data>
   <data name="ActionTooltip" xml:space="preserve">
-    <value>Select the Algorithm action</value>
+    <value>Select the algorithm action</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
     <value>Alphabet case sensitive</value>
@@ -187,7 +187,7 @@
     <value>Vigenère</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Vigenère -- classic or autokey polyalphabetic substitution cipher</value>
+    <value>Classic or autokey polyalphabetic substitution cipher</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Encrypt</value>

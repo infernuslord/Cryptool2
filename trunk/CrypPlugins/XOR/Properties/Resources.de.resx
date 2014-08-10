@@ -139,6 +139,6 @@
     <value>XOR</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>XOR -- Verschlüsselung durch XOR-Verknüpfung der binären Eingabedaten mit einem Binärschlüssel.</value>
+    <value>Verschlüsselung durch XOR-Verknüpfung der binären Eingabedaten mit einem Binärschlüssel.</value>
   </data>
 </root>
