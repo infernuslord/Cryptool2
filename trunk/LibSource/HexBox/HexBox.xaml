@@ -24,7 +24,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ToolBarTray>
+        <ToolBarTray Name="toolbar">
             <ToolBar Background="Transparent" >
                 <Button Name ="newFile" Click="New_Button_Click" ToolTip="{x:Static HexBox:Properties.Resources.New}" >
                     <Image Source="/HexBox;component/Icons/NewDocument_32x32.png" Width="16" Height="16" />

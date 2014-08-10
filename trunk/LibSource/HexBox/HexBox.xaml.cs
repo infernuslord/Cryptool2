@@ -1663,7 +1663,7 @@ namespace HexBox
                         if (ask)
                         {
                             string messageBoxText =
-                                "Do you want to save changes in a new File? (If you click no, changes will saved permenantly)";
+                                "Do you want to save the changes in a new file? (If you click no, changes will be saved permanently.)";
                             string caption = "FileInput";
                             MessageBoxButton button = MessageBoxButton.YesNoCancel;
 
@@ -1733,7 +1733,7 @@ namespace HexBox
             return true;
         }
 
-        public void collapseControl(Boolean b) // changes visibility of user controls, when HexBox is nor visible
+        public void collapseControl(Boolean b) // changes visibility of user controls, when HexBox is not visible
         {
             //grid1.IsEnabled = b;
             //grid2.IsEnabled = b;
@@ -1746,6 +1746,8 @@ namespace HexBox
                 save.Visibility = Visibility.Visible;
                 newFile.Visibility = Visibility.Visible;
                 openFileButton.Visibility = Visibility.Visible;
+                insertCheck.Visibility = Visibility.Visible;
+                toolbar.Visibility = Visibility.Visible;
             }
             else
             {
@@ -1755,10 +1757,12 @@ namespace HexBox
                 save.Visibility = Visibility.Collapsed;
                 newFile.Visibility = Visibility.Collapsed;
                 openFileButton.Visibility = Visibility.Collapsed;
+                insertCheck.Visibility = Visibility.Collapsed;
+                toolbar.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void makeUnFocused(Boolean b) // allows or doesn't allows manipulation of data
+        private void makeUnFocused(Boolean b) // allows or doesn't allow manipulation of data
         {
             
             if (b&&this.IsEnabled)

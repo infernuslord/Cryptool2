@@ -139,6 +139,6 @@
     <value>Save</value>
   </data>
   <data name="SaveAs" xml:space="preserve">
-    <value>SaveAs</value>
+    <value>Save As...</value>
   </data>
 </root>
