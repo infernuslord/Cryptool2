@@ -79,13 +79,13 @@ namespace Cryptool.Plugins.NetworkReceiver
         /// <summary>
         ///   Socket ID
         /// </summary>
-        [PropertyInfo(Direction.InputData, "ConnectionIDInput", "StocketIDInputTooltip")]
+        [PropertyInfo(Direction.InputData, "ConnectionIDInput", "ConnectionIDInputTooltip")]
         public int ConnectionIDInput { get; set; }
 
         /// <summary>
         ///   Socket ID
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "ConnectionIDOutput", "StocketIDOutputTooltip")]
+        [PropertyInfo(Direction.OutputData, "ConnectionIDOutput", "ConnectionIDOutputTooltip")]
         public int ConnectionIDOutput { get; set; }
 
         #endregion
