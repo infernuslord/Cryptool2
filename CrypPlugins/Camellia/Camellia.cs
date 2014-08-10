@@ -29,7 +29,7 @@ namespace Camellia
 {
 
     [Author("Nils Kopal", "nils.kopal@uni-kassel.de", "Universität Kassel", "http://www.ais.uni-kassel.de")]
-    [PluginInfo("Camellia.Properties.Resources", "PluginCaption", "PluginTooltip", null, "Camellia/icon.png")]
+    [PluginInfo("Camellia.Properties.Resources", "PluginCaption", "PluginTooltip", "Camellia/DetailedDescription/doc.xml", "Camellia/icon.png")]
     [ComponentCategory(ComponentCategory.CiphersModernSymmetric)]
     public class Camellia : ICrypComponent
     {

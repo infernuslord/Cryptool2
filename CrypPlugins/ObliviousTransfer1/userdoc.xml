@@ -2,30 +2,124 @@
 
 <!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
 <documentation>
+  
   <language culture="en"/>
-
+  <language culture="de-DE"/>
 
   <introduction lang="en">
-    There are two people Bob and Alice. Alice has n messages and Bob wanted message b. Alice doesn´t want to send him all of her messages and Bob don´t want to tell her b. And the problem how to get exactly one message without revealing which one solves protocol Oblivious transfer 1-n
+    The Oblivious Transfer Protocol is an important cryptographic primitive. It was introduced by Michael O. Rabin in 1981.
+    It describes how a sender (Alice) can send some information to a receiver (Bob), but still remain oblivious as to what information was sent.
+    <newline/>
+    <newline/>
+    The Oblivious Transfer Protocol that is implemented by CrypTool can be described like this:
+    Alice has a database of messages. Bob wants to retrieve one of the entries, but doesn't want Alice to know, which entry he requested.
+    Alice is prepared to send the requested entry to Bob, but she doesn't want Bob to get more than this one entry per request.
+    <newline/>
+    <newline/>
+    The Oblivious Transfer Protocol meets these requirements. It requires Alice to supply the keys for an RSA encryption. Alice and Bob follow these steps:
+
+    <list>
+      <item>
+        <b>Step 1:</b>
+        Alice creates a list x of random numbers.
+        The list must have the same number of entries as the database and the numbers must be smaller than the modulus N of the RSA key. Alice sends x to Bob.
+      </item>
+      <item>
+        <b>Step 2:</b>
+        Bob chooses the index i, which is the index of the database entry he wants to request from Alice.
+        He generates a random number k that serves to blind the index i for Alice: he calculates v = x[i] + encode(k) with Alice's public key and sends it to Alice.
+      </item>
+      <item>
+        <b>Step 3:</b>
+        For each entry m[j] in her database, Alice calculates the value m[j] + decode(v-x[j]) using her private key and sends the resulting list to Bob.
+        For entry number i, this evaluates to m[i]+k, but as Alice doesn't know k, she can't tell which entry that is.
+      </item>
+      <item>
+        <b>Step 4:</b>
+        Bob receives Alice's list and selects entry i, which is m[i]+k. He subtracts k and is left with m[i], the entry of Alice's database that he requested.
+        Without the private key, Bob can't reconstruct any other values of Alice's list.
+      </item>
+    </list>
+
+    <newline/>
+    This component implements actions of Bob.
   </introduction>
 
+  <introduction lang="de-DE">
+    Das Oblivious Transfer-Protokoll ist ein kryptographisches Protokoll, das 1981 von Michael O. Rabin vorgeschlagen wurde.
+    Es beschreibt, wie ein Sender (Alice) eine Information an einen Empfänger (Bob) schicken kann, bei dem dem Sender verborgen bleibt, welche Information geschickt wurde.
+    <newline/>
+    <newline/>
+    Das in Cryptool implementierte Oblivious Transfer-Protokoll kann folgendermassen beschrieben werden:
+    Alice hat eine Sammlung von Nachrichten. Bob will eine dieser Nachrichten von Alice erhalten, aber er will nicht, dass Alice erfährt, welche der Nachrichten er angefragt hat.
+    Alice ist bereit, Bob die gewünschte Nachricht zu schicken, aber sie will vermeiden, dass Bob bei seiner Anfrage Informationen über die übrigen Nachrichten erhält.
+    <newline/>
+    <newline/>
+    Das Oblivious Transfer-Protokoll erfüllt diese Anforderungen. Alice muss dazu einen RSA-Schlüssel generieren. Alice und Bob befolgen dann diese Schritte:
 
+    <list>
+      <item>
+        <b>Schritt 1:</b>
+        Alice erzeugt eine Liste x von Zufallszahlen.
+        Die Anzahl der Zufallszahlen muss der Anzahl der von Alice vorgehaltenen Nachrichten entsprechen.
+        Außerdem muss jede der Zahlen kleiner als der Modulus N von Alices RSA-Schlüssel sein. Alice schickt diese Liste dann an Bob.
+      </item>
+      <item>
+        <b>Schritt 2:</b>
+        Bob wählt einen Index i, der angibt, welche Nachricht er von Alice erhalten möchte.
+        Er erzeugt eine Zufallszahl k, die zur Verschleierung des Indexes dient: er berechnet v = x[i] + encode(k) mit Alices öffentlichem Schlüssel und schickt v an Alice.
+      </item>
+      <item>
+        <b>Schritt 3:</b>
+        Für jede ihrer Nachrichten m[j] berechnet Alice den Wert m[j] + decode(v-x[j]) unter Verwendung ihres privaten RSA-Schlüssels und schickt die resultierenden Werte an Bob.
+        Für den i-ten Eintrag ergibt dies gerade m[i]+k, aber da Alice k nicht kennt, weiss sie nicht, um welchen Eintrag es sich handelt.
+      </item>
+      <item>
+        <b>Schritt 4:</b>
+        Bob empfängt Alices Liste und wählt den i-ten Eintrag, m[i]+k. Er subtrahiert k und erhält mit m[i] die von ihm angefragte Nachricht.
+        Da er Alices privaten Schlüssel nicht kennt, kann Bob keine weiteren Nachrichten aus Alices Liste rekonstruieren.
+      </item>
+    </list>
 
+    <newline/>
+    Diese Komponente implementiert Aktionen von Bob.
+  </introduction>
+  
   <usage lang="en">
-    This plugin represents Bob. 
-	Bob have random messages x from Alice, he will choose random message x with index b(b is index of wanted message) and then he will add to that message random number k. Result will be encrypted by RSA cryptosystem and sended to Alice. You need to specify messages x, b and RSA public keys. 
+    Enter Alice's public RSA key at the inputs "N" and "e".
+    On input "x", Alice must enter the list of random numbers, that she has generated, as an array of BigInteger numbers.
+    The index of the message, that Bob wants to request from Alice, can be specified at the input "b".
+    From the given inputs, the component calculates the values "k" and "v" from step 2 of the protocol and provides the results at the corresponding outputs as BigInteger numbers.
+  </usage>
+  
+  <usage lang="de-DE">
+    Geben Sie an den Eingängen "N" und "e" den von Alice generierten öffentlichen RSA-Schlüssel an.
+    Am Eingang "x" muss Alice die Liste der von ihr erstellten Zufallszahlen an Bob übergeben. Die Liste wird als ein Array von BigInteger-Zahlen erwartet.
+    Am Eingang "b" muss der Index der Nachricht angegeben werden, die Bob von Alice erhalten will.
+    Die Komponente berechnet aus den Eingaben die Werte "k" und "v" aus Schritt 2 des Protokolls und gibt diese an den entsprechenden Ausgängen als BigInteger-Zahlen aus.
   </usage>
 
-  
   <presentation lang="en">
   </presentation>
   
-
+  <presentation lang="de-DE">
+  </presentation>
   
   <references>
     <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Oblivious_transfer" lang="en" />
+      <caption lang="en">Oblivious transfer (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Oblivious_transfer" lang="de" />
+      <caption lang="de">Oblivious Transfer (Wikipedia, englisch)</caption>
+    </linkReference>
+    <linkReference>
       <link url="http://bezadis.ics.upjs.sk/old/CryptoSymposium/files/paper9.pdf" lang="en" />
-      <caption lang="en">Oblivious transfer 1 out of n </caption>
+      <caption lang="en">Oblivious transfer 1-n (PDF)</caption>
+      <link url="http://bezadis.ics.upjs.sk/old/CryptoSymposium/files/paper9.pdf" lang="de" />
+      <caption lang="de">Oblivious Transfer 1-n (PDF, englisch)</caption>
     </linkReference>
   </references>
+  
 </documentation>
+
+

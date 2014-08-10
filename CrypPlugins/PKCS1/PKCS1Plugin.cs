@@ -11,8 +11,6 @@ namespace PKCS1
 {
     [Author("Jens Schomburg", "mail@escobar.de", "Universität Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("PKCS1.Properties.Resources", "PluginCaption", "PluginTooltip", "PKCS1/DetailedDescription/doc.xml", "PKCS1/PKCS1.png")]
-    //[PluginInfo(false, "PKCS #1 / Bleichenbacher Angriff", "PKCS #1 / Bleichenbacher Angriff", "MD5/DetailedDescription/Description.xaml", "PKCS1/PKCS1.png")]
-    //[PluginInfo(Cryptool.PKCS1., false, "PKCS #1 / Bleichenbacher Angriff", "PKCS #1 / Bleichenbacher Angriff", "", "PKCS1/PKCS1.png")] 
 
     public class PKCS1Plugin : ICrypTutorial
     {

@@ -382,6 +382,7 @@
     <Resource Include="LatticeCryptoPlugin.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\doc.xml" />
     <Content Include="OnlineHelp\HelpFiles\de\Gauss.html">
       <SubType>Designer</SubType>
     </Content>

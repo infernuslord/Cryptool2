@@ -1,13 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <documentation>
+  
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This crypto tutorial gives an overview over the properties and applications of prime numbers.
+    <newline/>
+    <newline/>
+    You can open the tutorial by selecting "Crypto Tutorials" in the menu bar and clicking on the corresponding icon.
+    <newline/>
+    <newline/>
+    The methods offered in the tutorial are accompanied by explaining texts.
+    By clicking on the question mark icons that are displayed in many places of the tutorial, you can get further explanations.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Dieses Kryptotutorial gibt einen Einblick in die Welt der Primzahlen.
+    <newline/>
+    <newline/>
+    Sie können es aufrufen, indem Sie in der Menüleiste den Punkt "Kryptotutorien" auswählen und dann auf das entsprechende Symbol in der angezeigten Symbolleiste klicken.
+    <newline/>
+    <newline/>
+    Im Kryptotutorial werden die angebotenen Funktionen auch erklärt. 
+    An vielen Stellen werden zudem Fragezeichen-Symbole angezeigt, auf die Sie klicken können um weitere Informationen zu erhalten.
   </introduction>
 
   <usage lang="en">
@@ -21,7 +38,14 @@
   
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
+    <linkReference>
+      <link lang="en" url="http://en.wikipedia.org/wiki/Prime_number"/>
+      <caption lang="en">Prime numbers</caption>
+      <link lang="de-DE" url="http://de.wikipedia.org/wiki/Primzahl"/>
+      <caption lang="de-DE">Primzahlen</caption>
+    </linkReference>
   </references>
+  
 </documentation>

@@ -4,16 +4,34 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    This component captures the network traffic on a network device of your computer and provides it as a data stream.
+    <newline/>
+    <newline/>
+    The component uses the library WinPcap for accessing the device. WinPcap has to be installed on your system in order to use this component.
+    WinPcap is an open source library for the Win32 platform, that supports packet capture and network analysis.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Diese Komponente zeichnet den Datenverkehr, der über eine Netzwerkkarte des Computers geleitet wird, auf und stellt ihn als Datenstrom zur Verfügung.
+    <newline/>
+    <newline/>
+    Um diese Komponente verwenden zu können muss auf ihrem System die Programmbibliothek WinPcap installiert sein, die einen Hardware-nahen Zugriff auf die Netzwerkkarte ermöglicht.
+    WinPcap ist eine Open-Source-Programmbibliothek für die Win32-Plattform, die Packet Capture und die Netzwerkanalyse unterstützt.
   </introduction>
 
   <usage lang="en">
+    Select the network device on your system, on which you want capture the traffic. All available network devices are listed in the settings of the component.
+    When the workspace is started, the component captures the traffic and sends it as a data stream to the output "Captured stream".
+    The captured packets are also output as byte arrays on the output "Captured packets".
+    This output is refreshed after each received packet.
   </usage>
 
   <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente eine der aufgelisteten Netzwerkkarten, deren Datenverkehr sie aufzeichnen möchten.
+    Nachdem der Arbeitsbereich gestartet wurde, gibt die Komponente den mitgelesenen Datenstrom am Ausgang "Erfasster Datenstrom" aus.
+    Die empfangenen Datenpakete werden einzeln am Ausgang "Erfasste Datenpakete" als Byte-Arrays ausgegeben.
+    Bei jedem neu empfangenen Datenpaket wird dieser Ausgang erneuert.
   </usage>
   
   <presentation lang="en">
@@ -23,5 +41,18 @@
   </presentation>
   
   <references>
+    <linkReference>
+      <link url="http://www.winpcap.org/" lang="en" />
+      <caption lang="en">WinPcap Homepage</caption>
+      <link url="http://www.winpcap.org/" lang="de-DE" />
+      <caption lang="de-DE">WinPcap Homepage (englisch)</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Pcap#WinPcap" lang="en" />
+      <caption lang="en">WinPcap (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/WinPcap" lang="de-DE" />
+      <caption lang="de-DE">WinPcap (Wikipedia)</caption>
+    </linkReference>
   </references>
+  
 </documentation>

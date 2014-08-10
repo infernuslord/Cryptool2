@@ -5,15 +5,90 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
+    The Vigenère cipher is a polyalphabetic substitution cipher.
+    In contrast to the monoalphabetic substitution, where all characters of the plaintext are replaced using a single substitution alphabet,
+    the polyalphabetic substitution uses several different substitution alphabets.
+    <newline/>
+    <newline/>
+    The Vigenère cipher was invented by Blaise de Vigenère in the 16th century and was deemed undecipherable for a long time. The cipher is consequently also known as "Le Chiffre indéchiffrable".
+    <newline/>
+    <newline/>
+    The Vigenère cipher uses a keyword to decide, which of several substitution alphabets will be used to encrypt a letter from the plaintext.
+    The subsitution alphabets that are used by Vigenère are the 26 shifts of the standard alphabet:
+    <newline/>
+    <newline/>
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ<newline/>
+    BCDEFGHIJKLMNOPQRSTUVWXYZA<newline/>
+    CDEFGHIJKLMNOPQRSTUVWXYZAB<newline/>
+    ...<newline/>
+    ZABCDEFGHIJKLMNOPQRSTUVWXY<newline/>
+    <newline/>
+    The 26 alphabets are identified by their first character.
+    When a text is encrypted, the first letter is encrypted with a substitution, that uses the substitution alphabet that is specified by the first letter of the keyword.
+    The second letter is encrypted with the alphabet specified by the second letter of the keyword, and so on.
+    The keyword is used periodically: if the end of the keyword is reached, its first letter will be used again in the next step.
+    <newline/>
+    <newline/>
+    A variation of the Vigenère cipher is the Vigenère Autokey cipher. It avoids the periodicity of the keyword by appending the plaintext to the keyword
+    and using the resulting string as the new keyword.
   </introduction>
 
   <introduction lang="de-DE">
+    Die Vigenère-Chiffre gehört zu der Klasse der polyalphabetischen Substitutionen.
+    Im Gegensatz zur monoalphabetischen Substitution, bei der alle Buchstaben eines Klartextes mittels desselben Substitutionsalphabets ersetzt werden,
+    werden im polyalphabetischen Fall die Klartextbuchstaben mit unterschiedlichen Substitutionsalphabeten ersetzt.
+    <newline/>
+    <newline/>
+    Die Vigenère-Verschlüsselung wurde von Blaise de Vigenère im 16. Jahrhundert erfunden und galt lange als unentschlüsselbar. Sie ist daher auch unter dem Namen "Le Chiffre indéchiffrable" bekannt.
+    <newline/>
+    <newline/>
+    Bei der Vigenère-Chiffre wird durch ein Schlüsselwort festgelegt, welche Substitutionsalphabete zum Einsatz kommen.
+    Grundsätzlich verwendet sie die 26 verschiedenen Alphabete, die durch die Verschiebung des normalen Alphabets entstehen, also:
+    <newline/>
+    <newline/>
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ<newline/>
+    BCDEFGHIJKLMNOPQRSTUVWXYZA<newline/>
+    CDEFGHIJKLMNOPQRSTUVWXYZAB<newline/>
+    ...<newline/>
+    ZABCDEFGHIJKLMNOPQRSTUVWXY<newline/>
+    <newline/>
+    Diese 26 Alphabete werden jeweils durch ihren ersten Buchstaben benannt.
+    Bei der Verschlüsselung wird nun der erste Buchstabe des Klartextes mittels desjenigen Substitutionsalphabets ersetzt, das durch den ersten Buchstaben des Schlüsselworts benannt wird.
+    Der zweite Buchstabe des Klartextes wird durch das Substitutionsalphabet des zweiten Schlüsselbuchstabens ersetzt, und so weiter.
+    Das Schlüsselwort wird periodisch verwendet: ist man am Ende angelangt, so wird im nächsten Schritt wieder der erste Buchstabe genommen.
+    <newline/>
+    <newline/>
+    Eine Variante des Vigenère-Verfahrens ist das Vigenère-Selbstschlüssel-Verfahren (auch Autokey-Verfahren genannt), bei dem der Schlüssel nicht wie beim klassischen Vigenère-Verfahren periodisch wiederholt wird.
+    Stattdessen wird an den Schlüssel der Klartext angehängt und diese neue Zeichenkette als Schlüssel verwendet.
   </introduction>
 
   <usage lang="en">
+    You can select in the settings whether you want to use the classic Vigenère cipher or the Vigenère Autokey cipher.
+    You must also specify if the component should encrypt or decrypt a text.
+    <newline/>
+    <newline/>
+    The text, that is to be processed, has to be entered at the "Text input" as a string.
+    The key can be provided at the according input or, alternatively, in the settings of the component.
+    If you want to use an alphabet that differs from the standard (for example ZYXWVUTSRQPONMLKJIHGFEDCBA), you can enter it at the "External alphabet input" or in the settings.
+    <newline/>
+    <newline/>
+    You can also specify how the component should handle characters that are not part of the alphabet. They can be passed through unchanged, removed or replaced by a question mark.
+    If you select case sensitive handling, the characters of the input text, that are not part of the alphabet in their given case, will be treated like unknown characters.
   </usage>
 
   <usage lang="de-DE">
+    Wählen Sie in den Einstellungen der Komponente aus, ob Sie das klassische Vigenère-Verfahren oder das Selbstschlüssel-Verfahren ausführen wollen.
+    Wählen Sie weiterhin aus, ob die Komponente entschlüsseln oder verschlüsseln soll.
+    <newline/>
+    <newline/>
+    Geben Sie den zu verschlüsselnden oder entschlüsselnden Text am Eingang "Texteingabe" an.
+    Der Schlüssel kann am entsprechenden Eingang oder in den Einstellungen der Komponente angegeben werden.
+    Wollen Sie ein vom Standardalphabet abweichendes Grundalphabet verwenden (z.B. ZYXWVUTSRQPONMLKJIHGFEDCBA), so können Sie dieses am Eingang "Eingabe-Alphabet" oder in den Einstellungen angeben.
+    <newline/>
+    <newline/>
+    Außerdem kann noch angegeben werden, wie die Komponente mit Buchstaben des Eingabetextes umgehen soll, die nicht im Eingabe-Alphabet enthalten sind.
+    Unbekannte Zeichen können unverändert weitergegeben, entfernt, oder durch ein Fragezeichen ersetzt werden.
+    Wenn die Groß-/Kleinschreibung beachtet werden soll, so werden Buchstaben des Eingabetextes, die in ihrer Schreibweise nicht im Eingabe-Alphabet enthalten sind, wie unbekannte Symbole behandelt.
   </usage>
 
   <references>

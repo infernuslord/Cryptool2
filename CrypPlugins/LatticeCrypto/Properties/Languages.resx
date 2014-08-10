@@ -555,4 +555,10 @@
   <data name="labelMode" xml:space="preserve">
     <value>Modus:</value>
   </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Gitterbasierte Kryptographie</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Gitterbasierte Kryptographie</value>
+  </data>
 </root>

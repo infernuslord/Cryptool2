@@ -5,15 +5,71 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-  </introduction>
+    The Hill cipher was published in 1929 in the journal <i>American Mathematical Monthly</i> and is named after its inventor Lester S. Hill.
+    It is a polygraphic substitution cipher based on linear algebra.
+    <newline/>
+    <newline/>
+    The Hill cipher uses an invertible $n x n$ matrix as key. The elements of the matrix are numbers from 0 to 25.
+    For encrypting a text, the text is split into blocks of $n$ characters.
+    Each block can be interpreted as an $n$-dimensional vector by replacing the letters in a block with numbers, : A=0, B=1, ..., Z=25.
+    This vector is multiplied with the matrix and the resulting vector modulo 26 is translated back into a block of $n$ characters.
+    This is repeated for all blocks of the plaintext, and the ciphertext is then the concatenation of the encrypted blocks.
+    <newline/>
+    <newline/>
+    The decryption process uses the same procedure as the encryption, but applies the inversion of the key matrix.
+</introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Die Hill-Chiffre wurde erstmals 1929 in der Zeitschrift <i>American Mathematical Monthly</i> veröffentlicht und ist nach ihrem Erfinder Lester S. Hill benannt.
+    Sie ist eine polygraphische Substitutionschiffre und beruht auf Prinzipien der linearen Algebra.
+    <newline/>
+    <newline/>
+    Die Hill-Chiffre verwendet eine invertierbare $n x n$-Matrix als Schlüssel, deren Elemente Zahlen von 0 bis 25 sind.
+    Um einen Text zu verschlüsseln, wird dieser fortlaufend in Blöcke mit je $n$ Buchstaben aufgeteilt.
+    Jeder Block kann nun als ein $n$-elementiger Vektor aufgefasst werden, indem die Buchstaben durch Zahlen ersetzt werden: A=0, B=1, ..., Z=25.
+    Dieser Vektor wird mit der Matrix multipliziert und der resultierende Vektor modulo 26 wird wieder in einen Block von $n$ Buchstaben übersetzt.
+    Dies wird für alle Blöcke des Klartextes wiederholt, und die Aneinanderreihung der so verschlüsselten Blöcke ergibt den Geheimtext.
+    <newline/>
+    <newline/>
+    Für die Entschlüsselung des Geheimtextes wird dieser Vorgang mit der inversen Matrix durchgeführt.    
   </introduction>
 
   <usage lang="en">
+    In the settings of the component, you can select whether it should encrypt or decrypt the input text.
+    <newline/>
+    <newline/>
+    The encryption matrix can be entered in the settings or at the "Matrix" input of the component.
+    In the settings, the matrix can be specified as a comma-separated list of numbers (for example "1,0,0,0,1,0,0,0,1" for the 3x3 identity matrix).
+    On the "Matrix" input it is expected as a BigInteger array.
+    As the matrix has to be a square matrix, the number of values given in the matrix definition has to be a square number.
+    The component checks whether the given matrix is invertible. If it is not invertible, the component will halt and issue an error message.
+    <newline/>
+    <newline/>
+    If you want to use an alphabet that differs from the standard alphabet, you can enter it in the settings of the component.
+    Note, that the matrix elements have to be numbers that are smaller than the number of letters in the specified alphabet.
+    <newline/>
+    <newline/>
+    Enter the text, that is to be encrypted or decrypted, on the input labeled "Input".
+    If the text contains characters, that are not part of the specified alphabet, the component halts and issues an error message.
   </usage>
 
   <usage lang="de-DE">
+    Geben Sie in den Einstellungen der Komponente an, ob die Eingabe verschlüsselt oder entschlüsselt werden soll.
+    <newline/>
+    <newline/>
+    Die Verschlüsselungsmatrix kann entweder in den Einstellungen oder über den "Matrix"-Eingang der Komponente angegeben werden.
+    In den Einstellungen kann die Matrix als durch Kommas getrennte Folge von Zahlen angegeben werden (z.B. "1,0,0,0,1,0,0,0,1" für die 3x3-Einheitsmatrix), am "Matrix"-Eingang wird dagegen BigInteger-Array erwartet.
+    Wird der "Matrix"-Eingang nicht verbunden, so wird die in den Einstellungen definierte Matrix verwendet.
+    Da die Matrix quadratisch sein muss, muss die Anzahl der angegebenen Zahlen eine Quadratzahl sein.
+    Die Komponente testet vor der Verwendung der Matrix, ob diese invertierbar ist und bricht die Bearbeitung andernfalls ab.
+    <newline/>
+    <newline/>
+    Die Komponente kann auch ein vom Standardalphabet abweichendes Alphabet verwenden. Dieses kann in den Einstellungen der Komponente angegeben werden.
+    Beachten Sie, dass die Matrixelemente Zahlen sein müssen, die kleiner als die Anzahl der Buchstaben des angegebenen Alphabets sind.
+    <newline/>
+    <newline/>
+    Am Eingang "Eingabe" wird der zu verschlüsselnde oder entschlüsselnde Text erwartet. Enthält die Eingabe Zeichen, die nicht im angegebenen Alphabet vorkommen,
+    so wird die Ausführung mit einer Fehlermeldung abgebrochen.
   </usage>
   
   <presentation lang="en">
