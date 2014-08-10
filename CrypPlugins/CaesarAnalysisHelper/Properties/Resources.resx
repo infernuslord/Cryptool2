@@ -121,13 +121,13 @@
     <value>Caesar Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>This plugin performs the cryptanalysis of a Caesar cipher using the frequency of unigrams and bigrams in the encrpyted text.</value>
+    <value>This component performs the cryptanalysis of a Caesar cipher using the frequency of unigrams and bigrams in the encrpyted text.</value>
   </data>
   <data name="EncryptedTextCaption" xml:space="preserve">
     <value>Encrypted text</value>
   </data>
   <data name="EncryptedTextTooltip" xml:space="preserve">
-    <value>The caesar encrpyted text</value>
+    <value>Text that was encrypted with the Caesar cipher</value>
   </data>
   <data name="FrequencyListCaption" xml:space="preserve">
     <value>Frequency List</value>

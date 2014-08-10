@@ -331,7 +331,7 @@
     <value>M209</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>M209 – Verschlüsselungsmaschine, wurde vom US-Militär hauptsächlich im Zweiten Weltkrieg benutzt</value>
+    <value>Verschlüsselungsmaschine, die vom US-Militär im Zweiten Weltkrieg benutzt wurde</value>
   </data>
   <data name="Rotor1Caption" xml:space="preserve">
     <value>Rotor 1</value>

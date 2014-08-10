@@ -121,7 +121,7 @@
     <value>Nihilist</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Nihilist -- classic digraph polyalphabetic substitution cipher substituting each letter by a 2-digit-number</value>
+    <value>Classic digraphic polyalphabetic substitution cipher substituting each letter by a 2-digit-number</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Input byte array</value>

@@ -121,7 +121,7 @@
     <value>Playfair</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Playfair -- klassische bigraphische Substitutions-Chiffre</value>
+    <value>Klassische bigraphische Substitutions-Chiffre</value>
   </data>
   <data name="InputStringCaption" xml:space="preserve">
     <value>Texteingabe</value>

@@ -139,6 +139,6 @@
     <value>XOR</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>XOR -- substitution cipher which is build by binary exclusive disjunction (XOR) operations.</value>
+    <value>Substitution cipher which is build by binary exclusive disjunction (XOR) operations.</value>
   </data>
 </root>
