@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<documentation>
+  
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    Camellia is a 128-bit symmetric-key block cipher jointly developed by Mitsubishi and NTT of Japan in 2000.
+    The cipher has been approved for use by the ISO/IEC, the European Union's NESSIE project and the Japanese CRYPTREC project.
+    Camellia uses the same parameters as the Advanced Encryption Standard: the block size is 16 bytes (128 bits), and it can use 128-bit, 192-bit or 256-bit keys.
+    The block cipher was designed to be suitable for both software and hardware implementations, from low-cost smart cards to high-speed network systems.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Camellia ist eine symmetrische Blockchiffre, die im Jahr 2000 in Zusammenarbeit von Mitsubishi und NTT entwickelt wurde.
+    Sie wurde vom europäischen NESSIE-Projekt und dem japanischen CRYPTREC-Projekt als einer ihrer empfohlenen Algorithmen ausgewählt.
+    Camellia verwendet die gleichen Parameter wie der Advanced Encryption Standard: eine Blockgröße von 128 Bit und Schlüssellängen von 128, 192 oder 256 Bit.
+    Die Blockchiffre wurde so konzipiert, dass sie sowohl für Software- als auch für Hardware-Implementierungen geeignet ist.
+    Sie kommt in einfachen SmartCards ebenso zum Einsatz wie in Hochleistungs-Netzwerken.
+  </introduction>
+
+  <usage lang="en">
+    The component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
+    <newline />
+    <newline />
+
+    <section headline="Encryption">
+      In "Encryption" mode, the component expects the plaintext as a data stream on the input labeled "Input".
+      Camellia works with a block size of 128 bits (16 bytes).
+      If the size of the input is not a multiple of the block size, as many bytes as are necessary to achieve
+      a multiple of the block size are padded. You can choose between several padding methods in the settings of the component.
+      When decrypting a ciphertext, it is important to select the same padding method as was used for encryption.
+      Otherwise the last block will be deciphered wrongly or not at all.
+      The key is expected as a byte array on the input labeled "Key".
+      In the settings of the component, you can determine the size of the key: 128 bits, 192 bits or 256 bits.
+      If the selected key size does not correspond to the size of the entered key, a warning will be issued and the key is either padded with null bytes or
+      reduced to the required size.
+      The encrypted data block is then sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+
+    <section headline="Decryption">
+      In "Decryption" mode, the component expects the ciphertext that is to be decrypted on the input labeled "Input".
+      The size of the input must be a multiple of the block size. Otherwise, the component stops with an error message.
+      The key is entered in the same way as in "Encryption" mode.
+      Finally, the plaintext will be sent to the output of the component as a data stream.
+      <newline />
+      <newline />
+    </section>
+
+    <section headline="Cryptographic Mode">
+      Block ciphers divide their input data into blocks of a fixed size and apply the encryption or decryption function on the blocks of the input.
+      The chaining mode determines the way in which consecutive blocks, after being encrypted or decryted, are combined in order to achieve better security or error tolerance.
+      The component offers the following block chaining modes: ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) and OFB (Output Feedback).
+      Select the appropriate chaining mode in the settings of the component.
+      <newline />
+      In ECB mode, each block is encrypted separately. In the other modes however, a plaintext block is combined with the previous ciphertext block.
+      As there is no previous block for the first block, we must provide one for these modes. This extra block is given by the initialization vector (IV), which must be provided as a byte array
+      on the input of the component. Thus the size of the IV must correspond to the block size. If the provided IV is too short, it is filled with null bytes. If it is too long, it is truncated.
+      If no IV is given, the component will assume an IV consisting of null bytes.
+    </section>
+  </usage>
+
+  <usage lang="de-DE">
+    Die Komponente hat die zwei Betriebsarten "Verschlüsselung" und "Entschlüsselung", zwischen denen in den Einstellungen umgeschaltet werden kann.
+    <newline />
+    <newline />
+    <section headline="Verschlüsselung">
+      In der Betriebsart "Verschlüsselung" erwartet die Komponente als Eingabe den zu verschlüsselnden Klartext als Datenstrom am Eingang "Eingabe".
+      Camellia arbeitet mit einer Blockgröße von 128 Bits (16 Bytes).
+      Ist die Länge der Eingabe kein Vielfaches der Blockgröße, so müssen vor der Verschlüsselung so viele Bytes angehängt werden, bis sie ohne Rest in Blöcke der Blockgröße zerlegt werden kann.
+      Diesen Vorgang nennt man 'Padding'. In den Einstellungen kann man zwischen verschiedenen Padding-Methoden wählen.
+      Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde,
+      da der letzte Block sonst falsch oder gar nicht entschlüsselt wird.
+      Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet. In den Einstellungen kann
+      die Größe des zu verwendenden Schlüssels bestimmt werden: 128 Bits, 192 Bits oder 256 Bits. Stimmt die Größe des eingegebenen
+      Schlüssels nicht mit dieser Einstellung überein, so wird eine Warnung ausgegeben und der Schlüssel entweder mit Nullbytes aufgefüllt
+      oder auf die korrekte Größe beschnitten. Der verschlüsselte Datenblock wird dann am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
+      <newline />
+      <newline />
+    </section>
+    <section headline="Entschlüsselung">
+      In der Betriebsart "Entschlüsselung" erwartet die Komponente den zu entschlüsselnden Geheimtext als Datenstrom am Eingang "Eingabe".
+      Die Länge der Eingabe muss hierbei ein Vielfaches der Blockgröße sein, andernfalls wird die Berechnung mit einer
+      Fehlermeldung abgebrochen. Der Schlüssel wird wie bei der Entschlüsselung eingegeben. Der entschlüsselte Klartext
+      wird dann schließlich am Ausgang der Komponente als Datenstrom bereitgestellt.
+      <newline />
+      <newline />
+    </section>
+    <section headline="Kryptographischer Modus">
+      Blockverschlüsselungsverfahren unterteilen die Eingabedaten in Blöcke festgelegter Größen und
+      wenden die Ver-/Entschlüsselungsfunktion dann fortlaufend auf diese Blöcke an. Der "kryptographische Modus", in dem
+      eine Blockchiffre betrieben wird, gibt an, wie die Ergebnisse der Ver- bzw. Entschlüsselung aufeinanderfolgender Blöcke
+      miteinander kombiniert werden, um z.B. größere Sicherheit oder Fehlertoleranz zu erzielen. Die Komponente bietet
+      die kryptographischen Modi ECB (Electronic Code Book), CBC (Cipher Block Chaining), CFB (Cipher Feedback) und OFB (Output Feedback)
+      an, die in den Einstellungen ausgewählt werden können.
+      <newline />
+      Beim ECB-Modus wird dabei jeder Block separat verschlüsselt. Bei den anderen Modi hingegen
+      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Chiffretextblock verknüpft. Da für den ersten
+      Klartextblock kein vorangehender Chiffretextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
+      Dieser muss die verwendete Blockgröße haben und wird am zugehörigen Eingang der Komponente
+      als Byte-Array eingegeben. Ein zu kurzer Initialisierungsvektor wird mit Nullbytes aufgefüllt, ein zu langer auf die Blockgröße
+      beschnitten. Wird der Eingang nicht verbunden, so wird ein Initialisierungsvektor bestehend aus Nullbytes verwendet.
+    </section>
+  </usage>
+  
+  <presentation lang="en">
+  </presentation>
+  
+  <presentation lang="de-DE">
+  </presentation>
+  
+  <references>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/Camellia_(cipher)" lang="en" />
+      <caption lang="en">Camellia</caption>
+      <link url="http://de.wikipedia.org/wiki/Camellia_(Algorithmus)" lang="de-DE" />
+      <caption lang="de-DE">Camellia</caption>
+    </linkReference>
+  </references>
+  
+</documentation>

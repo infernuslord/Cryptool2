@@ -5,7 +5,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This crypto tutorial presents some attacks on PKCS#1 signatures.
+    In this crypto tutorial you will learn about lattices and their use in cryptography.
     <newline/>
     <newline/>
     You can open the tutorial by selecting "Crypto Tutorials" in the menu bar and clicking on the corresponding icon.
@@ -16,7 +16,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Dieses Kryptotutorial stellt einige Angriffe auf PKCS#1-Signaturen vor.
+    In diesem Kryptotutorial lernen Sie Gitter kennen und erfahren über ihren Einsatz in der Kryptographie, insbesondere der Kryptoanalyse.
     <newline/>
     <newline/>
     Sie können es aufrufen, indem Sie in der Menüleiste den Punkt "Kryptotutorien" auswählen und dann auf das entsprechende Symbol in der angezeigten Symbolleiste klicken.

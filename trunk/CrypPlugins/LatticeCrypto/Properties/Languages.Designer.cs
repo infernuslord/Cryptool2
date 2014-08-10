@@ -1123,6 +1123,24 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gitterbasierte Kryptographie ähnelt.
+        /// </summary>
+        public static string PluginCaption {
+            get {
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gitterbasierte Kryptographie ähnelt.
+        /// </summary>
+        public static string PluginTooltip {
+            get {
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Merkle-Hellman Knapsack ähnelt.
         /// </summary>
         public static string tabAttackMerkleHellman {
