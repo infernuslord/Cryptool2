@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:basic="clr-namespace:System;assembly=System"
     xmlns:local="clr-namespace:Cryptool.Alphabets"
+    xmlns:properties="clr-namespace:Cryptool.Alphabets.Properties"
     Height="Auto" Width="auto" DataContext="{Binding RelativeSource={x:Static RelativeSource.Self}}" MinWidth="600" MinHeight="340">
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}" x:Key="ButtonStyleSec">
@@ -362,7 +363,7 @@
                                 <Image Height="20" Source="back.png"></Image>
                             </Button>
                         </Border>
-                        <TextBlock Text="Edit Alphabets" Padding="5" FontWeight="Bold"
+                        <TextBlock Text="{x:Static properties:Resources.EditAlphabets}" Padding="5" FontWeight="Bold"
                                    FontFamily="Verdana" FontSize="24"></TextBlock>
 
                     </StackPanel>
@@ -388,7 +389,7 @@
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
-                                   Text="Title" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                                   Text="{x:Static properties:Resources.Title}" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
                         </Grid>
                         <Grid Grid.Row="1">
                             <Grid.RowDefinitions>
@@ -403,7 +404,7 @@
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
-                                   Text="Upper Case Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                                   Text="{x:Static properties:Resources.UpperCaseCharacters}" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
                         </Grid>
 
                         <Grid Grid.Row="2">
@@ -419,7 +420,7 @@
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
-                                   Text="Lower Case Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                                   Text="{x:Static properties:Resources.LowerCaseCharacters}" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
                         </Grid>
                         <Grid Grid.Row="3">
                             <Grid.RowDefinitions>
@@ -433,7 +434,7 @@
                             </TextBox>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
-                                   Text="Numeric Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                                   Text="{x:Static properties:Resources.NumericCharacters}" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
                         </Grid>
                         <Grid Grid.Row="4">
                             <Grid.RowDefinitions>
@@ -442,7 +443,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0" FontFamily="Verdana" FontSize="11" Margin="5,5,5,0"
                                    FontWeight="Bold" Height="15" TextAlignment="Left" 
-                                   Text="Special Characters" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
+                                   Text="{x:Static properties:Resources.SpecialCharacters}" Background="#ddd" HorizontalAlignment="Stretch" VerticalAlignment="Top"></TextBlock>
                             <TextBox Grid.Row="1" Background="Transparent" VerticalAlignment="Stretch" Style="{StaticResource ResourceKey=TextBoxStyle}"  
                          Text="{Binding Path=SelectedAlphabet.Special, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                              TextWrapping="Wrap" FontFamily="Courier New" FontSize="14">
@@ -465,7 +466,7 @@
             </Grid.ColumnDefinitions>
             <Border Background="#11222222">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Alphabets" Padding="5" FontWeight="Bold"
+                    <TextBlock Text="{x:Static properties:Resources.Alphabets}" Padding="5" FontWeight="Bold"
                                FontFamily="Verdana" FontSize="24"></TextBlock>
                     <Border Background="#55ffffff" Margin="5">
                         <Button Style="{StaticResource ResourceKey=ButtonStyle}" Height="25" Width="25" Click="AddItemClick"

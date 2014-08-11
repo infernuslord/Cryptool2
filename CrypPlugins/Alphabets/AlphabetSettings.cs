@@ -34,20 +34,21 @@ namespace Cryptool.Alphabets
             data = AlphabetSettings.SerializeData<Data>(Default);
         }
 
-        public Data Default = new Data(){
+        public Data Default = new Data()
+        {
             OutputOrderData = new List<OutputOrder>(new OutputOrder[]
             {
-                new OutputOrder() { Caption = "Upper", OutputType = OutputType.Upper }, 
-                new OutputOrder() { Caption = "Lower", OutputType = OutputType.Lower }, 
-                new OutputOrder() { Caption = "Numeric", OutputType = OutputType.Numeric },
-                new OutputOrder() { Caption = "Special", OutputType = OutputType.Special }}
+                new OutputOrder() { Caption = Properties.Resources.Upper, OutputType = OutputType.Upper },
+                new OutputOrder() { Caption = Properties.Resources.Lower, OutputType = OutputType.Lower },
+                new OutputOrder() { Caption = Properties.Resources.Numeric, OutputType = OutputType.Numeric },
+                new OutputOrder() { Caption = Properties.Resources.Special, OutputType = OutputType.Special }}
                 ),
 
             AlphabetData = new List<AlphabetItemData>(new AlphabetItemData[]
             {
-                new AlphabetItem(BasicAlphabet.BasicLatin, "Basic Latin", true).Data,
-                new AlphabetItem(BasicAlphabet.Cyrillic, "Cyrillic", true).Data,
-                new AlphabetItem(BasicAlphabet.Greek, "Greek", true).Data
+                new AlphabetItem(BasicAlphabet.BasicLatin, Properties.Resources.BasicLatin, true).Data,
+                new AlphabetItem(BasicAlphabet.Cyrillic, Properties.Resources.Cyrillic, true).Data,
+                new AlphabetItem(BasicAlphabet.Greek, Properties.Resources.Greek, true).Data
             })
         };
 

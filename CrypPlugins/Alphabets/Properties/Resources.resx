@@ -216,4 +216,49 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Alphabets" xml:space="preserve">
+    <value>Alphabets</value>
+  </data>
+  <data name="BasicLatin" xml:space="preserve">
+    <value>Basic Latin</value>
+  </data>
+  <data name="Cyrillic" xml:space="preserve">
+    <value>Cyrillic</value>
+  </data>
+  <data name="EditAlphabets" xml:space="preserve">
+    <value>Edit Alphabets</value>
+  </data>
+  <data name="Greek" xml:space="preserve">
+    <value>Greek</value>
+  </data>
+  <data name="Lower" xml:space="preserve">
+    <value>Lower</value>
+  </data>
+  <data name="LowerCaseCharacters" xml:space="preserve">
+    <value>Lower Case Characters</value>
+  </data>
+  <data name="NewTitle" xml:space="preserve">
+    <value>New Title</value>
+  </data>
+  <data name="Numeric" xml:space="preserve">
+    <value>Numeric</value>
+  </data>
+  <data name="NumericCharacters" xml:space="preserve">
+    <value>Numeric Characters</value>
+  </data>
+  <data name="Special" xml:space="preserve">
+    <value>Special</value>
+  </data>
+  <data name="SpecialCharacters" xml:space="preserve">
+    <value>Special Characters</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Upper" xml:space="preserve">
+    <value>Upper</value>
+  </data>
+  <data name="UpperCaseCharacters" xml:space="preserve">
+    <value>Upper Case Characters</value>
+  </data>
 </root>
