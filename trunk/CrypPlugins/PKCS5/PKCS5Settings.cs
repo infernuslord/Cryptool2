@@ -113,8 +113,8 @@ namespace PKCS5
         if (length < 0) // change from bytes to bits [hack]
           length *= -8;
 
-        while ((length & 0x07) != 0) // go to the next multiple of 8
-          length++;
+        //while ((length & 0x07) != 0) // go to the next multiple of 8
+        //  length++;
 
         OnPropertyChanged("Length");
       }
