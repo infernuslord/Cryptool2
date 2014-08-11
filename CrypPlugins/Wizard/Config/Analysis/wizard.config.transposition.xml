@@ -31,7 +31,7 @@ This method is ciphertext-only.
     <headline lang="en">Transposition Brute-force Analysis</headline>
     <headline lang="de">Transposition Brute-force-Analyse</headline>
     <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</task>
-    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
+    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositions-Algorithmus verschlüsselt wurde.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -105,7 +105,7 @@ Diese Methode benötigt für die Analyse nur den Geheimtext ("Ciphertext-only-An
     <headline lang="en">Transposition Genetic Analysis</headline>
     <headline lang="de">Transposition genetische Analyse</headline>
     <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm.</task>
-    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde.</task>
+    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositions-Algorithmus verschlüsselt wurde.</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>
@@ -178,7 +178,7 @@ Diese Methode benötigt für die Analyse einen Teil des Klartextes ("Known-plain
     <headline lang="en">Transposition Crib Analysis</headline>
     <headline lang="de">Transposition Crib-Analyse</headline>
     <task lang="en">Input the ciphertext that was encrypted by using the Transposition algorithm and your crib.</task>
-    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositionsalgorithmus verschlüsselt wurde, und den "Crib".</task>
+    <task lang="de">Geben Sie den Geheimtext ein, der mit dem Transpositions-Algorithmus verschlüsselt wurde, und den "Crib".</task>
 
     <inputBox plugin="Ciphertext" property="Text" visibleLines="5">
       <description lang="en">Ciphertext:</description>

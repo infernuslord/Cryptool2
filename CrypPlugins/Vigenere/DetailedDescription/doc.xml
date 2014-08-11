@@ -35,14 +35,14 @@
 
   <introduction lang="de-DE">
     Die Vigenère-Chiffre gehört zu der Klasse der polyalphabetischen Substitutionen.
-    Im Gegensatz zur monoalphabetischen Substitution, bei der alle Buchstaben eines Klartextes mittels desselben Substitutionsalphabets ersetzt werden,
-    werden im polyalphabetischen Fall die Klartextbuchstaben mit unterschiedlichen Substitutionsalphabeten ersetzt.
+    Im Gegensatz zur monoalphabetischen Substitution, bei der alle Buchstaben eines Klartextes mittels desselben Substitutions-Alphabets ersetzt werden,
+    werden im polyalphabetischen Fall die Klartextbuchstaben mit unterschiedlichen Substitutions-Alphabeten ersetzt.
     <newline/>
     <newline/>
     Die Vigenère-Verschlüsselung wurde von Blaise de Vigenère im 16. Jahrhundert erfunden und galt lange als unentschlüsselbar. Sie ist daher auch unter dem Namen "Le Chiffre indéchiffrable" bekannt.
     <newline/>
     <newline/>
-    Bei der Vigenère-Chiffre wird durch ein Schlüsselwort festgelegt, welche Substitutionsalphabete zum Einsatz kommen.
+    Bei der Vigenère-Chiffre wird durch ein Schlüsselwort festgelegt, welche Substitutions-Alphabete zum Einsatz kommen.
     Grundsätzlich verwendet sie die 26 verschiedenen Alphabete, die durch die Verschiebung des normalen Alphabets entstehen, also:
     <newline/>
     <newline/>
@@ -53,8 +53,8 @@
     ZABCDEFGHIJKLMNOPQRSTUVWXY<newline/>
     <newline/>
     Diese 26 Alphabete werden jeweils durch ihren ersten Buchstaben benannt.
-    Bei der Verschlüsselung wird nun der erste Buchstabe des Klartextes mittels desjenigen Substitutionsalphabets ersetzt, das durch den ersten Buchstaben des Schlüsselworts benannt wird.
-    Der zweite Buchstabe des Klartextes wird durch das Substitutionsalphabet des zweiten Schlüsselbuchstabens ersetzt, und so weiter.
+    Bei der Verschlüsselung wird nun der erste Buchstabe des Klartextes mittels desjenigen Substitutions-Alphabets ersetzt, das durch den ersten Buchstaben des Schlüsselworts benannt wird.
+    Der zweite Buchstabe des Klartextes wird durch das Substitutions-Alphabet des zweiten Schlüsselbuchstabens ersetzt, und so weiter.
     Das Schlüsselwort wird periodisch verwendet: ist man am Ende angelangt, so wird im nächsten Schritt wieder der erste Buchstabe genommen.
     <newline/>
     <newline/>

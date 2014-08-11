@@ -250,7 +250,7 @@ namespace Cryptool.Vigenere.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Classic or autokey polyalphabetic substitution cipher ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Classic and autokey variant of this polyalphabetic substitution cipher ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

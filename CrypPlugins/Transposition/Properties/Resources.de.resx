@@ -121,7 +121,7 @@
     <value>Transposition</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Dieses Plugin verschlüsselt die Eingabe mit dem Transpositionsverfahren.</value>
+    <value>Dieses Plugin verschlüsselt die Eingabe mit dem Transpositions-Verfahren.</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
     <value>Eingabe</value>
@@ -133,7 +133,7 @@
     <value>Schlüsselwort</value>
   </data>
   <data name="KeywordTooltip" xml:space="preserve">
-    <value>Schlüsselwort für das Transpositionsverfahren</value>
+    <value>Schlüsselwort für das Transpositions-Verfahren</value>
   </data>
   <data name="OutputCaption" xml:space="preserve">
     <value>Ausgabe</value>
