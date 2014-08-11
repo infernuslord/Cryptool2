@@ -139,7 +139,7 @@
     <value>Skytale</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Klassische Transpositionschiffre</value>
+    <value>Klassische Transpositions-Chiffre</value>
   </data>
   <data name="StickSizeCaption" xml:space="preserve">
     <value>Stabdurchmesser</value>

@@ -42,7 +42,7 @@
     By clicking on the 'Insert' button in the toolbar of the component, you can select whether the entered data is inserted at the current position or whether it overwrites the existing data.
     <newline/>
     <newline/>
-    You can save an altered file to the file system with the 'Save' or the 'Save As' buttons in the toolbar.
+    You can save an altered file to the file system with the 'Save' or the 'Save as' buttons in the toolbar.
     With the buttons 'New' and 'Open', you can create a new, empty file or open another file.
   </presentation>
   

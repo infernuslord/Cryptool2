@@ -21,7 +21,7 @@
 
   <introduction lang="de-DE">
     Die Hill-Chiffre wurde erstmals 1929 in der Zeitschrift <i>American Mathematical Monthly</i> veröffentlicht und ist nach ihrem Erfinder Lester S. Hill benannt.
-    Sie ist eine polygraphische Substitutionschiffre und beruht auf Prinzipien der linearen Algebra.
+    Sie ist eine polygraphische Substitutions-Chiffre und beruht auf Prinzipien der linearen Algebra.
     <newline/>
     <newline/>
     Die Hill-Chiffre verwendet eine invertierbare $n x n$-Matrix als Schlüssel, deren Elemente Zahlen von 0 bis 25 sind.

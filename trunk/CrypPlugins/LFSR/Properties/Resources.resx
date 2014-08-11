@@ -163,7 +163,7 @@
     <value>Boolean Array Output of Stages</value>
   </data>
   <data name="OutputBoolArrayTooltip" xml:space="preserve">
-    <value>Outputs all stages of the LFSR. This can be used for example to build a nonlinear filter generator together with the BooleanFunctionParser plugin.</value>
+    <value>Outputs all stages of the LFSR.</value>
   </data>
   <data name="AlwaysCreateOutputCaption" xml:space="preserve">
     <value>Always create output</value>
