@@ -243,7 +243,7 @@
   <data name="EntropyCaption" xml:space="preserve">
     <value>Entropy</value>
   </data>
-  <data name="EntropyTooltio" xml:space="preserve">
+  <data name="EntropyTooltip" xml:space="preserve">
     <value>The entropy of the entered password</value>
   </data>
   <data name="KeePassCaption" xml:space="preserve">
