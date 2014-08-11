@@ -8,7 +8,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Das DGK-Kryptosystem ist ein homomorphes Verschlüsselungsverfahren, das 2007 von I. Damgård, M. Geisler und M. Krøigaard vorgestellt wurde.
+    Das DGK-Kryptosystem ist ein homomorphes Verschlüsselungsverfahren, das 2007 von I. Damgård, M. Geisler und H. Krøigaard vorgestellt wurde.
     <newline/>
     <newline/>
     Das Kryptosystem hat die folgenden homomorphen Eigenschaften:
@@ -26,6 +26,9 @@
     </list>
     Dies bedeutet, dass man ohne Kenntnis des privaten Schlüssels auf den verschlüsselten Daten die mathematischen Operationen Addition und Multiplikation mit einer Konstanten
     durchführen kann, ohne die Argumente zu kennen und die Ergebnisse zu erfahren.
+    <newline/>
+    <newline/>
+    Diese Komponente generiert den öffentlichen und den privaten Schlüssel für das DGK-Verschlüsselungsverfahren.
   </introduction>
 
   <usage lang="en">
@@ -45,36 +48,65 @@
         Dec( Enc(m1) ^ m2 ) = m1 * m2
       </item>
     </list>
-    This means that, even without knowing the private key, one can carry out the mathematical operations addition and multiplication with a constant on encrypted numbers, 
+    This means that, even without knowing the private key, one can carry out the mathematical operations addition and multiplication with a constant on encrypted numbers,
     without knowing their values and without learning anything about the results.
+    <newline/>
+    <newline/>
+    This component generates the public and the private key for the DGK encryption.
   </usage>
 
   <usage lang="de-DE">
-    Wählen Sie in den Einstellungen der Komponente, ob sie verschlüsseln oder entschlüsseln soll.
+    Der Schlüsselgenerator benötigt drei Angaben in den Einstellungen, um den Schlüssel zu erzeugen.
     <newline/>
     <newline/>
-    Für die Verschlüsselung benötigt die Komponente den öffentlichen Schlüssel, der aus dem 4-Tupel (N,G,H,U) besteht. Dieser kann durch den DGK-Schlüsselgenerator erzeugt werden.
+    Geben Sie die Bitlänge k des zu erzeugenden Modulus N an, der Teil des öffentlichen Schlüssels ist. Weiterhin wird die Bitlänge l des Eingabe-Alphabets und die Angabe des Sicherheitsparameters t benötigt.
+    Für k, t und l gelten folgende Einschränkungen:
+    <list>
+      <item>
+        8 &lt;= l &lt;= 16
+      </item>
+      <item>
+        t muss größer als l sein.
+      </item>
+      <item>
+        k muss gerade und größer als t sein.
+      </item>
+      <item>
+        Es muss k/2 &gt;= l+t+10 gelten.
+      </item>
+    </list>
+    Die Komponente prüft die angegebenen Einschränkungen und gibt eine Fehlermeldung aus, falls sie nicht erfüllt sind.
     <newline/>
     <newline/>
-    Für die Entschlüsselung wird zusätzlich der private Schlüssel (VP,VQ,P) benötigt, der ebenfalls vom DGK-Schlüsselgenerator zur Verfügung gestellt wird.
-    <newline/>
-    <newline/>
-    Die zu verschlüsselnde oder entschlüsselnde Nachricht muss am Eingang mit der Bezeichnung "Eingabe M" angegeben werden.
-    Als Eingabe werden BigInteger-Zahlen und Byte-Arrays akzeptiert. Abhängig vom eingegebenen Datentyp wird das Resultat am BigInteger-Ausgang oder am Byte-Array-Ausgang ausgegeben.
+    Wenn die Komponente ausgeführt wird, so gibt sie an den Ausgägnen den privaten Schlüssel bestehend aus den Ausgaben VP, VQ und P aus,
+    und den öffentlichen Schlüssel bestehend aus den Ausgaben N, G, H und U.
   </usage>
   
   <presentation lang="en">
-    Select in the settings of the component whether you want to encrypt or decrypt data.
+    The key generator depends on three parameters, that you can adjust in the settings.
     <newline/>
     <newline/>
-    For encryption, the component needs the public key, that consists of the tuple (N,G,H,U). The public key can be provided by the DGK Key Generator component.
+    Enter the bit length k of the modulus N, that is part of the public key, the bit length l of the input alphabet, and the security parameter t.
+    k, l and t are subject to the following constraints:
+    <list>
+      <item>
+        8 &lt;= l &lt;= 16
+      </item>
+      <item>
+        t must be greater than l.
+      </item>
+      <item>
+        k must be even and greater than t.
+      </item>
+      <item>
+        k/2 &gt;= l+t+10 must hold.
+      </item>
+    </list>
+    The component checks whether the given constraints are met and issues an error message otherwise.
     <newline/>
     <newline/>
-    For decryption, the component additionally needs the private key (VP,VQ,P), that is also provided by the DGK Key Generator.
-    <newline/>
-    <newline/>
-    The data that is to be encrypted or decrypted must be entered at the input labeled "input message M".
-    The component accepts BigInteger numbers and byte arrays as input. Depending on the given data type, the result will be sent to the BigInteger output or the byte array output.
+    When the component is started, it provides the private key consisting of the outputs VP, VQ and P,
+    and the public key consisting of the outputs N, G, H and U.
   </presentation>
   
   <presentation lang="de-DE">
