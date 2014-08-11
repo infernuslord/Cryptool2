@@ -368,7 +368,7 @@ namespace PKCS5
         (PKCS5MaskGenerationMethod.ShaFunction)settings.SHAFunction;
 
       outputData =
-        pkcs5Hash.GenerateMask(this.key, this.salt, settings.Count, settings.Length >> 3);
+        pkcs5Hash.GenerateMask(this.key, this.salt, settings.Count, (settings.Length+7) >> 3);
 
       NotifyUpdateOutput();
     }
@@ -423,6 +423,9 @@ namespace PKCS5
     public void Execute()
     {
       Progress(0.0, 1.0);
+
+      if (settings.Length % 8 != 0)
+          GuiLogMessage("The output length must be a multiple of 8. Rounding up to the next multiple " + (((settings.Length + 7) >> 3) << 3) + ".", NotificationLevel.Warning);
 
       GuiLogMessage("Execute.", NotificationLevel.Debug);
       Hash();
