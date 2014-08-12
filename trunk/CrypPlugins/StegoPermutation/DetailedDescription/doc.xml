@@ -15,7 +15,7 @@
     Every set of objects, that can be ordered in a well defined way, can be used to encode a message.
     The elements of a set with <b>N</b> objects can be ordered in exactly <b>N! = 1*2*...*(N-1)*N</b> different ways.
     These <b>N!</b> possible arrangements (permutations) can be numbered from <b>0</b> to <b>N!-1</b>.
-    If the objects of the set are transmitted in a certain order, the receiver can immeadiately deduce the number that is associated with this permutation
+    If the objects of the set are transmitted in a certain order, the receiver can immediately deduce the number that is associated with this permutation
     and thus recover the message, that it represents.
   </introduction>
 

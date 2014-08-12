@@ -232,7 +232,7 @@ namespace Trivium.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Trivium ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Stream cipher from the eStream project ähnelt.
         /// </summary>
         internal static string PluginTooltip {
             get {

@@ -133,19 +133,19 @@
     <value>Initialization rounds</value>
   </data>
   <data name="InputIVTooltip" xml:space="preserve">
-    <value>Up to 10 bytes (80 bit) in Hex.</value>
+    <value>Up to 10 bytes (80 bit) in hex.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>IV</value>
   </data>
   <data name="InputKeySettingsTooltip" xml:space="preserve">
-    <value>10 bytes (80 bit) in Hex</value>
+    <value>10 bytes (80 bit) in hex.</value>
   </data>
   <data name="InputKeySettingsCaption" xml:space="preserve">
     <value>Key (Input for Cube Attack)</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>10 bytes (80 bit) in Hex.</value>
+    <value>10 bytes (80 bit) in hex.</value>
   </data>
   <data name="InputKeyCaption" xml:space="preserve">
     <value>Key</value>
@@ -178,7 +178,7 @@
     <value>Trivium Slave</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Trivium</value>
+    <value>Stream cipher from the eSTREAM project</value>
   </data>
   <data name="UseByteSwappingContextTooltip" xml:space="preserve">
     <value>Use byte swapping?</value>

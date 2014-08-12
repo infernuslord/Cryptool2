@@ -199,7 +199,7 @@
     <value>Paillier Key Generator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Paillier</value>
+    <value>Cryptosystem with homomorphic properties</value>
   </data>
   <data name="PTooltip" xml:space="preserve">
     <value>Prime Number P</value>

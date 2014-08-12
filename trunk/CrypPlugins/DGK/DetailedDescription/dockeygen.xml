@@ -72,7 +72,7 @@
         k muss gerade und größer als t sein.
       </item>
       <item>
-        Es muss k/2 &gt;= l+t+10 gelten.
+        k/2 &gt;= l+t+10
       </item>
     </list>
     Die Komponente prüft die angegebenen Einschränkungen und gibt eine Fehlermeldung aus, falls sie nicht erfüllt sind.
@@ -99,7 +99,7 @@
         k must be even and greater than t.
       </item>
       <item>
-        k/2 &gt;= l+t+10 must hold.
+        k/2 &gt;= l+t+10
       </item>
     </list>
     The component checks whether the given constraints are met and issues an error message otherwise.

@@ -18,7 +18,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Ein Keyed-Hash Message Authentication Code (HMAC) ist eine Art Message Authentication Code (MAC), dessen Konstruktion auf einer kryptografischen Hash-Funktion in Verbindung mit einem geheimen Schlüssel basiert.
+    Ein Keyed-Hash Message Authentication Code (HMAC) ist eine Art Message Authentication Code (MAC), dessen Konstruktion auf einer kryptographischen Hash-Funktion in Verbindung mit einem geheimen Schlüssel basiert.
     Wie jeder MAC kann er sowohl die Integrität als auch die Authentizität einer Nachricht gewährleisten. Prinzipiell kann jede kryptographische Hashfunktion für die Berechnung eines HMAC verwendet werden.
     Die kryptographische Stärke des HMAC hängt von der kryptographischen Stärke der zugrunde liegenden Hashfunktion und der Größe und Qualität des verwendeten Schlüssels ab.
     <newline/>
@@ -43,7 +43,7 @@
     Geben Sie die Daten, deren Hashwert berechnet werden soll, als Datenstrom am Eingang "Eingabedatenstrom" ein.
     Der Schlüssel wird als Byte-Array beliebiger Länge am entsprechend benannten Eingang erwartet.
     Der berechnete Hashwert wird an den Ausgängen der Komponente als Datenstrom und als Byte-Array ausgegeben.
-    Die Länge des Hashwertes hängt von der ausgewählten Variante ab und entspricht der Länge der zugrundeliegenden Hashfunktion.
+    Die Länge des Hashwertes hängt von der ausgewählten Hashfunktion ab und entspricht der Länge des Hashwertes, den diese Hashfunktion produziert.
   </usage>
   
   <presentation lang="en">
