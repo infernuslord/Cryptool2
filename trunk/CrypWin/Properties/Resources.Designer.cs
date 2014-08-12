@@ -770,7 +770,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Feel free to contribute to this project. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die We are glad about any feedback on our website. ähnelt.
         /// </summary>
         internal static string Feel_free_to_contribute_to_this_project_ {
             get {
@@ -1383,7 +1383,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Please report any bugs you may encounter on our website. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Please feel free to further improve CrypTool 2. ähnelt.
         /// </summary>
         internal static string Please_report_any_bugs_you_may_encounter_on_our_website_ {
             get {
@@ -1698,7 +1698,7 @@ namespace Cryptool.CrypWin.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Save As... ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Save as... ähnelt.
         /// </summary>
         internal static string Save_As_ {
             get {
