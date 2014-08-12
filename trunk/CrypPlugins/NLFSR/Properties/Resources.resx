@@ -124,10 +124,10 @@
     <value>Non-Linear Feedback Shift Register</value>
   </data>
   <data name="InputTapSequenceCaption" xml:space="preserve">
-    <value>TapSequence</value>
+    <value>Feedback function</value>
   </data>
   <data name="InputTapSequenceTooltip" xml:space="preserve">
-    <value>TapSequence function in binary presentation.</value>
+    <value>Feedback function as a string, for example x0 * x2 + x1 + 1</value>
   </data>
   <data name="InputSeedCaption" xml:space="preserve">
     <value>Seed</value>
@@ -178,16 +178,16 @@
     <value>Which bit shall be generated as an additional output? For example as a clocking bit.</value>
   </data>
   <data name="NoQuickwatchCaption" xml:space="preserve">
-    <value>Do not display Quickwatch</value>
+    <value>Do not display presentation</value>
   </data>
   <data name="NoQuickwatchTooltip" xml:space="preserve">
-    <value>With this checkbox enabled, no quickwatch will be generated for better performance.</value>
+    <value>With this checkbox enabled, no presentation will be shown and performance will be better.</value>
   </data>
   <data name="PolynomialCaption" xml:space="preserve">
     <value>Feedback function</value>
   </data>
   <data name="PolynomialTooltip" xml:space="preserve">
-    <value>Define the feedback function. For example x5 * x2 + 1.</value>
+    <value>Define the feedback function, for example x0 * x2 + x1 + 1</value>
   </data>
   <data name="RoundsCaption" xml:space="preserve">
     <value>Rounds</value>
@@ -235,10 +235,10 @@
     <value>Additional Output Bit</value>
   </data>
   <data name="NoQuickwatchList1" xml:space="preserve">
-    <value>Display Quickwatch?</value>
+    <value>Display presentation?</value>
   </data>
   <data name="No_Quickwatch_data_right_now_" xml:space="preserve">
-    <value>No Quickwatch data right now.</value>
+    <value>No data to present right now.</value>
   </data>
   <data name="SaveCurrentStateList1" xml:space="preserve">
     <value>Save current state?</value>

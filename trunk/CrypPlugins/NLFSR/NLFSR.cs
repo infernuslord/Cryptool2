@@ -225,7 +225,7 @@ namespace Cryptool.NLFSR
             if ((inputTapSequence == null || (inputTapSequence != null && inputTapSequence.Length == 0)) && (settings.Polynomial == null || (settings.Polynomial != null && settings.Polynomial.Length == 0)))
             {
                 // create some input
-                String dummystring = "x^2 * 1";
+                String dummystring = "x0 * x1";
                 // this.inputTapSequence = new String();
                 inputTapSequence = dummystring;
                 // write a warning to the outside world
@@ -404,7 +404,7 @@ namespace Cryptool.NLFSR
             // NAND => -
             //strExpression = strExpression.Replace("NAND", "-");
             // AND => +
-            strExpression = strExpression.Replace("AND", "+");
+            strExpression = strExpression.Replace("AND", "*");
 
             // NOR => _
             //strExpression = strExpression.Replace("NOR", "_");
@@ -412,7 +412,7 @@ namespace Cryptool.NLFSR
             // NXOR => °
             //strExpression = strExpression.Replace("NXOR", "°");
             // XOR => *
-            strExpression = strExpression.Replace("XOR", "*");
+            strExpression = strExpression.Replace("XOR", "+");
 
             // OR => |
             //strExpression = strExpression.Replace("OR", "|");
@@ -514,13 +514,13 @@ namespace Cryptool.NLFSR
 
             // convert tapSequence into char array
             //tapSequenceCharArray = ReverseOrder(tapSequencebuffer.ToCharArray());
-            tapSequenceCharArray = tapSequencebuffer.ToCharArray();
+            tapSequenceCharArray = seedbuffer.ToCharArray();
 
-            int tapSequenceBits = tapSequencebuffer.Length;
+            int tapSequenceBits = seedbuffer.Length;
             seedBits = seedbuffer.Length;
 
-            GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
-            GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
+            //GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug);
+            //GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug);
 
             //check if last tap is 1, otherwise stop
             /*if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
@@ -532,6 +532,7 @@ namespace Cryptool.NLFSR
             // convert seed into char array
             seedCharArray = seedbuffer.ToCharArray();
 
+
             // check if seed is binary
             for (int z = 0; z < seedCharArray.Length; z++)
             {
@@ -540,14 +541,21 @@ namespace Cryptool.NLFSR
                     GuiLogMessage("ERROR 0 - Seed has to be binary. Aborting now. Character is: " + seedCharArray[z], NotificationLevel.Error);
                     return;
                 }
-                // create tapSequence for drawing NLFSR
-                string temp = "x" + z;
-                if (tapSequencebuffer.Contains(temp))
+                tapSequenceCharArray[z] = '0';
+            }            
+            
+            // create tapSequence for drawing NLFSR
+            Regex rgx = new Regex(@"x\d+");
+
+            foreach (Match match in rgx.Matches(tapSequencebuffer))
+            {
+                int z = Int32.Parse(match.Value.Substring(1));
+                if (z < 0 || z > seedCharArray.Length)
                 {
-                    tapSequenceCharArray[((z - seedCharArray.Length) * -1) - 1] = '1';
+                    GuiLogMessage("Illegal variable " + match.Value, NotificationLevel.Error);
+                    return;
                 }
-                else
-                    tapSequenceCharArray[((z - seedCharArray.Length) * -1) - 1] = '0';
+                tapSequenceCharArray[seedCharArray.Length - z - 1] = '1';
             }
 
             if (settings.UseClockingBit)
