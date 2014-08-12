@@ -81,7 +81,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Um die Stärke eines Passworts zu ermitteln, geben Sie das Passwort als Text (Zeichnkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePass-Bitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus in den Ausgängen der Komponente ausgegeben.
+    Um die Stärke eines Passworts zu ermitteln, geben Sie das Passwort als Text (Zeichenkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePass-Bitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus in den Ausgängen der Komponente ausgegeben.
   </usage>
 
   <presentation lang="en">
