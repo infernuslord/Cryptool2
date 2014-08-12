@@ -124,27 +124,27 @@
     <value>Berlekamp-Massey Algorithm</value>
   </data>
   <data name="InputCaption" xml:space="preserve">
-    <value>Input Sequence</value>
+    <value>Input sequence</value>
   </data>
   <data name="InputTooltip" xml:space="preserve">
     <value />
   </data>
   <data name="OutputCaption" xml:space="preserve">
-    <value>Minimal Length L</value>
+    <value>Minimal length L</value>
   </data>
   <data name="OutputTooltip" xml:space="preserve">
     <value />
   </data>
   <data name="PolynomialOutputCaption" xml:space="preserve">
-    <value>Feedback Polynomial C</value>
+    <value>Feedback polynomial C</value>
   </data>
   <data name="PolynomialOutputTooltip" xml:space="preserve">
     <value />
   </data>
   <data name="LabelFeedbackPolynomial" xml:space="preserve">
-    <value>Feedback Polynomial C:</value>
+    <value>Feedback polynomial C:</value>
   </data>
   <data name="LabelMinimalLength" xml:space="preserve">
-    <value>Minimal Length L:</value>
+    <value>Minimal length L:</value>
   </data>
 </root>

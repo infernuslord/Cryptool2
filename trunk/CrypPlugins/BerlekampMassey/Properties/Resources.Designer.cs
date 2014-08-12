@@ -61,7 +61,7 @@ namespace Cryptool.BerlekampMassey.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Input Sequence ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Input sequence ähnelt.
         /// </summary>
         internal static string InputCaption {
             get {
@@ -79,7 +79,7 @@ namespace Cryptool.BerlekampMassey.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Feedback Polynomial C: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Feedback polynomial C: ähnelt.
         /// </summary>
         internal static string LabelFeedbackPolynomial {
             get {
@@ -88,7 +88,7 @@ namespace Cryptool.BerlekampMassey.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Minimal Length L: ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Minimal length L: ähnelt.
         /// </summary>
         internal static string LabelMinimalLength {
             get {
@@ -97,7 +97,7 @@ namespace Cryptool.BerlekampMassey.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Minimal Length L ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Minimal length L ähnelt.
         /// </summary>
         internal static string OutputCaption {
             get {
@@ -133,7 +133,7 @@ namespace Cryptool.BerlekampMassey.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Feedback Polynomial C ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Feedback polynomial C ähnelt.
         /// </summary>
         internal static string PolynomialOutputCaption {
             get {
