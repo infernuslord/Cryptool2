@@ -4,7 +4,7 @@ using LatticeCrypto.Views;
 namespace LatticeCrypto
 {
     [Author("Eric Schmeck", "eric.schmeck@gmx.de", "Universität Siegen", "http://www.uni-siegen.de")]
-    [PluginInfo("LatticeCrypto.Properties.Languages", "PluginCaption", "PluginTooltip", "LatticeCrypto/DetailedDescription/doc.xml", "LatticeCrypto/LatticeCryptoPlugin.png")]
+    [PluginInfo("LatticeCrypto.Properties.Resources", "PluginCaption", "PluginTooltip", "LatticeCrypto/DetailedDescription/doc.xml", "LatticeCrypto/LatticeCryptoPlugin.png")]
     
     public class LatticeCryptoPlugin : ICrypTutorial
     {
