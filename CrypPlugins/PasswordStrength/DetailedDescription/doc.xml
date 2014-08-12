@@ -4,22 +4,92 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">    
+  <introduction lang="en">
+    The Password strength component allows the evaluation of a password with the usage of different evaluation algorithms. <Newline />
+    Watch out! The password is always displayed in the CT2 templates as plain text and not with asterisks (****). Therefore, please enter your own password only, if no one can view your monitor!<newline/>
+    <newline />
+    <b>1) algorithm of http://www.passwordmeter.com/ : </b> <newline />
+    The largest and most complex assessment algorithm is the algorithm, which we used from www.passwordmeter.com. This awards plus points and minus points by applying a set of rules. These rules are divided in different types (Flat, Cond / incr, Cond, Comp) and can be viewed as equations in the user interface of the component. In addition to the points (green = positive points, red = negative points), the "results" of individual rules are also represented by colored symbols (blue = rule statisfied completely, green =  rule statisfied partially, red = rule not statisfied). Within the rules the number of matching symbols (n) and the length of the password (len) are used. For example, the following rule calculates the points for the number of capital letters as follows: <newline />
+    <newline />
+    Rule: Uppercase symbols<newline />
+    Example Password: HELLOworld123 <newline />
+    Formula: + ((len-n) * 2) <newline />
+    Number of uppercase letters: n = 5 <newline />
+    Total length of password: len = 13 <newline />
+    Rule applied: + ((13-5) * 2) = 16 <newline />
+    <newline />
+    Thus the role results in a bonus of +16. <Newline />
+    <newline />
+    Negative results can lower the points for an entered password. For example, the rule for "Ongoing uppercase letters": <newline />
+    <newline />
+    Rule: Ongoing uppercase letters <newline />
+    Example Password: HELLOworld123 <newline />
+    Formula: - (n * 2) <newline />
+    Number of ongoing large letters: n = 4 <newline />
+    Total length of password: len = 13 <newline />
+    Used: - (4 * 2) = -8 <newline />
+    <newline />
+    Here, a negative bonus of -8 is applied. <Newline />
+    <newline />
+    The total points for the password (red to green) is represented by the sum of all rules and showed within a bar. 100 points are, according to this algorithm, the minimum requirements for a "really good" password. <Newline />
+    <newline />
+    <b>2) Bit strength: </b> <newline />
+    The calculation of the bit strength is taken from the free tool KeePass (http://keepass.info/) and indicates the strength of a password in "bits". These can be seen as the size of the search-space, which is spanned by the password. <Newline />
+    <newline />
+    <b>3) entropy: </b> <newline />
+    The entropy is a measure of the average information content or information density of a message. The term in information theory is named in analogy to entropy in thermodynamics and statistical mechanics. The higher the entropy of a password, the higher its safety can be assumed.
   </introduction>
 
-  <introduction lang="de-DE">        
+  <introduction lang="de-DE">
+    Die Passwortstärke-Komponente ermöglicht die Bewertung eines eingegebenen Passworts mittels verschiedener Bewertungsalgorithmen.<newline/>
+    Achtung! Das Passwort wird in jedem Fall in den mitgelieferten Templates als einfacher Text und nicht mit Sternen (****) angezeigt. Daher geben Sie ihr eigenes Passwort bitte nur dann ein, wenn Niemand ihren Monitor einsehen kann!<newline/>
+    <newline/>
+    <b>1) Algorithmus von http://www.passwordmeter.com/ :</b><newline/>
+    Der größte und ausführlichste Bewertungsalgorithmus ist der von der Seite www.passwordmeter.com übernommene Algorithmus. Bei diesem werden für ein eingegebenes Passwort Punkte und Minuspunkte nach einem festgelegten Regelwerk vergeben. Diese Regeln sind in unterschiedliche Typen (Flat, Cond/incr, Cond, Comp) eingeteilt und als Formel in der Oberfläche der Komponente einsehbar. Neben den Punkten (Grün = Pluspunkte, Rot = Minuspunkte) werden die "Ergebnisse" einzelner Regeln auch durch farbliche Symbole dargestellt (Blau = Regel im besonderen Maße erfüllt, Grün = Regel erfüllt, Rot =  Regel nicht erfüllt). Bei den Regeln wird zum einen die Anzahl der zur Regel passenden Symbole (n) als auch die Länge des Passworts (len) genutzt. Zum Beispiel berechnet sich die Formel für die Anzahl an Großbuchstaben folgendermaßen:<newline/>
+    <newline/>
+    Regel: Großbuchstaben<newline/>
+    Beispielpasswort: HELLOworld123<newline/>
+    Formel: +((len-n)*2)<newline/>
+    Anzahl großer Buchstaben: n=5<newline/>
+    Gesamtlänge Passwort: len=13<newline/>
+    Eingesetzt: +((13-5)*2) = 16<newline/>
+    <newline/>
+    Hierraus ergibt sich ein positiver Bonus durch die Regel von +16.<newline/>
+    <newline/>
+    Auch negative Ergebnisse können die Punkte für ein eingegebenes Passwort senken. Zum Beispiel die Regel für "Fortlaufende Großbuchstaben":<newline/>
+    <newline/>
+    Regel: Fortlaufende Großbuchtaben<newline/>
+    Beispielpasswort: HELLOworld123<newline/>
+    Formel: -(n*2)<newline/>
+    Anzahl fortlaufender großer Buchstaben: n=4<newline/>
+    Gesamtlänge Passwort: len=13<newline/>
+    Eingesetzt: -(4*2) = -8<newline/>
+    <newline/>
+    Hierraus ergibt sich ein negativer Bonus durch die Regel von -8.<newline/>
+    <newline/>
+    Die Gesamtpunkte für das Passwort werden durch die Summe aller Regeln innerhalb eines Balkens (rot bis grün) dargestellt. Ab 100 Punkten sind, nach diesem Algorithmus, die minimalen Anforderungen für ein Passwort erfüllt.<newline/>
+    <newline/>
+    <b>2) Bitstärke:</b><newline/>
+    Die Bitstärkenberechnung ist aus dem freien Tool KeePass (http://keepass.info/) übernommen und gibt die Stärke eines übergebenen Passworts in "Bits" an. Aus diesen lässt sich die Größe des, durch das Passwort, aufgespannten Raumes, welcher vollständig für das Brechen durchsucht werden müsste, aufzeigen.<newline/>
+    <newline/>
+    <b>3) Entropie:</b><newline/>
+    Die Entropie ist ein Maß für den mittleren Informationsgehalt oder auch Informationsdichte einer Nachricht. Der Begriff in der Informationstheorie ist in Analogie zur Entropie in der Thermodynamik und Statistischen Mechanik benannt. Desto höher die Entropie eines Passworts ist, desto höher kann dessen Sicherheit angesehen werden.
   </introduction>
 
   <usage lang="en">
+    To determine the strength of a password, enter the password as text (string) or as a ByteArray into the single input of the component. As soon as the component is executed, the results of the KeePass-bitstrength, the entropy, and result obtainted by the passwordmeter.com-algorithm are displayed in the presentation as well as output by the output connectors of the component.
   </usage>
 
   <usage lang="de-DE">
+    Um die Stärke eines Passworts zu ermitteln, geben Sie das Passwort als Text (Zeichnkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePassBitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus als Ausgabewerte in den Ausgängen ausgegeben.
   </usage>
-  
+
   <presentation lang="en">
+    Within the presentation, the rules stated above are shown. In addition, the overall result of the algorithm and all rules are displayed as points. The entropy and the KeePass-bitstrength are displayed as well.
   </presentation>
-  
+
   <presentation lang="de-DE">
+    Innerhalb der Präsentation werden die oben angegeben Regeln angezeigt. Außerdem wird das Gesamtergebnis aller Regeln sowie die Summe als Punkte ausgegeben. Auch die Entropie und die KeePass-Bitstärke werden angezeigt.
   </presentation>
-  
+
 </documentation>
