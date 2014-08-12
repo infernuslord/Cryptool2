@@ -64,7 +64,7 @@
     For the cube attack to work correctly we need to set it up accordingly through use of its options. The settings Panel for the component
     consists of the following options:
     <newline/><newline/>
-    The setting "Action" is needed to decide between the cube attack modes "Preprocessing", "Online" and "Manual Public Bit Input".
+    The setting "Action" is needed to decide between the cube attack modes "Preprocessing", "Online" and "Manual public bit input".
     <newline/><newline/>
     The settings "Public Bit Size" and "Secret Bit Size" are used to set the bit size of public and secret input bits of the cryptosystem
     under attack.
@@ -85,9 +85,9 @@
     cover all the secret
     bits. The setting is changeable while excecuting a preprocessing phase to consider multiple output bit values.
     <newline/><newline/>
-    The text box "Manual Public Bit Input" provides the manual input of values for the public bits. Possible inputs are '0' (set bit to
-    value 0), '1' (set bit to value 1) and '*' (sum over this bit value). Note, you have to set under "Action" the modus "Manual Public Bit
-    Input" to evaluate the polynomial under this public bit input.
+    The text box "Manual public bit input" provides the manual input of values for the public bits. Possible inputs are '0' (set bit to
+    value 0), '1' (set bit to value 1) and '*' (sum over this bit value). Note, you have to set under "Action" the modus "Manual public pit
+    input" to evaluate the polynomial under this public bit input.
     <newline/><newline/>
     The component itself provides two text outputs. On the one hand the output of the linearly independent polynomials on the secret bits with
     its corresponding cube indexes and output bit index and on the other hand a text output that provides the recovered key bits.
