@@ -6,9 +6,9 @@
 
   <introduction lang="en">
     The Password strength component allows the evaluation of a password with the usage of different evaluation algorithms. <Newline />
-    Watch out! The password is always displayed in the CT2 templates as plain text and not with asterisks (****). Therefore, please enter your own password only, if no one can view your monitor!<newline/>
+    Watch out! The password entered is displayed in the CT2 template as plain text and not with asterisks (****). Therefore, please enter your own password only, if no one can view your monitor!<newline/>
     <newline />
-    <b>1) algorithm of http://www.passwordmeter.com/ : </b> <newline />
+    <b>1) Algorithm of http://www.passwordmeter.com/ : </b> <newline />
     The largest and most complex assessment algorithm is the algorithm, which we used from www.passwordmeter.com. This awards plus points and minus points by applying a set of rules. These rules are divided in different types (Flat, Cond / incr, Cond, Comp) and can be viewed as equations in the user interface of the component. In addition to the points (green = positive points, red = negative points), the "results" of individual rules are also represented by colored symbols (blue = rule statisfied completely, green =  rule statisfied partially, red = rule not statisfied). Within the rules the number of matching symbols (n) and the length of the password (len) are used. For example, the following rule calculates the points for the number of capital letters as follows: <newline />
     <newline />
     Rule: Uppercase symbols<newline />
@@ -36,13 +36,13 @@
     <b>2) Bit strength: </b> <newline />
     The calculation of the bit strength is taken from the free tool KeePass (http://keepass.info/) and indicates the strength of a password in "bits". These can be seen as the size of the search-space, which is spanned by the password. <Newline />
     <newline />
-    <b>3) entropy: </b> <newline />
+    <b>3) Entropy: </b> <newline />
     The entropy is a measure of the average information content or information density of a message. The term in information theory is named in analogy to entropy in thermodynamics and statistical mechanics. The higher the entropy of a password, the higher its safety can be assumed.
   </introduction>
 
   <introduction lang="de-DE">
     Die Passwortstärke-Komponente ermöglicht die Bewertung eines eingegebenen Passworts mittels verschiedener Bewertungsalgorithmen.<newline/>
-    Achtung! Das Passwort wird in jedem Fall in den mitgelieferten Templates als einfacher Text und nicht mit Sternen (****) angezeigt. Daher geben Sie ihr eigenes Passwort bitte nur dann ein, wenn Niemand ihren Monitor einsehen kann!<newline/>
+    Achtung! Das eingegebene Passwort wird in der CT2-Vorlage als einfacher Text und nicht mit Sternen (****) angezeigt. Geben Sie Ihr eigenes Passwort deshalb bitte nur dann ein, wenn niemand ihren Monitor einsehen kann!<newline/>
     <newline/>
     <b>1) Algorithmus von http://www.passwordmeter.com/ :</b><newline/>
     Der größte und ausführlichste Bewertungsalgorithmus ist der von der Seite www.passwordmeter.com übernommene Algorithmus. Bei diesem werden für ein eingegebenes Passwort Punkte und Minuspunkte nach einem festgelegten Regelwerk vergeben. Diese Regeln sind in unterschiedliche Typen (Flat, Cond/incr, Cond, Comp) eingeteilt und als Formel in der Oberfläche der Komponente einsehbar. Neben den Punkten (Grün = Pluspunkte, Rot = Minuspunkte) werden die "Ergebnisse" einzelner Regeln auch durch farbliche Symbole dargestellt (Blau = Regel im besonderen Maße erfüllt, Grün = Regel erfüllt, Rot =  Regel nicht erfüllt). Bei den Regeln wird zum einen die Anzahl der zur Regel passenden Symbole (n) als auch die Länge des Passworts (len) genutzt. Zum Beispiel berechnet sich die Formel für die Anzahl an Großbuchstaben folgendermaßen:<newline/>
@@ -54,38 +54,38 @@
     Gesamtlänge Passwort: len=13<newline/>
     Eingesetzt: +((13-5)*2) = 16<newline/>
     <newline/>
-    Hierraus ergibt sich ein positiver Bonus durch die Regel von +16.<newline/>
+    Hieraus ergibt sich ein positiver Bonus durch die Regel von +16.<newline/>
     <newline/>
-    Auch negative Ergebnisse können die Punkte für ein eingegebenes Passwort senken. Zum Beispiel die Regel für "Fortlaufende Großbuchstaben":<newline/>
+    Negative Ergebnisse können die Punkte für ein eingegebenes Passwort senken.
     <newline/>
-    Regel: Fortlaufende Großbuchtaben<newline/>
+    Regel: Fortlaufende Großbuchstaben<newline/>
     Beispielpasswort: HELLOworld123<newline/>
     Formel: -(n*2)<newline/>
     Anzahl fortlaufender großer Buchstaben: n=4<newline/>
     Gesamtlänge Passwort: len=13<newline/>
     Eingesetzt: -(4*2) = -8<newline/>
     <newline/>
-    Hierraus ergibt sich ein negativer Bonus durch die Regel von -8.<newline/>
+    Hieraus ergibt sich ein negativer Bonus durch die Regel von -8.<newline/>
     <newline/>
     Die Gesamtpunkte für das Passwort werden durch die Summe aller Regeln innerhalb eines Balkens (rot bis grün) dargestellt. Ab 100 Punkten sind, nach diesem Algorithmus, die minimalen Anforderungen für ein Passwort erfüllt.<newline/>
     <newline/>
     <b>2) Bitstärke:</b><newline/>
-    Die Bitstärkenberechnung ist aus dem freien Tool KeePass (http://keepass.info/) übernommen und gibt die Stärke eines übergebenen Passworts in "Bits" an. Aus diesen lässt sich die Größe des, durch das Passwort, aufgespannten Raumes, welcher vollständig für das Brechen durchsucht werden müsste, aufzeigen.<newline/>
+    Die Bitstärkenberechnung ist aus dem freien Tool KeePass (http://keepass.info/) übernommen und gibt die Stärke eines übergebenen Passworts in "Bits" an. Aus diesen lässt sich die Größe des durch das Passwort aufgespannten Raumes aufzeigen, der für das Brechen vollständig durchsucht werden müsste.<newline/>
     <newline/>
     <b>3) Entropie:</b><newline/>
-    Die Entropie ist ein Maß für den mittleren Informationsgehalt oder auch Informationsdichte einer Nachricht. Der Begriff in der Informationstheorie ist in Analogie zur Entropie in der Thermodynamik und Statistischen Mechanik benannt. Desto höher die Entropie eines Passworts ist, desto höher kann dessen Sicherheit angesehen werden.
+    Die Entropie ist ein Maß für den mittleren Informationsgehalt oder auch Informationsdichte einer Nachricht. Der Begriff in der Informationstheorie ist in Analogie zur Entropie in der Thermodynamik und Statistischen Mechanik benannt. Je höher die Entropie eines Passworts ist, umso besser kann dessen Sicherheit angesehen werden.
   </introduction>
 
   <usage lang="en">
-    To determine the strength of a password, enter the password as text (string) or as a ByteArray into the single input of the component. As soon as the component is executed, the results of the KeePass-bitstrength, the entropy, and result obtainted by the passwordmeter.com-algorithm are displayed in the presentation as well as output by the output connectors of the component.
+    To determine the strength of a password, enter the password as text (string) or as a ByteArray into the single input of the component. As soon as the component is executed, the results of the KeePass bitstrength, the entropy, and the result obtainted by the algorithm from passwordmeter.com are displayed in the presentation and as well sent to the output connectors of the component.
   </usage>
 
   <usage lang="de-DE">
-    Um die Stärke eines Passworts zu ermitteln, geben Sie das Passwort als Text (Zeichnkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePassBitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus als Ausgabewerte in den Ausgängen ausgegeben.
+    Um die Stärke eines Passworts zu ermitteln, geben Sie das Passwort als Text (Zeichnkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePass-Bitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus in den Ausgängen der Komponente ausgegeben.
   </usage>
 
   <presentation lang="en">
-    Within the presentation, the rules stated above are shown. In addition, the overall result of the algorithm and all rules are displayed as points. The entropy and the KeePass-bitstrength are displayed as well.
+    Within the presentation, the rules stated above are shown. In addition, the overall result of the algorithm and all rules are displayed as points. The entropy and the KeePass bitstrength are displayed as well.
   </presentation>
 
   <presentation lang="de-DE">
