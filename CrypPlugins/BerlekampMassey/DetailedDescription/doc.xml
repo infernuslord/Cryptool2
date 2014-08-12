@@ -24,7 +24,7 @@
 
   <usage lang="en">
     On the input of the component, a string consisting of "0" and "1" is expected, that represents the output of the linear feedback shift register whose minimal polynomial you want to determine.
-    When the workspace is started, the component calculates the minimal polynomial and outputs it as a string (for example "x^5 + x^3 + 1") on the output labeled "Feedback Polynomial C".
+    When the workspace is started, the component calculates the minimal polynomial and outputs it as a string (for example "x^5 + x^3 + 1") on the output labeled "Feedback polynomial C".
     The degree of the polynomial, that corresponds to the minimal length of a LFSR for the given input, is sent to the output "L".
   </usage>
 
