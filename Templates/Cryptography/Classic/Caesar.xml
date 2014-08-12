@@ -25,13 +25,13 @@ Quelle: <external ref="http://de.wikipedia.org/wiki/Caesar-Verschlüsselung" /><
  </replacements>-->
  <!-- We do not replace template texts with German English in the upcoming release version. We have to adapt all templates for the 2.1 version (12.05.2014 Nils Kopal)-->
   <replacements lang="de">
-	<replacement key="$message$" value="Message"/>
-	<replacement key="$result$" value="Result"/>
+	<replacement key="$message$" value="Plaintext"/>
+	<replacement key="$result$" value="Ciphertext"/>
 	<replacement key="$text$" value="The quick brown fox jumps over the lazy dog."/>
  </replacements>
  <replacements lang="en">
-	<replacement key="$message$" value="Message"/>
-	<replacement key="$result$" value="Result"/>
+	<replacement key="$message$" value="Plaintext"/>
+	<replacement key="$result$" value="Ciphertext"/>
 	<replacement key="$text$" value="The quick brown fox jumps over the lazy dog."/>
  </replacements>
 
