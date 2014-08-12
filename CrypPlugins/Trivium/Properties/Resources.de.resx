@@ -178,7 +178,7 @@
     <value>Trivium-Sklave</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Trivium</value>
+    <value>Stromchiffre aus dem eSTREAM-Projekt</value>
   </data>
   <data name="UseByteSwappingContextTooltip" xml:space="preserve">
     <value>Byte-swapping benutzen?</value>

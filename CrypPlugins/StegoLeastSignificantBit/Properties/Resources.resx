@@ -175,7 +175,7 @@
     <value>Data output</value>
   </data>
   <data name="OutputDataTooltip" xml:space="preserve">
-    <value>Output of the secrect data that was extracted from the carrier image.</value>
+    <value>Output of the secret data that was extracted from the carrier image.</value>
   </data>
   <data name="OutputFileFormatCaption" xml:space="preserve">
     <value>Output File Format</value>

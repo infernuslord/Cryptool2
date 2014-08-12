@@ -10,8 +10,8 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Mickey 2.0 ist eine hardwareeffiziente, synchrone Stromchiffre. Mickey 2.0 ist ein Teil des eSTREAM Portfolio des ECRYPT Stream Cipher Projektes.
-    Die Chiffre hat eine Schlüssellänge von 80 Bits und benötigt einen Initialsierungsvektor (IV), welche zwischen 0 und 80 Bits lang sein muss.
+    Mickey 2.0 ist eine Hardware-effiziente, synchrone Stromchiffre. Mickey 2.0 ist ein Teil des eSTREAM-Portfolio des ECRYPT Stream Cipher Projektes.
+    Die Chiffre hat eine Schlüssellänge von 80 Bits und benötigt einen Initialsierungsvektor (IV), der zwischen 0 und 80 Bits lang ist.
   </introduction>
 
   <usage lang="en">

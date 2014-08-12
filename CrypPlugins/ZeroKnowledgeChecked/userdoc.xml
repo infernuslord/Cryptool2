@@ -8,7 +8,7 @@
 
   <introduction lang="en">
     In cryptography, a zero-knowledge proof or zero-knowledge protocol is a method by which one party (the prover) can prove to another party (the verifier) that he knows a secret,
-    without conveying any information about the secrect apart from the fact that he knows it.
+    without conveying any information about the secret apart from the fact that he knows it.
     <newline/>
     <newline/>
     The implementation of the zero-knowledge protocol in CrypTool assumes, that the prover can prove that he knows the secret by influencing an experiment in such a way, that its result is a value that was requested by the verifier.
@@ -17,7 +17,7 @@
     <newline/>
     The verifier determines the number of possible results of the experiment. He chooses a random result and challenges the prover to reproduce this result of the experiment.
     If the prover knows the secret, he can reproduce it every time. If he doesn't know it, the result of the experiment will be random.
-    If it is different from the requested value, the verifier knows immeadiately that the prover doesn't know the secret.
+    If it is different from the requested value, the verifier knows immediately that the prover doesn't know the secret.
     But if the result happens to be correct, the verifier can draw no conclusion.
     By repeating this process several times, the probability that the prover can convince the verifier without knowing the secret gets smaller and smaller.
     <newline/>
@@ -27,7 +27,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Ein Zero-Knowledge-Beweis (auch kenntnisfreier Beweis) oder Zero-Knowledge-Protokoll (auch kenntnisfreies Protokoll) ist ein Protokoll aus dem Bereich der Kryptografie.
+    Ein Zero-Knowledge-Beweis (auch kenntnisfreier Beweis) oder Zero-Knowledge-Protokoll (auch kenntnisfreies Protokoll) ist ein Protokoll aus dem Bereich der Kryptographie.
     Bei einem Zero-Knowledge-Protokoll kommunizieren zwei Parteien (der Beweiser und der Verifizierer) miteinander.
     Der Beweiser überzeugt dabei den Verifizierer mit einer gewissen Wahrscheinlichkeit davon, dass er ein Geheimnis kennt, ohne dabei Informationen über das Geheimnis selbst bekannt zu geben.
     <newline/>

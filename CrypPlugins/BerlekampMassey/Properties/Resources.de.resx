@@ -136,13 +136,13 @@
     <value />
   </data>
   <data name="PolynomialOutputCaption" xml:space="preserve">
-    <value>Feedback-Polynom C(D)</value>
+    <value>Feedback-Polynom C</value>
   </data>
   <data name="PolynomialOutputTooltip" xml:space="preserve">
     <value />
   </data>
   <data name="LabelFeedbackPolynomial" xml:space="preserve">
-    <value>Feedback-Polynom C(D):</value>
+    <value>Feedback-Polynom C:</value>
   </data>
   <data name="LabelMinimalLength" xml:space="preserve">
     <value>Minimale Länge L:</value>

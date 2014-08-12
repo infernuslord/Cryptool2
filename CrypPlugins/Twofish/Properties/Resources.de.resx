@@ -181,7 +181,7 @@
     <value>Twofish</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Twofish - Chiffre</value>
+    <value>Symmetrische Blockverschlüsselung</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Verschlüsselung</value>

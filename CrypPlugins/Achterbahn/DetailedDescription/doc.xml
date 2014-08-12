@@ -6,7 +6,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    Achterbahn is a synchronous stream cipher algorithm that was submitted to the eSTREAM Project of the eCRYPT network, where it was selected as a phase 2 candidate.
+    Achterbahn is a synchronous stream cipher algorithm that was submitted to the eSTREAM Project of the ECRYPT network, where it was selected as a phase 2 candidate.
     It was developed by Berndt Gammel, Rainer Göttfert and Oliver Kniffler.
     The two cipher variants Achterbahn-80 and Achterbahn-128 support key lengths of up to 80 bits and up to 128 bits, respectively.
     <newline/>
@@ -14,9 +14,9 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Achterbahn ist eine synchrone Stromchiffre und war ein Phase-2-Kandidat beim eSTREAM-Projekt des eCRYPT-Netzwerkes.
+    Achterbahn ist eine synchrone Stromchiffre und war ein Phase-2-Kandidat beim eSTREAM-Projekt des ECRYPT-Netzwerkes.
     Die Chiffre wurde von Berndt Gammel, Rainer Göttfert und Oliver Kniffler entwickelt.
-    Die beiden Chiffrevarianten Achterbahn-80 und Achterbahn-128 unterstützen Schlüssellängen von jeweils bis zu 80 Bit und 128 Bit.
+    Die beiden Chiffre-Varianten Achterbahn-80 und Achterbahn-128 unterstützen Schlüssellängen von jeweils bis zu 80 Bit und 128 Bit.
     <newline/>
     Achterbahn ist für Hardware-Anwendungen mit beschränkten Ressourcen optimiert.
   </introduction>
@@ -35,12 +35,12 @@
   </usage>
 
   <usage lang="de-DE">
-    Wählen Sie die Chiffrevariante, die Sie verwenden wollen, in den Einstellungen der Komponente aus.
+    Wählen Sie die Chiffre-Variante, die Sie verwenden wollen, in den Einstellungen der Komponente aus.
     Zur Auswahl stehen Achterbahn-80 und Achterbahn-128.
     <newline/>
     <newline/>
-    Der Schlüssel und der Initialisierungsvektor müssen als Bytes-arrays an den entsprechend benannten Eingängen der Komponente eingegeben werden.
-    Die jeweilige Größe des angeforderten Schlüssels und Initialisierungsvektors hängt von der gewählten Chiffrevariante ab.
+    Der Schlüssel und der Initialisierungsvektor müssen als Byte-Arrays an den entsprechend benannten Eingängen der Komponente eingegeben werden.
+    Die jeweilige Größe des angeforderten Schlüssels und des Initialisierungsvektors hängt von der gewählten Chiffre-Variante ab.
     Wenn Sie Achterbahn-80 gewählt haben, muss der Schlüssel zwischen 40 und 80 Bits (5 und 10 Bytes) lang sein, und der Initialisierungsvektor darf höchstens 80 Bits lang sein (10 Bytes).
     Für Achterbahn-128 muss der Schlüssel zwischen 40 und 128 Bits (5 und 16 Bytes) lang sein, und der Initialisierungsvektor darf höchstens 128 Bits lang sein (16 Bytes).
     <newline/>

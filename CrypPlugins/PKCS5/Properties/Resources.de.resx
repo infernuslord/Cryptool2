@@ -121,7 +121,7 @@
     <value>PKCS#5</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>PKCS#5 V2.1 Hash</value>
+    <value>Passwortbasierte  Schlüsselgenerierung (PKCS#5 V2.1)</value>
   </data>
   <data name="KeyCaption" xml:space="preserve">
     <value>Schlüssel</value>

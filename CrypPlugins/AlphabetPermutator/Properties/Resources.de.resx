@@ -136,7 +136,7 @@
     <value>Offset</value>
   </data>
   <data name="OffsetTooltip" xml:space="preserve">
-    <value>Der Offset, an dem das Passwort im Zielalphabet positionieren werden soll</value>
+    <value>Der Offset, an dem das Passwort im Zielalphabet positioniert werden soll</value>
   </data>
   <data name="OrderCaption" xml:space="preserve">
     <value>Sortierung</value>
