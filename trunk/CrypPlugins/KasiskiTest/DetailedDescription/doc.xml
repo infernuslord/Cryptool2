@@ -15,10 +15,10 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Der Kasiski-Test ist eine Methode zur Feststellung der Schlüssellänge einer Vigenère-Chiffre.
+    Mit dem Kasiski-Test kann man die Schlüssellänge einer Vigenère-Chiffre ermitteln.
     <newline/>
     <newline/>
-    Der Test wurde von Charles Babbage entwickelt und vom preussischen Offizier Friedrich Wilhelm Kasiski 1863 erstmals veröffentlicht.
+    Der Test wurde von Charles Babbage entwickelt und vom preußischen Offizier Friedrich Wilhelm Kasiski 1863 erstmals veröffentlicht.
     Der Kasiski-Test untersucht einen Geheimtext nach sich wiederholenden Zeichenfolgen. Die Wahrscheinlichkeit, dass die Distanzen zwischen zwei Wiederholungen ein Vielfaches der Schlüssellänge sind, ist sehr groß,
     und um so größer, je länger die sich wiederholenden Zeichenfolgen sind.
     Der Grund dafür ist, dass sich wiederholende Zeichenfolgen im Klartext, deren Distanz ein Vielfaches der Schlüssellänge ist, bei der Vigenère-Verschlüsselung auch mit demselben Teil des Schlüssels verschlüsselt werden
@@ -33,20 +33,20 @@
     In the settings, you can adjust some parameters for the Kasiski test.
     <newline/>
     <newline/>
-    The "Gram Length" setting is used to set the maximum length of grams (short strings of characters) between which we count distances.
+    The "Gram length" setting is used to set the maximum length of grams (short strings of characters) between which we count distances.
     The default value is three, but setting a higher value improves the precision of the algorithm.
     <newline/>
     <newline/>
-    The "Maximum Factor Size" setting is used to set the maximum factor (hence maximum probable key length) which the algorithm should take into consideration.
+    The "Maximum factor size" setting is used to set the maximum factor (hence maximum probable key length) which the algorithm should take into consideration.
     The default value is 20.
     <newline/>
     <newline/>
-    The "Case Sensitivity" setting is used to determine if the algorithm should analyze the input with or without any changes to the case of letters.
+    The "Case sensitivity" setting is used to determine if the algorithm should analyze the input with or without any changes to the case of letters.
     The default value is "Yes 'a' should equal 'A'", i.e. the algorithm will set all letters of the input string to lower case.
     <newline/>
     <newline/>
-    The "Unknown Symbol Handling" setting is used to determine wheter or not unknown and/or special symbols (numbers, umlauts, space, new lines etc.) should be left in the input string for consequent analysis.
-    Default value is "Remove", meaning that all unknown symbols (in our case symbols that are not part of the Latin/English Alphabet) are removed.
+    The "Unknown symbol handling" setting is used to determine whether or not unknown and/or special symbols (numbers, umlauts, space, new lines etc.) should be left in the input string for consequent analysis.
+    Default value is "Remove", meaning that all unknown symbols (in our case symbols that are not part of the Latin/English alphabet) are removed.
     <newline/>
     <newline/>
     On the text output of the component you will get numbers sorted in two columns. The two columns are divided by the column (":") sign. The left column contains all factors (and therefore keylengths) the component took into consideration.
@@ -55,7 +55,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Geben Sie den zu analysierenden Text am Eingang der Komponente an. Der Text sollte ein mit dem Vigenère-Verfahren verschlüsselter Geheimtext sein.
+    Geben Sie den zu analysierenden Text am Eingang der Komponente an. Der Text muss ein mit dem Vigenère-Verfahren verschlüsselter Geheimtext sein.
     <newline/>
     <newline/>
     In den Einstellungen der Komponente können Sie einige Parameter für den Kasiski-Test angeben:
@@ -68,7 +68,7 @@
     <newline/>
     <newline/>
     Außerdem können Sie angeben, wie unbekannte Zeichen in der Eingabe behandelt werden sollen. Unbekannte Zeichen sind alle Zeichen, die nicht Teil des Alphabets sind.
-    Sie können entweder in der Eingabe belassen somit bei der Analyse berücksichtigt werden, oder sie können vor der Analyse entfernt werden.
+    Diese können entweder in der Eingabe belassen (und somit bei der Analyse berücksichtigt) werden, oder sie können vor der Analyse entfernt werden.
     <newline/>
     <newline/>
     Weiterhin können Sie angeben, ob die Groß-/Kleinschreibung der Buchstaben der Eingabe bei der Analyse eine Rolle spielen soll oder nicht.

@@ -13,7 +13,7 @@
     of a NLFSR can be any logic function over the shift register bits.
     <newline/>
     <newline/>
-    In cryptography, feedback shift registers are often used in the generation of pseudo random numbers.
+    In cryptography, feedback shift registers are often used in the generation of pseudo-random numbers.
   </introduction>
 
   <introduction lang="de-DE">

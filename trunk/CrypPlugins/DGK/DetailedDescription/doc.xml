@@ -29,7 +29,7 @@
   </introduction>
 
   <usage lang="en">
-    The DGK cryptosystem is a homomorphic cryptosystem, that was presented by I. Damgård, M. Geisler and M. Krøigaard in 2007.
+    The DGK cryptosystem is a homomorphic cryptosystem, that was presented by I. Damgård, M. Geisler, and M. Krøigaard in 2007.
     <newline/>
     <newline/>
     The cryptosystem has the following homomorphic properties:
@@ -73,7 +73,7 @@
     For decryption, the component additionally needs the private key (VP,VQ,P), that is also provided by the DGK Key Generator.
     <newline/>
     <newline/>
-    The data that is to be encrypted or decrypted must be entered at the input labeled "input message M".
+    The data that is to be encrypted or decrypted must be entered at the input labeled "Input message M".
     The component accepts BigInteger numbers and byte arrays as input. Depending on the given data type, the result will be sent to the BigInteger output or the byte array output.
   </presentation>
   

@@ -151,7 +151,7 @@
     <value>Kappa plain-text</value>
   </data>
   <data name="KappaTooltip" xml:space="preserve">
-    <value>Select the language to be analysed</value>
+    <value>Select the language to be analyzed</value>
   </data>
   <data name="KappaList1" xml:space="preserve">
     <value>English</value>

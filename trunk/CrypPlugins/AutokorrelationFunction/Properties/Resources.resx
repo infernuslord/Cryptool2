@@ -133,7 +133,7 @@
     <value>Keylength Output</value>
   </data>
   <data name="OutputLengthTooltip" xml:space="preserve">
-    <value>The most probable keylength for the analysed ciphertext</value>
+    <value>The most probable keylength for the analyzed ciphertext</value>
   </data>
   <data name="Autocorrelation_matches" xml:space="preserve">
     <value>Autocorrelation matches</value>

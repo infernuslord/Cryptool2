@@ -31,7 +31,7 @@ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">- either in the</Span>
         <Span FontStyle="Italic" xml:lang="de-de">Algorithm Settings</Span>
-        <Span xml:lang="de-de">(within the drop down menu "Kind of packet"):
+        <Span xml:lang="de-de">(within the drop-down menu "Kind of packet"):
         </Span>
     </Paragraph>
 

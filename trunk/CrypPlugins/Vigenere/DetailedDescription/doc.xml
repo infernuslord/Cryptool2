@@ -26,7 +26,7 @@
     The 26 alphabets are identified by their first character.
     When a text is encrypted, the first letter is encrypted with a substitution, that uses the substitution alphabet that is specified by the first letter of the keyword.
     The second letter is encrypted with the alphabet specified by the second letter of the keyword, and so on.
-    The keyword is used periodically: if the end of the keyword is reached, its first letter will be used again in the next step.
+    The keyword is used periodically: If the end of the keyword is reached, its first letter will be used again in the next step.
     <newline/>
     <newline/>
     A variation of the Vigenère cipher is the Vigenère Autokey cipher. It avoids the periodicity of the keyword by appending the plaintext to the keyword
@@ -34,7 +34,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Die Vigenère-Chiffre gehört zu der Klasse der polyalphabetischen Substitutionen.
+    Die Vigenère-Chiffre gehört zur Klasse der polyalphabetischen Substitutionen.
     Im Gegensatz zur monoalphabetischen Substitution, bei der alle Buchstaben eines Klartextes mittels desselben Substitutions-Alphabets ersetzt werden,
     werden im polyalphabetischen Fall die Klartextbuchstaben mit unterschiedlichen Substitutions-Alphabeten ersetzt.
     <newline/>
@@ -55,7 +55,7 @@
     Diese 26 Alphabete werden jeweils durch ihren ersten Buchstaben benannt.
     Bei der Verschlüsselung wird nun der erste Buchstabe des Klartextes mittels desjenigen Substitutions-Alphabets ersetzt, das durch den ersten Buchstaben des Schlüsselworts benannt wird.
     Der zweite Buchstabe des Klartextes wird durch das Substitutions-Alphabet des zweiten Schlüsselbuchstabens ersetzt, und so weiter.
-    Das Schlüsselwort wird periodisch verwendet: ist man am Ende angelangt, so wird im nächsten Schritt wieder der erste Buchstabe genommen.
+    Das Schlüsselwort wird periodisch verwendet: Ist man am Ende angelangt, so wird im nächsten Schritt wieder der erste Buchstabe genommen.
     <newline/>
     <newline/>
     Eine Variante des Vigenère-Verfahrens ist das Vigenère-Selbstschlüssel-Verfahren (auch Autokey-Verfahren genannt), bei dem der Schlüssel nicht wie beim klassischen Vigenère-Verfahren periodisch wiederholt wird.
@@ -72,8 +72,8 @@
     If you want to use an alphabet that differs from the standard (for example ZYXWVUTSRQPONMLKJIHGFEDCBA), you can enter it at the "External alphabet input" or in the settings.
     <newline/>
     <newline/>
-    You can also specify how the component should handle characters that are not part of the alphabet. They can be passed through unchanged, removed or replaced by a question mark.
-    If you select case sensitive handling, the characters of the input text, that are not part of the alphabet in their given case, will be treated like unknown characters.
+    You can also specify how the component should handle characters that are not part of the alphabet. They can be passed through unchanged, removed, or replaced by a question mark.
+    If you select case sensitive handling, the characters of the input text, that are not part of the given alphabet, will be treated like unknown characters.
   </usage>
 
   <usage lang="de-DE">

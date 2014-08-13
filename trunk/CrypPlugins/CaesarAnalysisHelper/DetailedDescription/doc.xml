@@ -6,7 +6,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This component analyses a text that was encrypted with the <docRef item="Cryptool.Caesar.Caesar">Caesar</docRef> cipher.
+    This component analyzes a text that was encrypted with the <docRef item="Cryptool.Caesar.Caesar">Caesar</docRef> cipher.
     It decodes the given ciphertext with all possible keys and compares the frequencies of the letters and the bigrams of the resulting plaintexts
     with the known frequencies of a natural language.
   </introduction>
@@ -18,8 +18,8 @@
   </introduction>
 
   <usage lang="en">
-    On the input "Encrypted text", you must enter a text that was encrypted with the <docRef item="Cryptool.Caesar.Caesar">Caesar</docRef> cipher.
-    On the input "Frequency List", a string that represents the letter frequency of the given ciphertext must be given.
+    The input "Encrypted text" expects a text encrypted with the <docRef item="Cryptool.Caesar.Caesar">Caesar</docRef> cipher.
+    The input "Frequency List" expects a string representing the letter frequency of the given ciphertext.
     You can use the <docRef item="Cryptool.FrequencyTest.FrequencyTest"/> component to create this string.
     You must also select the supposed language of the underlying plaintext.
     The ciphertext will then be analyzed using the letter and bigram frequencies of the selected language.

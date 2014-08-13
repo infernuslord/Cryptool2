@@ -47,7 +47,7 @@
     
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
-        <Span xml:lang="de-de"> The input just requires the ciphertext that needs to be analysed. </Span>
+        <Span xml:lang="de-de"> The input just requires the ciphertext that needs to be analyzed. </Span>
     </Paragraph>
 
     

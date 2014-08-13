@@ -28,7 +28,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
     <input image="AES">
       <name lang="en">Ciphertext-Only</name>
       <name lang="de">Ciphertext-only</name>
-      <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
+      <description lang="en">Analyzes a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
       <description lang="de">Analysiert einen Geheimtext (ohne Kenntnis von Klartext(teilen) und ohne Kenntnis des Schlüssels). Verwendet die Entropie als Kostenfunktion.</description>
 
       <headline lang="en">AES - Ciphertext-Only Analysis</headline>
@@ -102,7 +102,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
     <input image="AES">
       <name lang="en">Known Plaintext</name>
       <name lang="de">Bekannter Klartext</name>
-      <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
+      <description lang="en">Analyzes a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen Geheimtext mit Hilfe eines Stücks bekannten Klartextes.</description>
 
       <headline lang="en">AES - Known-Plaintext Analysis</headline>
@@ -193,7 +193,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem DES-Algorithmus versc
     <input image="DES">
       <name lang="en">Ciphertext-Only</name>
       <name lang="de">Ciphertext-only-Analyse</name>
-      <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
+      <description lang="en">Analyzes a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
       <description lang="de">Analysiert einen Geheimtext (ohne Kenntnis von Klartext(teilen) und ohne Kenntnis des Schlüssels). Verwendet die Entropie als Kostenfunktion.</description>
 
       <headline lang="en">DES - Ciphertext-Only Analysis</headline>
@@ -257,7 +257,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem DES-Algorithmus versc
     <input image="DES">
       <name lang="en">Known Plaintext</name>
       <name lang="de">Bekannter Klartext</name>
-      <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
+      <description lang="en">Analyzes a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen Geheimtext mit Hilfe eines Stücks bekannten Klartextes.</description>
 
       <headline lang="en">DES - Known-Plaintext Analysis</headline>
@@ -339,7 +339,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem SDES-Algorithmus vers
     <input image="SDES">
       <name lang="en">Ciphertext-Only</name>
       <name lang="de">Ciphertext-only</name>
-      <description lang="en">Analyses a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
+      <description lang="en">Analyzes a ciphertext by using only the ciphertext. It will use entropy as the cost function.</description>
       <description lang="de">Analysiert einen Geheimtext (ohne Kenntnis von Klartext(teilen) und ohne Kenntnis des Schlüssels). Verwendet die Entropie als Kostenfunktion.</description>
 
       <headline lang="en">SDES - Ciphertext-Only Analysis</headline>
@@ -402,7 +402,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem SDES-Algorithmus vers
     <input image="SDES">
       <name lang="en">Known Plaintext</name>
       <name lang="de">Bekannter Klartext</name>
-      <description lang="en">Analyses a ciphertext by using a piece of known plaintext.</description>
+      <description lang="en">Analyzes a ciphertext by using a piece of known plaintext.</description>
       <description lang="de">Analysiert einen Geheimtext mit Hilfe eines Stücks bekannten Klartextes.</description>
 
       <headline lang="en">SDES - Known-Plaintext Analysis</headline>
