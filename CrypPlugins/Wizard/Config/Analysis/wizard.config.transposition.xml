@@ -84,7 +84,7 @@ rtei.iaic]cg,aic m cowtss i twam cou c h dogs,hee i motatttd nsgatyjets ea'ttrni
         <description lang="de">Analysierer:</description>
       </presentation>
 
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
+      <outputBox plugin="Revealed Plaintext" property="CurrentValue" visibleLines="5">
         <description lang="en">Deciphered Ciphertext:</description>
         <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>
@@ -158,7 +158,7 @@ Diese Methode benötigt für die Analyse nur den Geheimtext ("Ciphertext-only-An
         <description lang="de">Analysierer:</description>
       </presentation>
 
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
+      <outputBox plugin="Revealed Plaintext" property="CurrentValue" visibleLines="5">
         <description lang="en">Deciphered Ciphertext:</description>
         <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>
@@ -237,7 +237,7 @@ rtei.iaic]cg,aic m cowtss i twam cou c h dogs,hee i motatttd nsgatyjets ea'ttrni
         <description lang="de">Analysierer:</description>
       </presentation>
 
-      <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" visibleLines="5">
+      <outputBox plugin="Revealed Plaintext" property="CurrentValue" visibleLines="5">
         <description lang="en">Deciphered Ciphertext:</description>
         <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>

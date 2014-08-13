@@ -85,7 +85,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
           <description lang="de">Fortschritt:</description>
         </progressBar>
 
-        <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
+        <outputBox plugin="Revealed Plaintext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <storage key="Output Test" showLoadAddButtons="true" showStorageButton="true" />
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
@@ -165,7 +165,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem AES-Algorithmus versc
           <description lang="de">Fortschritt:</description>
         </progressBar>
 
-        <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
+        <outputBox plugin="Revealed Plaintext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
@@ -241,7 +241,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem DES-Algorithmus versc
           <description lang="de">Fortschritt:</description>
         </progressBar>
 
-        <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
+        <outputBox plugin="Revealed Plaintext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
@@ -311,7 +311,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem DES-Algorithmus versc
           <description lang="de">Fortschritt:</description>
         </progressBar>
         
-        <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
+        <outputBox plugin="Revealed Plaintext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
@@ -386,7 +386,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem SDES-Algorithmus vers
           <description lang="de">Fortschritt:</description>
         </progressBar>
 
-        <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="5" group="Output">
+        <outputBox plugin="Revealed Plaintext" property="CurrentValue" width="50%" alignment="Left" visibleLines="5" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>
@@ -455,7 +455,7 @@ Wählen Sie diesen Punkt, um einen Geheimtext, der mit dem SDES-Algorithmus vers
           <description lang="de">Fortschritt:</description>
         </progressBar>
 
-        <outputBox plugin="Deciphered Ciphertext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
+        <outputBox plugin="Revealed Plaintext" property="CurrentValue" width="50%" alignment="Left" visibleLines="3" group="Output">
           <description lang="en">Deciphered Ciphertext:</description>
           <description lang="de">Entschlüsselter Geheimtext:</description>
         </outputBox>

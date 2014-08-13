@@ -167,7 +167,7 @@ Zij Vgpyüywafoscw swe „IBHC“, lrx Xarl „kpkeaivzv“. Zqrx Gwykec-Vutobzw
         <description lang="de">Analyse:</description>
       </presentation>
 
-      <outputBox plugin="Plaintext" property="CurrentValue" alignment="Right" width="65%" visibleLines="15" group="OutputGroup">
+      <outputBox plugin="Revealed Plaintext" property="CurrentValue" alignment="Right" width="65%" visibleLines="15" group="OutputGroup">
         <description lang="en">Deciphered Ciphertext:</description>
         <description lang="de">Entschlüsselter Geheimtext:</description>
       </outputBox>
@@ -371,7 +371,7 @@ Um zusätzlich automatisch unter allen "entschlüsselten" Text den richtigen zu 
       <task lang="de">Auf dieser Seite sehen Sie das Ergebnis der Skytale-Kryptoanalyse. Im oberen Feld wird der erkannte Text, und im darunterliegenden Feld werden alle möglichen Ergebnisse der Probeentschlüsselung mit den verschiedenen Stabdicken angezeigt. Sollte der korrekte Text nicht erkannt werden, dann gehen Sie zurück auf die vorherige Seite und versuchen, durch Veränderung der Sprache bzw. der Anzahl der gesuchten Wörter ein besseres Ergebnis zu erhalten. Insofern auch in dem Feld aller möglichen Entschlüsselungen kein korrekter Text erkannt werden kann, können Sie versuchen, die maximale Stabdicke hochzusetzen.
       </task>
 
-      <outputBox plugin="Plaintext" property="CurrentValue" visibleLines="5" alignment="Left" width="80%" group="result">
+      <outputBox plugin="Decrypted Ciphertext" property="CurrentValue" visibleLines="5" alignment="Left" width="80%" group="result">
         <description lang="en">Probable Plaintext:</description>
         <description lang="de">Wahrscheinlicher Klartext:</description>
       </outputBox>
