@@ -121,7 +121,7 @@
     <value>Vigenère Analyser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Analyses a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher.</value>
+    <value>Analyzes a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher.</value>
   </data>
   <data name="FriedmanInputCaption" xml:space="preserve">
     <value>Double precision floating point value.</value>
@@ -193,7 +193,7 @@
     <value>Maximum Keylength</value>
   </data>
   <data name="Max_KeylengthTooltip" xml:space="preserve">
-    <value>Enter maximum keylength to be analysed by the 'Sampled Index of coincidence' method. default = 15</value>
+    <value>Enter maximum keylength to be analyzed by the 'Sampled Index of coincidence' method. default = 15</value>
   </data>
   <data name="ColumnAnalysisList1" xml:space="preserve">
     <value>Use most frequent letter</value>

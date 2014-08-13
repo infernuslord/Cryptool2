@@ -32,7 +32,7 @@
   </introduction>
 
   <usage lang="en">
-    The DGK cryptosystem is a homomorphic cryptosystem, that was presented by I. Damgård, M. Geisler and M. Krøigaard in 2007.
+    The DGK cryptosystem is a homomorphic cryptosystem, that was presented by I. Damgård, M. Geisler, and M. Krøigaard in 2007.
     <newline/>
     <newline/>
     The cryptosystem has the following homomorphic properties:

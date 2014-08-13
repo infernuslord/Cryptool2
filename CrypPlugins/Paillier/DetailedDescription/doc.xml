@@ -7,7 +7,7 @@
 
   <introduction lang="en">
     The Paillier cryptosystem, named after and invented by Pascal Paillier in 1999, is a probabilistic asymmetric algorithm for
-    public key cryptography. The problem of computing n-th residue classes is believed to be computationally difficult.
+    public-key cryptography. The problem of computing n-th residue classes is believed to be computationally difficult.
     The decisional composite residuosity assumption is the intractability hypothesis upon which this cryptosystem is based.
     <newline/>
     <newline/>

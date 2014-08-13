@@ -5,7 +5,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    PKCS (Public Key Cryptography Standards) is a set of standards for public-key cryptography developed by RSA Laboratories since 1991.
+    PKCS (Public-Key Cryptography Standards) is a set of standards for public-key cryptography developed by RSA Laboratories since 1991.
     Their aim is to support the development and use of asymmetric cryptosystems.
     <newline/>
     <newline/>
@@ -14,12 +14,12 @@
   </introduction>
 
   <introduction lang="de-DE">
-    PKCS (Public Key Cryptography Standards; deutsch Kryptographiestandards für öffentliche Schlüssel) bezeichnet eine Reihe von kryptographischen Spezifikationen, die von den RSA-Laboratorien ab 1991 entwickelt wurden, 
+    PKCS (Public-Key Cryptography Standards; deutsch Kryptographiestandards für öffentliche Schlüssel) bezeichnet eine Reihe von kryptographischen Spezifikationen, die von den RSA-Laboratorien ab 1991 entwickelt wurden, 
     um die Entwicklung und Verbreitung asymmetrischer Kryptosysteme zu beschleunigen.
     <newline/>
     <newline/>
     Im PKCS#5-Standard wird unter anderem beschrieben, wie man ausgehend von einem möglicherweise unsicheren Schlüsselwort einen sehr sicheren Schlüssel generieren kann.
-    Durch die Verwendung eines Salt-Wertes und der wiederholten Anwendung einer Hash-Funktion auf das Passwort wird ein Schlüssel generiert, der unempfindlich gegen Wörterbuch-Angriffe und Rainbow Tables ist.
+    Durch die Verwendung eines Salt-Wertes und der wiederholten Anwendung einer Hash-Funktion auf das Passwort wird ein Schlüssel generiert, der unempfindlicher gegen Wörterbuch-Angriffe und Rainbow Tables ist.
   </introduction>
 
   <usage lang="en">
@@ -31,7 +31,7 @@
     <newline/>
     <newline/>
     Select the hash function you want to use in the settings. The selected hash function is applied to the combination of key and salt several times. You can adjust the number of iterations in the settings.
-    The more iterations are executed, to longer it will take to calculate a key. But the safer the generated key will be against attacks, as the effort for an attacker will also multiply.
+    The more iterations are executed, the longer it will take to calculate a key. However, the safer the generated key is against attacks, the higher the effort for an attacker will be.
     <newline/>
     <newline/>
     The generated hash value will be available at the outputs of the component as a byte array and as a data stream, from where it can be used as a key by subsequent encryption components.
@@ -52,7 +52,7 @@
     <newline/>
     Der generierte Hash-Wert wird am Ausgang der Komponente als Datenstrom oder als Byte-Array zur Verfügung gestellt und kann als Schlüssel für eine nachgeschaltete Verschlüsselungskomponente verwendet werden.
     Da verschiedene Verschlüsselungsverfahren verschiedene Schlüsselgrößen verlangen, besteht die Möglichkeit, die Größe des ausgegebenen Schlüssels anzugeben.
-    Geben Sie dazu in den Einstellungen die gewünschte Schlüssellänge in Bits an. Die angegebene Zahl muss ein vielfaches von 8 sein.
+    Geben Sie dazu in den Einstellungen die gewünschte Schlüssellänge in Bits an. Die angegebene Zahl muss ein Vielfaches von 8 sein.
   </usage>
   
   <presentation lang="en">

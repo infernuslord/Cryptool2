@@ -32,7 +32,7 @@ xmlns:misc="clr-namespace:Cryptool.PluginBase.Miscellaneous;assembly=CrypPluginB
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333">
         <Span xml:lang="de-de">- either in the</Span>
         <Span FontStyle="Italic" xml:lang="de-de">Algorithm Settings</Span>
-        <Span xml:lang="de-de">(within the drop down menu "Kind of attack"):</Span>
+        <Span xml:lang="de-de">(within the drop-down menu "Kind of attack"):</Span>
     </Paragraph>
 
     <Paragraph Margin="0,0,0,0" TextAlignment="Left" FontFamily="Verdana" FontSize="13.3333333333333" />

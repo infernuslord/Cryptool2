@@ -11,7 +11,7 @@
     It describes how a sender (Alice) can send some information to a receiver (Bob), but still remain oblivious as to what information was sent.
     <newline/>
     <newline/>
-    The Oblivious Transfer Protocol that is implemented by CrypTool can be described like this:
+    The Oblivious Transfer Protocol implemented by CrypTool can be described like this:
     Alice has a database of messages. Bob wants to retrieve one of the entries, but doesn't want Alice to know, which entry he requested.
     Alice is prepared to send the requested entry to Bob, but she doesn't want Bob to get more than this one entry per request.
     <newline/>
@@ -27,7 +27,7 @@
       <item>
         <b>Step 2:</b>
         Bob chooses the index i, which is the index of the database entry he wants to request from Alice.
-        He generates a random number k that serves to blind the index i for Alice: he calculates v = x[i] + encode(k) with Alice's public key and sends it to Alice.
+        He generates a random number k that serves to blind the index i for Alice: He calculates v = x[i] + encode(k) with Alice's public key and sends it to Alice.
       </item>
       <item>
         <b>Step 3:</b>
@@ -50,7 +50,7 @@
     Es beschreibt, wie ein Sender (Alice) eine Information an einen Empfänger (Bob) schicken kann, bei dem dem Sender verborgen bleibt, welche Information geschickt wurde.
     <newline/>
     <newline/>
-    Das in Cryptool implementierte Oblivious Transfer-Protokoll kann folgendermassen beschrieben werden:
+    Das in Cryptool implementierte Oblivious Transfer-Protokoll kann folgendermaßen beschrieben werden:
     Alice hat eine Sammlung von Nachrichten. Bob will eine dieser Nachrichten von Alice erhalten, aber er will nicht, dass Alice erfährt, welche der Nachrichten er angefragt hat.
     Alice ist bereit, Bob die gewünschte Nachricht zu schicken, aber sie will vermeiden, dass Bob bei seiner Anfrage Informationen über die übrigen Nachrichten erhält.
     <newline/>
@@ -67,12 +67,12 @@
       <item>
         <b>Schritt 2:</b>
         Bob wählt einen Index i, der angibt, welche Nachricht er von Alice erhalten möchte.
-        Er erzeugt eine Zufallszahl k, die zur Verschleierung des Indexes dient: er berechnet v = x[i] + encode(k) mit Alices öffentlichem Schlüssel und schickt v an Alice.
+        Er erzeugt eine Zufallszahl k, die zur Verschleierung des Indexes dient: Er berechnet v = x[i] + encode(k) mit Alices öffentlichem Schlüssel und schickt v an Alice.
       </item>
       <item>
         <b>Schritt 3:</b>
         Für jede ihrer Nachrichten m[j] berechnet Alice den Wert m[j] + decode(v-x[j]) unter Verwendung ihres privaten RSA-Schlüssels und schickt die resultierenden Werte an Bob.
-        Für den i-ten Eintrag ergibt dies gerade m[i]+k, aber da Alice k nicht kennt, weiss sie nicht, um welchen Eintrag es sich handelt.
+        Für den i-ten Eintrag ergibt dies gerade m[i]+k, aber da Alice k nicht kennt, weiß sie nicht, um welchen Eintrag es sich handelt.
       </item>
       <item>
         <b>Schritt 4:</b>

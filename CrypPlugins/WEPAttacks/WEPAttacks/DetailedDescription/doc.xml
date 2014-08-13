@@ -6,7 +6,7 @@
 
   <introduction lang="en">
     This component implements three attacks against the secret key of the Wired Equivalent Privacy protocol (<docRef item="Cryptool.WEP.WEP"/>).
-    The three attacks are FMS, KoreK and PTW: Three different attacks with different fundamentals and different probabilities of success.
+    The three attacks are FMS, KoreK and PTW: different attacks with different fundamentals and different probabilities of success.
   </introduction>
 
   <introduction lang="de-DE">
@@ -15,7 +15,7 @@
 </introduction>
 
   <usage lang="en">
-    You can choose the attack from the drop down menu in the component settings.
+    You can choose the attack from the drop-down menu in the component settings.
     <newline/>
     <newline/>
     The packets, that the component requires for cryptanalysis, have to be provided at the input as a data stream.
@@ -43,10 +43,10 @@
     um eine beliebige Anzahl geeigneter Pakete zu generieren.
     <newline/>
     <newline/>
-    Wenn der Arbeitsbereich ausgeführt wird, liest die Komponente alle anliegenden Pakete ein und versucht daraus mit der gewählten Angriffsmethode den geheimen WEP-Schlüssel zu rekonstruieren.
+    Wenn der Arbeitsbereich ausgeführt wird, liest die Komponente alle anliegenden Pakete ein und versucht, mit der gewählten Angriffsmethode den geheimen WEP-Schlüssel zu rekonstruieren.
     Wenn der WEP-Schlüssel nicht gefunden wird, gibt die Komponente den booleschen Wert "False" an seinem Ausgang aus.
     Dieses Signal kann von weiteren Komponenten als Aufforderung ausgewertet werden, weitere Pakete zur Analyse zur Verfügung zu stellen.
-    Wenn der Schlüssel gefunden wurde, so gibt wird der Wert "True" ausgegeben, um anzuzeigen, dass die Analyse beendet ist.
+    Wenn der Schlüssel gefunden wurde, so wird der Wert "True" ausgegeben, um anzuzeigen, dass die Analyse beendet ist.
     <newline/>
     <newline/>
     Aktivieren Sie das Kontrollkästchen in den Einstellungen der Komponente, falls die Anzahl der für die Analyse zur Verfügung stehenden Pakete beschränkt ist.

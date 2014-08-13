@@ -11,7 +11,7 @@
     <newline/>
     The Hill cipher uses an invertible $n x n$ matrix as key. The elements of the matrix are numbers from 0 to 25.
     For encrypting a text, the text is split into blocks of $n$ characters.
-    Each block can be interpreted as an $n$-dimensional vector by replacing the letters in a block with numbers, : A=0, B=1, ..., Z=25.
+    Each block can be interpreted as an $n$-dimensional vector by replacing the letters in a block with numbers: A=0, B=1, ..., Z=25.
     This vector is multiplied with the matrix and the resulting vector modulo 26 is translated back into a block of $n$ characters.
     This is repeated for all blocks of the plaintext, and the ciphertext is then the concatenation of the encrypted blocks.
     <newline/>
@@ -40,7 +40,8 @@
     <newline/>
     The encryption matrix can be entered in the settings or at the "Matrix" input of the component.
     In the settings, the matrix can be specified as a comma-separated list of numbers (for example "1,0,0,0,1,0,0,0,1" for the 3x3 identity matrix).
-    On the "Matrix" input it is expected as a BigInteger array.
+    However, on the input "Matrix" a BigInteger array is expected.
+	 If the "Matrix" input is not connected, the matrix that is defined in the settings will be used.
     As the matrix has to be a square matrix, the number of values given in the matrix definition has to be a square number.
     The component checks whether the given matrix is invertible. If it is not invertible, the component will halt and issue an error message.
     <newline/>
@@ -58,7 +59,7 @@
     <newline/>
     <newline/>
     Die Verschlüsselungsmatrix kann entweder in den Einstellungen oder über den "Matrix"-Eingang der Komponente angegeben werden.
-    In den Einstellungen kann die Matrix als durch Kommas getrennte Folge von Zahlen angegeben werden (z.B. "1,0,0,0,1,0,0,0,1" für die 3x3-Einheitsmatrix), am "Matrix"-Eingang wird dagegen BigInteger-Array erwartet.
+    In den Einstellungen kann die Matrix als durch Kommas getrennte Folge von Zahlen angegeben werden (z.B. "1,0,0,0,1,0,0,0,1" für die 3x3-Einheitsmatrix), am "Matrix"-Eingang wird dagegen ein BigInteger-Array erwartet.
     Wird der "Matrix"-Eingang nicht verbunden, so wird die in den Einstellungen definierte Matrix verwendet.
     Da die Matrix quadratisch sein muss, muss die Anzahl der angegebenen Zahlen eine Quadratzahl sein.
     Die Komponente testet vor der Verwendung der Matrix, ob diese invertierbar ist und bricht die Bearbeitung andernfalls ab.

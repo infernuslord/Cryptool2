@@ -57,9 +57,9 @@
   <references>
     <linkReference id="wikipedia">
       <link url="http://en.wikipedia.org/wiki/PKCS" lang="en" />
-      <caption lang="en">Public Key Cryptography Standards (Wikipedia)</caption>
+      <caption lang="en">Public-Key Cryptography Standards (Wikipedia)</caption>
       <link url="http://de.wikipedia.org/wiki/PKCS" lang="de-DE" />
-      <caption lang="de-DE">Public Key Cryptography Standards (Wikipedia)</caption>
+      <caption lang="de-DE">Public-Key Cryptography Standards (Wikipedia)</caption>
     </linkReference>
     <linkReference id="rsalabs">
       <link url="http://www.rsa.com/rsalabs/node.asp?id=2129" lang="en" />

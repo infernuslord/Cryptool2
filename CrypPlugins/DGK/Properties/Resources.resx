@@ -136,7 +136,7 @@
     <value>Public Key G</value>
   </data>
   <data name="InputMCaption" xml:space="preserve">
-    <value>input message M</value>
+    <value>Input message M</value>
   </data>
   <data name="InputMTooltip" xml:space="preserve">
     <value>Input of message to encrypt or to modify</value>

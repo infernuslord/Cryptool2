@@ -124,7 +124,7 @@
     <value>This is the used alphabet.</value>
   </data>
   <data name="Analysed_Key" xml:space="preserve">
-    <value>Analysed Key</value>
+    <value>Analyzed Key</value>
   </data>
   <data name="Found_IC" xml:space="preserve">
     <value>Found IC</value>
@@ -181,7 +181,7 @@
     <value>Key Output</value>
   </data>
   <data name="OutputKeyTooltip" xml:space="preserve">
-    <value>The most probable key for the analysed ciphertext</value>
+    <value>The most probable key for the analyzed ciphertext</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère Autokey Analyser</value>
