@@ -513,7 +513,7 @@
       <defaultvalue lang="en">ZEBRAS</defaultvalue>
     </inputBox>
 
-    <comboBox plugin="Transposition (Encryption)" property="ReadIn" defaultValue="0" group="settings">
+    <comboBox plugin="Transposition (Encryption);Transposition (Decryption)" property="ReadIn" defaultValue="0" group="settings">
       <description lang="en">Read in:</description>
       <description lang="de">Einlesen:</description>
       <item content="by row" lang="en"/>
@@ -522,7 +522,7 @@
       <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
-    <comboBox plugin="Transposition (Encryption)" property="Permutation" defaultValue="1" group="settings">
+    <comboBox plugin="Transposition (Encryption);Transposition (Decryption)" property="Permutation" defaultValue="1" group="settings">
       <description lang="en">Permutation:</description>
       <description lang="de">Permutation:</description>
       <item content="by row" lang="en"/>
@@ -531,7 +531,7 @@
       <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
-    <comboBox plugin="Transposition (Encryption)" property="ReadOut" defaultValue="0" group="settings">
+    <comboBox plugin="Transposition (Encryption);Transposition (Decryption)" property="ReadOut" defaultValue="0" group="settings">
       <description lang="en">Read out:</description>
       <description lang="de">Auslesen:</description>
       <item content="by row" lang="en"/>

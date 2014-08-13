@@ -225,10 +225,17 @@ namespace Dictionary
 
         private void setNumberOfEntires()
         {
-            if (dicValues.ContainsKey(CurrentDicSelection) || LoadDictionary(CurrentDicSelection))
+            if (CurrentDicSelection != null)
             {
-                int n = dicValues[CurrentDicSelection].Length;
-                settings.NumberEntries = (n > 0) ? n.ToString("#,#") : n.ToString();
+                if (dicValues.ContainsKey(CurrentDicSelection) || LoadDictionary(CurrentDicSelection))
+                {
+                    int n = dicValues[CurrentDicSelection].Length;
+                    settings.NumberEntries = (n > 0) ? n.ToString("#,#") : n.ToString();
+                }
+                else
+                {
+                    settings.NumberEntries = "?";
+                }
             }
             else
             {
