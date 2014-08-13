@@ -689,33 +689,41 @@ namespace Cryptool.Plugins.CostFunction
         private IDictionary<string, double[]> calculateAbsolutes(String path, int length)
         {
             Dictionary<string, double[]> grams = new Dictionary<string, double[]>();
-            StreamReader reader = new StreamReader(path);
 
-            String text = reader.ReadToEnd();
-            text = text.ToUpper();
-            text = text.Replace("Ä", "AE").Replace("Ö", "OE").Replace("Ü", "UE").Replace("ß", "SS");
-            text = Regex.Replace(text, "[^A-Z]*", "");
-
-            for (int i = 0; i+length <= text.Length; i++)
+            try
             {
-                String key = text.Substring(i, length);
+                StreamReader reader = new StreamReader(path);
 
-                if (!grams.ContainsKey(key))
-                    grams.Add(key, new double[] { 0, 0, 0, 0 });
+                String text = reader.ReadToEnd();
+                text = text.ToUpper();
+                text = text.Replace("Ä", "AE").Replace("Ö", "OE").Replace("Ü", "UE").Replace("ß", "SS");
+                text = Regex.Replace(text, "[^A-Z]*", "");
 
-                grams[key][0]++;
+                for (int i = 0; i + length <= text.Length; i++)
+                {
+                    String key = text.Substring(i, length);
+
+                    if (!grams.ContainsKey(key))
+                        grams.Add(key, new double[] { 0, 0, 0, 0 });
+
+                    grams[key][0]++;
+                }
+
+                //double sum = grams.Values.Sum(item => item[ABSOLUTE]);
+                int sum = text.Length - length + 1;
+                GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
+
+                // calculate scaled values
+                foreach (double[] g in grams.Values)
+                {
+                    g[PERCENTAGED] = g[ABSOLUTE] / sum;
+                    g[LOG2] = Math.Log(g[ABSOLUTE], 2);
+                    g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
+                }
             }
-
-            //double sum = grams.Values.Sum(item => item[ABSOLUTE]);
-            int sum = text.Length - length + 1;
-            GuiLogMessage("Sum of all n-gram counts is: " + sum, NotificationLevel.Debug);
-
-            // calculate scaled values
-            foreach (double[] g in grams.Values)
+            catch (Exception ex)
             {
-                g[PERCENTAGED] = g[ABSOLUTE] / sum;
-                g[LOG2] = Math.Log(g[ABSOLUTE], 2);
-                g[SINKOV] = Math.Log(g[PERCENTAGED], Math.E);
+                GuiLogMessage("Error while generating statistics for file '"+path+"': " + ex.Message, NotificationLevel.Error);
             }
 
             return grams;

@@ -83,6 +83,9 @@
     <Reference Include="WindowsBase">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="zxing">
+      <HintPath>..\Lib\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AchterbahnTest.cs" />
@@ -146,6 +149,10 @@
       <Name>CrypCore</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\CrypNetwork\CrypNetwork.csproj">
+      <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
+      <Name>CrypNetwork</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
@@ -168,6 +175,70 @@
       <Project>{2A81A3B2-ABC0-4850-9C89-3830AD07FD6B}</Project>
       <Name>AES</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\AlphabetPermutator\AlphabetPermutator.csproj">
+      <Project>{E21EA91A-DBC4-405C-B3AD-327644160FB7}</Project>
+      <Name>AlphabetPermutator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Alphabets\Alphabets.csproj">
+      <Project>{C7C03D54-9D6D-458E-B538-19F4CD31841E}</Project>
+      <Name>Alphabets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\AnalysisMonoalphabeticSubstitution\AnalysisMonoalphabeticSubstitution.csproj">
+      <Project>{F6FBBA54-C9ED-418E-A584-E71503EAB13C}</Project>
+      <Name>AnalysisMonoalphabeticSubstitution</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\ArrayIndexer\ArrayIndexer.csproj">
+      <Project>{A066F077-B078-4234-BDD4-3632C0B3C18F}</Project>
+      <Name>ArrayIndexer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\AutokorrelationFunction\AutokorrelationFunction.csproj">
+      <Project>{7D4A4CE5-7E4F-480B-BC8F-E1FEBE558B8B}</Project>
+      <Name>AutokorrelationFunction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BB84ErrorDetector\BB84ErrorDetector.csproj">
+      <Project>{19D20024-BBCA-4BAE-A56E-97B08B05A959}</Project>
+      <Name>BB84ErrorDetector</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BB84KeyGenerator\BB84KeyGenerator.csproj">
+      <Project>{8B596B3D-B87E-4358-B59B-1ACE0A23839A}</Project>
+      <Name>BB84KeyGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BB84ManInTheMiddle\BB84ManInTheMiddle.csproj">
+      <Project>{EF4D90F5-4CA0-4C58-9CB8-A8B1F4360AB7}</Project>
+      <Name>BB84ManInTheMiddle</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BB84PhotonbaseGenerator\BB84PhotonbaseGenerator.csproj">
+      <Project>{4187C6A2-8A5F-4E3B-ABEC-04608FECE9B8}</Project>
+      <Name>BB84PhotonbaseGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BB84PhotonDecoder\BB84PhotonDecoder.csproj">
+      <Project>{5B5C9070-CC2F-400E-9015-F79070263F45}</Project>
+      <Name>BB84PhotonDecoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BB84PhotonEncoder\BB84PhotonEncoder.csproj">
+      <Project>{90C44C4A-CF96-48AF-873A-BA903EAB7B10}</Project>
+      <Name>BB84PhotonEncoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BerlekampMassey\BerlekampMassey.csproj">
+      <Project>{07BBFCE4-CAFB-41F4-A888-6D847D6DC3F9}</Project>
+      <Name>BerlekampMassey</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BitCommitmentScheme\BitCommitmentScheme.csproj">
+      <Project>{E86CE9A5-BBF2-48E3-80F1-80BD935670EF}</Project>
+      <Name>BitCommitmentScheme</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BooleanFunctionParser\BooleanFunctionParser.csproj">
+      <Project>{AE633B61-EA75-40F0-BFF8-04B707FB1159}</Project>
+      <Name>BooleanFunctionParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\BooleanOperators\BooleanOperators.csproj">
+      <Project>{9A8A0EC9-80AB-4015-923A-0CCFB198741A}</Project>
+      <Name>BooleanOperators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\CaesarAnalysisHelper\CaesarAnalysisHelper.csproj">
+      <Project>{F8150D58-1AD6-4411-AF27-FC8578D24C73}</Project>
+      <Name>CaesarAnalysisHelper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Caesar\Caesar.csproj">
       <Project>{AFBEAA94-3998-4C4A-805F-670ECF12029E}</Project>
       <Name>Caesar</Name>
@@ -175,6 +246,18 @@
     <ProjectReference Include="..\CrypPlugins\Camellia\Camellia.csproj">
       <Project>{E165718E-1BA2-4213-AE32-A7B2E5EF2E7E}</Project>
       <Name>Camellia</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Comparators\Comparators.csproj">
+      <Project>{7622B8CE-2F04-4380-9484-D642F6F2478E}</Project>
+      <Name>Comparators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Concatenate\Concatenate.csproj">
+      <Project>{71F1475B-53C4-4188-A01D-30DA4F63B77F}</Project>
+      <Name>Concatenate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Contains\Contains.csproj">
+      <Project>{AB072143-0ECF-403C-BB69-E7AEEC4528F9}</Project>
+      <Name>Contains</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Converter\Converter.csproj">
       <Project>{44570501-A850-4518-A1F1-A8795D91D826}</Project>
@@ -188,13 +271,33 @@
       <Project>{35359F4F-B6AE-4339-9E3C-8C3E6BD10AB1}</Project>
       <Name>CRC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Decimalization\Decimalization.csproj">
+      <Project>{C84A772B-E07A-4A30-A8EF-92A8B8077B2D}</Project>
+      <Name>Decimalization</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\DES\DES.csproj">
       <Project>{E3D15A1E-65D0-457A-9894-7F4E36369163}</Project>
       <Name>DES</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Dictionary\Dictionary.csproj">
+      <Project>{84E0B32B-70EE-4033-A2B8-2F0B41043D3D}</Project>
+      <Name>Dictionary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Enigma\Enigma.csproj">
       <Project>{AF5B966D-76A8-43A1-B6D2-3831FD4EF1C7}</Project>
       <Name>Enigma</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\FrequencyTest\FrequencyTest.csproj">
+      <Project>{BBE9497C-4AE2-4493-A611-DEBB37DFBBC8}</Project>
+      <Name>FrequencyTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\FriedmanTest\FriedmanTest.csproj">
+      <Project>{CA939946-8E20-40F0-946A-8C637B0BB593}</Project>
+      <Name>FriedmanTest</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Gate\Gate.csproj">
+      <Project>{0255CD48-A39D-406F-B89F-78D8AE56B9CE}</Project>
+      <Name>Gate</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\GrainV1\GrainV1.csproj">
       <Project>{76BF9E04-F403-44AE-BFAB-D907425EA6A7}</Project>
@@ -208,6 +311,10 @@
       <Project>{9DC8FE92-6839-4837-8AAA-D7456F2B288F}</Project>
       <Name>HMAC</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\IncDec\IncDec.csproj">
+      <Project>{75795A85-9C0D-4E83-9D75-E940117CDF20}</Project>
+      <Name>IncDec</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Keccak\Keccak.csproj">
       <Project>{54BCDECE-C7DE-454B-8991-901C238FE591}</Project>
       <Name>Keccak</Name>
@@ -215,7 +322,6 @@
     <ProjectReference Include="..\CrypPlugins\KeySearcher\KeySearcher.csproj">
       <Project>{0579E099-66B2-43C3-B8A0-43CAE4895E68}</Project>
       <Name>KeySearcher</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\LatticeCrypto\LatticeCrypto.csproj">
       <Project>{3F92F927-E6FA-4048-AB98-04D98B82B69E}</Project>
@@ -224,6 +330,10 @@
     <ProjectReference Include="..\CrypPlugins\M209\M209.csproj">
       <Project>{9113F40E-5A6D-445A-9625-B38DF3BA918F}</Project>
       <Name>M209</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\MD5Collider\MD5Collider.csproj">
+      <Project>{F5DDFE63-0904-4523-AA30-11FF5E91C362}</Project>
+      <Name>MD5Collider</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\MD5\MD5.csproj">
       <Project>{1137719A-7468-4DEF-84B1-77AB82049656}</Project>
@@ -238,6 +348,18 @@
       <Project>{CEE6669A-65EB-40F0-ACAC-2E24C1C6CCAB}</Project>
       <Name>MorseCode</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\NetworkCapture\NetworkCapture.csproj">
+      <Project>{52E69F19-74A3-4766-8FE5-6F2F0E569E25}</Project>
+      <Name>NetworkCapture</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\NetworkReceiver\NetworkReceiver.csproj">
+      <Project>{63C93DD9-3EA3-4242-A0C6-257CDC67078A}</Project>
+      <Name>NetworkReceiver</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\NetworkSender\NetworkSender.csproj">
+      <Project>{0C1A5699-1EB4-40C1-8743-931486D344F5}</Project>
+      <Name>NetworkSender</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Nihilist\Nihilist.csproj">
       <Project>{FB8BAD02-DDE2-411E-A495-071232CFDE58}</Project>
       <Name>Nihilist</Name>
@@ -245,6 +367,10 @@
     <ProjectReference Include="..\CrypPlugins\Numbers\Numbers.csproj">
       <Project>{40252D29-01C9-4F1A-9735-072B349AD165}</Project>
       <Name>Numbers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\PasswordStrength\PasswordStrength.csproj">
+      <Project>{248ED852-510B-48C6-B44D-870F19DB5504}</Project>
+      <Name>PasswordStrength</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\PKCS5\PKCS5.csproj">
       <Project>{80200C92-77FC-4508-B520-D51530BE2608}</Project>
@@ -271,9 +397,17 @@
       <Project>{3010F13F-4664-4231-9D98-99E85EBB82AE}</Project>
       <Name>Purple</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\QuadraticSieve\QuadraticSieve.csproj">
+      <Project>{D71E93D0-27FE-41AA-8F15-0EE959DB4342}</Project>
+      <Name>QuadraticSieve</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Rabbit\Rabbit.csproj">
       <Project>{7465421C-3BB2-47BB-B140-5BAC3BFC6B91}</Project>
       <Name>Rabbit</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\RandomInput\RandomInput.csproj">
+      <Project>{571529E4-A474-47BD-810E-0C8434A76711}</Project>
+      <Name>RandomInput</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\RC2\RC2.csproj">
       <Project>{A2A7E7E6-05E6-46AD-B8AE-862D9DA78A1E}</Project>
@@ -286,6 +420,10 @@
     <ProjectReference Include="..\CrypPlugins\RIPEMD160\RIPEMD160.csproj">
       <Project>{77EE0460-29E8-4227-A874-DECA9985BC64}</Project>
       <Name>RIPEMD160</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\RSA\RSA.csproj">
+      <Project>{B682CEB4-86F6-4C0D-918C-232C82E75673}</Project>
+      <Name>RSA</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Salsa20\Salsa20.csproj">
       <Project>{2CEB068D-B613-4A42-96CE-D6E6CF74AD33}</Project>
@@ -311,6 +449,10 @@
       <Project>{0E103FFB-C981-4B2A-A0C6-8924163C8A73}</Project>
       <Name>StegoLeastSignificantBit</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\StreamComparator\StreamComparator.csproj">
+      <Project>{C867D829-43FC-429D-A68D-B969D627CE3C}</Project>
+      <Name>StreamComparator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\StringDecoder\StringDecoder.csproj">
       <Project>{A7A16F8B-2616-442F-8B8E-8AD0E2EDB7FF}</Project>
       <Name>StringDecoder</Name>
@@ -319,10 +461,13 @@
       <Project>{98B733EB-58B4-4FC3-B2A7-FF1E9A75CF25}</Project>
       <Name>StringEncoder</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\StringOperations\StringOperations.csproj">
+      <Project>{C5EFDBD7-D326-4E76-82E2-53B593C11784}</Project>
+      <Name>StringOperations</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Substitution\Substitution.csproj">
       <Project>{C2DE271E-BAC1-48A8-9D06-432F4978DC94}</Project>
       <Name>Substitution</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\TEA\TEA.csproj">
       <Project>{1C42ADB9-643E-4B1C-A862-7DBE3CD22A7A}</Project>
@@ -340,6 +485,10 @@
       <Project>{67C393B3-1FC5-4B3D-A42B-2455B5DF4C31}</Project>
       <Name>Tiger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\TranspositionAnalyser\TranspositionAnalyser.csproj">
+      <Project>{D5B859A7-73AB-4BFE-A1FB-11BB104B210C}</Project>
+      <Name>TranspositionAnalyser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Transposition\Transposition.csproj">
       <Project>{37D80203-C651-4396-8F5B-D67B7EC62763}</Project>
       <Name>Transposition</Name>
@@ -352,9 +501,25 @@
       <Project>{B2F7104B-C302-409A-B6C7-3A74B6E5C5A1}</Project>
       <Name>Twofish</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\VigenereAutokeyAnalyser\VigenereAutokeyAnalyser.csproj">
+      <Project>{7186387E-0469-42C3-96A9-F9AFFB656419}</Project>
+      <Name>VigenereAutokeyAnalyser</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Vigenere\Vigenere.csproj">
       <Project>{6F44863A-B9EE-4371-90BD-7FDF849DD2C4}</Project>
       <Name>Vigenere</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\VisualDecoder\VisualDecoder.csproj">
+      <Project>{812925D1-0777-452E-B843-3B5B1F1093ED}</Project>
+      <Name>VisualDecoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\VisualEncoder\VisualEncoder.csproj">
+      <Project>{E9EEA2CB-1F31-4B6D-AEF1-394070702261}</Project>
+      <Name>VisualEncoder</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CrypPlugins\Webcam\Webcam.csproj">
+      <Project>{6714B40B-3EE3-4377-9876-6693BD39EB11}</Project>
+      <Name>Webcam</Name>
     </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\Whirlpool\Whirlpool.csproj">
       <Project>{3A68ECB5-6074-4A8D-A6BD-2413C5A4B243}</Project>
@@ -368,6 +533,10 @@
     <ProjectReference Include="..\CrypPlugins\XOR\XOR.csproj">
       <Project>{2BBA5775-A0F2-4846-BC88-46BE3B0F38B1}</Project>
       <Name>XOR</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibSource\OpenCLNet\OpenCLNet.csproj">
+      <Project>{0946E1A6-5488-4711-AD10-D54D6A5D2F32}</Project>
+      <Name>OpenCLNet</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibSource\SSCext\SSCext.csproj">
       <Project>{E46A6AA6-56EE-4AE5-8725-DCD07DC95527}</Project>
