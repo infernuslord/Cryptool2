@@ -37,7 +37,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="$message$" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
+    <inputBox plugin="Plaintext" property="Text" alignment="Right" width="80%" visibleLines="5" group="input1">
       <description lang="en">
         <condition plugin="Caesar" property="Action" value="0">
           Message to <b>encrypt</b>:
@@ -75,7 +75,7 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="$message$" property="Text" alignment="Stretch" visibleLines="5">
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">
           <condition plugin="Caesar" property="Action" value="0">
             Message to encrypt:
@@ -96,7 +96,7 @@
         <defaultvalue lang="de">Geben Sie Ihre Nachricht hier ein.</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="$result$" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Caesar Output:</description>
         <description lang="de">Caesar-Ausgabe:</description>
       </outputBox>
@@ -125,7 +125,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="Message" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
+    <inputBox plugin="Plaintext" property="Text" alignment="Right" width="78%" visibleLines="5" group="1">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
@@ -148,13 +148,13 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue>Hello world! Hallo Welt! Hola mundo! Bonjour le monde!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Vigenère Output:</description>
         <description lang="de">Vigenère-Ausgabe:</description>
       </outputBox>
@@ -271,7 +271,7 @@
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+    <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
 		<defaultvalue lang="en">We were discovered, retreat immediately!</defaultvalue>
@@ -295,7 +295,7 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="stretch" visibleLines="5">
+      <inputBox plugin="Plaintext" property="Text" alignment="stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="en">We were discovered, retreat immediately!</defaultvalue>
@@ -307,7 +307,7 @@
         <description lang="de">Plugin-Präsentation:</description>
       </presentation>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="stretch" visibleLines="2" >
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="stretch" visibleLines="2" >
         <description lang="en">Enigma Output:</description>
         <description lang="de">Enigma-Ausgabe:</description>
       </outputBox>
@@ -336,7 +336,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="Message" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Plaintext" property="Text" alignment="Right" width="70%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
     </inputBox>
@@ -356,13 +356,13 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="en">This is a test!</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Playfair Output:</description>
         <description lang="de">Playfair-Ausgabe:</description>
       </outputBox>
@@ -390,7 +390,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5">
+    <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue>SPIEL</defaultvalue>
@@ -419,7 +419,7 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       </inputBox>
@@ -443,13 +443,13 @@
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <inputBox plugin="$message$" property="Text" alignment="Strech" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Plaintext" property="Text" alignment="Strech" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue>ABCDCVX</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="$key$" property="Text" alignment="Strech" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Key" property="Text" alignment="Strech" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Key:</description>
       <description lang="de">Schlüssel:</description>
       <defaultvalue>99 AA BB CC DD EE FF</defaultvalue>
@@ -466,13 +466,13 @@
       <task lang="en">Here you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="$message$" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="en">ABCDCVX</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="$ciphertext$" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">XOR Output:</description>
         <description lang="de">XOR-Ausgabe:</description>
       </outputBox>
@@ -491,7 +491,7 @@
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <comboBox plugin="Transposition" property="Action" alignment="Left" width="20%">
+    <comboBox plugin="Transposition (Encryption)" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
       <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
@@ -500,7 +500,7 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="Message" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Plaintext" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue lang="en">We were discovered, retreat immediately!</defaultvalue>
@@ -513,7 +513,7 @@
       <defaultvalue lang="en">ZEBRAS</defaultvalue>
     </inputBox>
 
-    <comboBox plugin="Transposition" property="ReadIn" defaultValue="0" group="settings">
+    <comboBox plugin="Transposition (Encryption)" property="ReadIn" defaultValue="0" group="settings">
       <description lang="en">Read in:</description>
       <description lang="de">Einlesen:</description>
       <item content="by row" lang="en"/>
@@ -522,7 +522,7 @@
       <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
-    <comboBox plugin="Transposition" property="Permutation" defaultValue="1" group="settings">
+    <comboBox plugin="Transposition (Encryption)" property="Permutation" defaultValue="1" group="settings">
       <description lang="en">Permutation:</description>
       <description lang="de">Permutation:</description>
       <item content="by row" lang="en"/>
@@ -531,7 +531,7 @@
       <item content="Spaltenweise" lang="de"/>
     </comboBox>
 
-    <comboBox plugin="Transposition" property="ReadOut" defaultValue="0" group="settings">
+    <comboBox plugin="Transposition (Encryption)" property="ReadOut" defaultValue="0" group="settings">
       <description lang="en">Read out:</description>
       <description lang="de">Auslesen:</description>
       <item content="by row" lang="en"/>
@@ -551,19 +551,19 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="Message" property="Text" alignment="Stretch" visibleLines="5" >
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5" >
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="en">We were discovered, retreat immediately!</defaultvalue>
         <defaultvalue lang="de">Wir wurden entdeckt, flieh wenn du kannst!</defaultvalue>
       </inputBox>
 
-      <presentation plugin="Transposition" height="300">
+      <presentation plugin="Transposition (Encryption)" height="300">
         <description lang="en">Plugin Presentation:</description>
         <description lang="de">Plugin-Präsentation:</description>
       </presentation>
 
-      <outputBox plugin="Result" property="CurrentValue" alignment="Stretch" visibleLines="2">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="2">
         <description lang="en">Transposition Output:</description>
         <description lang="de">Transpositions-Ausgabe:</description>
       </outputBox>
@@ -584,7 +584,7 @@
     <task lang="en">Here, you can input the message and the key to use.</task>
     <task lang="de">Hier können Sie die Nachricht und den zu benutzenden Schlüssel eingeben.</task>
 
-    <comboBox plugin="$scytale$" property="Action" alignment="Left" width="20%">
+    <comboBox plugin="Scytale" property="Action" alignment="Left" width="20%">
       <description lang="en">Encrypt or Decrypt:</description>
       <description lang="de">Verschlüsseln oder Entschlüsseln:</description>
       <item lang="en" content="Encrypt"/>
@@ -593,14 +593,14 @@
       <item lang="de" content="Entschlüsseln"/>
     </comboBox>
 
-    <inputBox plugin="$message$" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
+    <inputBox plugin="Plaintext" property="Text" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup">
       <description lang="en">Message to encrypt/decrypt:</description>
       <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
       <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
       <defaultvalue lang="en">A secret message</defaultvalue>
     </inputBox>
 
-    <inputBox plugin="$key$" property="Number" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup" regex="[0-9]+">
+    <inputBox plugin="Key" property="Number" alignment="Stretch" width="49%" visibleLines="5" group="InputGroup" regex="[0-9]+">
       <description lang="en">Key:</description>
       <description lang="de">Schlüssel:</description>
       <defaultvalue>11</defaultvalue>
@@ -617,14 +617,14 @@
       <task lang="en">Here, you can change the parameters and view the results.</task>
       <task lang="de">Hier können Sie Parameter verändern und die Ergebnisse sehen.</task>
 
-      <inputBox plugin="$message$" property="Text" alignment="Stretch" visibleLines="5">
+      <inputBox plugin="Plaintext" property="Text" alignment="Stretch" visibleLines="5">
         <description lang="en">Message to encrypt/decrypt:</description>
         <description lang="de">Zu verschlüsselnde/entschlüsselnde Nachricht:</description>
         <defaultvalue lang="de">Eine geheime Botschaft</defaultvalue>
         <defaultvalue lang="en">A secret message</defaultvalue>
       </inputBox>
 
-      <outputBox plugin="$result$" property="CurrentValue" alignment="Stretch" visibleLines="5">
+      <outputBox plugin="Ciphertext" property="CurrentValue" alignment="Stretch" visibleLines="5">
         <description lang="en">Scytale Output:</description>
         <description lang="de">Skytale-Ausgabe:</description>
       </outputBox>
