@@ -9,7 +9,7 @@
     <newline/>
     <newline/>
     You can use one of the preinstalled alphabets or define a new alphabet.
-    The letters of an alphabet are divided into four categories: upper letters, lower letters, numeric characters and special characters.
+    The letters of an alphabet are divided into four categories: upper-case letters, lower-case letters, numeric characters and special characters.
     You can output the entire alphabet or only some selected character categories.
   </introduction>
 
@@ -35,7 +35,7 @@
     In the main area, you see the list of the defined alphabets. There are three alphabets preinstalled: basic latin, cyrillic and greek.
     You can add a new alphabet by clicking on the plus symbol in the upper left.
     Enter the name and the characters of the new alphabet in the form.
-    You must divide the characters into the four categories (upper letters, lower letters, numeric characters and special characters)
+    You must divide the characters into the four categories (upper-case letters, lower-case letters, numeric characters and special characters)
     and enter them in the according text area.
     Click on the arrows in the upper left to finish the input.
     <newline/>
@@ -46,17 +46,17 @@
     When the component is executed, the alphabet in the top position will be sent to the output as a string.
     The position of an alphabet in the list can be changed with the blue arrow buttons.
     Using the four checkboxes in the upper row of the component, you can determine the character categories that should be included in the output.
-    If you want to output only the letters, you must enable the checkboxes of upper and lower characters and disable the other checkboxes.
+    If you want to output only the letters, you must enable the checkboxes of upper-case and lower-case characters and disable the other checkboxes.
   </presentation>
   
   <presentation lang="de-DE">
-    Öffnen Sie die Komponente in der Präsentationsansicht, um die Einstellugsmöglichkeiten zu sehen.
+    Öffnen Sie die Komponente in der Präsentationsansicht, um die Einstellungsmöglichkeiten zu sehen.
     <newline/>
     <newline/>
     Im Hauptbereich sehen Sie die Liste der definierten Alphabete. In der Grundeinstellung sind drei Alphabete vorgegeben: Lateinisch, kyrillisch und griechisch.
     Sie können ein eigenes Alphabet hinzufügen, indem Sie auf das Plus-Zeichen im linken oberen Bereich klicken.
     In dem daraufhin erscheinenden Dialog geben Sie nun den Namen und die Zeichen des Alphabetes ein.
-    Teilen Sie die Zeichen gemäß der vier angegebenen Kategorien Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen ein und geben sie in das entsprechende Textfeld ein.
+    Teilen Sie die Zeichen gemäß der vier angegebenen Kategorien Großbuchstaben, Kleinbuchstaben, Zahlen und Sonderzeichen ein und geben diese in das entsprechende Textfeld ein.
     Klicken Sie auf die Pfeile links oben, um die Eingabe zu beenden.
     <newline/>
     <newline/>
