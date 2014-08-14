@@ -62,7 +62,7 @@
     The first line shows which attack is currently running.
     The second line shows the total amount of packets that have been read so far ("Sniffed packets").
     The third line shows, how many packets have been used for the analysis ("Used packets").
-    The FMS attack and the KoreK attack use only certain encrypted data packets.
+    The FMS attack and the KoreK, attack use only certain encrypted data packets.
     The FMS attack searches for special initialization vectors (IV), and
     the KoreK attack has some additional conditions, that determine whether or not the packet can be used for analysis.
     The PTW attack uses all packets for the analysis.

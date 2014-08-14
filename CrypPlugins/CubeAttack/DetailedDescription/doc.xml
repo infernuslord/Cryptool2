@@ -28,7 +28,7 @@
     During the online phase of the attack, the secret bits are fixed and unknown to the attacker. He is only allowed to set the 
     public bits to any value and to evaluate the output bit on this combined input. The aim of the online phase is to compute the values of 
     the polynomials found in the preprocessing phase. The polynomials with their corresponding values form a system of linear equations on 
-    the secret bits. If we have found n linearly independent polynomials equations in the preprocessing phase, then we can solve the system 
+    the secret bits. If we have found n linearly independent polynomial equations in the preprocessing phase, then we can solve the system 
     of equations to recover the values of the secret bits.
   </introduction>
 
@@ -61,22 +61,21 @@
   </introduction>
 
   <usage lang="en">
-    For the cube attack to work correctly we need to set it up accordingly through use of its options. The settings Panel for the component
-    consists of the following options:
+    In order to make the cube attack work correctly we need to set its options accordingly. The settings of the component contain the following options:
     <newline/><newline/>
-    The setting "Action" is needed to decide between the cube attack modes "Preprocessing", "Online" and "Manual public bit input".
+    The setting "Action" is needed to decide between the cube attack modes "Preprocessing", "Online" and "Manual input of public bits".
     <newline/><newline/>
     The settings "Public Bit Size" and "Secret Bit Size" are used to set the bit size of public and secret input bits of the cryptosystem
     under attack.
     <newline/><newline/>
-    The setting "Max Cube Size" is used to limit the size of the cube in the preprocessing phase of the attack. Any subset of public bits
-    of size k defines a k-dimensional Boolean cube of 2^k vectors in which we assign all the possible combinations of 0/1 values to the
+    The setting "Max cube size" is used to limit the size of the cube in the preprocessing phase of the attack. Any subset of public bits
+    of size k defines a k-dimensional boolean cube of 2^k vectors in which we assign all the possible combinations of 0/1 values to the
     public variables. Therefore, we have to limit the size to avoid a number of computations that are infeasible in practise.
     <newline/><newline/>
-    The "Constant Tests" setting is used to set the number of constant tests for each polynomial. The test computes the value of the
+    The setting "Constant tests" is used to set the number of constant tests for each polynomial. The test computes the value of the
     polynomial for several different secret inputs and checks that the result is always the same. If it is, it must be constant.
     <newline/><newline/>
-    The "Linearity Tests" setting is used to set the number of linearity tests for each polynomial. The test always succeeds if the
+    The setting "Linearity tests" is used to set the number of linearity tests for each polynomial. The test always succeeds if the
     polynomial is linear. However, if the polynomial is not linear, the test fails with high probability. The default value is fifty.
     Setting the value higher increases the probability that the polynomial is truly linear on the secret bits.
     <newline/><newline/>

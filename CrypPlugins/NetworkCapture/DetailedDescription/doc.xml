@@ -16,7 +16,7 @@
     Diese Komponente zeichnet den Datenverkehr, der über eine Netzwerkkarte des Computers geleitet wird, auf und stellt ihn als Datenstrom zur Verfügung.
     <newline/>
     <newline/>
-    Um diese Komponente verwenden zu können, muss auf ihrem System die Programmbibliothek WinPcap installiert sein, die einen Hardware-nahen Zugriff auf die Netzwerkkarte ermöglicht.
+    Um diese Komponente verwenden zu können, muss auf Ihrem System die Programmbibliothek WinPcap installiert sein, die einen Hardware-nahen Zugriff auf die Netzwerkkarte ermöglicht.
     WinPcap ist eine Open-Source-Programmbibliothek für die Win32-Plattform, die Packet Capture und die Netzwerkanalyse unterstützt.
   </introduction>
 

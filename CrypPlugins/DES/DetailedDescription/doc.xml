@@ -85,7 +85,7 @@
       Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde,
       da der letzte Block sonst falsch oder gar nicht entschlüsselt wird.
       Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet.
-      Stimmt die Größe des eingegebenen Schlüssels nicht der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
+      Stimmt die Größe des eingegebenen Schlüssels nicht mit der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
       Der verschlüsselte Datenblock wird am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
       <newline />
       <newline />
@@ -106,8 +106,8 @@
       an, die in den Einstellungen ausgewählt werden können.
       <newline />
       Beim ECB-Modus wird dabei jeder Block separat verschlüsselt. Bei den anderen Modi hingegen
-      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Chiffretextblock verknüpft. Da für den ersten
-      Klartextblock kein vorangehender Chiffretextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
+      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Geheimtextblock verknüpft. Da für den ersten
+      Klartextblock kein vorangehender Geheimtextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
       Dieser muss die verwendete Blockgröße haben und wird am zugehörigen Eingang der Komponente
       als Byte-Array eingegeben. Ein zu kurzer Initialisierungsvektor wird mit Nullbytes aufgefüllt, ein zu langer auf die Blockgröße
       beschnitten. Wird der Eingang nicht verbunden, so wird ein Initialisierungsvektor bestehend aus Nullbytes verwendet.

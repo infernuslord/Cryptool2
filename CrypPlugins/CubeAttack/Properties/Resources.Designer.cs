@@ -88,7 +88,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Manual public bit input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manual input of public bits ähnelt.
         /// </summary>
         internal static string ActionList3 {
             get {
@@ -115,7 +115,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Number of tests to check if the superpoly is a constant value or not. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of tests to check if the superpoly is a constant value or not ähnelt.
         /// </summary>
         internal static string ConstTestTooltip {
             get {
@@ -178,7 +178,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Number of linearity tests to check if the superpoly is linear or not. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Number of linearity tests to check if the superpoly is linear or not ähnelt.
         /// </summary>
         internal static string LinTestTooltip {
             get {
@@ -196,7 +196,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Maxmium size of the summation cube. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maxmium size of the summation cube ähnelt.
         /// </summary>
         internal static string MaxCubeTooltip {
             get {
@@ -234,7 +234,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Chooses the output bit of the black box, which should be evaluated. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Chooses the output bit of the black box, which should be evaluated ähnelt.
         /// </summary>
         internal static string OutputBitTooltip {
             get {
@@ -252,7 +252,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die This output provides the result of the secret key bits ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die This output provides the result of the secret key bits. ähnelt.
         /// </summary>
         internal static string OutputKeyBitsTooltip {
             get {
@@ -270,7 +270,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Output of located linearly independent superpolys, cube indexes and its corresponding output bits. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output of located linearly independent superpolys, cube indexes and its corresponding output bits ähnelt.
         /// </summary>
         internal static string OutputSuperpolyTooltip {
             get {
@@ -306,7 +306,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Public input bits (IV or plaintext) of the attacked cryptosystem. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Public input bits (IV or plaintext) of the attacked cryptosystem ähnelt.
         /// </summary>
         internal static string PublicVarTooltip {
             get {
@@ -351,7 +351,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Key size or key length of the attacked cryptosystem. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Key size or key length of the attacked cryptosystem ähnelt.
         /// </summary>
         internal static string SecretVarTooltip {
             get {
@@ -360,7 +360,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Manual public bit input ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manual input of public bits ähnelt.
         /// </summary>
         internal static string SetPublicBitsCaption {
             get {
@@ -369,7 +369,7 @@ namespace Cryptool.CubeAttack.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Possible inputs &apos;0&apos; (set bit to value 0), &apos;1&apos; (set bit to value 1) and &apos;*&apos; (sum the 0/1 value of the bit). ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Possible inputs &apos;0&apos; (set bit to value 0), &apos;1&apos; (set bit to value 1) and &apos;*&apos; (sum the 0/1 value of the bit) ähnelt.
         /// </summary>
         internal static string SetPublicBitsTooltip {
             get {

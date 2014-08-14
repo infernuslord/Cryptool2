@@ -5,8 +5,8 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    Tiger is a cryptographic hash function that was designed by the cryptography experts Ross Anderson and Eli Biham in 1996.
-    The Tiger algorithm calculates a hash value of 192 bits (24 bytes) length for its input of arbitrary length.
+    Tiger is a cryptographic hash function that was designed by the cryptographers Ross Anderson and Eli Biham in 1996.
+    The Tiger algorithm calculates a hash value of 192 bits (24 bytes) length from its input of arbitrary length.
     Internally, Tiger operates on 64-bit words and is therefore optimized for the use on 64-bit architectures.
     CrypTool2 implements version 2 of the Tiger algorithm.
     <newline />
@@ -14,7 +14,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-	  Tiger ist eine kryptographische Hash-Funktion und wurde 1996 von den Kryptographieexperten Ross Anderson und Eli Biham entworfen. 
+	  Tiger ist eine kryptographische Hash-Funktion und wurde 1996 von den Kryptographen Ross Anderson und Eli Biham entworfen. 
 	  Der Tiger-Algorithmus berechnet für eine Eingabe beliebiger Länge einen Hashwert mit einer Länge von 192 Bits (24 Bytes).
 	  Er arbeitet intern mit 64-Bit-Worten und ist daher optimiert für die Verwendung auf 64-Bit-Architekturen.
 	  In CrypTool2 ist die Version 2 des Tiger-Algorithmus implementiert.
