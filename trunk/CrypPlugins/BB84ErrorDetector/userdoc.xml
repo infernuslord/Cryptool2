@@ -6,12 +6,12 @@
   <language culture="de-DE"/>
 
   <introduction lang="en"> 
-	The BB84 Error Detector is part of the BB84 protocol implemented in CrypTool 2.0. After the key exchange is performed it checks the common keys
+	The BB84 Error Detector is part of the BB84 protocol implemented in CrypTool 2. After the key exchange is performed it checks the common keys
 	for errors by comparing a part of them. Using a given error threshold the Error Detector determines if it is likely that an attack has been performed or not. 
   </introduction>
 
   <introduction lang="de-DE">    
-	Der BB84-Fehlerdetektor ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert, wie nach vollzogenem Schlüsselaustausch der gemeinsame
+	Der BB84-Fehlerdetektor ist Teil des in CrypTool 2 implementierten BB84-Protokolls. Er simuliert, wie nach vollzogenem Schlüsselaustausch der gemeinsame
 	Schlüssel beider Parteien auf Fehler geprüft wird, indem ein Teil der Schlüssel verglichen wird. Anhand eines eingestellten Grenzwertes wird berechnet, ob 
 	ein ausgeführter Angriff auf den Schlüsselaustausch wahrscheinlich ist.
   </introduction>

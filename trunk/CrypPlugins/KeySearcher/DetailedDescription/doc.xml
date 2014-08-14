@@ -25,7 +25,7 @@
     cores which the KeySearcher is allowed to use.
     <section headline="Peer-to-peer distribution">
       This component can also be used to demonstrate a distributed attack on any supported symmetric algorithm. To use this feature, enable it in the settings pane by clicking "Use Peer-to-Peer network".
-      The key space will then be equally distributed among participating CrypTool 2.0 instances. Keys are calculated in so-called chunks, whose size you can choose before starting the job. The chunk size specifies the amount
+      The key space will then be equally distributed among participating CrypTool 2 instances. Keys are calculated in so-called chunks, whose size you can choose before starting the job. The chunk size specifies the amount
       of keys calculated in each turn. If you are an experienced user, you can display peer-to-peer network related information by clicking "Display verbose information". You may find further information about the peer-to-peer network,
       how to use it and what it is capable of, in the P2PEditor section. It can be opened by clicking the button with a globe icon labelled P2P in the top pane.
     </section>
@@ -59,7 +59,7 @@
     Außerdem kann der Benutzer in den Einstellungen angeben, wie viele Prozessoren die Komponente für die Schlüsselsuche einsetzen darf.
     <section headline="Netzwerk-basierter Angriff">
       Diese Komponente kann auch für einen verteilten Angriff auf einen der unterstützten symmetrischen Algorithmen verwendet werden. Dazu müssen Sie in den Einstellungen der Komponente die Option "Verwende Netzwerk" aktivieren.
-      Der Schlüsselraum wird dann gleichmäßig unter den teilnehmenden Instanzen von CrypTool 2.0 aufgeteilt. Die Schlüssel werden hierbei in Blöcke aufgeteilt, deren Größe in den Einstellungen festgelegt werden kann.
+      Der Schlüsselraum wird dann gleichmäßig unter den teilnehmenden Instanzen von CrypTool 2 aufgeteilt. Die Schlüssel werden hierbei in Blöcke aufgeteilt, deren Größe in den Einstellungen festgelegt werden kann.
       Die Blöckgröße gibt dabei an, wie viele Schlüssel in jedem Durchgang getestet werden.
       Als erfahrener Benutzer können Sie sich weitere Informationen zum Netzwerk-basierten Angriff durch Aktivierung der Option "Ausführliche Informationen" anzeigen lassen.
     </section>

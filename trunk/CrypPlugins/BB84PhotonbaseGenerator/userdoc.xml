@@ -6,13 +6,13 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">   
-The BB84 Photonbase Generator is part of the in CrypTool 2.0 implemented BB84 Protocol. It simulates the device that creates a sequence of photon bases which
+The BB84 Photonbase Generator is part of the in CrypTool 2 implemented BB84 Protocol. It simulates the device that creates a sequence of photon bases which
 are used for encoding and decoding of photons. These bases are represented by chars put together as one string. The symbol '+' describes a base of one horizontal
 and one vertical photon filter and 'x' a base of two diagonal filters.
   </introduction>
 
   <introduction lang="de-DE">  
-Der BB84-Photonenbasis-Generator ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er stellt das Gerät dar, welches eine Reihe von Photonenbasen erzeugt, 
+Der BB84-Photonenbasis-Generator ist Teil des in CrypTool 2 implementierten BB84-Protokolls. Er stellt das Gerät dar, welches eine Reihe von Photonenbasen erzeugt, 
 mit deren Hilfe Photonen codiert oder decodiert werden können. Diese Basen werden durch Chars beschrieben, die zusammen als ein String ausgegeben werden. 
 Das Zeichen '+' ist hierbei eine Photonenbasis aus einem horizontalen und einem vertikalen Filter, 'x' eine Basis aus zwei diagonalen Filtern.  
   </introduction>

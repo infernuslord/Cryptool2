@@ -610,7 +610,7 @@
     <value>Use external client</value>
   </data>
   <data name="UseExternalClientTooltip" xml:space="preserve">
-    <value>If checked, external clients are allowed to connect to this CrypTool 2.0 instance to support the bruteforce process (this is not the same as p2p-distributed computing).</value>
+    <value>If checked, external clients are allowed to connect to this CrypTool 2 instance to support the bruteforce process (this is not the same as p2p-distributed computing).</value>
   </data>
   <data name="UsePeerToPeerCaption" xml:space="preserve">
     <value>Use peer-to-peer network</value>

@@ -6,12 +6,12 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">   
-	The BB84-Man-in-the-Middle is part of the BB84 protocol implemented in CrypTool 2.0. It simulates how an attacker tries to listen to the photon channel,
+	The BB84-Man-in-the-Middle is part of the BB84 protocol implemented in CrypTool 2. It simulates how an attacker tries to listen to the photon channel,
 	eventually changes a part of the photons and forwards them to the receiver. The intercepted key is also sent to an output. 
   </introduction>
 
   <introduction lang="de-DE">   
-	Der BB84-Mittelsmann ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Das Plugin simuliert die Handlung eines Angreifers, der die Photonen vom Sendekanal 
+	Der BB84-Mittelsmann ist Teil des in CrypTool 2 implementierten BB84-Protokolls. Das Plugin simuliert die Handlung eines Angreifers, der die Photonen vom Sendekanal 
 	abhört, dabei eventuell unabsichtlich verändert und anschließend weiter schickt. Den abgefangenen Schlüssel gibt er ebenfalls aus.  
   </introduction>
 
