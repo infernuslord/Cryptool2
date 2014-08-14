@@ -27,7 +27,7 @@
     ob ein Element in $(Z/n^2Z)$ eine $n$-te Wurzel modulo $n^2$ besitzt oder nicht.
     <newline/>
     <newline/>
-    Eine besondere Eigenschaft des Paillier-Kryptosystems sind seine <internal ref="../Common/Homomorphic Ciphers and their Importance in Cryptography_de.html">homomorphen</internal> Eigenschaften:
+    Eine Besonderheit des Paillier-Kryptosystems sind seine <internal ref="../Common/Homomorphic Ciphers and their Importance in Cryptography_de.html">homomorphen</internal> Eigenschaften:
     Zwei verschlüsselte Nachrichten können addiert werden, ohne die Nachrichten vorher zu entschlüsseln.
     Außerdem kann eine verschlüsselte Zahl mit einer unverschlüsselten Zahl multipliziert werden, so dass das Ergebnis das verschlüsselte Produkt ist.
     <newline/>
