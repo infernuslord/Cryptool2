@@ -15,7 +15,7 @@
     SHA ("secure hash algorithm", englisch für "sicherer Hash-Algorithmus") bezeichnet eine Gruppe kryptologischer Hashfunktionen, die vom National Institute of Standards and Technology (NIST) veröffentlicht wurden.
     Diese Komponente implementiert die Varianten SHA-1, SHA-256, SHA-384 und SHA-512.
     SHA-1 erzeugt einen Hashwert von 160 Bits (20 Bytes) Länge, SHA-256 von 256 Bits (32 Bytes), SHA-384 von 384 Bits (48 Bytes), und SHA-512 von 512 Bits (64 Bytes).
-    Für SHA-1 und SHA-256 beträgt die maximale Länge der Eingabe 2^64 Bits und für SHA-384 und SHA-512 2^128 Bits.
+    Für SHA-1 und SHA-256 beträgt die maximale Länge der Eingabe 2^64 Bits, und für SHA-384 und SHA-512 beträgt sie 2^128 Bits.
   </introduction>
 
   <usage lang="en">

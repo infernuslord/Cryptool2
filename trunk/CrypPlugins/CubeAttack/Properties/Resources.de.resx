@@ -127,7 +127,7 @@
     <value>Ausgabe der Superpolynome</value>
   </data>
   <data name="OutputSuperpolyTooltip" xml:space="preserve">
-    <value>Ausgabe der lokalisierten linear unabhängigen Superpolynome, Cube-Indices und ihrer zugehörigen Ausgabebits.</value>
+    <value>Ausgabe der lokalisierten linear unabhängigen Superpolynome, Cube-Indices und ihrer zugehörigen Ausgabebits</value>
   </data>
   <data name="OutputKeyBitsCaption" xml:space="preserve">
     <value>Schlüsselbits</value>
@@ -151,7 +151,7 @@
     <value>Konstantentests</value>
   </data>
   <data name="ConstTestTooltip" xml:space="preserve">
-    <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom konstant ist.</value>
+    <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom konstant ist</value>
   </data>
   <data name="EnableLogMessagesCaption" xml:space="preserve">
     <value>Protokollnachrichten aktivieren</value>
@@ -163,7 +163,7 @@
     <value>Linearitätstests</value>
   </data>
   <data name="LinTestTooltip" xml:space="preserve">
-    <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom linear ist.</value>
+    <value>Anzahl der Tests, um zu prüfen, ob das Superpolynom linear ist</value>
   </data>
   <data name="MaxCubeCaption" xml:space="preserve">
     <value>Maximale Würfelgröße</value>
@@ -186,10 +186,10 @@ Beispiel: 1+x0+x5 2,6 1</value>
     <value>Wählt das Ausgabebit der Black Box, das ausgewertet werden soll.</value>
   </data>
   <data name="PublicVarCaption" xml:space="preserve">
-    <value>öffentliche Bits</value>
+    <value>Öffentliche Bits</value>
   </data>
   <data name="PublicVarTooltip" xml:space="preserve">
-    <value>Öffentliche Eingabebits (IV oder Klartext) des attackierten Kryptosystems.</value>
+    <value>Öffentliche Eingabebits (IV oder Klartext) des attackierten Kryptosystems</value>
   </data>
   <data name="ReadSuperpolysFromFileCaption" xml:space="preserve">
     <value>Lese Superpolynome aus Datei</value>
@@ -198,16 +198,16 @@ Beispiel: 1+x0+x5 2,6 1</value>
     <value>Wenn dieses Kontrollkästchen aktiviert ist, werden die Superpolynome aus einer Datei gelesen und können in der Online-Phase ausgewertet werden.</value>
   </data>
   <data name="SecretVarCaption" xml:space="preserve">
-    <value>geheime Bits</value>
+    <value>Geheime Bits</value>
   </data>
   <data name="SecretVarTooltip" xml:space="preserve">
-    <value>Schlüsselgröße des attackierten Kryptosystems.</value>
+    <value>Schlüsselgröße des attackierten Kryptosystems</value>
   </data>
   <data name="SetPublicBitsCaption" xml:space="preserve">
     <value>Manuelle Eingabe der öffentlichen Bits</value>
   </data>
   <data name="SetPublicBitsTooltip" xml:space="preserve">
-    <value>Mögliche Eingaben '0' (setzt Bit auf Wert 0), '1' (setzt Bit auf Wert 1) und '*' (summiere die 0/1-Werte der Bits).</value>
+    <value>Mögliche Eingaben '0' (setzt Bit auf Wert 0), '1' (setzt Bit auf Wert 1) und '*' (summiere die 0/1-Werte der Bits)</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Vorverarbeitung</value>

@@ -59,7 +59,7 @@
     <newline/>
     <newline/>
     In der Betriebsart "Abspielen" erwartet die Komponente ebenfalls einen Morsezeichen-Text als Eingabe.
-    Wenn der Arbeitsbereich gestartet wird, spielt Komponente spielt die Morsezeichen als Tonfolgen ab.
+    Wenn der Arbeitsbereich gestartet wird, spielt die Komponente die Morsezeichen als Tonfolgen ab.
     Eine Textausgabe wird in diesem Fall nicht erzeugt.
   </usage>
 

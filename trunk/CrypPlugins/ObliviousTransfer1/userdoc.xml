@@ -50,7 +50,7 @@
     Es beschreibt, wie ein Sender (Alice) eine Information an einen Empfänger (Bob) schicken kann, bei dem dem Sender verborgen bleibt, welche Information geschickt wurde.
     <newline/>
     <newline/>
-    Das in Cryptool implementierte Oblivious Transfer-Protokoll kann folgendermaßen beschrieben werden:
+    Das in CrypTool implementierte Oblivious Transfer-Protokoll kann folgendermaßen beschrieben werden:
     Alice hat eine Sammlung von Nachrichten. Bob will eine dieser Nachrichten von Alice erhalten, aber er will nicht, dass Alice erfährt, welche der Nachrichten er angefragt hat.
     Alice ist bereit, Bob die gewünschte Nachricht zu schicken, aber sie will vermeiden, dass Bob bei seiner Anfrage Informationen über die übrigen Nachrichten erhält.
     <newline/>

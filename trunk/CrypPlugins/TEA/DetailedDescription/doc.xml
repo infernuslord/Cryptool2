@@ -54,7 +54,7 @@
       Der Algorithmus wurde 1997 vorgestellt (Needham and Wheeler, 1997).
       <newline />
       XTEA ist ebenfalls eine Feistelchiffre mit 64-Bit-Blöcken, einem 128-Bit-Schlüssel und einer vorgeschlagenen Rundenanzahl von 64.
-      Die Unterschiede von TEA und XTEA beinhalten unter anderem eine komplexere Erzeugung des Rundenschlüssels und eine Umordnung der Shifts, XORs und Additionen.
+      XTEA unterscheidet sich von TEA unter anderem durch eine komplexere Erzeugung des Rundenschlüssels und eine Umordnung der Shifts, XORs und Additionen.
     </section>
     <section headline="XXTEA (Corrected Block TEA)">
       Der Corrected Block TEA (oft auch als XXTEA bezeichnet) ist eine Blockchiffre, die die Schwächen im ursprünglichen Block TEA (Tiny Encryption Algorithm) korrigieren sollte.
@@ -65,7 +65,7 @@
       <newline />
       XXTEA arbeitet mit beliebigen Blockgrößen, die aber ein Vielfaches von 32 Bits und mindestens 64 Bits sein müssen.
       Die Anzahl der vollständigen Zyklen hängt von der Blockgröße ab. Es werden mindestens 6 Zyklen und bei kleinen Blockgrößen bis zu 32 Zyklen ausgeführt.
-      Der originale Block TEA wendet die XTEA Rundenfunktion auf jedes Wort eines Blockes an und verknüpft es additiv mit seinem linken Nachbarn.
+      Der originale Block TEA wendet die XTEA-Rundenfunktion auf jedes Wort eines Blockes an und verknüpft es additiv mit seinem linken Nachbarn.
       Die langsame Diffusionsrate beim Entschlüsselungsvorgang wurde bald dazu ausgenutzt, die Chiffre zu brechen.
       Corrected Block TEA verwendet eine komplexere Rundenfunktion, die die beiden unmittelbaren Nachbarn bei der Verarbeitung eines Wortes im Block miteinbezieht.
     </section>
@@ -129,7 +129,7 @@
       Es ist wichtig, dass bei der Entschlüsselung eines Chiffretextes in den Einstellungen dieselbe Padding-Methode eingestellt wird, die bei der Verschlüsselung verwendet wurde,
       da der letzte Block sonst falsch oder gar nicht entschlüsselt wird.
       Der Schlüssel wird als Byte-Array am Eingang "Schlüssel" erwartet.
-      Stimmt die Größe des eingegebenen Schlüssels nicht der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
+      Stimmt die Größe des eingegebenen Schlüssels nicht mit der erwarteten Schlüsselgröße überein, so wird eine Fehlermeldung ausgegeben und die Ausführung wird beendet.
       Der verschlüsselte Datenblock wird am Ausgang der Komponente als Datenstrom zur Verfügung gestellt.
       <newline />
       <newline />
@@ -150,8 +150,8 @@
       an, die in den Einstellungen ausgewählt werden können.
       <newline />
       Beim ECB-Modus wird dabei jeder Block separat verschlüsselt. Bei den anderen Modi hingegen
-      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Chiffretextblock verknüpft. Da für den ersten
-      Klartextblock kein vorangehender Chiffretextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
+      wird die Verschlüsselung eines Klartextblocks zusätzlich mit dem vorangehenden Geheimtextblock verknüpft. Da für den ersten
+      Klartextblock kein vorangehender Geheimtextblock existiert, wird dieser mit einem Initialisierungsvektor verknüpft.
       Dieser muss die verwendete Blockgröße haben und wird am zugehörigen Eingang der Komponente
       als Byte-Array eingegeben. Ein zu kurzer Initialisierungsvektor wird mit Nullbytes aufgefüllt, ein zu langer auf die Blockgröße
       beschnitten. Wird der Eingang nicht verbunden, so wird ein Initialisierungsvektor bestehend aus Nullbytes verwendet.

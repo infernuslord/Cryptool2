@@ -18,7 +18,7 @@
   </introduction>
 
   <usage lang="en">
-    Cryptool contains a lot of functions which enable the user to work with boolean algebra. The easiest way to enter a boolean
+    CrypTool contains a lot of functions which enable the user to work with boolean algebra. The easiest way to enter a boolean
     value ("true"/"false") is the boolean input. Using a setting the user may select if the input outputs "true" or "false". To
     connect boolean values in cryptool there exists a boolean binary operator who gets two boolean inputs and returns one boolean
     output based on these. The operator may act as one of the following operations: AND, OR, NAND, NOR, XOR.
@@ -51,7 +51,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Cryptool verfügt über eine Reihe von Funktionen, die die Arbeit mit booleschen Operatoren bzw boolscher Algebra ermöglichen. Als
+    CrypTool verfügt über eine Reihe von Funktionen, die die Arbeit mit booleschen Operatoren bzw boolscher Algebra ermöglichen. Als
     einfache Eingabemöglichkeit eines Wahrheitswertes ("Wahr"/"Falsch") gibt es die "Boolesche Eingabe". Mittels Einstellung kann der
     Benutzer wählen, ob "Wahr" oder "Falsch" ausgegeben werden soll. Um Wahrheitswerte miteinander zu verknüpfen gibt es denn
     "Booleschen Binären Operator", der als Eingabe zwei Boolsche Werte entegennimmt und aus diesen seinen Ausgabewert bestimmt.
@@ -79,7 +79,7 @@
         Operator gibt "Wahr" aus, wenn genau einer der beiden Eingaben "Wahr" ist
       </item>
     </list>
-    Um einen Ausgabewahrheitswert darzustellen verfügt Cryptool über die "Boolsche Ausgabe".
+    Um einen Ausgabewahrheitswert darzustellen verfügt CrypTool über die "Boolsche Ausgabe".
     Wahrheitswerte können mittels "Booleschem Nicht Operator" invertiert werden (aus "Wahr" wird "Falsch" &#8211; aus "Falsch" wird "Wahr").
     Der "Wenn-Dann Operator" gibt beim einen Ausgang "Wahr" und beim zweiten Ausgang "Falsch" aus, wenn sein Eingang "Wahr" ist. Ansonsten genau andersrum.
   </usage>
