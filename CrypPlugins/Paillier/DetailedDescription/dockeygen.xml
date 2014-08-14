@@ -11,7 +11,7 @@
     The decisional composite residuosity assumption is the intractability hypothesis upon which this cryptosystem is based.
     <newline/>
     <newline/>
-    A special attribute of the Paillier cryptosystems are its <internal ref="../Common/Homomorphic Ciphers and their Importance in Cryptography_en.html">homomorphic</internal> porperties:
+    A special attribute of the Paillier cryptosystems are its <internal ref="../Common/Homomorphic Ciphers and their Importance in Cryptography_en.html">homomorphic</internal> properties:
     Two encrypted messages can be added without having to decrypt them first.
     It can also multiply an encrypted number with an unencrypted number, so that the result is the encrypted product.
     <newline/>
