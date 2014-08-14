@@ -6,7 +6,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">  
-	The BB84 Photon Encoder is part of the B84 protocol implemented in CrypTool 2.0. It simulates the device which encodes the bits into photons and puts them 
+	The BB84 Photon Encoder is part of the B84 protocol implemented in CrypTool 2. It simulates the device which encodes the bits into photons and puts them 
 	in the photon channel. Photons are represented by the following chars:
 	<enum>
 		<item> '|' : vertical photon </item>
@@ -18,7 +18,7 @@
   </introduction>
 
   <introduction lang="de-DE">   
-	Der BB84-Photonencodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert das Gerät, welches die zu versendenden Bits in Photonen
+	Der BB84-Photonencodierer ist Teil des in CrypTool 2 implementierten BB84-Protokolls. Er simuliert das Gerät, welches die zu versendenden Bits in Photonen
 	codiert und in den Sendekanal schickt. Die Photonen werden durch folgende Zeichen beschrieben:
 	<enum>
 		<item> '|' : vertikales Photon </item>

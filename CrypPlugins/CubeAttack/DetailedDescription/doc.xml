@@ -125,7 +125,7 @@
     damit das Polynom mit den angegebenen öffentlichen Bits ausgewertet wird.
     <newline/><newline/>
     Die Komponente hat zwei Ausgänge.
-    An einem werden die linear unabhängigen Polynome über den geheimen Bits mit den zugehörigen Cube-Indices und Ausgabebits ausgegeben,
+    An einem werden die linear unabhängigen Polynome über den geheimen Bits mit den zugehörigen Cube-Indizes und Ausgabebits ausgegeben,
     am anderen die gefundenen geheimen Bits.
     <newline/><newline/>
     Um nach Ablauf der Vorverarbeitungsphase in die Onlinephase einzutreten und die geheimen Bits zu berechnen, halten Sie den Arbeitsbereich durch Klick auf "Stop" an,

@@ -6,11 +6,11 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-  The BB84-KeyGenerator is part of the BB84 protocol implemented in CrypTool 2.0. It simulates the generation of a secret key that is shared between the two parties of the protocol.
+  The BB84-KeyGenerator is part of the BB84 protocol implemented in CrypTool 2. It simulates the generation of a secret key that is shared between the two parties of the protocol.
   </introduction>
 
   <introduction lang="de-DE">    
-	Der BB84-Schlüsselgenerator ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert die Berechnung des gemeinsamen Schlüssels 
+	Der BB84-Schlüsselgenerator ist Teil des in CrypTool 2 implementierten BB84-Protokolls. Er simuliert die Berechnung des gemeinsamen Schlüssels 
 	zwischen den beiden Parteien des Protokolls und sollte auch auf beiden Seiten eingefügt werden. 
   </introduction>
 

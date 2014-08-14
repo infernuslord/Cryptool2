@@ -6,12 +6,12 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">  
-	The BB84 Photon Decoder is part of the BB84 protocol implemented in CrypTool 2.0. It simulates the process of receiving and decoding photons by randomly  
+	The BB84 Photon Decoder is part of the BB84 protocol implemented in CrypTool 2. It simulates the process of receiving and decoding photons by randomly  
 	generated photon bases into bits. These bits are sent to the output.
   </introduction>
 
   <introduction lang="de-DE">
-	Der BB84-Photonendecodierer ist Teil des in CrypTool 2.0 implementierten BB84-Protokolls. Er simuliert, wie die codierten Photonen empfangen und durch
+	Der BB84-Photonendecodierer ist Teil des in CrypTool 2 implementierten BB84-Protokolls. Er simuliert, wie die codierten Photonen empfangen und durch
 	zufällig erzeugte Photonenbasen wieder in Bits umgewandelt werden. Diese Bits werden anschließend ausgegeben.
   </introduction>
 

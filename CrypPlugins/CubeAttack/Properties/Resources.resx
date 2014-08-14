@@ -201,13 +201,13 @@ Example: 1+x0+x5 2,6 1</value>
     <value>Secret bit size</value>
   </data>
   <data name="SecretVarTooltip" xml:space="preserve">
-    <value>Key size or key length of the attacked cryptosystem</value>
+    <value>Key length of the attacked cryptosystem</value>
   </data>
   <data name="SetPublicBitsCaption" xml:space="preserve">
     <value>Manual input of public bits</value>
   </data>
   <data name="SetPublicBitsTooltip" xml:space="preserve">
-    <value>Possible inputs '0' (set bit to value 0), '1' (set bit to value 1) and '*' (sum the 0/1 value of the bit)</value>
+    <value>Possible inputs '0' (set bit to value 0), '1' (set bit to value 1), and '*' (sum the 0/1 value of the bit)</value>
   </data>
   <data name="ActionList1" xml:space="preserve">
     <value>Preprocessing</value>

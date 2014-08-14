@@ -127,7 +127,7 @@
     <value>Ausgabe der Superpolynome</value>
   </data>
   <data name="OutputSuperpolyTooltip" xml:space="preserve">
-    <value>Ausgabe der lokalisierten linear unabhängigen Superpolynome, Cube-Indices und ihrer zugehörigen Ausgabebits</value>
+    <value>Ausgabe der lokalisierten linear unabhängigen Superpolynome, Cube-Indizes und ihrer zugehörigen Ausgabebits</value>
   </data>
   <data name="OutputKeyBitsCaption" xml:space="preserve">
     <value>Schlüsselbits</value>
@@ -176,7 +176,7 @@
   </data>
   <data name="OpenFilenameTooltip" xml:space="preserve">
     <value>Wählen Sie die zu öffnende Datei.
-Dateistruktur: Superpolynom Cube-Indices Ausgabebit
+Dateistruktur: Superpolynom Cube-Indizes Ausgabebit
 Beispiel: 1+x0+x5 2,6 1</value>
   </data>
   <data name="OutputBitCaption" xml:space="preserve">
@@ -201,7 +201,7 @@ Beispiel: 1+x0+x5 2,6 1</value>
     <value>Geheime Bits</value>
   </data>
   <data name="SecretVarTooltip" xml:space="preserve">
-    <value>Schlüsselgröße des attackierten Kryptosystems</value>
+    <value>Schlüssellänge des attackierten Kryptosystems</value>
   </data>
   <data name="SetPublicBitsCaption" xml:space="preserve">
     <value>Manuelle Eingabe der öffentlichen Bits</value>
