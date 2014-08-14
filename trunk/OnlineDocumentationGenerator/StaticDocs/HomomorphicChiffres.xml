@@ -35,7 +35,7 @@
       <newline/><newline/>
       The most famous cryptosystem with homomorphic properties is the one by Paillier <ref id="Paillier"/>. First we will see how the Paillier key generation process works. After that, we will show that the Paillier cryptosystem indeed has homomorphic properties.
       <newline/>
-      In CrypTool 2 you will find an implementation of the Paillier cryptosystem. Among the available components, there are components for key generation (“Paillier Key Generator”), an example for encryption and decryption with Paillier (called “Paillier Text”), as well as examples which illustrate the homomorphic properties of the cryptosystem (“Paillier Addition”, “Paillier Blinding” and “Paillier Voting”).
+      In CrypTool 2 you will find an implementation of the <docRef item="Cryptool.Plugins.Paillier.Paillier">Paillier</docRef> cryptosystem. Among the available components, there are components for key generation (“<docRef item="Cryptool.Plugins.Paillier.PaillierKeyGenerator">Paillier Key Generator</docRef>”), an example for encryption and decryption with Paillier (called “Paillier Text”), as well as examples which illustrate the homomorphic properties of the cryptosystem (“Paillier Addition”, “Paillier Blinding” and “Paillier Voting”).
       <newline/>
       <img src="OnlineDocumentationGenerator/StaticDocs/Images/CT2-Paillier.png"/>
       <newline/><newline/><b>Key Generation</b><newline/><newline/>
@@ -133,8 +133,8 @@
       </u>
       <newline/><newline/>
     Das wohl bekannteste Kryptosystem mit homomorphen Eigenschaften ist das von Paillier <ref id="Paillier"/>. Wir sehen zunächst, wie die Schlüsselerzeugung, die Verschlüsselung und die Entschlüsselung funktionieren, und zeigen dann, dass das Paillier-Kryptosystem homomorphe Eigenschaften besitzt.
-      In CrypTool 2 findet man bereits eine Implementierung des Paillier-Kryptosystems. Unter den fertigen Vorlagen finden sich Methoden zur Erzeugung der kryptographischen Schlüssel (Paillier Key Generator), ein Beispiel für eine Ver- und Entschlüsselung mittels Paillier (Paillier Text), sowie Beispiele, die die homomorphen Eigenschaften von Paillier aufzeigen (Paillier Addition, Paillier Blinding und Paillier Voting).
-      <newline/>
+      In CrypTool 2 findet man bereits eine Implementierung des <docRef item="Cryptool.Plugins.Paillier.Paillier">Paillier</docRef>-Kryptosystems. Unter den fertigen Vorlagen finden sich Methoden zur Erzeugung der kryptographischen Schlüssel (<docRef item="Cryptool.Plugins.Paillier.PaillierKeyGenerator">Paillier Key Generator</docRef>), ein Beispiel für eine Ver- und Entschlüsselung mittels Paillier (Paillier Text), sowie Beispiele, die die homomorphen Eigenschaften von Paillier aufzeigen (Paillier Addition, Paillier Blinding und Paillier Voting).
+    <newline/>
     <img src="OnlineDocumentationGenerator/StaticDocs/Images/CT2-Paillier.png"/>
       <newline/><newline/><b>Schlüsselerzeugung</b><newline/><newline/>
     Zuerst werden zwei zufällige Primzahlen $p,q$ erzeugt, so dass das Produkt $n=pq$ einen gültigen RSA-Modulus formt. Hierbei sollte $n$ eine Bitlänge von mindestens 1024 Bit haben.
