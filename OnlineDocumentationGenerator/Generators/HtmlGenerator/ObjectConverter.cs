@@ -315,15 +315,27 @@ namespace OnlineDocumentationGenerator.Generators.HtmlGenerator
                             result.Append(ConvertTable((XElement)node, null));
                             break;
                         case "external":
-                            var reference = ((XElement) node).Attribute("ref");
+                            var reference = ((XElement)node).Attribute("ref");
                             if (reference != null)
                             {
-                                var linkText = ConvertXElement((XElement) node, entityDocumentationPage);
+                                var linkText = ConvertXElement((XElement)node, entityDocumentationPage);
                                 if (string.IsNullOrEmpty(linkText))
                                 {
                                     linkText = reference.Value;
                                 }
                                 result.Append(string.Format("<a href=\"{0}?external\"><img src=\"../external_link.png\" border=\"0\">{1}</a>", reference.Value, linkText));
+                            }
+                            break;
+                        case "internal":
+                            var reference_internal = ((XElement)node).Attribute("ref");
+                            if (reference_internal != null)
+                            {
+                                var linkText = ConvertXElement((XElement)node, entityDocumentationPage);
+                                if (string.IsNullOrEmpty(linkText))
+                                {
+                                    linkText = reference_internal.Value;
+                                }
+                                result.Append(string.Format("<a href=\"{0}\">{1}</a>", reference_internal.Value, linkText));
                             }
                             break;
                         case "docRef":
