@@ -44,6 +44,7 @@
 		        </TextBlock.Effect>
                 <Run Name="VersionInfoRun" Foreground="#FFFFFFFF"/>
 		        <LineBreak/>
+                <LineBreak/>
 		        <Run Text="{Loc Please_report_any_bugs_you_may_encounter_on_our_website_}" Foreground="#FFFFFFFF"/>
 		        <LineBreak/>
 		        <Run Text="{Loc Feel_free_to_contribute_to_this_project_}" Foreground="#FFFFFFFF"/>
@@ -51,7 +52,7 @@
 		        <LineBreak/>
 		        <Run Text="{Loc For_more_information_}" Foreground="#FFFFFFFF"/>
 		        <LineBreak/>
-		        <Run Text="http://www.cryptool.org/en/cryptool2-en" Foreground="#FFFFFFFF"/>
+		        <Run Text="{Loc Homepage}" Foreground="#FFFFFFFF"/>
 		        <LineBreak/>
 		        <LineBreak/>
                 <Hyperlink NavigateUri="http://www.cryptool.org" Foreground="#FFFFFFFF" Click="Hyperlink_Click">http://www.cryptool.org</Hyperlink>		        
