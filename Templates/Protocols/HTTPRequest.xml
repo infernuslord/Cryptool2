@@ -4,12 +4,12 @@
   <title lang="en">HTTP Request</title>
   <summary lang="en">Make a HTTP request to a webserver</summary>
   <description lang="en">This template shows how a HTTP request to a webserver can be made</description>
-  <keywords>oblivious transfer</keywords>
+  <keywords>http, request, webserver, protocol, web, browser, internet</keywords>
 
   <title lang="de">HTTP Anfrage</title>
   <summary lang="de">Mache eine HTTP Anfrage an einen Webserver</summary>
   <description lang="de">Diese Vorlage zeigt wie eine HTTP Anfrage an einen Webserver gemacht werden kann.</description>
-  <keywords lang="de">oblivious transfer</keywords>
+  <keywords lang="de">HTTP, Anfrage, Webserver, Protokoll, Netz, Browser,Internet</keywords>
 
   <icon file="HTTPRequest.png" />
 
