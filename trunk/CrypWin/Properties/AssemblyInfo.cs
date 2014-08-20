@@ -4,13 +4,13 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-[assembly: AssemblyTitle("CrypTool 2 (beta)")]
-[assembly: AssemblyDescription("CrypTool 2 (beta)")]
+[assembly: AssemblyTitle("CrypTool 2")]
+[assembly: AssemblyDescription("CrypTool 2")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CrypTool2")] // this attribute is being used to determine the local directory for the user.config
-[assembly: AssemblyProduct("CrypTool 2.0 (Developer Build)")]
-[assembly: AssemblyCopyright("Copyright © 1998 - 2009 Deutsche Bank / Contributors")]
-[assembly: AssemblyTrademark("Copyright © 1998 - 2009 Deutsche Bank / Contributors")]
+[assembly: AssemblyProduct("CrypTool 2.1 (Developer Build)")]
+[assembly: AssemblyCopyright("Copyright © 1998 - 2014 Deutsche Bank / Contributors")]
+[assembly: AssemblyTrademark("Copyright © 1998 - 2014 Deutsche Bank / Contributors")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
 
@@ -19,4 +19,4 @@ using System.Windows;
     ResourceDictionaryLocation.SourceAssembly //where the generic resource dictionary is located
 )]
 
-[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyVersion("2.1.0.0")]

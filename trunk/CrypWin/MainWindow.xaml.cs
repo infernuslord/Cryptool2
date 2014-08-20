@@ -611,7 +611,7 @@ namespace Cryptool.CrypWin
                 var id =
                     BitConverter.ToInt32(md5.ComputeHash(Encoding.ASCII.GetBytes(Environment.GetCommandLineArgs()[0])),
                                          0);
-                var identifyingString = string.Format("Local\\CrypTool 2.0 ID {0}", id);
+                var identifyingString = string.Format("Local\\CrypTool 2 ID {0}", id);
                 _singletonMutex = new Mutex(true, identifyingString, out createdNew);
 
                 if (createdNew)

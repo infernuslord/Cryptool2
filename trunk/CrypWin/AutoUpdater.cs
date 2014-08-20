@@ -375,7 +375,7 @@ namespace Cryptool.CrypWin
 
                     CurrentState = State.UpdateAvailable; // this also starts the download
                     GuiLogMessage("AutoUpdate: New version found online: " + updateName, NotificationLevel.Info);
-                    GuiLogMessage("A new version of CrypTool 2.0 is available: " + updateName, NotificationLevel.Balloon);
+                    GuiLogMessage("A new version of CrypTool 2 is available: " + updateName, NotificationLevel.Balloon);
                 }
                 else if (IsUpdateReady) // downloaded update ready
                 {

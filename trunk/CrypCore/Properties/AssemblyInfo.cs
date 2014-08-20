@@ -19,8 +19,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("CrypTool CrypCore")]
-[assembly: AssemblyCompany("Lehrstuhl Verteilte Systeme - Universität Duisburg-Essen")]
+[assembly: AssemblyCompany("CrypTool2 Team")]
 [assembly: AssemblyProduct("CrypTool CrypCore")]
-[assembly: AssemblyCopyright("Copyright © Martin Saternus 2008")]
+[assembly: AssemblyCopyright("Copyright © 1998 - 2014 Deutsche Bank / Contributors")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("2.0.0.0")]
+[assembly: AssemblyVersion("2.1.0.0")]

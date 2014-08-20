@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
-<title>Cryptool 2.0 Log Messages</title>
+<title>Cryptool 2 Log Messages</title>
 <style type="text/css">
 
 table{table-layout:fixed;border-spacing:1px;font:10px 'Verdana', Arial, Helvetica, sans-serif;background:#E7E7E7;color:#000000;width:100%;font-weight:bold}
@@ -24,8 +24,8 @@ tfoot th, tfoot td{padding:10px;text-align:center;font:15px 'Verdana', Arial, He
 </style>
 </head>
 <body>
-<table summary="Cryptool 2.0 Log Messages" >
-	<caption>Cryptool 2.0 Log Messages</caption>
+<table summary="Cryptool 2 Log Messages" >
+	<caption>Cryptool 2 Log Messages</caption>
 	<thead>
 		<tr>
 			<th style="width:30px" scope="col">Nr</th>
