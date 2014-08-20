@@ -869,7 +869,7 @@
     <value>View Licenses</value>
   </data>
   <data name="CrypToolLicenses" xml:space="preserve">
-    <value>CrypTool 2.0 and all its components are based on the Apache license 2.0 if not marked otherwise</value>
+    <value>CrypTool 2 and all its components are based on the Apache license 2.0 if not marked otherwise</value>
   </data>
   <data name="FileLost" xml:space="preserve">
     <value>Couldn't restore tab for file {0} because file is lost!</value>
@@ -920,7 +920,7 @@
     <value>Expiration date of the certificate</value>
   </data>
   <data name="SI_IsSigned" xml:space="preserve">
-    <value>CrypTool 2.0 is signed</value>
+    <value>CrypTool 2 is signed</value>
   </data>
   <data name="SI_IssuerName" xml:space="preserve">
     <value>Issuer name of the certificate</value>
