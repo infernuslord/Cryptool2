@@ -8,6 +8,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Text;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using System.IO;
 
 namespace Transcriptor
 {
@@ -23,7 +26,7 @@ namespace Transcriptor
         ObservableCollection<Sign> signItems = new ObservableCollection<Sign>();
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
         Rectangle rectangle;
-        BitmapSource bitMap;
+        BitmapSource croppedBitmap;
         bool mouseDown;
         
 
@@ -107,29 +110,99 @@ namespace Transcriptor
                 {
                     Rect rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
                     Int32Rect rcFrom = new Int32Rect();
+
                     rcFrom.X = (int)((rect.X) * (picture.Source.Width) / (picture.Width));
                     rcFrom.Y = (int)((rect.Y) * (picture.Source.Height) / (picture.Height));
                     rcFrom.Width = (int)((rect.Width) * (picture.Source.Width) / (picture.Width));
                     rcFrom.Height = (int)((rect.Height) * (picture.Source.Height) / (picture.Height));
-                    bitMap = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
-                    croppedImage.Source = bitMap;
+
+                    croppedBitmap = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
+                    croppedImage.Source = croppedBitmap;
+
+                    //calculateProbability();
                 }
+            }
+        }
+
+        private void calculateProbability()
+        {
+            if (signItems.Count > 0)
+            {
+                signItems.Clear();
+                for (int i = 0; i < signList.Count; i++)
+                {
+                    signItems.Add(signList[i]);
+                }
+                signListbox.ItemsSource = signItems;
             }
         }
 
         private void addSignButton_Click(object sender, RoutedEventArgs e)
         {
-            Sign newSign = new Sign(indexCount, transcriptor.Alphabet[alphabetCount++], bitMap);
+            Sign newSign = new Sign(indexCount, transcriptor.Alphabet[alphabetCount++], croppedBitmap);
             signItems.Add(newSign);
             signListbox.ItemsSource = signItems;
             indexCount++;
-            
+                        
             AddSignToList(newSign, (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
                 (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)));
 
             if (alphabetCount >= transcriptor.Alphabet.Length)
             {
                 addSignButton.IsEnabled = false;
+            }
+
+            MatchSign(newSign);
+        }
+
+        private void MatchSign(Sign newSign)
+        {
+            
+            Image<Gray, Byte> sourceImage = new Image<Gray, byte>(ToBitmap(picture.Source as BitmapSource));
+            sourceImage.Resize(545, 460, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
+            Image<Gray, Byte> templateImage = new Image<Gray, byte>(ToBitmap(newSign.Image));
+            Image<Gray, float> resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED);
+            resultImage.Resize(545, 460, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
+            
+            float[, ,] matches = resultImage.Data;
+            
+            for (int y = 0; y < matches.GetLength(0); y++)
+            {
+                for (int x = 0; x < matches.GetLength(1); x++)
+                {
+                    double matchScore = matches[y, x, 0];
+
+                    if (matchScore > 0.9)
+                    {
+                        Rectangle rec = new Rectangle
+                        {
+                            Fill = Brushes.Transparent,
+                            Stroke = Brushes.Red,
+                            StrokeThickness = 1,
+                            Width = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
+                            Height = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)),
+                        };
+
+                        //(int)((rect.X) * (picture.Source.Width) / (picture.Width));
+                        Canvas.SetLeft(rec, x * (picture.Source.Width) / (picture.Width));
+                        Canvas.SetTop(rec, y * (picture.Source.Height) / (picture.Height));
+                        canvas.Children.Add(rec);
+                    }
+                }
+            }
+        }
+
+        private System.Drawing.Bitmap ToBitmap(BitmapSource bitmapSource)
+        {
+            System.Drawing.Bitmap bitmap;
+            using (var outStream = new MemoryStream())
+            {
+                // from System.Media.BitmapImage to System.Drawing.Bitmap
+                BitmapEncoder enc = new BmpBitmapEncoder();
+                enc.Frames.Add(BitmapFrame.Create(bitmapSource));
+                enc.Save(outStream);
+                bitmap = new System.Drawing.Bitmap(outStream);
+                return bitmap;
             }
         }
 
@@ -139,7 +212,7 @@ namespace Transcriptor
 
             if (item != null || item.IsSelected)
             {
-                Sign sign = new Sign(indexCount, item.Content.ToString()[0], bitMap);
+                Sign sign = new Sign(indexCount, item.Content.ToString()[0], croppedBitmap);
                 indexCount++;
                 AddSignToList(sign, (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
                 (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)));
@@ -158,7 +231,6 @@ namespace Transcriptor
             }
 
             outputText = textBuilder.ToString();
-
             transcriptor.GenerateText(outputText);
   
         }
