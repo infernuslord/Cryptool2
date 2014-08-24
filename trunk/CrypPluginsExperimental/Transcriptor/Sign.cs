@@ -5,7 +5,7 @@ namespace Transcriptor
 {
     class Sign
     {
-        int id;
+        int id, probability;
         double xCordinate, yCordinate;
         Rectangle rectangle;
         char letter;
@@ -26,6 +26,12 @@ namespace Transcriptor
         {
             get { return id; }
             set { this.id = value ; }
+        }
+
+        public int Probability
+        {
+            get { return probability; }
+            set { this.probability = value; }
         }
 
         public double X

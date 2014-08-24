@@ -9,12 +9,13 @@
     <Grid Height="500" Width="800">
             <GroupBox Header="Selection" Height="491" HorizontalAlignment="Left" Margin="575,0,0,0" Name="groupBox1" VerticalAlignment="Top" Width="225" FontWeight="Bold">
             <Grid>
-                    <ListBox Height="211" HorizontalAlignment="Left" Margin="7,220,0,0" Name="signListbox" VerticalAlignment="Top" Width="200" ItemsSource="{Binding Sign}">
+                    <ListBox Height="211" HorizontalAlignment="Left" Margin="7,220,0,0" Name="signListbox" VerticalAlignment="Top" Width="200" ItemsSource="{Binding Sign}" Visibility="{Binding}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding Image}" Stretch="Fill" Width="40" Height="40"></Image>
                                     <TextBlock Text="{Binding Letter}" Margin="10,0,0,0"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock Text="{Binding Probability}" FontSize="20" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
