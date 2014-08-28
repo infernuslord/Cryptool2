@@ -28,6 +28,7 @@ namespace Transcriptor
         Rectangle rectangle;
         BitmapSource croppedBitmap;
         bool mouseDown;
+        Int32Rect rcFrom;
         
 
         public TranscriptorPresentation(Cryptool.Plugins.Transcriptor.Transcriptor transcriptor)
@@ -109,7 +110,7 @@ namespace Transcriptor
                 if (rectangle.Width != 0)
                 {
                     Rect rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
-                    Int32Rect rcFrom = new Int32Rect();
+                    rcFrom = new Int32Rect();
 
                     rcFrom.X = (int)((rect.X) * (picture.Source.Width) / (picture.Width));
                     rcFrom.Y = (int)((rect.Y) * (picture.Source.Height) / (picture.Height));
@@ -157,13 +158,18 @@ namespace Transcriptor
 
         private void MatchSign(Sign newSign)
         {
-            
+            int cropWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
+            int cropHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp));
+            System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int) newSign.X, (int) newSign.Y, cropWidth, cropHeight);
             Image<Gray, Byte> sourceImage = new Image<Gray, byte>(ToBitmap(picture.Source as BitmapSource));
-            sourceImage.Resize(545, 460, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
-            Image<Gray, Byte> templateImage = new Image<Gray, byte>(ToBitmap(newSign.Image));
+
+            sourceImage = sourceImage.Resize((int) picture.Width, (int) picture.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+            System.Drawing.Bitmap signBitmap = new System.Drawing.Bitmap(sourceImage.Bitmap);
+            signBitmap = signBitmap.Clone(cropRect, System.Drawing.Imaging.PixelFormat.DontCare);
+
+            Image<Gray, Byte> templateImage = new Image<Gray, byte>(signBitmap);
             Image<Gray, float> resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED);
-            resultImage.Resize(545, 460, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
-            
+                        
             float[, ,] matches = resultImage.Data;
             
             for (int y = 0; y < matches.GetLength(0); y++)
@@ -172,7 +178,7 @@ namespace Transcriptor
                 {
                     double matchScore = matches[y, x, 0];
 
-                    if (matchScore > 0.9)
+                    if (matchScore > 0.75)
                     {
                         Rectangle rec = new Rectangle
                         {
@@ -183,9 +189,8 @@ namespace Transcriptor
                             Height = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)),
                         };
 
-                        //(int)((rect.X) * (picture.Source.Width) / (picture.Width));
-                        Canvas.SetLeft(rec, x * (picture.Source.Width) / (picture.Width));
-                        Canvas.SetTop(rec, y * (picture.Source.Height) / (picture.Height));
+                        Canvas.SetLeft(rec, x);
+                        Canvas.SetTop(rec, y);
                         canvas.Children.Add(rec);
                     }
                 }
@@ -202,6 +207,7 @@ namespace Transcriptor
                 enc.Frames.Add(BitmapFrame.Create(bitmapSource));
                 enc.Save(outStream);
                 bitmap = new System.Drawing.Bitmap(outStream);
+
                 return bitmap;
             }
         }
