@@ -32,8 +32,8 @@ namespace Cryptool.Plugins.ImageProcessor
 {
     [Author("Heuser", "bhe@student.uni-kassel.de", "", "")]
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("ImageProcessor", "Process and save an image", "ImageProcessor/userdoc.xml", new[] { "ImageProcessor/icon.png"/*"CrypWin/images/default.png"*/ })]
-    [ComponentCategory(ComponentCategory.Steganography)]
+    [PluginInfo("ImageProcessor", "Process and save an image", "ImageProcessor/userdoc.xml", new[] { "ImageProcessor/icon.png" })]
+    [ComponentCategory(ComponentCategory.ToolsMisc)]
     public class ImageProcessor : ICrypComponent
     {
         #region Private Variables and Constructor
@@ -73,8 +73,8 @@ namespace Cryptool.Plugins.ImageProcessor
         /// <summary>
         /// Description
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputDataCaption", "OutputDataTooltip")]
-        public ICryptoolStream OutputData
+        [PropertyInfo(Direction.OutputData, "OutputImage", "This is the processed image.")]
+        public ICryptoolStream OutputImage
         {
             get;
             set;
@@ -202,7 +202,7 @@ namespace Cryptool.Plugins.ImageProcessor
                                 break;
                         }
 
-                        OnPropertyChanged("OutputData");
+                        OnPropertyChanged("OutputImage");
                     }
                 }
             }
@@ -267,7 +267,7 @@ namespace Cryptool.Plugins.ImageProcessor
             saveableBitmap.Dispose();
             bitmap.Dispose();
 
-            OutputData = new CStreamWriter(outputStream.GetBuffer());
+            OutputImage = new CStreamWriter(outputStream.GetBuffer());
         }
 
         /// <summary>Makes sure that a bitmap is not a useless "MemoryBitmap".</summary>
