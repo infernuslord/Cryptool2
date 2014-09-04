@@ -65,6 +65,12 @@ void setNTuple(int n)
 	ntuple = n;
 }
 
+void setSeed(int s)
+{
+	strategy = 1;
+	Seed = s;
+}
+
 void set_globals()
 {
 	fasterFactor = 1;

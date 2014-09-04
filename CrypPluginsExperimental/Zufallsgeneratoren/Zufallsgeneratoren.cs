@@ -39,6 +39,10 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
         [DllImport("ZufallsGeneratorenDLL.dll")]
         internal static extern uint initializeTest_types();
 
+        // setSeed sets the internal used seed for the chosen PRNG
+        [DllImport("ZufallsGeneratorenDLL.dll")]
+        internal static extern void setSeed(int seed);
+
         // setGloabals as the name says is just setting the global variables
         [DllImport("ZufallsGeneratorenDLL.dll")]
         internal static extern void set_globals();
@@ -62,6 +66,8 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
         private Dictionary<int, int> RNGDic = new Dictionary<int, int>();
         private int selectedRNG;
         private int amountOfNumbers;
+        private int seed;
+        private bool hasSeed = false;
         private ICryptoolStream data;
         private bool littleEndian;
         private uint[] outputNumbers;
@@ -80,6 +86,20 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
             set
             {
                 amountOfNumbers = value;
+            }
+        }
+
+        [PropertyInfo(Direction.InputData, "Seed", "This is the optional possibility to set a predefined seed for the Pseudo Random Number Generators")]
+        public int Seed
+        {
+            get
+            {
+                return seed;
+            }
+            set
+            {
+                seed = value;
+                hasSeed = true;
             }
         }
 
@@ -140,6 +160,12 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
             initializeTest_types();
             ProgressChanged(0, 1);
             set_globals();
+
+            if (hasSeed)
+            {
+                setSeed(seed);
+            }
+
             try{
                 set_generator(selectedRNG);
             }
@@ -153,6 +179,12 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
 
         public void Execute()
         {
+
+            if (hasSeed)
+            {
+                setSeed(seed);
+            }
+
             ProgressChanged(0, 1);
 
             CStreamWriter writer = new CStreamWriter();
