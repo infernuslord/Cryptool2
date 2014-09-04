@@ -15,6 +15,7 @@
 */
 using System;
 using System.ComponentModel;
+using System.Windows;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 
@@ -27,7 +28,10 @@ namespace Cryptool.Plugins.Transcriptor
 
         private int color;
         private int stroke;
-
+        private int mode = 0;
+        private int method = 1;
+        private float threshold = 0.75f;
+ 
         #endregion
 
         #region TaskPane Settings
@@ -66,20 +70,95 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        #endregion
-
-        public void Initialize()
+        [TaskPane("MatchTemplate", "TemplateTooltip", "MatchTemplate", 3, false, ControlType.ComboBox, new String[] { "On", "Off" })]
+        public int Mode
         {
-
+            get
+            {
+                return mode;
+            }
+            set
+            {
+                if (value != mode)
+                {
+                    mode = value;
+                    UpdateTaskPaneVisibility();
+                    OnPropertyChanged("Mode");
+                }
+            }
         }
+
+        [TaskPane("ComparisionMethods", "ComparisonMethodsTooltip", "MatchTemplate", 4, false, ControlType.ComboBox, new String[] { "CCOEFF", "CCOEFF_NORMED",
+            "CCORR", "CCORR_NORMED", "SQDIFF", "SQDIFF_NORMED" })]
+        public int Method
+        {
+            get
+            {
+                return method;
+            }
+            set
+            {
+                if (value != method)
+                {
+                    method = value;
+                    OnPropertyChanged("Method");
+                }
+            }
+        }
+        
+        [TaskPane("Score", "ScoreTooltip", "MatchTemplate", 5, false, ControlType.TextBox, "")]
+        public float Threshold
+        {
+            get
+            {
+                return threshold;
+            }
+            set
+            {
+                if (threshold != value)
+                {
+                    threshold = value;
+                    OnPropertyChanged("Threshold");
+                }
+            }
+        }
+
+        #endregion
 
         #region Events
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private void UpdateTaskPaneVisibility()
+        {
+            if (Mode == 0)
+            {
+                settingChanged("Method", Visibility.Visible);
+                settingChanged("Threshold", Visibility.Visible);
+            }
+            else
+            {
+                settingChanged("Method", Visibility.Collapsed);
+                settingChanged("Threshold", Visibility.Collapsed);
+            }
+        }
 
+        private void settingChanged(string setting, Visibility visibility)
+        {
+            if (TaskPaneAttributeChanged != null)
+            {
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, visibility)));
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
+        
         private void OnPropertyChanged(string propertyName)
         {
             EventsHelper.PropertyChanged(PropertyChanged, this, propertyName);
+        }
+
+        public void Initialize()
+        {
         }
 
         #endregion

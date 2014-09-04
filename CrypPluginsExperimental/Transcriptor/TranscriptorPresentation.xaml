@@ -33,7 +33,7 @@
         </GroupBox>
             <GroupBox Header="Image" Height="491" HorizontalAlignment="Left" Name="groupBox2" VerticalAlignment="Top" Width="568" FontWeight="Bold">
                 <Grid Margin="6,5,0,0" Width="545" Height="460" VerticalAlignment="Top">
-                    <Image Height="460" HorizontalAlignment="Left" Margin="6,5,0,0" Name="picture" Stretch="Fill" VerticalAlignment="Top" Width="545" />
+                    <Image Height="460" HorizontalAlignment="Left" Margin="6,5,0,0" Name="picture" Stretch="Fill" VerticalAlignment="Top" Width="545" StretchDirection="Both" />
                     <Canvas Height="460" HorizontalAlignment="Left" Margin="6,5,0,0" Name="canvas" VerticalAlignment="Top" Width="545" Background="Transparent" MouseDown="canvas_MouseDown" MouseUp="canvas_MouseUp" MouseMove="canvas_MouseMove" />
                 </Grid>
             </GroupBox>
