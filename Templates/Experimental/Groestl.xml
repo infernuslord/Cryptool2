@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Grøstl</title>
+  <summary lang="en">Usage of the <i>Grøstl</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>Grøstl</i> hash function.</description>
+  <keywords>Grøstl, hash, digest</keywords>
+
+  <icon file="Grøstl.png" />
+  <relevantPlugins>
+    <plugin name="Groestl" />
+  </relevantPlugins>
+
+</sample>

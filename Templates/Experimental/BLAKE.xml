@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">BLAKE</title>
+  <summary lang="en">Usage of the <i>BLAKE</i> hash function</summary>
+  <description lang="en">This template shows the usage of the <i>BLAKE</i> hash function.</description>
+  <keywords>BLAKE, hash, digest</keywords>
+
+  <icon file="BLAKE.png" />
+  <relevantPlugins>
+    <plugin name="BLAKE" />
+  </relevantPlugins>
+
+</sample>
