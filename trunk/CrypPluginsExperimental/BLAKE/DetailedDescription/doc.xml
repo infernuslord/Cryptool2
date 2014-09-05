@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    BLAKE is one the five finalists of the NIST SHA-3 Competition. It follows the HAIFA iteration mode, has a local
+    wide-pipe internal structure and uses Bernstein's stream cipher ChaCha (a variant of Salsa20) as its compression
+    algorithm.
+  </introduction>
+
+  <introduction lang="de-DE">    
+  </introduction>
+
+  <usage lang="en">
+    The BLAKE component has two inputs and one output. <i>Input Stream</i> is mandatory and connects to the data to be
+    hashed. <i>Salt</i> is optional, but if it is used its size must be 16 bytes if you pick either <i>BLAKE-224</i> or
+    <i>BLAKE-256</i>. For the other two functions (<i>BLAKE-384</i> and <i>BLAKE-512</i>) its size must be 32 bytes.
+    In the component settings you can select the BLAKE hash function you want to use (<i>BLAKE-224</i>, <i>BLAKE-256</i>,
+    <i>BLAKE-384</i>, <i>BLAKE-512</i>).
+  </usage>
+
+  <usage lang="de-DE">
+  </usage>
+  
+  <presentation lang="en">
+  </presentation>
+  
+  <presentation lang="de-DE">
+  </presentation>
+  
+  <references>
+    <linkReference>
+      <link url="https://131002.net/blake" lang="en" />
+      <caption lang="en">BLAKE Home Page.</caption>
+    </linkReference>
+    <linkReference>
+      <link url="http://en.wikipedia.org/wiki/BLAKE_(hash_function)" lang="en" />
+      <caption lang="en">BLAKE hash function (Wikipedia)</caption>
+    </linkReference>
+  </references>
+</documentation>
