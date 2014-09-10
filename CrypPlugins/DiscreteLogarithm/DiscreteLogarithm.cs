@@ -24,6 +24,7 @@ using System.ComponentModel;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Collections;
+using System.Collections.Generic;
 using System.Numerics;
 using Cryptool.PluginBase.IO;
 using DiscreteLogarithm;
@@ -102,21 +103,21 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         {
             running = true;
 
-            if (inputMod.IsZero || inputMod.IsOne)
+            if (inputMod<2)
             {
                 GuiLogMessage("Input modulo not valid!", NotificationLevel.Error);
                 return;
             }
 
             inputBase %= inputMod;
-            if (inputBase.IsZero || inputBase.IsOne)
+            if (inputBase<2)
             {
                 GuiLogMessage("Input base not valid!", NotificationLevel.Error);
                 return;
             }
 
             inputValue %= inputMod;
-            if (inputValue.IsZero)
+            if (inputValue<1)
             {
                 GuiLogMessage("Input value not valid!", NotificationLevel.Error);
                 return;
@@ -125,7 +126,8 @@ namespace Cryptool.Plugins.DiscreteLogarithm
             switch (settings.Algorithm)
             {
                 case 0:
-                    Enumeration();
+                    //Enumeration();
+                    Shanks();
                     break;
                 case 1:
                     IndexCalculus();
@@ -164,7 +166,60 @@ namespace Cryptool.Plugins.DiscreteLogarithm
             if (t == inputValue)
                 OutputLogarithm = counter;
             else
-                GuiLogMessage("Input base not a generator of given residue class", NotificationLevel.Error);
+                GuiLogMessage("Input base is not a generator of the given residue class", NotificationLevel.Error);
+        }
+        /// <summary>
+        /// Baby-step giant-step algorithm by Daniel Shanks
+        /// </summary>
+        private void Shanks()
+        {
+            BigInteger m = inputMod.Sqrt() + 1;
+            Dictionary<BigInteger, BigInteger> hashtab = new Dictionary<BigInteger, BigInteger>();
+
+            if (BigIntegerHelper.GCD(inputBase, inputMod) > 1)
+            {
+                GuiLogMessage("Input base is not a generator of the given residue class", NotificationLevel.Error);
+                return;
+            }
+
+            BigInteger g_inv = BigIntegerHelper.ModInverse(inputBase, inputMod);
+            BigInteger g_m = BigInteger.ModPow(inputBase, m, inputMod);
+
+            GuiLogMessage("Generating baby steps table with " + m + " entries.", NotificationLevel.Debug);
+            
+            // baby-steps
+            BigInteger v = inputValue;
+            for (BigInteger j = 0; j < m; j++)
+            {
+                if (!running) return;
+                if (v == 1)
+                {
+                    OutputLogarithm = j;
+                    return;
+                }
+                if (hashtab.ContainsKey(v)) break;
+                hashtab.Add(v, j);
+                v = (v * g_inv) % inputMod;
+
+                ProgressChanged((int)j, (int)(2 * m));
+            }
+
+            // giant-steps
+            v = 1;
+            for (BigInteger i = 0; i <= m; i++)
+            {
+                if (!running) return;
+                if (hashtab.ContainsKey(v))
+                {
+                    OutputLogarithm = i * m + hashtab[v];
+                    return;
+                }
+                v = (v * g_m) % inputMod;
+
+                ProgressChanged((int)(m + i), (int)(2 * m));
+            }
+
+            GuiLogMessage("Input base is not a generator of the given residue class", NotificationLevel.Error);
         }
 
         /// <summary>
