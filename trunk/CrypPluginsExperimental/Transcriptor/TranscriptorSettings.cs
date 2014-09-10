@@ -28,7 +28,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         private int color;
         private int stroke;
-        private int mode = 0;
+        private int mode = 1;
         private int method = 1;
         private float threshold = 0.75f;
  
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("MatchTemplate", "TemplateTooltip", "MatchTemplate", 3, false, ControlType.ComboBox, new String[] { "On", "Off" })]
+        [TaskPane("MatchTemplate", "TemplateTooltip", "MatchTemplate", 3, false, ControlType.ComboBox, new String[] { "Off", "On" })]
         public int Mode
         {
             get
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
         
-        [TaskPane("Score", "ScoreTooltip", "MatchTemplate", 5, false, ControlType.TextBox, "")]
+        [TaskPane("Threshold", "ThresholdTooltip", "MatchTemplate", 5, false, ControlType.TextBox, "")]
         public float Threshold
         {
             get
@@ -129,7 +129,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         private void UpdateTaskPaneVisibility()
         {
-            if (Mode == 0)
+            if (Mode == 1)
             {
                 settingChanged("Method", Visibility.Visible);
                 settingChanged("Threshold", Visibility.Visible);

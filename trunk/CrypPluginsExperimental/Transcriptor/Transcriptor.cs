@@ -114,8 +114,17 @@ namespace Cryptool.Plugins.Transcriptor
             }
 
             transcriptorPresentation.StrokeThicknes = settings.Stroke;
-            transcriptorPresentation.Threshold = settings.Threshold;
-            transcriptorPresentation.ComparisonMethod = settings.Method;
+
+            if (settings.Mode == 0)
+            {
+                transcriptorPresentation.MatchTemplateOn = false;
+            }
+            else
+            {
+                transcriptorPresentation.MatchTemplateOn = true;
+                transcriptorPresentation.Threshold = settings.Threshold;
+                transcriptorPresentation.ComparisonMethod = settings.Method;
+            }
         }
 
         /// <summary>
