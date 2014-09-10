@@ -23,7 +23,8 @@ namespace Transcriptor
 
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
         String rectangleColor;
-        int strokeThicknes, alphabetCount = 0, indexCount = 0, comparisonMethod;
+        int strokeThicknes, alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
+        bool mtOn;
         List<Sign> signList = new List<Sign>();
         ObservableCollection<Sign> signItems = new ObservableCollection<Sign>();
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
@@ -60,6 +61,12 @@ namespace Transcriptor
         {
             get { return rectangleColor; }
             set { rectangleColor = value; }
+        }
+
+        public bool MatchTemplateOn
+        {
+            get { return mtOn; }
+            set { mtOn = value; }
         }
 
         public int ComparisonMethod
@@ -119,9 +126,11 @@ namespace Transcriptor
                 
                 xCordinateUp = e.GetPosition(canvas).X;
                 yCordinateUp = e.GetPosition(canvas).Y;
+                currentRectangeleWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
+                currentRectangleHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)); ;
 
-                rectangle.Width = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
-                rectangle.Height = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp));
+                rectangle.Width = currentRectangeleWidth;
+                rectangle.Height = currentRectangleHeight;
 
                 Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, xCordinateUp));
                 Canvas.SetTop(rectangle, Math.Min(yCordinateDown, yCordinateUp));
@@ -152,16 +161,18 @@ namespace Transcriptor
             signItems.Add(newSign);
             signListbox.ItemsSource = signItems;
             indexCount++;
-                        
-            AddSignToList(newSign, (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
-                (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)));
+
+            AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
 
             if (alphabetCount >= transcriptor.Alphabet.Length)
             {
                 addSignButton.IsEnabled = false;
             }
-            
-            MatchSign(newSign);
+
+            if (MatchTemplateOn)
+            {
+                MatchSign(newSign);
+            }
         }
 
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -172,8 +183,7 @@ namespace Transcriptor
             {
                 Sign sign = new Sign(indexCount, item.Content.ToString()[0], croppedBitmap);
                 indexCount++;
-                AddSignToList(sign, (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
-                (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)));
+                AddSignToList(sign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
             }
         }
 
@@ -190,17 +200,13 @@ namespace Transcriptor
 
             outputText = textBuilder.ToString();
             transcriptor.GenerateText(outputText);
-  
         }
 
         #endregion
 
         #region Helper Methods
-        private void AddSignToList(Sign newSign, int width, int height)
+        private void AddSignToList(Sign newSign, int width, int height, double x, double y)
         {
-            double x = Math.Min(xCordinateDown, xCordinateUp);
-            double y = Math.Min(yCordinateDown, yCordinateUp);
-
             Rectangle newRectangle = new Rectangle
             {
                 Fill = Brushes.Transparent,
@@ -236,8 +242,8 @@ namespace Transcriptor
 
         private void MatchSign(Sign newSign)
         {
-            int cropWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
-            int cropHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp));
+            int cropWidth = currentRectangeleWidth;
+            int cropHeight = currentRectangleHeight;
             System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int)newSign.X, (int)newSign.Y, cropWidth, cropHeight);
             Image<Gray, Byte> sourceImage = new Image<Gray, byte>(ToBitmap(picture.Source as BitmapSource));
 
@@ -258,9 +264,10 @@ namespace Transcriptor
                 case 5: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_SQDIFF_NORMED); break;
                 default: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED); break;
             }
-
+            
             float[, ,] matches = resultImage.Data;
-
+            bool skip = false;
+            
             for (int y = 0; y < matches.GetLength(0); y++)
             {
                 for (int x = 0; x < matches.GetLength(1); x++)
@@ -269,19 +276,20 @@ namespace Transcriptor
 
                     if (matchScore > Threshold)
                     {
-                        Rectangle rec = new Rectangle
-                        {
-                            Fill = Brushes.Transparent,
-                            Stroke = Brushes.Red,
-                            StrokeThickness = 1,
-                            Width = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp)),
-                            Height = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)),
-                        };
+                        Sign equalSign = new Sign(indexCount, newSign.Letter, newSign.Image);
+                        indexCount++;
 
-                        Canvas.SetLeft(rec, x);
-                        Canvas.SetTop(rec, y);
-                        canvas.Children.Add(rec);
+                        AddSignToList(equalSign, currentRectangeleWidth, currentRectangleHeight, x, y);
+                        
+                        x += currentRectangeleWidth;
+                        skip = true;
                     }
+                }
+
+                if (skip)
+                {
+                    y += currentRectangleHeight;
+                    skip = false;
                 }
             }
         }
