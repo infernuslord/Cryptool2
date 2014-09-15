@@ -103,23 +103,23 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         {
             running = true;
 
-            if (inputMod<2)
+            if (inputMod <= 1)
             {
-                GuiLogMessage("Input modulo not valid!", NotificationLevel.Error);
+                GuiLogMessage("Input modulo must be greater than 1.", NotificationLevel.Error);
                 return;
             }
 
             inputBase %= inputMod;
-            if (inputBase<2)
+            if (inputBase <= 1)
             {
-                GuiLogMessage("Input base not valid!", NotificationLevel.Error);
+                GuiLogMessage("Input base must be greater than 1.", NotificationLevel.Error);
                 return;
             }
 
             inputValue %= inputMod;
-            if (inputValue<1)
+            if (inputValue < 0)
             {
-                GuiLogMessage("Input value not valid!", NotificationLevel.Error);
+                GuiLogMessage("Input value is not valid.", NotificationLevel.Error);
                 return;
             }
 
@@ -173,50 +173,58 @@ namespace Cryptool.Plugins.DiscreteLogarithm
         /// </summary>
         private void Shanks()
         {
-            BigInteger m = inputMod.Sqrt() + 1;
             Dictionary<BigInteger, BigInteger> hashtab = new Dictionary<BigInteger, BigInteger>();
 
-            if (BigIntegerHelper.GCD(inputBase, inputMod) > 1)
-            {
-                GuiLogMessage("Input base is not a generator of the given residue class", NotificationLevel.Error);
-                return;
-            }
+            BigInteger m = inputMod.Sqrt() + 1;
+            BigInteger M = (inputMod + m - 1) / m;
+            BigInteger v;
+            BigInteger nextpercent = 0;
 
-            BigInteger g_inv = BigIntegerHelper.ModInverse(inputBase, inputMod);
-            BigInteger g_m = BigInteger.ModPow(inputBase, m, inputMod);
-
-            GuiLogMessage("Generating baby steps table with " + m + " entries.", NotificationLevel.Debug);
-            
-            // baby-steps
-            BigInteger v = inputValue;
-            for (BigInteger j = 0; j < m; j++)
+            try
             {
-                if (!running) return;
-                if (v == 1)
+                // baby-steps
+                v = inputValue * inputBase;
+                for (BigInteger j = 1; j <= m; j++)
                 {
-                    OutputLogarithm = j;
-                    return;
-                }
-                if (hashtab.ContainsKey(v)) break;
-                hashtab.Add(v, j);
-                v = (v * g_inv) % inputMod;
+                    if (!running) return;
+                    if (hashtab.ContainsKey(v)) break;
+                    hashtab.Add(v, j);
+                    v = (v * inputBase) % inputMod;
 
-                ProgressChanged((int)j, (int)(2 * m));
+                    if (j >= nextpercent)
+                    {
+                        int p = (int)((j * 100) / m);
+                        ProgressChanged(p, 200);
+                        nextpercent = ((p + 1) * m) / 100;
+                    }
+                }
+            }
+            catch (OutOfMemoryException ex)
+            {
+                m = hashtab.Count;
+                M = (inputMod + m - 1) / m;
             }
 
             // giant-steps
-            v = 1;
-            for (BigInteger i = 0; i <= m; i++)
+            nextpercent = 0;
+            BigInteger g_m = BigInteger.ModPow(inputBase, m, inputMod);
+            v = g_m;
+            for (BigInteger i = 1; i <= M; i++)
             {
                 if (!running) return;
                 if (hashtab.ContainsKey(v))
                 {
-                    OutputLogarithm = i * m + hashtab[v];
+                    OutputLogarithm = i * m - hashtab[v];
                     return;
                 }
                 v = (v * g_m) % inputMod;
 
-                ProgressChanged((int)(m + i), (int)(2 * m));
+                if (i >= nextpercent)
+                {
+                    int p = (int)((i * 100) / M);
+                    ProgressChanged(p+100, 200);
+                    nextpercent = ((p + 1) * M) / 100;
+                }
             }
 
             GuiLogMessage("Input base is not a generator of the given residue class", NotificationLevel.Error);

@@ -5,37 +5,41 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This component can be used to calculate the discrete logarithm of any number based on a given modulo and base.
+    This component can be used to calculate the discrete logarithm of any number based on a given modulo $N$ and base $b$.
     <newline/>
-    It currently only uses a very simple brute-force like algorithm, so it isn't adequate to use it for more complex problems.
+    It uses David Shanks' baby-step giant-step algorithm, whose time and memory complexity is $O(sqrt(N))$.
+    Please note that the running time of the component may still be very long for big $N$.
   </introduction>
 
   <introduction lang="de-DE">
-    Diese Komponente kann dazu benutzt werden, den diskreten Logarithmus einer beliebigen Zahl zu errechnen (basierend auf einem gegebenen Modul und einer gegebenen Basis).
+    Diese Komponente berechnet den diskreten Logarithmus einer beliebigen Zahl (falls er existiert) bezüglich einem gegebenen Modul $N$ und einer gegebenen Basis $b$.
     <newline/>
-    Diese Komponente benutzt derzeit nur einen sehr einfachen, <i>Brute-force</i>-artigen Algorithmus, weswegen sie nicht für große Zahlen geeignet ist.
+    Sie verwendet den Babystep-Giantstep-Algorithmus von Daniel Shanks, dessen Laufzeitkomplexität und Speicherbedarf $O(sqrt(N))$ beträgt.
+    Beachten Sie, dass für sehr große Werte für $N$ die Laufzeit auch sehr groß sein wird.
   </introduction>
 
   <usage lang="en">
-    Simply connect the three input connectors of this component with other components, which deliver the input numbers.
-    The output will be the corresponding discrete logarithm.<newline/>
+    Connect the three input connectors of this component with other components, that provide the input numbers.
+    If the corresponding discrete logarithm exists, it will be sent to the output of the component.
+    If it does not exist, the component will halt and issue an error message.<newline/>
     <newline/>
-    Calculation of a potence y:  y = b^x mod n (b, n fix; x = independent variable)<newline/>
-    Inverse function: Calculation of the exponent x:  x = log_b (y) mod n  (b, n fix; y = dependent variable)<newline/>
+    Calculation of a power y:  y = b^x mod N (b, N fix; x = independent variable)<newline/>
+    Inverse function: Calculation of the exponent x:  x = log_b (y) mod N  (b, n fix; y = dependent variable)<newline/>
     <newline/>
-    Example with b=2 und n=11:<newline/>
+    Example with b=2 und N=11:<newline/>
     y = 3 = 2^8 mod 11<newline/>
     x = 8 = log_2 (3) mod 11<newline/>
   </usage>
 
   <usage lang="de-DE">
-    Verbinden Sie lediglich die drei Eingabe-Konnektoren dieser Komponente mit anderen Komponenten, welche die Eingabezahlen liefern.
-    Die Ausgabe wird der dazugehörige diskrete Logarithmus sein.<newline/>
+    Verbinden Sie die drei Eingabe-Konnektoren dieser Komponente mit anderen Komponenten, die die Eingabezahlen liefern.
+    Falls der dazugehörige diskrete Logarithmus existiert, wird er an der Ausgabe der Komponente ausgegeben.
+    Falls er nicht existiert, wird die Berechnung mit einer Fehlermeldung beendet.<newline/>
     <newline/>
-    Berechnung einer Potenz y:  y = b^x mod n (b, n fix; x = unabhängige Variable)<newline/>
-    Umkehrfunktion: Berechnung des Exponenten x:  x = log_b (y) mod n  (b, n fix; y = unabhängige Variable)<newline/>
+    Berechnung einer Potenz y:  y = b^x mod N (b, N fix; x = unabhängige Variable)<newline/>
+    Umkehrfunktion: Berechnung des Exponenten x:  x = log_b (y) mod n  (b, N fix; y = unabhängige Variable)<newline/>
     <newline/>
-    Beispiel mit b=2 und n=11:<newline/>
+    Beispiel mit b=2 und N=11:<newline/>
     y = 3 = 2^8 mod 11<newline/>
     x = 8 = log_2 (3) mod 11<newline/>
   </usage>
@@ -45,13 +49,19 @@
       <link url="http://en.wikipedia.org/wiki/Discrete_logarithm" lang="en" />
       <caption lang="en">Discrete logarithm (Wikipedia)</caption>
       <link url="http://de.wikipedia.org/wiki/Diskreter_Logarithmus" lang="de-DE" />
-      <caption lang="en">Diskreter Logarithmus (Wikipedia)</caption>
+      <caption lang="de-DE">Diskreter Logarithmus (Wikipedia)</caption>
     </linkReference>
     <linkReference id="wolfram">
       <link url="http://mathworld.wolfram.com/DiscreteLogarithm.html" lang="en" />
       <caption lang="en">Discrete logarithm (Wolfram Mathworld)</caption>
       <link url="http://mathworld.wolfram.com/DiscreteLogarithm.html" lang="de-DE" />
-      <caption lang="en">Diskreter Logarithmus (Wolfram Mathworld, englisch)</caption>
+      <caption lang="de-DE">Diskreter Logarithmus (Wolfram Mathworld, englisch)</caption>
+    </linkReference>
+    <linkReference id="shanks">
+      <link url="http://en.wikipedia.org/wiki/Baby-step_giant-step" lang="en" />
+      <caption lang="en">Baby-step giant-step (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/Babystep-Giantstep-Algorithmus" lang="de-DE" />
+      <caption lang="de-DE">Babystep-Giantstep-Algorithmus (Wikipedia)</caption>
     </linkReference>
   </references>
   
