@@ -91,7 +91,9 @@
     <Compile Include="AchterbahnTest.cs" />
     <Compile Include="ADFGVXTest.cs" />
     <Compile Include="AESTest.cs" />
+    <Compile Include="BLAKETest.cs" />
     <Compile Include="CaesarTest.cs" />
+    <Compile Include="GroestlTest.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

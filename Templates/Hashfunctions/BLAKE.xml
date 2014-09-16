@@ -6,6 +6,11 @@
   <description lang="en">This template shows the usage of the <i>BLAKE</i> hash function.</description>
   <keywords>BLAKE, hash, digest</keywords>
 
+  <title lang="de">BLAKE</title>
+  <summary lang="de">Verwendung der <i>BLAKE</i>-Hash-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>BLAKE</i>-Hash-Funktion.</description>
+  <keywords lang="de">BLAKE, hash, digest</keywords>
+
   <icon file="BLAKE.png" />
   <relevantPlugins>
     <plugin name="BLAKE" />

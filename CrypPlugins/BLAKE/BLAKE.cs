@@ -235,11 +235,11 @@ namespace Cryptool.Plugins.BLAKE
                     break;
                 case 1:
                     // Salt size is different from the one required for BLAKE-224 and BLAKE-256.
-                    GuiLogMessage(string.Format(Resources.WrongSaltSizeErrorMessage, 16), NotificationLevel.Error);
+                    GuiLogMessage(string.Format("ERROR: Wrong salt size. Salt size must be {0} bytes", 16), NotificationLevel.Error);
                     return;
                 case 2:
                     // Salt size is different from the one required for BLAKE-384 and BLAKE-512.
-                    GuiLogMessage(string.Format(Resources.WrongSaltSizeErrorMessage, 32), NotificationLevel.Error);
+                    GuiLogMessage(string.Format("ERROR: Wrong salt size. Salt size must be {0} bytes", 32), NotificationLevel.Error);
                     return;
                 default:
                     // Salt size is correct. Fill the right salt variable depending on the BLAKE function selected.
