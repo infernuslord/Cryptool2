@@ -117,23 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GroestlVariantCaption" xml:space="preserve">
-    <value>Grøstl variant</value>
+  <data name="BLAKEFunctionCaption" xml:space="preserve">
+    <value>BLAKE variant</value>
   </data>
-  <data name="GroestlVariantList1" xml:space="preserve">
-    <value>Grøstl-224</value>
+  <data name="BLAKEFunctionList1" xml:space="preserve">
+    <value>BLAKE-224</value>
   </data>
-  <data name="GroestlVariantList2" xml:space="preserve">
-    <value>Grøstl-256</value>
+  <data name="BLAKEFunctionList2" xml:space="preserve">
+    <value>BLAKE-256</value>
   </data>
-  <data name="GroestlVariantList3" xml:space="preserve">
-    <value>Grøstl-384</value>
+  <data name="BLAKEFunctionList3" xml:space="preserve">
+    <value>BLAKE-384</value>
   </data>
-  <data name="GroestlVariantList4" xml:space="preserve">
-    <value>Grøstl-512</value>
+  <data name="BLAKEFunctionList4" xml:space="preserve">
+    <value>BLAKE-512</value>
   </data>
-  <data name="GroestlVariantTooltip" xml:space="preserve">
-    <value>Select the variant of the Grøstl function</value>
+  <data name="BLAKEFunctionTooltip" xml:space="preserve">
+    <value>Select the BLAKE hash function.</value>
   </data>
   <data name="InputDataStreamCaption" xml:space="preserve">
     <value>Input stream</value>
@@ -148,9 +148,15 @@
     <value>Hash value</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Grøstl</value>
+    <value>BLAKE</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Grøstl hash function</value>
+    <value>BLAKE hash function</value>
+  </data>
+  <data name="SaltDataCaption" xml:space="preserve">
+    <value>Salt</value>
+  </data>
+  <data name="SaltDataTooltip" xml:space="preserve">
+    <value>If used, its size must be 16 bytes for BLAKE-224 and BLAKE-256, and 32 bytes for BLAKE-384 and BLAKE-512.</value>
   </data>
 </root>

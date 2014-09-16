@@ -11,7 +11,10 @@
     algorithm.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    BLAKE ist einer der fünf Finalisten des SHA-3-Wettbewerbs von NIST.
+    BLAKE basiert auf dem HAIFA-Konzept, hat eine lokale Wide-Pipe-Konstruktion und verwendet Bernsteins Stromchiffre
+    ChaCha (eine Variante von Salsa20) als Kompressionsfunktion.
   </introduction>
 
   <usage lang="en">
@@ -23,7 +26,14 @@
   </usage>
 
   <usage lang="de-DE">
-  </usage>
+    Die BLAKE-Komponente hat zwei Eingänge und einen Ausgang. Am Eingang <i>Eingabedatenstrom</i> müssen die Daten anliegen, deren
+    Hashwert berechnet werden soll.
+    Die Angabe des Wertes <i>Salt</i> ist optional. Wenn <i>Salt</i> angegeben wird, so muss seine Größe 16 Bytes betragen, falls
+    die Variante <i>BLAKE-224</i> oder <i>BLAKE-256</i> ausgewählt wurde. 
+    Für die beiden anderen Varianten (<i>BLAKE-384</i> und <i>BLAKE-512</i>) muss die Größe 32 Bytes betragen.
+    In den Einstellungen der Komponente können Sie auswählen, welche Variante der BLAKE-Hashfunktion verwendet werden soll
+    (<i>BLAKE-224</i>, <i>BLAKE-256</i>, <i>BLAKE-384</i>, <i>BLAKE-512</i>).
+</usage>
   
   <presentation lang="en">
   </presentation>
@@ -34,11 +44,16 @@
   <references>
     <linkReference>
       <link url="https://131002.net/blake" lang="en" />
-      <caption lang="en">BLAKE Home Page.</caption>
+      <caption lang="en">BLAKE homepage</caption>
+      <link url="https://131002.net/blake" lang="de-DE" />
+      <caption lang="de-DE">BLAKE-Homepage (englisch)</caption>
     </linkReference>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/BLAKE_(hash_function)" lang="en" />
       <caption lang="en">BLAKE hash function (Wikipedia)</caption>
+      <link url="http://de.wikipedia.org/wiki/BLAKE_(Hashfunktion)" lang="de-DE" />
+      <caption lang="de-DE">BLAKE-Hashfunktion (Wikipedia)</caption>
     </linkReference>
   </references>
+  
 </documentation>

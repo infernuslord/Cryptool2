@@ -11,16 +11,23 @@
     meaning that their design consists of a number of rounds and each round consists of a number of round transformations.
   </introduction>
 
-  <introduction lang="de-DE">    
+  <introduction lang="de-DE">
+    Grøstl ist einer der fünf Finalisten des SHA-3-Wettbewerbs von NIST. Es ist eine iterierte Hash-Funktion, bei der die Kompressionsfunktion
+    aus zwei verschiedenen festgelegten großen Permutationen besteht. Der Aufbau der Permutationen ist von AES inspiriert.
+    Es werden mehrere Runden durchlaufen, wobei jede Runde aus mehreren Rundentransformationen besteht.
   </introduction>
 
   <usage lang="en">
     The Grøstl component has one input and one output. <i>Input Stream</i> is mandatory and connects to the data to be hashed.
-    In the component settings you can pick the variant of the Grøstl hash function you want to use (<i>Grøstl-224</i>,
-    <i>Grøstl-256</i>, <i>Grøstl-384</i>, <i>Grøstl-512</i>).
+    In the component settings you can pick the variant of the Grøstl hash function you want to use
+    (<i>Grøstl-224</i>, <i>Grøstl-256</i>, <i>Grøstl-384</i>, <i>Grøstl-512</i>).
   </usage>
 
   <usage lang="de-DE">
+    Die Grøstl-Komponente hat einen Eingang und einen Ausgang. Am Eingang <i>Eingabedatenstrom</i> müssen die Daten anliegen, deren
+    Hashwert berechnet werden soll.
+    In den Einstellungen der Komponente können Sie die zu verwendende Variante von Grøstl auswählen
+    (<i>Grøstl-224</i>, <i>Grøstl-256</i>, <i>Grøstl-384</i>, <i>Grøstl-512</i>).
   </usage>
   
   <presentation lang="en">
@@ -32,11 +39,15 @@
   <references>
     <linkReference>
       <link url="http://www.groestl.info" lang="en" />
-      <caption lang="en">Grøstl Home Page.</caption>
+      <caption lang="en">Grøstl homepage</caption>
+      <link url="http://www.groestl.info" lang="de-DE" />
+      <caption lang="de-DE">Grøstl-Homepage (englisch)</caption>
     </linkReference>
     <linkReference>
       <link url="http://en.wikipedia.org/wiki/Grøstl" lang="en" />
       <caption lang="en">Grøstl hash function (Wikipedia)</caption>
+      <link url="http://en.wikipedia.org/wiki/Grøstl" lang="de-DE" />
+      <caption lang="de-DE">Grøstl (Wikipedia)</caption>
     </linkReference>
   </references>
 </documentation>

@@ -4,7 +4,12 @@
   <title lang="en">Grøstl</title>
   <summary lang="en">Usage of the <i>Grøstl</i> hash function</summary>
   <description lang="en">This template shows the usage of the <i>Grøstl</i> hash function.</description>
-  <keywords>Grøstl, hash, digest</keywords>
+  <keywords>Grøstl, Groestl, Grostl, Gröstl, digest</keywords>
+
+  <title lang="de">Grøstl</title>
+  <summary lang="de">Benutzung der <i>Grøstl</i>-Hash-Funktion</summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung der <i>Grøstl</i>-Hash-Funktion.</description>
+  <keywords lang="de">Grøstl, Groestl, Grostl, Gröstl, digest</keywords>
 
   <icon file="Grøstl.png" />
   <relevantPlugins>
