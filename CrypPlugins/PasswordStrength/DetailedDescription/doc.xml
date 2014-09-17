@@ -5,7 +5,7 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    The Password strength component allows the evaluation of a password with the usage of different evaluation algorithms.<newline />
+    The Password strength component allows the evaluation of a password using different evaluation algorithms.<newline />
     Watch out! The password entered is displayed in the CT2 template as plain text and not with asterisks (****). Therefore, please enter your own password only, if no one can view your monitor!<newline/>
     <newline />
     <b>1) Algorithm of http://www.passwordmeter.com/ : </b> <newline />
@@ -51,7 +51,7 @@
   <introduction lang="de-DE">
     Die Passwortstärke-Komponente ermöglicht die Bewertung eines eingegebenen Passwortes mittels verschiedener Bewertungsalgorithmen.<newline/>
     Achtung! Das eingegebene Passwort wird in der CT2-Vorlage als einfacher Text und nicht mit Sternen (****) angezeigt.
-    Geben Sie Ihr eigenes Passwort deshalb bitte nur dann ein, wenn niemand ihren Monitor einsehen kann!<newline/>
+    Geben Sie Ihr eigenes Passwort deshalb bitte nur dann ein, wenn niemand Ihren Monitor einsehen kann!<newline/>
     <newline/>
     <b>1) Algorithmus von http://www.passwordmeter.com/ :</b><newline/>
     Der größte und ausführlichste Bewertungsalgorithmus ist der von der Seite www.passwordmeter.com übernommene Algorithmus.
