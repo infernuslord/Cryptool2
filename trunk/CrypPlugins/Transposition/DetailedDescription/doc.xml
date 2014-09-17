@@ -53,7 +53,7 @@
     Die Spaltentransposition benutzt als Schlüssel ein Codewort oder eine permutierte Zahlenfolge. Mit Hilfe des Schlüssels wird eine Matrix erzeugt, die die Länge des Schlüssels als Spaltenanzahl aufweist.
     Dann wird der Schlüssel über die Matrix geschrieben und die Buchstaben des Klartextes werden zeilenweise in diese eingetragen. Sollte die Matrix nicht komplett ausgefüllt sein, werden entweder in die leeren Zellen Platzhalter
     einfügt (vollständige Transposition), oder sie bleiben frei und werden im weiteren Verlauf nicht beachtet (unvollständige Transposition). Wird ein Codewort als Schlüssel benutzt, werden die Spalten der Matrix nach der alphabetischen
-    Reihenfolge der Buchstaben des Codeworts nummeriert. Anschließend wird die Matrix spaltenweise in der Reihenfolge der Spaltennummerierung ausgelesen.
+    Reihenfolge der Buchstaben des Codewortes nummeriert. Anschließend wird die Matrix spaltenweise in der Reihenfolge der Spaltennummerierung ausgelesen.
     <newline />
     Zur Entschlüsselung des Geheimtextes erstellt der Empfänger eine leere Matrix und schreibt den bekannten Schlüssel über diese. Nach dem gleichen Verfahren wie beim Verschlüsseln werden die Spalten der Matrix nummeriert.
     Der Geheimtext wird vom Empfänger spaltenweise nach der Nummerierung in die Matrix eingetragen und kann dann zeilenweise ausgelesen werden. Bei der unvollständigen Transposition muss darauf geachtet werden, wie viele Zellen der

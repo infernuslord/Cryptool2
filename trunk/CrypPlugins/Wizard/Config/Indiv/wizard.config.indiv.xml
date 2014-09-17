@@ -106,7 +106,7 @@
     <name lang="en" >Password Strength</name>
     <name lang="de" >Passwort-Stärke</name>
     <description lang="en" >Select this to test the strength of your password.</description>
-    <description lang="de" >Hier können Sie die Stärke Ihres Passworts testen.</description>
+    <description lang="de" >Hier können Sie die Stärke Ihres Passwortes testen.</description>
 
     <headline lang="en" >Password Input</headline>
     <headline lang="de" >Passwort-Eingabe</headline>
