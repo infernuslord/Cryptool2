@@ -232,7 +232,7 @@
     <value>Stärke</value>
   </data>
   <data name="StrengthTooltip" xml:space="preserve">
-    <value>Die Stärke des eingegebenen Passworts.</value>
+    <value>Die Stärke des eingegebenen Passwortes.</value>
   </data>
   <data name="_Entropy" xml:space="preserve">
     <value>Entropie</value>
@@ -244,7 +244,7 @@
     <value>Entropie</value>
   </data>
   <data name="EntropyTooltip" xml:space="preserve">
-    <value>Die Entropie des eingegebenen Passworts</value>
+    <value>Die Entropie des eingegebenen Passwortes</value>
   </data>
   <data name="KeePassCaption" xml:space="preserve">
     <value>KeePass Bitstärke</value>

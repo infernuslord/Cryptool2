@@ -53,7 +53,7 @@
     ZABCDEFGHIJKLMNOPQRSTUVWXY<newline/>
     <newline/>
     Diese 26 Alphabete werden jeweils durch ihren ersten Buchstaben benannt.
-    Bei der Verschlüsselung wird nun der erste Buchstabe des Klartextes mittels desjenigen Substitutions-Alphabets ersetzt, das durch den ersten Buchstaben des Schlüsselworts benannt wird.
+    Bei der Verschlüsselung wird nun der erste Buchstabe des Klartextes mittels desjenigen Substitutions-Alphabets ersetzt, das durch den ersten Buchstaben des Schlüsselwortes benannt wird.
     Der zweite Buchstabe des Klartextes wird durch das Substitutions-Alphabet des zweiten Schlüsselbuchstabens ersetzt, und so weiter.
     Das Schlüsselwort wird periodisch verwendet: Ist man am Ende angelangt, so wird im nächsten Schritt wieder der erste Buchstabe genommen.
     <newline/>

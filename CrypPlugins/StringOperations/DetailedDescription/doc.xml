@@ -63,7 +63,7 @@
 		<item><b>Trennen:</b> Trennt den Text am ersten Texteingang an der Zeichenkette, die am zweiten Texteingang anliegt (oder Zeilenumbruch, falls nichts anliegt), und gibt die resultierenden Teilstrings am Zeichenketten-Array-Ausgang aus</item>
 		<item><b>Block:</b> Formatiert den eingegangenen Text in Blöcke (unter Nutzung der Einstellung "Blockgröße"), nachdem alle Leerzeichen (Whitespaces) entfernt wurden</item>
 		<item><b>Umkehren:</b> Kehrt die Zeichenkette des ersten Texteingangs um</item>
-    <item><b>Passwortersetzung:</b>Fügt einem Text ein Passwort am Anfang oder Ende hinzu und entfernt alle Zeichen des Passworts aus dem restlichen Text</item>
+    <item><b>Passwortersetzung:</b>Fügt einem Text ein Passwort am Anfang oder Ende hinzu und entfernt alle Zeichen des Passwortes aus dem restlichen Text</item>
     </enum>    
   </usage>
   

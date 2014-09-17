@@ -41,11 +41,11 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Die Passwortstärke-Komponente ermöglicht die Bewertung eines eingegebenen Passworts mittels verschiedener Bewertungsalgorithmen.<newline/>
+    Die Passwortstärke-Komponente ermöglicht die Bewertung eines eingegebenen Passwortes mittels verschiedener Bewertungsalgorithmen.<newline/>
     Achtung! Das eingegebene Passwort wird in der CT2-Vorlage als einfacher Text und nicht mit Sternen (****) angezeigt. Geben Sie Ihr eigenes Passwort deshalb bitte nur dann ein, wenn niemand ihren Monitor einsehen kann!<newline/>
     <newline/>
     <b>1) Algorithmus von http://www.passwordmeter.com/ :</b><newline/>
-    Der größte und ausführlichste Bewertungsalgorithmus ist der von der Seite www.passwordmeter.com übernommene Algorithmus. Bei diesem werden für ein eingegebenes Passwort Punkte und Minuspunkte nach einem festgelegten Regelwerk vergeben. Diese Regeln sind in unterschiedliche Typen (Flat, Cond/incr, Cond, Comp) eingeteilt und als Formel in der Oberfläche der Komponente einsehbar. Neben den Punkten (Grün = Pluspunkte, Rot = Minuspunkte) werden die "Ergebnisse" einzelner Regeln auch durch farbliche Symbole dargestellt (Blau = Regel im besonderen Maße erfüllt, Grün = Regel erfüllt, Rot =  Regel nicht erfüllt). Bei den Regeln wird zum einen die Anzahl der zur Regel passenden Symbole (n) als auch die Länge des Passworts (len) genutzt. Zum Beispiel berechnet sich die Formel für die Anzahl an Großbuchstaben folgendermaßen:<newline/>
+    Der größte und ausführlichste Bewertungsalgorithmus ist der von der Seite www.passwordmeter.com übernommene Algorithmus. Bei diesem werden für ein eingegebenes Passwort Punkte und Minuspunkte nach einem festgelegten Regelwerk vergeben. Diese Regeln sind in unterschiedliche Typen (Flat, Cond/incr, Cond, Comp) eingeteilt und als Formel in der Oberfläche der Komponente einsehbar. Neben den Punkten (Grün = Pluspunkte, Rot = Minuspunkte) werden die "Ergebnisse" einzelner Regeln auch durch farbliche Symbole dargestellt (Blau = Regel im besonderen Maße erfüllt, Grün = Regel erfüllt, Rot =  Regel nicht erfüllt). Bei den Regeln wird zum einen die Anzahl der zur Regel passenden Symbole (n) als auch die Länge des Passwortes (len) genutzt. Zum Beispiel berechnet sich die Formel für die Anzahl an Großbuchstaben folgendermaßen:<newline/>
     <newline/>
     Regel: Großbuchstaben<newline/>
     Beispielpasswort: HELLOworld123<newline/>
@@ -70,10 +70,10 @@
     Die Gesamtpunkte für das Passwort werden durch die Summe aller Regeln innerhalb eines Balkens (rot bis grün) dargestellt. Ab 100 Punkten sind, nach diesem Algorithmus, die minimalen Anforderungen für ein Passwort erfüllt.<newline/>
     <newline/>
     <b>2) Bitstärke:</b><newline/>
-    Die Bitstärkenberechnung ist aus dem freien Tool KeePass (http://keepass.info/) übernommen und gibt die Stärke eines übergebenen Passworts in "Bits" an. Aus diesen lässt sich die Größe des durch das Passwort aufgespannten Raumes aufzeigen, der für das Brechen vollständig durchsucht werden müsste.<newline/>
+    Die Bitstärkenberechnung ist aus dem freien Tool KeePass (http://keepass.info/) übernommen und gibt die Stärke eines übergebenen Passwortes in "Bits" an. Aus diesen lässt sich die Größe des durch das Passwort aufgespannten Raumes aufzeigen, der für das Brechen vollständig durchsucht werden müsste.<newline/>
     <newline/>
     <b>3) Entropie:</b><newline/>
-    Die Entropie ist ein Maß für den mittleren Informationsgehalt oder auch Informationsdichte einer Nachricht. Der Begriff in der Informationstheorie ist in Analogie zur Entropie in der Thermodynamik und Statistischen Mechanik benannt. Je höher die Entropie eines Passworts ist, umso besser kann dessen Sicherheit angesehen werden.
+    Die Entropie ist ein Maß für den mittleren Informationsgehalt oder auch Informationsdichte einer Nachricht. Der Begriff in der Informationstheorie ist in Analogie zur Entropie in der Thermodynamik und Statistischen Mechanik benannt. Je höher die Entropie eines Passwortes ist, umso besser kann dessen Sicherheit angesehen werden.
   </introduction>
 
   <usage lang="en">
@@ -81,7 +81,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Um die Stärke eines Passworts zu ermitteln, geben Sie das Passwort als Text (Zeichenkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePass-Bitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus in den Ausgängen der Komponente ausgegeben.
+    Um die Stärke eines Passwortes zu ermitteln, geben Sie das Passwort als Text (Zeichenkette/String) oder als ByteArray über den einzigen Eingang der Komponente ein. Sobald die Komponente ausgeführt wird, werden die Ergebnisse innerhalb der Präsentation angezeigt sowie die KeePass-Bitstärke, die Entropie, und der Stärkewert nach dem passwordmeter.com-Algorithmus in den Ausgängen der Komponente ausgegeben.
   </usage>
 
   <presentation lang="en">
