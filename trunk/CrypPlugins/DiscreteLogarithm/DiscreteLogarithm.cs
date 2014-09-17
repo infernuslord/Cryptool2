@@ -123,6 +123,8 @@ namespace Cryptool.Plugins.DiscreteLogarithm
                 return;
             }
 
+            GuiLogMessage(string.Format("Solving {0} ^ x = {1} (mod {2})", inputBase, inputValue, inputMod), NotificationLevel.Info);
+
             switch (settings.Algorithm)
             {
                 case 0:
@@ -176,7 +178,6 @@ namespace Cryptool.Plugins.DiscreteLogarithm
             Dictionary<BigInteger, BigInteger> hashtab = new Dictionary<BigInteger, BigInteger>();
 
             BigInteger m = inputMod.Sqrt() + 1;
-            BigInteger M = (inputMod + m - 1) / m;
             BigInteger v;
             BigInteger nextpercent = 0;
 
@@ -202,8 +203,9 @@ namespace Cryptool.Plugins.DiscreteLogarithm
             catch (OutOfMemoryException ex)
             {
                 m = hashtab.Count;
-                M = (inputMod + m - 1) / m;
             }
+
+            BigInteger M = (inputMod + m - 1) / m;
 
             // giant-steps
             nextpercent = 0;
@@ -218,6 +220,8 @@ namespace Cryptool.Plugins.DiscreteLogarithm
                     return;
                 }
                 v = (v * g_m) % inputMod;
+
+                if (v == g_m) break;
 
                 if (i >= nextpercent)
                 {
