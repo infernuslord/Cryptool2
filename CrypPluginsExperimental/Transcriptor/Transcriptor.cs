@@ -122,7 +122,7 @@ namespace Cryptool.Plugins.Transcriptor
             else
             {
                 transcriptorPresentation.MatchTemplateOn = true;
-                transcriptorPresentation.Threshold = settings.Threshold;
+                transcriptorPresentation.Threshold = settings.Threshold / 100f;
                 transcriptorPresentation.ComparisonMethod = settings.Method;
             }
         }

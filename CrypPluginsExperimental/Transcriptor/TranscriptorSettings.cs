@@ -30,7 +30,7 @@ namespace Cryptool.Plugins.Transcriptor
         private int stroke;
         private int mode = 1;
         private int method = 1;
-        private float threshold = 0.75f;
+        private int threshold = 75;
  
         #endregion
 
@@ -106,8 +106,8 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
         
-        [TaskPane("Threshold", "ThresholdTooltip", "MatchTemplate", 5, false, ControlType.TextBox, "")]
-        public float Threshold
+        [TaskPane("Threshold", "ThresholdTooltip", "MatchTemplate", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        public int Threshold
         {
             get
             {
