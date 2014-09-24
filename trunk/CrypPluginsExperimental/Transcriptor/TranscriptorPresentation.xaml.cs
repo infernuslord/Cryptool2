@@ -30,7 +30,7 @@ namespace Transcriptor
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
         Rectangle rectangle;
         BitmapSource croppedBitmap;
-        bool mouseDown;
+        bool mouseDown, ctrlBtnPressed = false;
         Int32Rect rcFrom;
         Rect rect;
         float threshold;
@@ -90,17 +90,43 @@ namespace Transcriptor
             {
                 canvas.Children.Remove(rectangle);
             }
-
-            xCordinateDown = e.GetPosition(canvas).X;
-            yCordinateDown = e.GetPosition(canvas).Y;
-            rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
-            rectangle.StrokeThickness = strokeThicknes;
-
-            Canvas.SetLeft(rectangle, xCordinateDown);
-            Canvas.SetTop(rectangle, yCordinateDown);
-            canvas.Children.Add(rectangle);
             
-            mouseDown = true;
+            // Removes a Sign Element from Canvas and signList
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                ctrlBtnPressed = true;
+                var element = (e.OriginalSource as FrameworkElement).Name;
+
+                if (element.Contains("rectangle"))
+                {
+                    int number = Convert.ToInt32(element.Substring(9));
+
+                    for (int i = 0; i < signList.Count; i++)
+                    {
+                        if (number == signList[i].Id)
+                        {
+                            signList.RemoveAt(i);
+                            break;
+                        }
+                    }
+
+                    canvas.Children.Remove(e.OriginalSource as FrameworkElement);
+                }
+            }
+            else
+            {
+                xCordinateDown = e.GetPosition(canvas).X;
+                yCordinateDown = e.GetPosition(canvas).Y;
+                rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
+                rectangle.StrokeThickness = strokeThicknes;
+
+                Canvas.SetLeft(rectangle, xCordinateDown);
+                Canvas.SetTop(rectangle, yCordinateDown);
+                canvas.Children.Add(rectangle);
+
+                mouseDown = true;
+                ctrlBtnPressed = false;
+            }
         }
 
         private void canvas_MouseMove(object sender, MouseEventArgs e)
@@ -123,34 +149,37 @@ namespace Transcriptor
                 {
                     canvas.Children.Remove(rectangle);
                 }
-                
-                xCordinateUp = e.GetPosition(canvas).X;
-                yCordinateUp = e.GetPosition(canvas).Y;
-                currentRectangeleWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
-                currentRectangleHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)); ;
 
-                rectangle.Width = currentRectangeleWidth;
-                rectangle.Height = currentRectangleHeight;
-
-                Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, xCordinateUp));
-                Canvas.SetTop(rectangle, Math.Min(yCordinateDown, yCordinateUp));
-                canvas.Children.Add(rectangle);
-                mouseDown = false;
-
-                if (rectangle.Width != 0)
+                if (!ctrlBtnPressed)
                 {
-                    rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
-                    rcFrom = new Int32Rect();
+                    xCordinateUp = e.GetPosition(canvas).X;
+                    yCordinateUp = e.GetPosition(canvas).Y;
+                    currentRectangeleWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
+                    currentRectangleHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)); ;
 
-                    rcFrom.X = (int)((rect.X) * ((picture.Source.Width) / (picture.Width)));
-                    rcFrom.Y = (int)((rect.Y) * ((picture.Source.Height) / (picture.Height)));
-                    rcFrom.Width = (int)((rect.Width) * ((picture.Source.Width) / (picture.Width)));
-                    rcFrom.Height = (int)((rect.Height) * ((picture.Source.Height) / (picture.Height)));
+                    rectangle.Width = currentRectangeleWidth;
+                    rectangle.Height = currentRectangleHeight;
 
-                    croppedBitmap = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
-                    croppedImage.Source = croppedBitmap;
+                    Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, xCordinateUp));
+                    Canvas.SetTop(rectangle, Math.Min(yCordinateDown, yCordinateUp));
+                    canvas.Children.Add(rectangle);
+                    mouseDown = false;
 
-                    //calculateProbability();
+                    if (rectangle.Width != 0 && rectangle.Height != 0)
+                    {
+                        rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
+                        rcFrom = new Int32Rect();
+
+                        rcFrom.X = (int)((rect.X) * ((picture.Source.Width) / (picture.Width)));
+                        rcFrom.Y = (int)((rect.Y) * ((picture.Source.Height) / (picture.Height)));
+                        rcFrom.Width = (int)((rect.Width) * ((picture.Source.Width) / (picture.Width)));
+                        rcFrom.Height = (int)((rect.Height) * ((picture.Source.Height) / (picture.Height)));
+
+                        croppedBitmap = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
+                        croppedImage.Source = croppedBitmap;
+
+                        //calculateProbability();
+                    }
                 }
             }
         }
@@ -214,6 +243,7 @@ namespace Transcriptor
                 StrokeThickness = 1,
                 Width = width,
                 Height = height,
+                Name = "rectangle" +newSign.Id,
             };
 
             Canvas.SetLeft(newRectangle, x);
@@ -267,7 +297,8 @@ namespace Transcriptor
             
             float[, ,] matches = resultImage.Data;
             bool skip = false;
-            
+            bool firstSign = true;
+
             for (int y = 0; y < matches.GetLength(0); y++)
             {
                 for (int x = 0; x < matches.GetLength(1); x++)
@@ -276,10 +307,17 @@ namespace Transcriptor
 
                     if (matchScore > Threshold)
                     {
-                        Sign equalSign = new Sign(indexCount, newSign.Letter, newSign.Image);
-                        indexCount++;
+                        if (firstSign)
+                        {
+                            firstSign = false;
+                        }
+                        else
+                        {
+                            Sign equalSign = new Sign(indexCount, newSign.Letter, newSign.Image);
+                            indexCount++;
 
-                        AddSignToList(equalSign, currentRectangeleWidth, currentRectangleHeight, x, y);
+                            AddSignToList(equalSign, currentRectangeleWidth, currentRectangleHeight, x, y); 
+                        }
                         
                         x += currentRectangeleWidth;
                         skip = true;
@@ -308,7 +346,6 @@ namespace Transcriptor
                 return bitmap;
             }
         }
-
         #endregion
     }
 }
