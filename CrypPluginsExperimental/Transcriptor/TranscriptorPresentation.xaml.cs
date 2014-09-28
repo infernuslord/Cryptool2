@@ -27,6 +27,7 @@ namespace Transcriptor
         bool mtOn;
         List<Sign> signList = new List<Sign>();
         ObservableCollection<Sign> signItems = new ObservableCollection<Sign>();
+        Dictionary<char, int> statsList = new Dictionary<char, int>();
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
         Rectangle rectangle;
         BitmapSource croppedBitmap;
@@ -105,6 +106,27 @@ namespace Transcriptor
                     {
                         if (number == signList[i].Id)
                         {
+                            int value = statsList[signList[i].Letter];
+                            statsList[signList[i].Letter] = value - 1;
+
+                            if (statsList[signList[i].Letter] == 0)
+                            {
+                                /*Since the to be earased Sign Object isn't always
+                                 * the one that is in the signItems List an if-case is
+                                 * needed to find the right one in the List. So it can be removed*/
+                                for (int j = 0; j < signItems.Count; j++)
+                                {
+                                    if (signItems[j].Letter == signList[i].Letter)
+                                    {
+                                        signItems.RemoveAt(j);
+                                        break;
+                                    }
+                                }
+
+                                signListbox.Items.Refresh();
+                                statsList.Remove(signList[i].Letter);
+                            }
+
                             signList.RemoveAt(i);
                             break;
                         }
@@ -244,6 +266,7 @@ namespace Transcriptor
                 Width = width,
                 Height = height,
                 Name = "rectangle" +newSign.Id,
+                ToolTip = newSign.Letter,
             };
 
             Canvas.SetLeft(newRectangle, x);
@@ -255,6 +278,16 @@ namespace Transcriptor
             newSign.Y = y;
 
             signList.Add(newSign);
+
+            if (statsList.ContainsKey(newSign.Letter))
+            {
+                int value = statsList[newSign.Letter];
+                statsList[newSign.Letter] = value + 1;
+            }
+            else
+            {
+                statsList.Add(newSign.Letter, 1);
+            }
         }
 
         private void calculateProbability()

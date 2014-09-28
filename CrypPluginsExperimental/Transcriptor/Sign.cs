@@ -11,10 +11,6 @@ namespace Transcriptor
         char letter;
         BitmapSource image;
 
-        public Sign()
-        {
-        }
-
         public Sign(int SignId, char signLetter, BitmapSource signImage)
         {
             id = SignId;
