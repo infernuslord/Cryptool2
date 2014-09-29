@@ -5,46 +5,45 @@
   <language culture="en"/>
   <language culture="de-DE"/>
 
-  <introduction lang="en">This tool generates (pseudo)-random numbers according to the "DieHarder" implementation
-  of these (pseudo)-random number generators.
+  <introduction lang="en">
+    This component generates (pseudo)-random numbers according to the <i>DieHarder</i> implementation of these (pseudo)-random number generators.
   </introduction>
 
-  <introduction lang="de-DE">Dieses Tool nutzt die in "DieHarder" implementierten (pseudo)-Zufallszahlengeneratoren 
-  um (pseudo)-Zufallszahlen zu generieren und auszugeben.
+  <introduction lang="de-DE">
+    Diese Komponente nutzt die in <i>DieHarder</i> implementierten (pseudo)-Zufallszahlengeneratoren um (pseudo)-Zufallszahlen zu generieren und auszugeben.
   </introduction>
 
   <usage lang="en">
-    1. Put a numberinput plugin in front of the (pseudo)-random number generator and specify the amount of numbers you want to generate.
-    <newline/>
-    2. Connect the numberinput plugin output with the (pseudo)-random number generator plugin input.
-    <newline/>
-    3. Create any plugin which needs (pseudo)-random numbers behind the (pseudo)-random number generator and connect them properly.
-    <newline/>
-    4. Push the start button to start the execution of all the plugins.
+    <list>
+      <item>Put a NumberInput component in front of the (pseudo)-random number generator and specify the amount of numbers you want to generate.</item>
+      <item>Connect the output of the NumberInput component with the input of the (pseudo)-random number generator component.</item>
+      <item>Place any component that needs (pseudo)-random numbers behind the (pseudo)-random number generator and connect them properly.</item>
+      <item>Push the start button to start the execution of the workspace.</item>
+    </list>
   </usage>
 
   <usage lang="de-DE">
-    1. Mittels eines Zahleneingabeplugins kann die Menge der zu generierenden (pseudo)-Zufallszahlen bestimmt werden.
-    <newline/>
-    2. Dieses Zahleneingabeplugin wird nun mit dem (pseudo)-Zufallszahlengeneratorenplugin verbunden.
-    <newline/>
-    3. Erstelle und verbinde anschließend jegliches Plugin welches (pseudo)-Zufallszahlen benötigt mit dem Ausgang des (pseudo)-Zufallszahlengeneratorenplugins.
-    <newline/>
-    4. Durch betätigen des Start Buttons wird nun die Ausführung gestartet.
+    <list>
+      <item>Mittels einer Zahleneingabe-Komponente kann die Menge der zu generierenden (pseudo)-Zufallszahlen bestimmt werden.</item>
+      <item>Der Ausgang der Zahleneingabe-Komponente wird mit dem Eingang der (pseudo)-Zufallszahlengeneratoren-Komponente verbunden.</item>
+      <item>Erstelle und verbinde die Komponente, die die (pseudo)-Zufallszahlen benötigt mit dem Ausgang der (pseudo)-Zufallszahlengeneratoren-Komponente.</item>
+      <item>Durch Betätigen des Start-Buttons wird die Ausführung gestartet.</item>
+    </list>
   </usage>
-  
+
   <presentation lang="en">
   </presentation>
-  
+
   <presentation lang="de-DE">
   </presentation>
-  
+
   <references>
     <linkReference>
       <link url="http://www.phy.duke.edu/~rgb/General/dieharder.php" lang="en" />
-      <caption lang="en">DieHarder WebPage by Robert G.Brown`s</caption>
+      <caption lang="en">DieHarder homepage by Robert G. Brown</caption>
       <link url="http://www.phy.duke.edu/~rgb/General/dieharder.php" lang="de-DE" />
-      <caption lang="de-DE">DieHarder WebPage by Robert G.Brown`s</caption>
+      <caption lang="de-DE">DieHarder-Homepage von Robert G. Brown (englisch)</caption>
     </linkReference>
   </references>
+
 </documentation>

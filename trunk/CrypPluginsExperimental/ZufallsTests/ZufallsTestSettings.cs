@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.ZufallsTests
         private TestNumber selectedTest = TestNumber.Birthday;
 
         [PropertySaveOrder(1)]
-        [TaskPane("Selected test", "Run all the tests or just one specific", null, 1, false, ControlType.ComboBox, new string[] { "Diehard Birthdays Test ", "Diehard OPERM5 Test ", "Diehard 32x32 Binary Rank Test ", "Diehard 6x8 Binary Rank Test", "Diehard Bitstream Test", "Diehard DNA Test", "Diehard Count the 1s (stream) Test", "Diehard Count the 1s Test (byte)", "Diehard Parking Lot Test", "Diehard Minimum Distance (2d Circle) Test", "Diehard 3d Sphere (Minimum Distance) Test", "Diehard Squeeze Test", "Diehard Sums Test", "Diehard Runs Test", "Diehard Craps Test", "Marsaglia and Tsang GCD Test", "STS Monobit Test", "STS Runs Test", "STS Serial Test (Generalized) ", "RGB Bit Distribution Test ", "RGB Generalized Minimum Distance Test", "RGB Permutations Test", "RGB Lagged Sum Test", "RGB Kolmogorov-Smirnov Test Test ", "Byte Distribution", "DAB DCT ", "DAB Fill Tree Test", "DAB Fill Tree 2 Test", "DAB Monobit 2 Test", "Diehard Birthdays Test", "Execute all tests" })]
+        [TaskPane("SelectedTestCaption", "SelectedTestTooltip", null, 1, false, ControlType.ComboBox, new string[] { "Diehard Birthdays Test ", "Diehard OPERM5 Test ", "Diehard 32x32 Binary Rank Test ", "Diehard 6x8 Binary Rank Test", "Diehard Bitstream Test", "Diehard DNA Test", "Diehard Count the 1s (stream) Test", "Diehard Count the 1s Test (byte)", "Diehard Parking Lot Test", "Diehard Minimum Distance (2d Circle) Test", "Diehard 3d Sphere (Minimum Distance) Test", "Diehard Squeeze Test", "Diehard Sums Test", "Diehard Runs Test", "Diehard Craps Test", "Marsaglia and Tsang GCD Test", "STS Monobit Test", "STS Runs Test", "STS Serial Test (Generalized) ", "RGB Bit Distribution Test ", "RGB Generalized Minimum Distance Test", "RGB Permutations Test", "RGB Lagged Sum Test", "RGB Kolmogorov-Smirnov Test Test ", "Byte Distribution", "DAB DCT ", "DAB Fill Tree Test", "DAB Fill Tree 2 Test", "DAB Monobit 2 Test", "Diehard Birthdays Test", "Execute all tests" })]
         public TestNumber SelectedTest
         {
             get
@@ -85,7 +85,7 @@ namespace Cryptool.Plugins.ZufallsTests
         private int nTuple = 1;
 
         [PropertySaveOrder(3)]
-        [TaskPane("NTuple", "Some tests need a user input which determines the ntuples or dimensions", null, 1, false, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
+        [TaskPane("NTupleCaption", "NTupleTooltip", null, 1, false, ControlType.NumericUpDown, Cryptool.PluginBase.ValidationType.RangeInteger, 1, 5)]
         public int NTuple
         {
             get

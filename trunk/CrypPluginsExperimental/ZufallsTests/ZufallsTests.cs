@@ -94,7 +94,7 @@ namespace Cryptool.Plugins.ZufallsTests
 
         #region Data Properties
 
-        [PropertyInfo(Direction.InputData, "Test data Stream input", "The data on which the tests of randomness are executed")]
+        [PropertyInfo(Direction.InputData, "StreamInputCaption", "StreamInputTooltip")]
         public ICryptoolStream StreamInput
         {
             get
@@ -110,7 +110,7 @@ namespace Cryptool.Plugins.ZufallsTests
             }
         }
 
-        [PropertyInfo(Direction.OutputData, "Test result", "Here you will find the result of the test(s)")]
+        [PropertyInfo(Direction.OutputData, "ResultCaption", "ResultTooltip")]
         public String Result
         {
             get;
@@ -138,7 +138,6 @@ namespace Cryptool.Plugins.ZufallsTests
             // Thats why I matched the DLL intern Test numbers with the numbers coming from the settings
             selected = (int)settings.SelectedTest;
             selected = dTestNumbers[selected];
-
         }
 
         public void Execute()
@@ -242,7 +241,6 @@ namespace Cryptool.Plugins.ZufallsTests
 
         public void PostExecution()
         {
-
         }
 
         public void Stop()
@@ -257,7 +255,6 @@ namespace Cryptool.Plugins.ZufallsTests
 
         public void Dispose()
         {
-            
         }
 
         private void writeData(byte[] buffer, int bytesRead)
