@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Tests for Random Number Generators</title>
+  <summary lang="en">Test the quality of random numbers generators</summary>
+  <description lang="en">With this template you can test the quality of random number generators.</description>
+  <keywords>Random, Number, generator, dieharder, test, quality</keywords>
+  
+  <title lang="de">Tests für Zufallszahlengeneratoren</title>
+  <summary lang="de">Testet die Qualität eines Zufallszahlengenerators</summary>
+  <description lang="de">Mit dieser Vorlage können Sie die Qualität von Zufallszahlengeneratoren testen.</description>
+  <keywords lang="de">Zufallszahl, generator, dieharder, test, qualität</keywords>
+  
+  <icon file="RandomNumberGeneratorTests.png" />
+  
+  <relevantPlugins>
+    <plugin name="Zufallsgeneratoren" />
+    <plugin name="ZufallsTests" />
+  </relevantPlugins>
+
+</sample>

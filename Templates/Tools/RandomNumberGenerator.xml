@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Random Number Generators of DieHarder</title>
+  <summary lang="en">Generating random numbers with the DieHarder library</summary>
+  <description lang="en">With this template you can generate random numbers using the random number generators that are implemented in the DieHarder library.</description>
+  <keywords>Random, Number, generator, dieharder</keywords>
+  
+  <title lang="de">Zufallszahlengeneratoren von DieHarder</title>
+  <summary lang="de">Erzeugen von Zufallszahlen mit der DieHarder-Bibliothek</summary>
+  <description lang="de">Mit dieser Vorlage können Sie Zufallszahlen mit den in der <i>DieHarder</i>-Bibliothek implementierten Zufallszahlengeneratoren erzeugen.</description>
+  <keywords lang="de">Zufallszahl, generator, dieharder</keywords>
+  
+  <icon file="RandomNumberGenerator.png" />
+  
+  <relevantPlugins>
+    <plugin name="Zufallsgeneratoren" />
+  </relevantPlugins>
+
+</sample>
