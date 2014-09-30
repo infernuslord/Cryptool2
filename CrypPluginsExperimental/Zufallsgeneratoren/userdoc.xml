@@ -6,11 +6,11 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    This component generates (pseudo)-random numbers according to the <i>DieHarder</i> implementation of these (pseudo)-random number generators.
+    This component generates pseudo-random numbers using the <i>DieHarder</i> implementation of these (pseudo)-random number generators.
   </introduction>
 
   <introduction lang="de-DE">
-    Diese Komponente nutzt die in <i>DieHarder</i> implementierten (pseudo)-Zufallszahlengeneratoren um (pseudo)-Zufallszahlen zu generieren und auszugeben.
+    Diese Komponente nutzt die in <i>DieHarder</i> implementierten (pseudo)-Zufallszahlengeneratoren, um Pseudo-Zufallszahlen zu generieren und auszugeben.
   </introduction>
 
   <usage lang="en">
@@ -24,9 +24,9 @@
 
   <usage lang="de-DE">
     <list>
-      <item>Mittels einer Zahleneingabe-Komponente kann die Menge der zu generierenden (pseudo)-Zufallszahlen bestimmt werden.</item>
-      <item>Der Ausgang der Zahleneingabe-Komponente wird mit dem Eingang der (pseudo)-Zufallszahlengeneratoren-Komponente verbunden.</item>
-      <item>Erstelle und verbinde die Komponente, die die (pseudo)-Zufallszahlen benötigt mit dem Ausgang der (pseudo)-Zufallszahlengeneratoren-Komponente.</item>
+      <item>Mit einer Zahleneingabe-Komponente kann man die Menge der zu generierenden Pseudo-Zufallszahlen festlegen.</item>
+      <item>Der Ausgang der Zahleneingabe-Komponente wird mit dem Eingang der (Pseudo)-Zufallszahlengeneratoren-Komponente verbunden.</item>
+      <item>Erstelle und verbinde die Komponente, die die Pseudo-Zufallszahlen benötigt, mit dem Ausgang der (Pseudo)-Zufallszahlengeneratoren-Komponente.</item>
       <item>Durch Betätigen des Start-Buttons wird die Ausführung gestartet.</item>
     </list>
   </usage>

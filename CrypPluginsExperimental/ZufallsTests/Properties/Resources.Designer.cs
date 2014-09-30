@@ -61,7 +61,7 @@ namespace ZufallsTests.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die N-Tuple ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die n-Tuple ähnelt.
         /// </summary>
         internal static string NTupleCaption {
             get {
@@ -70,7 +70,7 @@ namespace ZufallsTests.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Some tests need a user input which determines the N-tuples or dimensions. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Some tests need a user input which determines the n-tuples or dimensions. ähnelt.
         /// </summary>
         internal static string NTupleTooltip {
             get {
@@ -79,7 +79,7 @@ namespace ZufallsTests.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Randomness tests ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Randomness Tests ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
