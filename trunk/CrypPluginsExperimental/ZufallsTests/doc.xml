@@ -10,7 +10,7 @@
   </introduction>
 
   <introduction lang="de-DE">
-    Diesee Komponente testet einen Zufallszahlengenerator auf seine Zufälligkeit mittels der <i>Dieharder</i>-Tests.
+    Diese Komponente testet den Output eines Zufallszahlengenerator auf seine Zufälligkeit mittels der <i>Dieharder</i>-Testbatterie.
   </introduction>
 
   <usage lang="en">
@@ -26,7 +26,7 @@
         <tr>
           <th>Test name</th>
           <th>Amount of numbers needed (each 4 byte)</th>
-          <th>Needs additional N-Tuple information?</th>
+          <th>Needs additional n-tuple information?</th>
         </tr>
         <tr>
           <td>Diehard Birthdays Test</td>
@@ -107,14 +107,14 @@
         <tr>
           <td>RGB Bit Distribution Test</td>
           <td>
-            Depends on the value of N-Tuple: <newline/> 20,000,000 * N-tuple + 100
+            Depends on the value of n-tuple: <newline/> 20,000,000 * n-tuple + 100
           </td>
           <td>Yes</td>
         </tr>
         <tr>
           <td>RGB Generalized Minimum Distance Test</td>
           <td>
-            Depends on the value of N-Tuple: <newline/> 10,000,000 * N-tuple
+            Depends on the value of n-tuple: <newline/> 10,000,000 * n-tuple
           </td>
           <td>Yes</td>
         </tr>
@@ -171,7 +171,7 @@
         <tr>
           <th>Test-Name</th>
           <th>Benötigte Anzahl an Zahlen (jede 4 Byte)</th>
-          <th>Benötigt zusätzlich N-Tuple-Informationen?</th>
+          <th>Benötigt zusätzlich n-Tupel-Informationen?</th>
         </tr>
         <tr>
           <td>Diehard Birthdays Test</td>
@@ -252,14 +252,14 @@
         <tr>
           <td>RGB Bit Distribution Test</td>
           <td>
-            Abhängig vom eingestellten N-Tuple-Wert:<newline/> 20.000.000 * N-tuple + 100
+            Abhängig vom eingestellten n-Tupel-Wert:<newline/> 20.000.000 * n-Tupel + 100
           </td>
           <td>Yes</td>
         </tr>
         <tr>
           <td>RGB Generalized Minimum Distance Test</td>
           <td>
-            Abhängig vom eingestellten N-Tuple-Wert:<newline/> 10.000.000 * N-tuple
+            Abhängig vom eingestellten n-Tupel-Wert:<newline/> 10.000.000 * n-Tupel
           </td>
           <td>Yes</td>
         </tr>
@@ -312,9 +312,9 @@
   <references>
     <linkReference>
       <link url="http://www.phy.duke.edu/~rgb/General/dieharder.php" lang="en" />
-      <caption lang="en">DieHarder WebPage by Robert G.Brown`s</caption>
+      <caption lang="en">DieHarder homepage by Robert G. Brown</caption>
       <link url="http://www.phy.duke.edu/~rgb/General/dieharder.php" lang="de-DE" />
-      <caption lang="de-DE">DieHarder WebPage by Robert G.Brown`s</caption>
+      <caption lang="de-DE">DieHarder-Homepage von Robert G. Brown (englisch)</caption>
     </linkReference>
   </references>
   

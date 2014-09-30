@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NTupleCaption" xml:space="preserve">
-    <value>N-Tupel</value>
+    <value>n-Tupel</value>
   </data>
   <data name="NTupleTooltip" xml:space="preserve">
-    <value>Einige Tests benötigen Angaben über N-Tupel oder Dimensionen.</value>
+    <value>Einige Tests benötigen Angaben über n-Tupel oder Dimensionen.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Zufällgkeits-Tests</value>

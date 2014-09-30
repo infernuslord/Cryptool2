@@ -118,13 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="NTupleCaption" xml:space="preserve">
-    <value>N-Tuple</value>
+    <value>n-Tuple</value>
   </data>
   <data name="NTupleTooltip" xml:space="preserve">
-    <value>Some tests need a user input which determines the N-tuples or dimensions.</value>
+    <value>Some tests need a user input which determines the n-tuples or dimensions.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Randomness tests</value>
+    <value>Randomness Tests</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Tests of randomness</value>

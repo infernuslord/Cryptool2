@@ -31,7 +31,7 @@ namespace Cryptool.Plugins.ZufallsTests
     [Author("Philipp Eisen", "philipp.iron@gmail.com", "University of Mannheim", "http://www.uni-mannheim.de/")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Randomness tests", "Tests of randomness", "ZufallsTests/doc.xml", new[] { "ZufallsTests/Images/Random.png" })]
+    [PluginInfo("PluginCaption", "PluginTooltip", "ZufallsTests/doc.xml", new[] { "ZufallsTests/Images/Random.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.ToolsDataInputOutput)]
     public class ZufallsTests : ICrypComponent
