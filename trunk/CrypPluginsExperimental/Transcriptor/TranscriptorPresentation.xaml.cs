@@ -133,6 +133,11 @@ namespace Transcriptor
                     }
 
                     canvas.Children.Remove(e.OriginalSource as FrameworkElement);
+
+                    if (statsList.Count <= transcriptor.Alphabet.Length)
+                    {
+                        addSignButton.IsEnabled = true;
+                    }
                 }
             }
             else
@@ -208,21 +213,40 @@ namespace Transcriptor
 
         private void addSignButton_Click(object sender, RoutedEventArgs e)
         {
-            Sign newSign = new Sign(indexCount, transcriptor.Alphabet[alphabetCount++], croppedBitmap);
-            signItems.Add(newSign);
-            signListbox.ItemsSource = signItems;
-            indexCount++;
-
-            AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
-
-            if (alphabetCount >= transcriptor.Alphabet.Length)
+            if (statsList.Count >= transcriptor.Alphabet.Length)
             {
                 addSignButton.IsEnabled = false;
             }
-
-            if (MatchTemplateOn)
+            else
             {
-                MatchSign(newSign);
+                char newLetter = transcriptor.Alphabet[alphabetCount++];
+
+                while (statsList.ContainsKey(newLetter))
+                {
+                    newLetter = transcriptor.Alphabet[alphabetCount++];
+
+                    if (alphabetCount >= transcriptor.Alphabet.Length)
+                    {
+                        alphabetCount = 0;
+                    }
+                }
+
+                Sign newSign = new Sign(indexCount, newLetter, croppedBitmap);
+                signItems.Add(newSign);
+                signListbox.ItemsSource = signItems;
+                indexCount++;
+
+                AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
+
+                if (alphabetCount >= transcriptor.Alphabet.Length)
+                {
+                    alphabetCount = 0;
+                }
+
+                if (MatchTemplateOn)
+                {
+                    MatchSign(newSign);
+                }
             }
         }
 
