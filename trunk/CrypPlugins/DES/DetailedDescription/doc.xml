@@ -5,25 +5,88 @@
   <language culture="de-DE"/>
 
   <introduction lang="en">
-    Data Encryption Standard (DES) is a symmetric cryptosystem that was announced by the US government in 1976 as official standard (FIPS 46) <ref id="NIST" />.
+    Data Encryption Standard (DES) is a symmetric cryptosystem that was announced by the US government in 1976 as official standard (FIPS 46) <ref id="NIST"/>.
     <newline />
-    DES uses a block size of 64 bits and a key length of 56 bits.
-    The involvement of the NSA in the design of the algorithm nourished suspicions about a backdoor.
+    <newline />
+    DES operates on plaintext blocks of length 64 bits (= 8 bytes) and generates blocks with encrypted text of length 64 bits.
+    Once again, formally the key is 64 bits long, but in fact only 56 bits are actually used as 8 bits serve as parity bits. So cryptographers say, that the (effective) key length is 56 bits.
+    However, it is possible today to crack a message encrypted with DES in less than 25 hours (Source: <ref id="DESCracker"/>), albeit with considerable effort, by searching through the entire key space.
     Today, due to the short key length, the security of DES is no longer considered sufficient.
+    The involvement of the NSA in the design of the algorithm also nourished suspicions about a backdoor.
     <newline/>
     <newline/>
-    A first replacement for DES, that guaranteed a higher level of security, was Triple DES. It consists of repeated applications of DES with independent keys.
-  </introduction>
+    A sequence of three DES encryptions using two or three different DES keys is called Triple DES (two or three key Triple DES). By this trick, the effective key length is 112 resp. 168 bit.
+    Today, Triple DES is wide-spread for symmetric encryption. Due to its worse performance Triple DES is replaced by the modern <docRef item="Cryptool.Plugins.Cryptography.Encryption.AES">AES</docRef> algorithm.
+    <newline/>
+    <newline/>
 
+    <section headline="A remark about the parity bits:">
+      With encryption using the DES algorithm, the lowest order bit in each key byte is not used for encryption or decryption as it is used as a parity bit.
+      As a result it is possible to to find a key via brute-force analysis that is not identical to the key which was used to encrypt the document.
+      However, the two keys are equivalent if the only difference between them is the lowest order bit of each byte. Hence, bytes 00 and 01, 02 and 03,..., 0C and 0D, 0E and 0F are all equivalent to each other.
+      The same applies also if instead of the leading 0 there is a different hexadecimal character 1, 2, 3,..., 9, A, B,..., F (see below).
+      <newline/>
+      <newline/>
+      <b>Example:</b> The two following DES keys
+      <newline/>
+      <newline/>
+      00 22 44 66 88 AA CC EE (hex) =
+      <newline/>
+      <newline/>
+      00000000 00100010 01000100 01100110 10001000 10101010 11001100 11101110 (binary) and
+      <newline/>
+      <newline/>
+      01 23 45 67 89 AB CD EF (hex) =
+      <newline/>
+      <newline/>
+      00000001 00100011 01000101 01100111 10001001 10101011 11001101 11101111 (binary)
+      <newline/>
+      <newline/>
+      are equivalent.
+    </section>
+  </introduction>
+  
   <introduction lang="de-DE">
-    Der Data Encryption Standard (DES) ist ein symmetrisches Kryptosystem, das von der US-Regierung 1976 als offizieller Standard (FIPS 46) <ref id="NIST" /> bekanntgegeben wurde.
+    Der Data Encryption Standard (DES) ist ein symmetrisches Verschlüsselungsverfahren, das von der US-Regierung 1976 als offizieller Standard (FIPS 46) <ref id="NIST"/> bekanntgegeben wurde.
     <newline />
-    DES verwendet eine Blockgröße von 64 Bits und eine Schlüssellänge von 56 Bits.
-    Wegen der Beteiligung der NSA am Design des Algorithmus gab es immer wieder Spekulationen über seine Sicherheit.
+    <newline />
+    DES operiert auf Klartextblöcken der Länge 64 Bits (= 8 Bytes) und erzeugt Blöcke mit verschlüsseltem Text der Länge 64 Bits.
+    Die formale Länge des Schlüssels beträgt ebenfalls 64 Bits; effektiv jedoch werden nur 56 Bits benutzt, da 8 Bits als Paritätsbits verwendet werden. Deshalb spricht man von einer (effektiven) Schlüssellänge von 56 Bit.
+    Allerdings kann man heutzutage mittels einer vollständigen Schlüsselraumsuche mit einigem Aufwand eine mit DES verschlüsselte Nachricht in weniger als 25 Stunden knacken (Quelle: <ref id="DESCracker"/>).
     Heute wird DES schon aufgrund der kurzen Schlüssellänge von nur 56 Bits nicht mehr als ausreichend sicher erachtet.
+    Auch wegen der Beteiligung der NSA am Design des Algorithmus gab es immer wieder Spekulationen über seine Sicherheit.
     <newline/>
     <newline/>
-    Ein erster Ersatz für DES, der eine höhere Sicherheit gewährleistete, war Triple-DES, das aus der mehrfachen Anwendung des DES-Verfahrens mit unabhängigen Schlüsseln besteht. 
+    Durch das Hintereinanderausführen von drei DES-Verschlüsselungen unter Verwendung von zwei oder drei verschiedenen 56 Bit DES-Schlüsseln erhält man das sogenannte Triple-DES-Verfahren (zwei oder drei Schlüssel Triple-DES).
+    Durch diesen Trick erhält man eine effektive Schlüssellänge von 112 oder 168 Bit. Triple-DES ist heute weit verbreitet für die symmetrische Verschlüsselung.
+    Aufgrund seiner schlechten Performance wird Triple-DES durch das modernere <docRef item="Cryptool.Plugins.Cryptography.Encryption.AES">AES</docRef>-Verfahren ersetzt.
+    <newline/>
+    <newline/>
+
+    <section headline="Bemerkung zu den Paritätsbits:">
+      Beim Verschlüsseln mit dem DES-Verschlüsselungsverfahren wird für die Ver-/Entschlüsselung von jedem Schlüssel-Byte das niederwertigste Bit nicht verwendet, da es als Paritätsbit genutzt wird.
+      Dadurch kann es bei der Brute-Force-Analyse passieren, dass ein Schlüssel gefunden wird, der nicht mit dem Schlüssel, mit dem das Dokument verschlüsselt ist, identisch ist.
+      Dennoch sind die beiden Schlüssel äquivalent, falls sie sich immer nur im niederwertigsten Bit jedes Bytes unterscheiden. Also sind die Bytes 00 und 01, 02 und 03, ..., 0C und 0D, 0E und 0F jeweils zueinander äquivalent.
+      Dasselbe gilt auch, wenn statt der führenden 0 ein anderes hexadezimales Zeichen 1, 2, 3, ..., 9, A, B, ..., F vorhanden ist.
+      <newline/>
+      <newline/>
+      <b>Beispiel:</b> Die beiden folgenden DES-Schlüssel
+      <newline/>
+      <newline/>
+      00 22 44 66 88 AA CC EE (hex) =
+      <newline/>
+      <newline/>
+      00000000 00100010 01000100 01100110 10001000 10101010 11001100 11101110 (binär) und
+      <newline/>
+      <newline/>
+      01 23 45 67 89 AB CD EF (hex) =
+      <newline/>
+      <newline/>
+      00000001 00100011 01000101 01100111 10001001 10101011 11001101 11101111 (binär)
+      <newline/>
+      <newline/>
+      sind äquivalent.
+    </section>
   </introduction>
 
   <usage lang="en">
@@ -71,7 +134,7 @@
   </usage>
 
   <usage lang="de-DE">
-    Wählen Sie in den Einstellungen der Komponente, ob sie im DES-Modus oder Triple-DES-Modus betrieben werden soll. Beide Algorithmen arbeiten mit einer Blockgröße von 64 bits (8 Bytes).
+    Wählen Sie in den Einstellungen der DES-Komponente, ob die Komponente im DES-Modus oder im Triple-DES-Modus betrieben werden soll. Beide Algorithmen arbeiten mit einer Blockgröße von 64 Bits (8 Bytes).
     DES erwartet einen Schlüssel bestehend aus 64 Bits (8 Bytes), Triple-DES einen Schlüssel bestehend aus 128 Bits (16 Bytes) oder 192 Bits (24 Bytes).
     <newline/>
     <newline/>
@@ -114,7 +177,6 @@
     </section>
   </usage>
 
-
   <presentation lang="en">
   </presentation>
   
@@ -133,6 +195,12 @@
       <caption lang="en">DES Specification by NIST (PDF)</caption>
       <link url="http://csrc.nist.gov/publications/fips/fips46-3/fips46-3.pdf" lang="de-DE" />
       <caption lang="de-DE">DES-Spezifikation des NIST (englisch, PDF)</caption>
+    </linkReference>
+    <linkReference id="DESCracker">
+      <link url="https://w2.eff.org/Privacy/Crypto/Crypto_misc/DESCracker" lang="en" />
+      <caption lang="en">DES Cracker by Electronic Frontier Foundation</caption>
+      <link url="https://w2.eff.org/Privacy/Crypto/Crypto_misc/DESCracker" lang="de-DE" />
+      <caption lang="de-DE">DES Cracker von der Electronic Frontier Foundation (englisch)</caption>
     </linkReference>
   </references>
   

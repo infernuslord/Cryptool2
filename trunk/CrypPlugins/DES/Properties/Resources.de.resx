@@ -149,7 +149,7 @@
     <value>Schlüssel</value>
   </data>
   <data name="InputKeyTooltip" xml:space="preserve">
-    <value>Der Schlüssel muss 8 Bytes (64 Bits) lang sein.</value>
+    <value>Der Schlüssel muss für DES 8 Bytes und für TripleDES 16 oder 24 Bytes lang sein.</value>
   </data>
   <data name="InputIVCaption" xml:space="preserve">
     <value>Initialisierungsvektor</value>
