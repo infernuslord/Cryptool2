@@ -24,7 +24,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.Numbers
 {
     [Author("Sven Rech, Nils Kopal", "sven.rech@cryptool.org", "Uni Duisburg-Essen", "http://www.uni-due.de")]
-    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginOperationCaption", "PluginOperationTooltip", "Numbers/DetailedDescription/doc.xml", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png", "Numbers/icons/plusIcon.png", "Numbers/icons/plusIcon.png", "Numbers/icons/plusIcon.png", "Numbers/icons/plusIcon.png")]
+    [PluginInfo("Cryptool.Plugins.Numbers.Properties.Resources", "PluginOperationCaption", "PluginOperationTooltip", "Numbers/DetailedDescription/doc.xml", "Numbers/icons/plusIcon.png", "Numbers/icons/minusIcon.png", "Numbers/icons/timesIcon.png", "Numbers/icons/divIcon.png", "Numbers/icons/powIcon.png", "Numbers/icons/gcdicon.png", "Numbers/icons/lcmIcon.png", "Numbers/icons/rootIcon.png", "Numbers/icons/inverseIcon.png", "Numbers/icons/phiIcon.png")]
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     class NumberOperations : ICrypComponent
     {

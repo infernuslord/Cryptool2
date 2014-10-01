@@ -159,6 +159,16 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\inverseIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\lcmIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\phiIcon.png" />
+    <Resource Include="icons\rootIcon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
