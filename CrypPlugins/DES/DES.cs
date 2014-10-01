@@ -214,23 +214,45 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         private void ConfigureAlg(SymmetricAlgorithm alg)
         {
             //check for a valid key
-           if (this.inputKey == null)
+
+            if (this.inputKey == null)
             {
-                //create a trivial key 
-                inputKey = new byte[8];
+                //create a default key 
+                inputKey = new byte[settings.TripleDES ? 16 : 8];
                 // write a warning to the ouside world
                 GuiLogMessage("ERROR: No key provided. Using 0x000..00!", NotificationLevel.Error);
             }
+
+            if (settings.TripleDES)
+            {
+                if (this.inputKey.Length != 16 && this.inputKey.Length != 24)
+                    throw new Exception(String.Format("The specified key has a length of {0} bytes. The selected variant TripleDES of the DES algorithm needs a keylength of 16 or 24 bytes.", this.inputKey.Length));
+            }
+            else
+            {
+                if (this.inputKey.Length != 8)
+                    throw new Exception(String.Format("The specified key has a length of {0} bytes. The DES algorithm needs a keylength of 8 bytes.", this.inputKey.Length));
+            }
+
             alg.Key = this.inputKey;
 
             //check for a valid IV
+
+            int bsize = alg.BlockSize / 8;
             if (this.inputIV == null)
             {
-                //create a trivial IV
-                inputIV = new byte[alg.BlockSize / 8];
+                //create a default IV
+                inputIV = new byte[bsize];
                 if (settings.Mode != 0)  // ECB needs no IV, thus no warning if IV misses
                     GuiLogMessage("NOTE: No IV provided. Using 0x000..00!", NotificationLevel.Info);
             }
+
+            if (this.inputIV.Length != bsize)
+                if (settings.TripleDES)
+                    throw new Exception(String.Format("The specified IV has a length of {0} bytes. The selected variant TripleDES of the DES algorithm needs an IV of {1} bytes.", this.inputIV.Length, bsize));
+                else
+                    throw new Exception(String.Format("The specified IV has a length of {0} bytes. The DES algorithm needs an IV of {1} bytes.", this.inputIV.Length, bsize));
+
             alg.IV = this.inputIV;
 
             switch (settings.Mode)
@@ -250,7 +272,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 case 5: alg.Padding = PaddingMode.None; break;  // 1-0 padding, use PaddingMode.None, as it's handeled separately
                 default: alg.Padding = PaddingMode.Zeros; break;
             }
-            alg.Padding = PaddingMode.None;
         }
 
         private void process(int action)
@@ -349,7 +370,13 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             catch (CryptographicException cryptographicException)
             {
                 p_crypto_stream = null;
-                GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
+                string msg = cryptographicException.Message;
+
+                // Workaround for misleading padding error message
+                if (msg.StartsWith("Ungültige Daten"))
+                    msg = "Das Padding ist ungültig und kann nicht entfernt werden.";
+
+                GuiLogMessage(msg, NotificationLevel.Error);
             }
             catch (Exception exception)
             {
@@ -369,7 +396,6 @@ namespace Cryptool.Plugins.Cryptography.Encryption
             }
         }
 
-
         private void ProgressChanged(double value, double max)
         {
             if (OnPluginProgressChanged != null)
@@ -379,10 +405,8 @@ namespace Cryptool.Plugins.Cryptography.Encryption
         }
 
         #endregion
-
     }
 
-    
     #region DESControl : IControlCubeAttack
 
     public class CubeAttackControl : IControlCubeAttack
