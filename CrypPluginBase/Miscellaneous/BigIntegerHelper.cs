@@ -201,7 +201,7 @@ namespace Cryptool.PluginBase.Miscellaneous
                         break;
                     case TOKEN.Ttype.POW:
                         stack.Pop();
-                        v = BigInteger.Pow(v, (int)Parse(stack, Priority.POW, endbracket));
+                        v = BigIntegerHelper.Pow(v, Parse(stack, Priority.POW, endbracket));
                         break;
                     case TOKEN.Ttype.BRACKETCLOSE:
                         if (endbracket)
@@ -233,68 +233,35 @@ namespace Cryptool.PluginBase.Miscellaneous
             return i;
         }
 
-        /*
-         * Returns the modulo inverse of "input".  Throws ArithmeticException if
-         * the inverse does not exist.  (i.e. gcd(this, modulus) != 1)
-         * 
-         * This method is taken from the BigInteger class written by
-         * Chew Keong TAN (source: http://www.codeproject.com/KB/cs/biginteger.aspx)
-         * (but modified by us)
-         */
+        public static BigInteger Pow(BigInteger b, BigInteger e)
+        {
+            if (b < 0) return (e % 2 == 0) ? Pow(-b, e) : -Pow(-b, e);
+            if (e < 0) return (b > 1) ? 0 : (BigInteger)1 / Pow(b, -e);
+            if (b <= 1) return b;
 
+            return BigInteger.Pow(b, (int)e);
+        }
+        
+        /// <summary>
+        /// Returns the modulo inverse of input.
+        /// Throws ArithmeticException if the inverse does not exist (i.e. gcd(this, modulus) != 1) or the modulus is smaller than 2.
+        /// </summary>
         public static BigInteger ModInverse(BigInteger input, BigInteger modulus)
         {
-            if (input == 1)
-                return 1;
-            if (input == 0)
-                throw (new ArithmeticException("No inverse!"));
+            if (modulus < 2)
+                throw (new ArithmeticException(String.Format("Modulus must be >= 2, is {0}.", modulus)));
+            
+            BigInteger x, y;
+            BigInteger g = ExtEuclid(((input % modulus) + modulus) % modulus, modulus, out x, out y);
 
-            BigInteger[] p = { 0, 1 };
-            BigInteger[] q = new BigInteger[2];    // quotients
-            BigInteger[] r = { 0, 0 };             // remainders
+            if (g != 1)
+                throw (new ArithmeticException(String.Format("{0} has no inverse modulo {1}.", input, modulus)));
 
-            int step = 0;
-
-            BigInteger a = modulus;
-            BigInteger b = input;
-
-            while (b != 0)
-            {
-                BigInteger quotient;
-                BigInteger remainder;
-
-                if (step > 1)
-                {
-                    BigInteger pval = (p[0] - (p[1] * q[0])) % modulus;
-                    p[0] = p[1];
-                    p[1] = pval;
-                }
-
-                quotient = BigInteger.DivRem(a, b, out remainder);
-
-                q[0] = q[1];
-                r[0] = r[1];
-                q[1] = quotient; r[1] = remainder;
-
-                a = b;
-                b = remainder;
-
-                step++;
-            }
-
-            if ((r[0] != 1 && r[0] != 0))
-                throw (new ArithmeticException("No inverse!"));
-
-            BigInteger result = ((p[0] - (p[1] * q[0])) % modulus);
-
-            while (result < 0)
-                result += modulus;  // get the least positive modulus
-
-            return result;
+            return ((x % modulus) + modulus) % modulus;
         }
 
         /// <summary>
-        /// Extended Euclidean Algorithm
+        /// Extended Euclidean Algorithm.
         /// Returns the GCD of a and b and finds integers x and y that satisfy x*a + y*b = gcd(a,b)
         /// </summary>
         public static BigInteger ExtEuclid(BigInteger a, BigInteger b, out BigInteger x, out BigInteger y)
