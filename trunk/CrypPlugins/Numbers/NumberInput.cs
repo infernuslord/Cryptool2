@@ -88,29 +88,22 @@ namespace Cryptool.Plugins.Numbers
             if (settings.ShowDigits)
             {
                 _presentation.StatusBar.Visibility = Visibility.Visible;
-                int digits = 0;
-                int bits;
+                int digits, bits;
                 try
                 {
                     var number = GetNumber();
-                    bits = number.BitCount();
-                    if (number < 0)
-                    {
-                        number = -number;
-                    }
-                    if (number != 0)
-                    {
-                        digits = (int) Math.Floor(BigInteger.Log10(number)) + 1;
-                    }
+                    bits = number.BitCount(); 
+                    digits = BigInteger.Abs(number).ToString().Length;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    digits = 0;
-                    bits = 0;
+                    _presentation.StatusBar.Content = (ex is OutOfMemoryException || ex is OverflowException) ? "Overflow" : "Not a number";
+                    return;
                 }
+
                 string digitText = (digits == 1) ? Properties.Resources.Digit : Properties.Resources.Digits;
                 string bitText = (bits == 1) ? Properties.Resources.Bit : Properties.Resources.Bits;
-                _presentation.StatusBar.Content = string.Format(" {0:#,0} {1}, {2} {3}", digits, digitText, bits, bitText);
+                _presentation.StatusBar.Content = string.Format(" {0:#,0} {1}, {2:#,0} {3}", digits, digitText, bits, bitText);
             }
             else
             {
@@ -120,7 +113,7 @@ namespace Cryptool.Plugins.Numbers
 
         private BigInteger GetNumber()
         {
-            //The input from the taskpane is convertet to a BigNumber and is send to the output.
+            //The input from the taskpane is converted to a BigNumber and is sent to the output.
             if (settings.Number == null || settings.Number.Equals(""))
             {
                 return BigInteger.Zero;
