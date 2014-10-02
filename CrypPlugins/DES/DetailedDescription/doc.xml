@@ -91,7 +91,9 @@
 
   <usage lang="en">
     In the settings of the component, you can select whether the component should be operated in DES mode or in Triple DES mode. Both algorithms work with a block size of 64 bits (8 bytes).
-    DES expects a key consisting of 64 bits (8 bytes), Triple DES expects a key consisting of 128 bits (16 bytes) or 192 bits (24 bytes).
+    DES expects a key consisting of 64 bits (8 bytes). 
+    Triple DES can be used with two or three different DES keys, so that the expected key consists of 128 bits (16 bytes) or 192 bits (24 bytes).
+    The size of the provided key determines, which Triple DES variant the component will execute.
     <newline/>
     <newline/>
     The DES component has the two operation modes "Encryption" and "Decryption". You can switch between the modes in the settings of the component.
@@ -135,7 +137,9 @@
 
   <usage lang="de-DE">
     Wählen Sie in den Einstellungen der DES-Komponente, ob die Komponente im DES-Modus oder im Triple-DES-Modus betrieben werden soll. Beide Algorithmen arbeiten mit einer Blockgröße von 64 Bits (8 Bytes).
-    DES erwartet einen Schlüssel bestehend aus 64 Bits (8 Bytes), Triple-DES einen Schlüssel bestehend aus 128 Bits (16 Bytes) oder 192 Bits (24 Bytes).
+    DES erwartet einen Schlüssel bestehend aus 64 Bits (8 Bytes). 
+    Das Triple-DES-Verfahren kann mit zwei oder drei verschiedenen DES-Schlüsseln ausgeführt werden, so dass der erwartete Schlüssel aus 128 Bits (16 Bytes) oder 192 Bits (24 Bytes) bestehen muss.
+    Die Komponente erkennt an der Größe des eingegebenen Schlüssels, welche Triple-DES-Variante ausgeführt werden soll.
     <newline/>
     <newline/>
     Die Komponente hat die zwei Betriebsarten "Verschlüsselung" und "Entschlüsselung", zwischen denen in den Einstellungen der Komponente umgeschaltet werden kann.
