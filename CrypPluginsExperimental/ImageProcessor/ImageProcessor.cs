@@ -164,6 +164,9 @@ namespace Cryptool.Plugins.ImageProcessor
                                     CreateOutputStream(newImg.ToBitmap());
                                 }
                                 break;
+                            case ActionType.crop: // cropping
+                                this.CropImage();
+                                break;
                             case ActionType.rotate: // Rotating
                                 using (Image<Bgr, byte> newImg = img.Rotate(settings.Degrees, new Bgr(Color.White)))
                                 {
@@ -280,6 +283,30 @@ namespace Cryptool.Plugins.ImageProcessor
             bitmap.Save(buffer, format);
             Bitmap saveableBitmap = (Bitmap)System.Drawing.Image.FromStream(buffer);
             return saveableBitmap;
+        }
+
+        private void CropImage()
+        {
+            using (CStreamReader reader = InputImage1.CreateReader())
+            {
+                using (Bitmap bitmap = new Bitmap(reader))
+                {
+                    int x1 = settings.SliderX1*bitmap.Width/10000;
+                    int x2 = bitmap.Width - settings.SliderX2*bitmap.Width/10000 - x1;
+                    int y1 = settings.SliderY1*bitmap.Height/10000;
+                    int y2 = bitmap.Height - settings.SliderY2*bitmap.Height/10000 - y1;
+                    Rectangle cropRect = new Rectangle(x1, y1, x2, y2);
+                    Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+                    using (Graphics g = Graphics.FromImage(target))
+                    {
+                        g.DrawImage(bitmap, new Rectangle(0, 0, target.Width, target.Height),
+                                         cropRect,
+                                         GraphicsUnit.Pixel);
+                        CreateOutputStream(target);
+                    }
+                }
+            }
         }
 
         #endregion
