@@ -22,7 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.ImageProcessor
 {
 
-    public enum ActionType { flip, gray, smooth, resize, rotate, invert, and, or, create };
+    public enum ActionType { flip, gray, smooth, resize, rotate, invert, and, or, create, crop };
 
     public class ImageProcessorSettings : ISettings
     {
@@ -31,19 +31,24 @@ namespace Cryptool.Plugins.ImageProcessor
         private ActionType action = ActionType.flip;
         private int flipType = 0;
         private int smooth = 99;
+        private int sliderX1 = 0;
+        private int sliderX2 = 0;
+        private int sliderY1 = 0;
+        private int sliderY2 = 0;
         private int sizeX = 50;
         private int sizeY = 50;
         private int degrees = 90;
         private int outputFileFormat = 0;
-        private static String[] comboAction = new string[] { "FLip Image", 
+        private static String[] comboAction = new string[] { "Flip Image", 
                                       "Gray Scale",
-                                      "Create Image"};
+                                      "Create Image",
+                                      "Crop Image"};
         
         #endregion
 
         #region TaskPane Settings
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new String[] { 
-            "FLip Image", 
+            "Flip Image", 
             "Gray Scale",
             "Smooth Image",
             "Resize Image",
@@ -51,7 +56,8 @@ namespace Cryptool.Plugins.ImageProcessor
             "Invert Image",
             "And-Connect Images",
             "Or-Connect Images",
-            "Create Image" })]
+            "Create Image",
+            "Crop Image"})]
         public ActionType Action
         {
             get
@@ -124,6 +130,70 @@ namespace Cryptool.Plugins.ImageProcessor
                 }
             }
         }
+        [TaskPane("SliderX1", "Enter the value of left margin", null, 1, true, ControlType.Slider, 0, 10000)]
+        public int SliderX1
+        {
+            get
+            {
+                return sliderX1;
+            }
+            set
+            {
+                if (sliderX1 != value)
+                {
+                    sliderX1 = value;
+                    OnPropertyChanged("SliderX1");
+                }
+            }
+        }
+        [TaskPane("SliderX2", "Enter the value of right margin", null, 1, true, ControlType.Slider, 0, 10000)]
+        public int SliderX2
+        {
+            get
+            {
+                return sliderX2;
+            }
+            set
+            {
+                if (sliderX2 != value)
+                {
+                    sliderX2 = value;
+                    OnPropertyChanged("SliderX2");
+                }
+            }
+        }
+        [TaskPane("SliderY1", "Enter the value of top margin", null, 1, true, ControlType.Slider, 0, 10000)]
+        public int SliderY1
+        {
+            get
+            {
+                return sliderY1;
+            }
+            set
+            {
+                if (sliderY1 != value)
+                {
+                    sliderY1 = value;
+                    OnPropertyChanged("SliderY1");
+                }
+            }
+        }
+        [TaskPane("SliderY2", "Enter the value of bottom margin", null, 1, true, ControlType.Slider, 0, 10000)]
+        public int SliderY2
+        {
+            get
+            {
+                return sliderY2;
+            }
+            set
+            {
+                if (sliderY2 != value)
+                {
+                    sliderY2 = value;
+                    OnPropertyChanged("SliderY2");
+                }
+            }
+        }
 
         [TaskPane("SizeX", "Enter the value of horizontal pixels", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 0, 5000)]
         public int SizeX
@@ -186,6 +256,10 @@ namespace Cryptool.Plugins.ImageProcessor
             settingChanged("Degrees", Visibility.Collapsed);
             settingChanged("CustomizeRegions", Visibility.Visible);
             settingChanged("ShowRegions", Visibility.Collapsed);
+            settingChanged("SliderX1", Visibility.Collapsed);
+            settingChanged("SliderX2", Visibility.Collapsed);
+            settingChanged("SliderY1", Visibility.Collapsed);
+            settingChanged("SliderY2", Visibility.Collapsed);
             switch (Action)
             {
                 case ActionType.flip: // Fliping
@@ -197,6 +271,12 @@ namespace Cryptool.Plugins.ImageProcessor
                 case ActionType.resize: // Resize Image
                     settingChanged("SizeX", Visibility.Visible);
                     settingChanged("SizeY", Visibility.Visible);
+                    break;
+                case ActionType.crop: // Resize Image
+                    settingChanged("SliderX1", Visibility.Visible);
+                    settingChanged("SliderX2", Visibility.Visible);
+                    settingChanged("SliderY1", Visibility.Visible);
+                    settingChanged("SliderY2", Visibility.Visible);
                     break;
                 case ActionType.rotate: // Rotate Image
                     settingChanged("Degrees", Visibility.Visible);
