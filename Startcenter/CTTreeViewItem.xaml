@@ -15,7 +15,7 @@
             </Grid.RowDefinitions>
 
             <Image VerticalAlignment="Center" Source="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Startcenter:CTTreeViewItem}}, Path=Icon,Mode=OneWay}" Grid.Column="0" Grid.Row="0"></Image>
-            <TextBlock Padding="2" FontWeight="DemiBold" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Startcenter:CTTreeViewItem}}, Path=Title,Mode=OneWay}" TextTrimming="CharacterEllipsis" Grid.Column="1" Grid.Row="0"></TextBlock>
+            <TextBlock Padding="2" FontWeight="DemiBold" VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Startcenter:CTTreeViewItem}}, Path=Title,Mode=OneWay}" TextTrimming="None" Grid.Column="1" Grid.Row="0"></TextBlock>
         </Grid>
     </TreeViewItem.Header>
     </TreeViewItem>
