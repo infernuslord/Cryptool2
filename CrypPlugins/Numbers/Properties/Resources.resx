@@ -193,19 +193,19 @@
     <value>x^y</value>
   </data>
   <data name="OperatList6" xml:space="preserve">
-    <value>GCD</value>
+    <value>GCD(x,y)</value>
   </data>
   <data name="OperatList10" xml:space="preserve">
-    <value>Phi</value>
+    <value>Phi(x)</value>
   </data>
   <data name="OperatList7" xml:space="preserve">
-    <value>LCM</value>
+    <value>LCM(x,y)</value>
   </data>
   <data name="OperatList8" xml:space="preserve">
-    <value>integer square root</value>
+    <value>integer square root(x)</value>
   </data>
   <data name="OperatList9" xml:space="preserve">
-    <value>modular inversion</value>
+    <value>modular inverse(x,y)</value>
   </data>
   <data name="ShowDigitsCaption" xml:space="preserve">
     <value>Show digits</value>
