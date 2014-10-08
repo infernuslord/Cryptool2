@@ -39,7 +39,7 @@ namespace Cryptool.Plugins.ImageHash
     [Author("Bastian Heuser", "bhe@student.uni-kassel.de", "", "")]
     // You can (and should) provide a user documentation as XML file and an own icon.
     [PluginInfo("ImageHash", "Calculate the robust hash of an image", "ImageHash/userdoc.xml", new[] { "ImageHash/icon.png"/*"CrypWin/images/default.png"*/ })]
-    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    [ComponentCategory(ComponentCategory.HashFunctions)]
     public class ImageHash : ICrypComponent
     {
 
