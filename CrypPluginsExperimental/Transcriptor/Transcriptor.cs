@@ -211,7 +211,7 @@ namespace Cryptool.Plugins.Transcriptor
         {
             Text = outputText;
             OnPropertyChanged("Text");
-            ProgressChanged(1, 1);
+            //ProgressChanged(1, 1);
         }
     }
 }

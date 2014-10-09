@@ -64,6 +64,5 @@ namespace Transcriptor
         {
             return string.Format("{0}", Letter);
         }
-
     }
 }
