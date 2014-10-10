@@ -52,7 +52,6 @@ namespace Cryptool.Plugins.ImageHash
         private Image<Gray, double> step2Img;
         private Image<Gray, double> step4Img;
         private Bitmap step6Bmp;
-        private Bitmap step2Bmp;
         private byte[] outputHash;
 
         #endregion
@@ -79,23 +78,6 @@ namespace Cryptool.Plugins.ImageHash
         }
 
         /// <summary>
-        /// Output hash byte[] as ICryptoolStream.
-        /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputHashStreamCaption", "OutputHashStreamTooltip", true)]
-        public ICryptoolStream OutputHashStream
-        {
-            get
-            {
-                if (outputHash != null)
-                {
-                    return new CStreamWriter(outputHash);
-                }
-                return null;
-            }
-            set { } // read-only
-        }
-
-        /// <summary>
         /// Output hash byte[].
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputHashCaption", "OutputHashTooltip", true)]
@@ -108,7 +90,6 @@ namespace Cryptool.Plugins.ImageHash
                 {
                     this.outputHash = value;
                     OnPropertyChanged("OutputHash");
-                    OnPropertyChanged("OutputHashStream");
                 }
             }
         }
@@ -180,7 +161,49 @@ namespace Cryptool.Plugins.ImageHash
             if (settings.Size < 4)
             {
                 settings.Size = 4;
-                GuiLogMessage("Changed size to 4x4.", NotificationLevel.Info);
+                GuiLogMessage("The chosen size is too small. Changed size to 4x4.", NotificationLevel.Warning);
+            }
+            else if (settings.Size > 128)
+            {
+                settings.Size = 128;
+                GuiLogMessage("The chosen size is too big. Changed size to 128x128.", NotificationLevel.Warning);
+            }
+            else
+            {
+                int size = settings.Size;
+                bool wrongSize = true;
+                int max = 1;
+                // Check if the input size is a power of two
+                for (int i = 4; i <= 1024; i *= 2)
+                {
+                    if (size == i)
+                    {
+                        wrongSize = false;
+                        break;
+                    }
+                    else if (size < i)
+                    {
+                        max = i;
+                        break;
+                    }
+                }
+
+                int j = max / 2;
+                // If the input size is not a power of two, set it to the nearest power of two
+                if (wrongSize)
+                {
+                    int middle = (max - j) / 2;
+                    if (size <= j + middle)
+                    {
+                        size = j;
+                    }
+                    else
+                    {
+                        size = max;
+                    }
+                    settings.Size = size;
+                    GuiLogMessage("Please select a power of two. Changed size to " + size + "x" + size + ".", NotificationLevel.Warning);
+                }
             }
             OnPropertyChanged("size");
             ProgressChanged(0, 1);
@@ -197,24 +220,31 @@ namespace Cryptool.Plugins.ImageHash
                 {
                     // Original Image:
                     orgImg = new Image<Bgr, Byte>(bitmap);
-                    CreateOutputStream(bitmap, 1);
-                    OnPropertyChanged("OutputOriginalImage");
-
+                    if (settings.PresentationStep >= 1)
+                    {
+                        CreateOutputStream(bitmap, 1);
+                        OnPropertyChanged("OutputOriginalImage");
+                    }
                     // Step 1: Gray scale
                     step1Img = orgImg.Convert<Gray, byte>().Convert<Gray, double>();
                     ProgressChanged(progress++, STEPS);
-                    CreateOutputStream(step1Img.ToBitmap());
-                    OnPropertyChanged("OutputImage");
+                    if (settings.PresentationStep >= 2)
+                    {
+                        CreateOutputStream(step1Img.ToBitmap());
+                        OnPropertyChanged("OutputImage");
+                    }
                     ProgressChanged(progress++, STEPS);
                     
                     // Step 2: Resize to sizexsize (16x16)
                     int size = settings.Size;   // usually 16
                     int halfSize = size / 2;    // usually 8
                     step2Img = step1Img.Resize(size, size, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
-                    step2Bmp = ResizeBitmap(step1Img.ToBitmap(), size, size);
                     ProgressChanged(progress++, STEPS);
-                    CreateOutputStream(step2Img.ToBitmap());
-                    OnPropertyChanged("OutputImage");
+                    if (settings.PresentationStep >= 3)
+                    {
+                        CreateOutputStream(step2Img.ToBitmap());
+                        OnPropertyChanged("OutputImage");
+                    }
                     ProgressChanged(progress++, STEPS);
 
                     // Step 3: Find brightest quarter
@@ -266,8 +296,11 @@ namespace Cryptool.Plugins.ImageHash
                     }
 
                     ProgressChanged(progress++, STEPS);
-                    CreateOutputStream(step4Img.ToBitmap());
-                    OnPropertyChanged("OutputImage");
+                    if (settings.PresentationStep >= 4)
+                    {
+                        CreateOutputStream(step4Img.ToBitmap());
+                        OnPropertyChanged("OutputImage");
+                    }
                     ProgressChanged(progress++, STEPS);
 
                     // Step 5: Find median
@@ -281,20 +314,15 @@ namespace Cryptool.Plugins.ImageHash
                     // Step 6: Set Brightness to 0 or 1, if above or under median
                     Bitmap step4Bmp = step4Img.ToBitmap();
                     step6Bmp = new Bitmap(step4Img.Width, step4Img.Height);
-                    GuiLogMessage("step6 size: " + step6Bmp.Width + "x" + step6Bmp.Height, NotificationLevel.Debug);
                     Boolean[][] b = new Boolean[4][];
                     for (int i=0; i<b.Length; i++)
                         b[i] = new Boolean[(size * size) / median.Length];
-                    GuiLogMessage("b[0].length: " + b[0].Length, NotificationLevel.Debug);
                     for (int i = 0; i < step4Bmp.Width; i++)
                     {
                         for (int j = 0; j < step4Bmp.Height; j++)
                         {
-                            int index;
                             if ((i < halfSize) && (j < halfSize))
                             {
-                                index = i * halfSize + j;
-                                GuiLogMessage("b[0][" + index + "]", NotificationLevel.Debug);
                                 float brightness = step4Bmp.GetPixel(i, j).GetBrightness();
                                 if (brightness >= median[0])
                                 {
@@ -309,8 +337,6 @@ namespace Cryptool.Plugins.ImageHash
                             }
                             else if ((i >= halfSize) && (j < halfSize))
                             {
-                                index = (i - halfSize) * halfSize + j;
-                                //GuiLogMessage("b[1][" + index + "]", NotificationLevel.Debug);
                                 float brightness = step4Bmp.GetPixel(i, j).GetBrightness();
                                 if (brightness >= median[1])
                                 {
@@ -325,8 +351,6 @@ namespace Cryptool.Plugins.ImageHash
                             }
                             else if ((i < halfSize) && (j >= halfSize))
                             {
-                                index = i * halfSize + (j - halfSize);
-                                //GuiLogMessage("b[2][" + index + "]", NotificationLevel.Debug);
                                 float brightness = step4Bmp.GetPixel(i, j).GetBrightness();
                                 if (brightness >= median[2])
                                 {
@@ -341,8 +365,6 @@ namespace Cryptool.Plugins.ImageHash
                             }
                             else if ((i >= halfSize) && (j >= halfSize))
                             {
-                                index = (i - halfSize) * halfSize + (j - halfSize);
-                                //GuiLogMessage("b[3][" + index + "]", NotificationLevel.Debug);
                                 float brightness = step4Bmp.GetPixel(i, j).GetBrightness();
                                 if (brightness >= median[3])
                                 {
@@ -359,8 +381,11 @@ namespace Cryptool.Plugins.ImageHash
                     }
 
                     ProgressChanged(progress++, STEPS);
-                    CreateOutputStream(step6Bmp);
-                    OnPropertyChanged("OutputImage");
+                    if (settings.PresentationStep == 5)
+                    {
+                        CreateOutputStream(step6Bmp);
+                        OnPropertyChanged("OutputImage");
+                    }
                     ProgressChanged(progress++, STEPS);
 
                     // Step 7: Calculate the hash
