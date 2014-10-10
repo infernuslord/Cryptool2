@@ -26,13 +26,14 @@ namespace Cryptool.Plugins.ImageHash
 
         private int outputFileFormat = 0;
         private int size = 16;
-        private int Presentation_Step = 5;
+        private int presentationStep = 5;
+        private static String stepName = "Step 4: Black and White";
 
         #endregion
 
         #region TaskPane Settings
 
-        [TaskPane("Size (standard: 16x16)", "Enter a value of horizontal and vertical pixels, from 4 to 64", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 0, 5000)]
+        [TaskPane("Size (standard: 16x16)", "Enter a value of horizontal and vertical pixels, from 4 to 128, only powers of two.", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 0, 5000)]
         public int Size
         {
             get
@@ -43,9 +44,9 @@ namespace Cryptool.Plugins.ImageHash
             {
                 if (size != value)
                 {
-                    if (size > 64)
+                    if (size > 128)
                     {
-                        size = 64;
+                        size = 128;
                     }
                     else
                     {
@@ -56,7 +57,7 @@ namespace Cryptool.Plugins.ImageHash
             }
         }
 
-        [TaskPane("OutputFileFormatCaption", "OutputFileFormatTooltip", null, 1, true, ControlType.ComboBox, new string[] { 
+        [TaskPane("OutputFileFormatCaption", "OutputFileFormatTooltip", null, 2, true, ControlType.ComboBox, new string[] { 
             "Bmp", 
             "Png", 
             "Tiff" })]
@@ -75,17 +76,48 @@ namespace Cryptool.Plugins.ImageHash
                 }
             }
         }
-
-
-        [TaskPane("PresentationStepCaption", "PresentationStepTooltip", "PresentationGroup", 71, true, ControlType.Slider, 1, 5)]
-        public int PresentationStep
+        [TaskPane("", "StepNameTooltip", "SliderGroup", 3, false, ControlType.TextBoxReadOnly)]
+        public String StepName
         {
-            get { return (int)Presentation_Step; }
+            get { return stepName; }
             set
             {
-                if ((value) != Presentation_Step)
+                if ((value) != stepName)
                 {
-                    Presentation_Step = value;
+                    stepName = value;
+                    OnPropertyChanged("StepName");
+                }
+            }
+        }
+
+        [TaskPane("", "PresentationStepTooltip", "SliderGroup", 4, true, ControlType.Slider, 1, 5)]
+        public int PresentationStep
+        {
+            get { return (int)presentationStep; }
+            set
+            {
+                if ((value) != presentationStep)
+                {
+                    presentationStep = value;
+                    switch (presentationStep)
+                    {
+                        case 1:
+                            StepName = "Original Image";
+                            break;
+                        case 2:
+                            StepName = "Step 1: Gray scale";
+                            break;
+                        case 3:
+                            StepName = "Step 2: Resize";
+                            break;
+                        case 4:
+                            StepName = "Step 3: Flip";
+                            break;
+                        case 5:
+                            StepName = "Step 4: Black and White";
+                            break;
+                    }
+                    OnPropertyChanged("StepName");
                     OnPropertyChanged("PresentationStep");
                 }
             }
