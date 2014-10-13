@@ -22,7 +22,7 @@ namespace Transcriptor
         # region Variables
 
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
-        String rectangleColor;
+        String rectangleColor;// alphabet;
         int strokeThicknes, alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
         bool mtOn, mouseDown, ctrlBtnPressed = false, firstSignOn = false;
         List<Sign> signList = new List<Sign>();
@@ -35,6 +35,7 @@ namespace Transcriptor
         Int32Rect rcFrom;
         Rect rect;
         float threshold;
+        char replaceLetter;
 
         #endregion
 
@@ -81,6 +82,12 @@ namespace Transcriptor
             get { return threshold; }
             set { threshold = value; }
         }
+
+       /* public String WorkingAlphabet
+        {
+            get { return alphabet; }
+            set { alphabet = value; }
+        }*/
 
         #endregion
 
@@ -304,7 +311,7 @@ namespace Transcriptor
             StringBuilder textBuilder = new StringBuilder();
             double upperBound = 0, lowerBound = 0;
 
-            if (mtOn)
+            if (MatchTemplateOn)
             {
                 signList.Sort(new SignComparer(true));
                 firstSigns.Sort(new SignComparer(false));
@@ -336,16 +343,61 @@ namespace Transcriptor
 
         private void TransformButton_Click(object sender, RoutedEventArgs e)
         {
-            if (firstSignOn == false)
+            if (MatchTemplateOn == true)
             {
-                TransformButton.Content = "First Sign On";
-                firstSignOn = true;
+                if (firstSignOn == false)
+                {
+                    TransformButton.Content = "First Sign On";
+                    firstSignOn = true;
+                }
+                else
+                {
+                    TransformButton.Content = "First Sign Off";
+                    firstSignOn = false;
+                }
             }
             else
             {
-                TransformButton.Content = "First Sign Off";
-                firstSignOn = false;
+                TransformButton.Content = "Letter:";
+                TransformButton.IsEnabled = false;
+                replaceTextLetter.Visibility = System.Windows.Visibility.Visible;
             }
+        }
+
+        private void replaceTextLetter_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.Enter))
+            {
+                if (replaceTextLetter.Text.Length > 0)
+                {
+                    replaceLetter = replaceTextLetter.Text[0];
+                }
+
+                if (transcriptor.Alphabet.Contains(replaceTextLetter.Text))
+                {
+                    TransformButton.Content = "Position:";
+                    replaceTextLetter.Visibility = System.Windows.Visibility.Hidden;
+                    replaceTextPosition.Visibility = System.Windows.Visibility.Visible;
+                }
+                else
+                {
+                    TransformButton.Content = "Replace";
+                    TransformButton.IsEnabled = true;
+                    replaceTextLetter.Text = "";
+                    replaceTextLetter.Visibility = System.Windows.Visibility.Hidden;
+                }
+            }
+        }
+
+        private void replaceTextPosition_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.Enter))
+            {
+                int replacePosition = Convert.ToInt32(replaceTextPosition.Text);
+                replaceTextPosition.Visibility = System.Windows.Visibility.Hidden;
+                TransformButton.Content = "Replace";
+            }
+
         }
 
         #endregion

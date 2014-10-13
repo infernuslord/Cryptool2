@@ -144,6 +144,15 @@ namespace Cryptool.Plugins.Transcriptor
                     transcriptorPresentation.picture.Source = decoder.Frames[0];
                 }
 
+                if (settings.Mode == 0)
+                {
+                    transcriptorPresentation.TransformButton.Content = "Replace";
+                }
+                else
+                {
+                    transcriptorPresentation.TransformButton.Content = "First Sign Off";
+                }
+
             }, null);
             
         }
@@ -211,7 +220,7 @@ namespace Cryptool.Plugins.Transcriptor
         {
             Text = outputText;
             OnPropertyChanged("Text");
-            //ProgressChanged(1, 1);
+            ProgressChanged(1, 1);
         }
     }
 }
