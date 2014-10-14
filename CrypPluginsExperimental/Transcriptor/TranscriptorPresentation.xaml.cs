@@ -35,7 +35,7 @@ namespace Transcriptor
         Int32Rect rcFrom;
         Rect rect;
         float threshold;
-        char replaceLetter;
+        char insertLetter;
 
         #endregion
 
@@ -280,7 +280,8 @@ namespace Transcriptor
                 signListbox.ItemsSource = signItems;
                 indexCount++;
 
-                AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
+                AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight,
+                    Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
 
                 if (alphabetCount >= transcriptor.Alphabet.Length)
                 {
@@ -302,7 +303,8 @@ namespace Transcriptor
             {
                 Sign sign = new Sign(indexCount, item.Content.ToString()[0], croppedBitmap);
                 indexCount++;
-                AddSignToList(sign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
+                AddSignToList(sign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
+                    Math.Min(yCordinateDown, yCordinateUp));
             }
         }
 
@@ -360,42 +362,59 @@ namespace Transcriptor
             {
                 TransformButton.Content = "Letter:";
                 TransformButton.IsEnabled = false;
-                replaceTextLetter.Visibility = System.Windows.Visibility.Visible;
+                insertTextLetter.Visibility = System.Windows.Visibility.Visible;
             }
         }
 
-        private void replaceTextLetter_KeyDown(object sender, KeyEventArgs e)
+        private void insertTextLetter_KeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.Enter))
             {
-                if (replaceTextLetter.Text.Length > 0)
+                if (insertTextLetter.Text.Length > 0)
                 {
-                    replaceLetter = replaceTextLetter.Text[0];
+                    insertLetter = insertTextLetter.Text[0];
                 }
 
-                if (transcriptor.Alphabet.Contains(replaceTextLetter.Text))
+                if (transcriptor.Alphabet.Contains(insertTextLetter.Text))
                 {
                     TransformButton.Content = "Position:";
-                    replaceTextLetter.Visibility = System.Windows.Visibility.Hidden;
-                    replaceTextPosition.Visibility = System.Windows.Visibility.Visible;
+                    insertTextLetter.Visibility = System.Windows.Visibility.Hidden;
+                    insertTextPosition.Visibility = System.Windows.Visibility.Visible;
                 }
                 else
                 {
-                    TransformButton.Content = "Replace";
+                    TransformButton.Content = "Insert";
                     TransformButton.IsEnabled = true;
-                    replaceTextLetter.Text = "";
-                    replaceTextLetter.Visibility = System.Windows.Visibility.Hidden;
+                    insertTextLetter.Text = "";
+                    insertTextLetter.Visibility = System.Windows.Visibility.Hidden;
                 }
             }
         }
 
-        private void replaceTextPosition_KeyDown(object sender, KeyEventArgs e)
+        private void insertTextPosition_KeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.Enter))
             {
-                int replacePosition = Convert.ToInt32(replaceTextPosition.Text);
-                replaceTextPosition.Visibility = System.Windows.Visibility.Hidden;
-                TransformButton.Content = "Replace";
+                int insertPosition = Convert.ToInt32(insertTextPosition.Text) - 1;
+
+                if (insertPosition < signList.Count)
+                {
+                    if (statsList.ContainsKey(insertLetter))
+                    {
+                        Sign insertSign = new Sign(indexCount, insertLetter, croppedBitmap);
+                        indexCount++;
+                        AddSignToList(insertSign, currentRectangeleWidth, currentRectangleHeight,
+                            Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
+
+                        signList.Remove(insertSign);
+                        signList.Insert(insertPosition, insertSign);
+                    }
+                }
+
+
+                insertTextPosition.Visibility = System.Windows.Visibility.Hidden;
+                TransformButton.Content = "Insert";
+                TransformButton.IsEnabled = true;
             }
 
         }
