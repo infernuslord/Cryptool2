@@ -24,6 +24,8 @@ using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.IO;
 using System.IO;
 using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System;
 
 namespace Cryptool.Plugins.Transcriptor
 {
@@ -136,17 +138,18 @@ namespace Cryptool.Plugins.Transcriptor
             
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
-                var decoder = BitmapDecoder.Create(new MemoryStream(Image.CreateReader().ReadFully()),
-                BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.None);
-
-                if (decoder.Frames.Count > 0)
+                try
                 {
-                    transcriptorPresentation.picture.Source = decoder.Frames[0];
+                    transcriptorPresentation.picture.Source = ByteToImage(Image.CreateReader().ReadFully());
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Could not display Picture " +ex.Message, NotificationLevel.Error);
                 }
 
                 if (settings.Mode == 0)
                 {
-                    transcriptorPresentation.TransformButton.Content = "Replace";
+                    transcriptorPresentation.TransformButton.Content = "Insert";
                 }
                 else
                 {
@@ -221,6 +224,32 @@ namespace Cryptool.Plugins.Transcriptor
             Text = outputText;
             OnPropertyChanged("Text");
             ProgressChanged(1, 1);
+        }
+
+        /// <summary>
+        /// Creates a new ImageSource out of a given byte array
+        /// Converts the image to 96 DPI
+        /// </summary>
+        /// <param name="imageData"></param>
+        /// <returns></returns>
+        private static ImageSource ByteToImage(byte[] imageData)
+        {
+            //load image
+            var sourceImage = new BitmapImage();
+            var ms = new MemoryStream(imageData);
+            sourceImage.BeginInit();
+            sourceImage.StreamSource = ms;
+            sourceImage.EndInit();
+            //create new with 96 dpi
+            const int dpi = 96;
+            var width = sourceImage.PixelWidth;
+            var height = sourceImage.PixelHeight;
+            var stride = width * 4;
+            var pixelData = new byte[stride * height];
+            sourceImage.CopyPixels(pixelData, stride, 0);
+            var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, PixelFormats.Bgra32, null, pixelData, stride);
+            //finally return the new image source
+            return dpi96Image;
         }
     }
 }
