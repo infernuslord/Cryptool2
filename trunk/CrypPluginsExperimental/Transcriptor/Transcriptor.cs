@@ -146,22 +146,13 @@ namespace Cryptool.Plugins.Transcriptor
             {
                 try
                 {
+                    transcriptorPresentation.grid.IsEnabled = true;
                     transcriptorPresentation.picture.Source = ByteToImage(Image.CreateReader().ReadFully());
                 }
                 catch (Exception ex)
                 {
                     GuiLogMessage(String.Format("Could not display Picture: {0}", ex.Message), NotificationLevel.Error);
                 }
-
-                if (settings.Mode == 0)
-                {
-                    transcriptorPresentation.TransformButton.Content = "Insert";
-                }
-                else
-                {
-                    transcriptorPresentation.TransformButton.Content = "First Sign Off";
-                }
-
             }, null);
             
         }
@@ -170,8 +161,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// Called once after workflow execution has stopped.
         /// </summary>
         public void PostExecution()
-        {
-            
+        {            
         }
 
         /// <summary>
@@ -180,6 +170,17 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void Stop()
         {
+            transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
+            {
+                try
+                {
+                    transcriptorPresentation.grid.IsEnabled = false;
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage(String.Format("Error: {0}", ex.Message), NotificationLevel.Error);
+                }
+            }, null);
         }
 
         /// <summary>
@@ -256,6 +257,11 @@ namespace Cryptool.Plugins.Transcriptor
             var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, PixelFormats.Bgra32, null, pixelData, stride);
             //finally return the new image source
             return dpi96Image;
+        }
+
+        internal void GuiLogMessage(Exception ex)
+        {
+            GuiLogMessage(String.Format("Error: {0}", ex.Message), NotificationLevel.Error);
         }
     }
 }

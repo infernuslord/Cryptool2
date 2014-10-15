@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("MatchTemplate", "TemplateTooltip", "MatchTemplate", 3, false, ControlType.ComboBox, new String[] { "Off", "On" })]
+        [TaskPane("Mode", "ModeTooltip", "Mode", 3, false, ControlType.ComboBox, new String[] { "Manually", "Semi-Automatic" })]
         public int Mode
         {
             get
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("ComparisionMethods", "ComparisonMethodsTooltip", "MatchTemplate", 4, false, ControlType.ComboBox, new String[] { "CCOEFF", "CCOEFF_NORMED",
+        [TaskPane("ComparisionMethods", "ComparisonMethodsTooltip", "Mode", 4, false, ControlType.ComboBox, new String[] { "CCOEFF", "CCOEFF_NORMED",
             "CCORR", "CCORR_NORMED", "SQDIFF", "SQDIFF_NORMED" })]
         public int Method
         {
@@ -106,7 +106,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
         
-        [TaskPane("Threshold", "ThresholdTooltip", "MatchTemplate", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        [TaskPane("Threshold", "ThresholdTooltip", "Mode", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int Threshold
         {
             get

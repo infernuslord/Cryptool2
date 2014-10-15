@@ -22,7 +22,7 @@ namespace Transcriptor
         # region Variables
 
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
-        String rectangleColor;// alphabet;
+        String rectangleColor;
         int strokeThicknes, alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
         bool mtOn, mouseDown, ctrlBtnPressed = false, firstSignOn = false;
         List<Sign> signList = new List<Sign>();
@@ -35,7 +35,6 @@ namespace Transcriptor
         Int32Rect rcFrom;
         Rect rect;
         float threshold;
-        char insertLetter;
 
         #endregion
 
@@ -45,7 +44,7 @@ namespace Transcriptor
             this.transcriptor = transcriptor;
             this.DataContext = this;
             mouseDown = false;
-            
+
             rectangle = new Rectangle
             {
                 Fill = Brushes.Transparent,
@@ -83,272 +82,309 @@ namespace Transcriptor
             set { threshold = value; }
         }
 
-       /* public String WorkingAlphabet
-        {
-            get { return alphabet; }
-            set { alphabet = value; }
-        }*/
-
         #endregion
 
         #region Events
         private void canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (canvas.Children.Contains(rectangle))
-            {
-                canvas.Children.Remove(rectangle);
-            }
-            
-            // Removes a Sign Element from Canvas and signList
-            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-            {
-                ctrlBtnPressed = true;
-                var element = (e.OriginalSource as FrameworkElement).Name;
-
-                if (element.Contains("rectangle"))
-                {
-                    int number = Convert.ToInt32(element.Substring(9));
-
-                    for (int i = 0; i < signList.Count; i++)
-                    {
-                        if (number == signList[i].Id)
-                        {
-                            int value = statsList[signList[i].Letter];
-                            statsList[signList[i].Letter] = value - 1;
-
-                            if (statsList[signList[i].Letter] == 0)
-                            {
-                                /*Since the to be earased Sign Object isn't always
-                                 * the one that is in the signItems List an if-case is
-                                 * needed to find the right one in the List. So it can be removed*/
-                                for (int j = 0; j < signItems.Count; j++)
-                                {
-                                    if (signItems[j].Letter == signList[i].Letter)
-                                    {
-                                        signItems.RemoveAt(j);
-                                        break;
-                                    }
-                                }
-
-                                signListbox.Items.Refresh();
-                                statsList.Remove(signList[i].Letter);
-                            }
-
-                            if (signList[i].Rectangle.Stroke != (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor))
-                            {
-                                firstSigns.Remove(signList[i]);
-                            }
-                            signList.RemoveAt(i);
-                            break;
-                        }
-                    }
-
-                    canvas.Children.Remove(e.OriginalSource as FrameworkElement);
-
-                    if (statsList.Count <= transcriptor.Alphabet.Length)
-                    {
-                        addSignButton.IsEnabled = true;
-                    }
-                }
-            }
-            else
-            {
-                if (!firstSignOn)
-                {
-                    mouseDown = true;
-                    ctrlBtnPressed = false;
-
-                    xCordinateDown = e.GetPosition(canvas).X;
-                    yCordinateDown = e.GetPosition(canvas).Y;
-
-                    rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
-                    rectangle.StrokeThickness = strokeThicknes;
-
-                    Canvas.SetLeft(rectangle, xCordinateDown);
-                    Canvas.SetTop(rectangle, yCordinateDown);
-                    canvas.Children.Add(rectangle);
-                }
-                else
-                {
-                    var element = (e.OriginalSource as FrameworkElement);
-
-                    if (element.Name.Contains("rectangle"))
-                    {
-                        int number = Convert.ToInt32(element.Name.Substring(9));
-
-                        for (int k = 0; k < signList.Count; k++)
-                        {
-                            if (signList[k].Id == number)
-                            {
-                                if (signList[k].Rectangle.Stroke == (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor))
-                                {
-                                    signList[k].Rectangle.Stroke = Brushes.Blue;
-                                    firstSigns.Add(signList[k]);
-                                    break;
-                                }
-                                else
-                                {
-                                    signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
-                                    firstSigns.Remove(signList[k]);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private void canvas_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mouseDown)
-            {
-                rectangle.Width = (int)(Math.Max(e.GetPosition(canvas).X, xCordinateDown) - Math.Min(xCordinateDown, e.GetPosition(canvas).X));    
-                rectangle.Height = (int)(Math.Max(e.GetPosition(canvas).Y, yCordinateDown) - Math.Min(yCordinateDown, e.GetPosition(canvas).Y));
-
-                Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, e.GetPosition(canvas).X));    
-                Canvas.SetTop(rectangle, Math.Min(yCordinateDown, e.GetPosition(canvas).Y));
-            }
-        }
-
-        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            if (picture.Source != null)
+            try
             {
                 if (canvas.Children.Contains(rectangle))
                 {
                     canvas.Children.Remove(rectangle);
                 }
 
-                xCordinateUp = e.GetPosition(canvas).X;
-                yCordinateUp = e.GetPosition(canvas).Y;
-
-                if (!ctrlBtnPressed && !firstSignOn)
+                // Removes a Sign Element from Canvas and signList
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 {
-                    currentRectangeleWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
-                    currentRectangleHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)); ;
+                    ctrlBtnPressed = true;
+                    var element = (e.OriginalSource as FrameworkElement).Name;
 
-                    rectangle.Width = currentRectangeleWidth;
-                    rectangle.Height = currentRectangleHeight;
-
-                    Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, xCordinateUp));
-                    Canvas.SetTop(rectangle, Math.Min(yCordinateDown, yCordinateUp));
-                    canvas.Children.Add(rectangle);
-                    mouseDown = false;
-
-                    if (rectangle.Width != 0 && rectangle.Height != 0)
+                    if (element.Contains("rectangle"))
                     {
-                        rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
-                        rcFrom = new Int32Rect();
+                        int number = Convert.ToInt32(element.Substring(9));
 
-                        rcFrom.X = (int)((rect.X) * ((picture.Source.Width) / (picture.Width)));
-                        rcFrom.Y = (int)((rect.Y) * ((picture.Source.Height) / (picture.Height)));
-                        rcFrom.Width = (int)((rect.Width) * ((picture.Source.Width) / (picture.Width)));
-                        rcFrom.Height = (int)((rect.Height) * ((picture.Source.Height) / (picture.Height)));
+                        for (int i = 0; i < signList.Count; i++)
+                        {
+                            if (number == signList[i].Id)
+                            {
+                                int value = statsList[signList[i].Letter];
+                                statsList[signList[i].Letter] = value - 1;
 
-                        croppedBitmap = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
-                        croppedImage.Source = croppedBitmap;
+                                if (statsList[signList[i].Letter] == 0)
+                                {
+                                    /*Since the to be earased Sign Object isn't always
+                                     * the one that is in the signItems List an if-case is
+                                     * needed to find the right one in the List. So it can be removed*/
+                                    for (int j = 0; j < signItems.Count; j++)
+                                    {
+                                        if (signItems[j].Letter == signList[i].Letter)
+                                        {
+                                            signItems.RemoveAt(j);
+                                            break;
+                                        }
+                                    }
 
-                        //calculateProbability();
+                                    signListbox.Items.Refresh();
+                                    statsList.Remove(signList[i].Letter);
+                                }
+
+                                if (signList[i].Rectangle.Stroke != (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor))
+                                {
+                                    firstSigns.Remove(signList[i]);
+                                }
+                                signList.RemoveAt(i);
+                                break;
+                            }
+                        }
+
+                        canvas.Children.Remove(e.OriginalSource as FrameworkElement);
+
+                        if (statsList.Count <= transcriptor.Alphabet.Length)
+                        {
+                            addSignButton.IsEnabled = true;
+                        }
                     }
                 }
+                else
+                {
+                    if (!firstSignOn)
+                    {
+                        mouseDown = true;
+                        ctrlBtnPressed = false;
+
+                        xCordinateDown = e.GetPosition(canvas).X;
+                        yCordinateDown = e.GetPosition(canvas).Y;
+
+                        rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
+                        rectangle.StrokeThickness = strokeThicknes;
+
+                        Canvas.SetLeft(rectangle, xCordinateDown);
+                        Canvas.SetTop(rectangle, yCordinateDown);
+                        canvas.Children.Add(rectangle);
+                    }
+                    else
+                    {
+                        var element = (e.OriginalSource as FrameworkElement);
+
+                        if (element.Name.Contains("rectangle"))
+                        {
+                            int number = Convert.ToInt32(element.Name.Substring(9));
+
+                            for (int k = 0; k < signList.Count; k++)
+                            {
+                                if (signList[k].Id == number)
+                                {
+                                    if (signList[k].Rectangle.Stroke == (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor))
+                                    {
+                                        signList[k].Rectangle.Stroke = Brushes.Blue;
+                                        firstSigns.Add(signList[k]);
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
+                                        firstSigns.Remove(signList[k]);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                transcriptor.GuiLogMessage(ex);
+            }
+        }
+
+        private void canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (mouseDown)
+                {
+                    rectangle.Width = (int)(Math.Max(e.GetPosition(canvas).X, xCordinateDown) - Math.Min(xCordinateDown, e.GetPosition(canvas).X));
+                    rectangle.Height = (int)(Math.Max(e.GetPosition(canvas).Y, yCordinateDown) - Math.Min(yCordinateDown, e.GetPosition(canvas).Y));
+
+                    Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, e.GetPosition(canvas).X));
+                    Canvas.SetTop(rectangle, Math.Min(yCordinateDown, e.GetPosition(canvas).Y));
+                }
+            }
+            catch (Exception ex)
+            {
+                transcriptor.GuiLogMessage(ex);
+            }
+        }
+
+        private void canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (picture.Source != null)
+                {
+                    if (canvas.Children.Contains(rectangle))
+                    {
+                        canvas.Children.Remove(rectangle);
+                    }
+
+                    xCordinateUp = e.GetPosition(canvas).X;
+                    yCordinateUp = e.GetPosition(canvas).Y;
+
+                    if (!ctrlBtnPressed && !firstSignOn)
+                    {
+                        currentRectangeleWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
+                        currentRectangleHeight = (int)(Math.Max(yCordinateUp, yCordinateDown) - Math.Min(yCordinateDown, yCordinateUp)); ;
+
+                        rectangle.Width = currentRectangeleWidth;
+                        rectangle.Height = currentRectangleHeight;
+
+                        Canvas.SetLeft(rectangle, Math.Min(xCordinateDown, xCordinateUp));
+                        Canvas.SetTop(rectangle, Math.Min(yCordinateDown, yCordinateUp));
+                        canvas.Children.Add(rectangle);
+                        mouseDown = false;
+
+                        if (rectangle.Width != 0 && rectangle.Height != 0)
+                        {
+                            rect = new Rect(Canvas.GetLeft(rectangle), Canvas.GetTop(rectangle), rectangle.Width, rectangle.Height);
+                            rcFrom = new Int32Rect();
+
+                            rcFrom.X = (int)((rect.X) * ((picture.Source.Width) / (picture.Width)));
+                            rcFrom.Y = (int)((rect.Y) * ((picture.Source.Height) / (picture.Height)));
+                            rcFrom.Width = (int)((rect.Width) * ((picture.Source.Width) / (picture.Width)));
+                            rcFrom.Height = (int)((rect.Height) * ((picture.Source.Height) / (picture.Height)));
+
+                            croppedBitmap = new CroppedBitmap(picture.Source as BitmapSource, rcFrom);
+                            croppedImage.Source = croppedBitmap;
+
+                            //calculateProbability();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                transcriptor.GuiLogMessage(ex);
             }
         }
 
         private void addSignButton_Click(object sender, RoutedEventArgs e)
         {
-            if (statsList.Count >= transcriptor.Alphabet.Length)
+            try
             {
-                addSignButton.IsEnabled = false;
-            }
-            else
-            {
-                char newLetter = transcriptor.Alphabet[alphabetCount++];
-
-                while (statsList.ContainsKey(newLetter))
+                if (statsList.Count >= transcriptor.Alphabet.Length)
                 {
-                    newLetter = transcriptor.Alphabet[alphabetCount++];
+                    addSignButton.IsEnabled = false;
+                }
+                else
+                {
+                    char newLetter = transcriptor.Alphabet[alphabetCount++];
+
+                    while (statsList.ContainsKey(newLetter))
+                    {
+                        newLetter = transcriptor.Alphabet[alphabetCount++];
+
+                        if (alphabetCount >= transcriptor.Alphabet.Length)
+                        {
+                            alphabetCount = 0;
+                        }
+                    }
+
+                    Sign newSign = new Sign(indexCount, newLetter, croppedBitmap);
+                    signItems.Add(newSign);
+                    signListbox.ItemsSource = signItems;
+                    indexCount++;
+
+                    AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight,
+                        Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
 
                     if (alphabetCount >= transcriptor.Alphabet.Length)
                     {
                         alphabetCount = 0;
                     }
+
+                    if (MatchTemplateOn)
+                    {
+                        MatchSign(newSign);
+                    }
                 }
-
-                Sign newSign = new Sign(indexCount, newLetter, croppedBitmap);
-                signItems.Add(newSign);
-                signListbox.ItemsSource = signItems;
-                indexCount++;
-
-                AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight,
-                    Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
-
-                if (alphabetCount >= transcriptor.Alphabet.Length)
-                {
-                    alphabetCount = 0;
-                }
-
-                if (MatchTemplateOn)
-                {
-                    MatchSign(newSign);
-                }
+            }
+            catch (Exception ex)
+            {
+                transcriptor.GuiLogMessage(ex);
             }
         }
 
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = sender as ListBoxItem;
-
-            if (item != null || item.IsSelected)
+            try
             {
-                Sign sign = new Sign(indexCount, item.Content.ToString()[0], croppedBitmap);
-                indexCount++;
-                AddSignToList(sign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
-                    Math.Min(yCordinateDown, yCordinateUp));
+                var item = sender as ListBoxItem;
+
+                if (item != null || item.IsSelected)
+                {
+                    Sign sign = new Sign(indexCount, item.Content.ToString()[0], croppedBitmap);
+                    indexCount++;
+                    AddSignToList(sign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
+                        Math.Min(yCordinateDown, yCordinateUp));
+                }
+            }
+            catch (Exception ex)
+            {
+                transcriptor.GuiLogMessage(ex);
             }
         }
 
         private void generateButton_Click(object sender, RoutedEventArgs e)
         {
-            StringBuilder textBuilder = new StringBuilder();
-            double upperBound = 0, lowerBound = 0;
-
-            if (MatchTemplateOn)
+            try
             {
-                signList.Sort(new SignComparer(true));
-                firstSigns.Sort(new SignComparer(false));
+                StringBuilder textBuilder = new StringBuilder();
+                double upperBound = 0, lowerBound = 0;
 
-                for (int i = 0; i < firstSigns.Count; i++)
+                if (MatchTemplateOn)
                 {
-                    upperBound = firstSigns[i].Y + (firstSigns[i].Rectangle.Height / 2);
-                    lowerBound = firstSigns[i].Y - (firstSigns[i].Rectangle.Height / 2);
-                    for (int j = 0; j < signList.Count; j++)
+                    signList.Sort(new SignComparer(true));
+                    firstSigns.Sort(new SignComparer(false));
+
+                    for (int i = 0; i < firstSigns.Count; i++)
                     {
-                        if (signList[j].Y > lowerBound && signList[j].Y < upperBound)
+                        upperBound = firstSigns[i].Y + (firstSigns[i].Rectangle.Height / 2);
+                        lowerBound = firstSigns[i].Y - (firstSigns[i].Rectangle.Height / 2);
+                        for (int j = 0; j < signList.Count; j++)
                         {
-                            textBuilder.Append(signList[j]);
+                            if (signList[j].Y > lowerBound && signList[j].Y < upperBound)
+                            {
+                                textBuilder.Append(signList[j]);
+                            }
                         }
+                        textBuilder.Append("\n");
                     }
-                    textBuilder.Append("\n");
                 }
-            }
-            else
-            {
-                for (int i = 0; i < signList.Count; i++)
+                else
                 {
-                    textBuilder.Append(signList[i].Letter);
+                    for (int i = 0; i < signList.Count; i++)
+                    {
+                        textBuilder.Append(signList[i].Letter);
+                    }
                 }
+
+                transcriptor.GenerateText(textBuilder.ToString());
             }
-            
-            transcriptor.GenerateText(textBuilder.ToString());
+            catch (Exception ex)
+            {
+                transcriptor.GuiLogMessage(ex);
+            }
         }
 
         private void TransformButton_Click(object sender, RoutedEventArgs e)
         {
-            if (MatchTemplateOn == true)
+            try
             {
                 if (firstSignOn == false)
                 {
+
                     TransformButton.Content = "First Sign On";
                     firstSignOn = true;
                 }
@@ -358,65 +394,10 @@ namespace Transcriptor
                     firstSignOn = false;
                 }
             }
-            else
+            catch (Exception ex)
             {
-                TransformButton.Content = "Letter:";
-                TransformButton.IsEnabled = false;
-                insertTextLetter.Visibility = System.Windows.Visibility.Visible;
+                transcriptor.GuiLogMessage(ex);
             }
-        }
-
-        private void insertTextLetter_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.IsKeyDown(Key.Enter))
-            {
-                if (insertTextLetter.Text.Length > 0)
-                {
-                    insertLetter = insertTextLetter.Text[0];
-                }
-
-                if (transcriptor.Alphabet.Contains(insertTextLetter.Text))
-                {
-                    TransformButton.Content = "Position:";
-                    insertTextLetter.Visibility = System.Windows.Visibility.Hidden;
-                    insertTextPosition.Visibility = System.Windows.Visibility.Visible;
-                }
-                else
-                {
-                    TransformButton.Content = "Insert";
-                    TransformButton.IsEnabled = true;
-                    insertTextLetter.Text = "";
-                    insertTextLetter.Visibility = System.Windows.Visibility.Hidden;
-                }
-            }
-        }
-
-        private void insertTextPosition_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.IsKeyDown(Key.Enter))
-            {
-                int insertPosition = Convert.ToInt32(insertTextPosition.Text) - 1;
-
-                if (insertPosition < signList.Count)
-                {
-                    if (statsList.ContainsKey(insertLetter))
-                    {
-                        Sign insertSign = new Sign(indexCount, insertLetter, croppedBitmap);
-                        indexCount++;
-                        AddSignToList(insertSign, currentRectangeleWidth, currentRectangleHeight,
-                            Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
-
-                        signList.Remove(insertSign);
-                        signList.Insert(insertPosition, insertSign);
-                    }
-                }
-
-
-                insertTextPosition.Visibility = System.Windows.Visibility.Hidden;
-                TransformButton.Content = "Insert";
-                TransformButton.IsEnabled = true;
-            }
-
         }
 
         #endregion
