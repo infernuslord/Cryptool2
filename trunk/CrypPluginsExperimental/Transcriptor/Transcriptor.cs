@@ -68,7 +68,7 @@ namespace Cryptool.Plugins.Transcriptor
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Working Alphabet", "Alphabet ToolTip")]
+        [PropertyInfo(Direction.InputData, "Working Alphabet", "Alphabet ToolTip", false)]
         public string Alphabet
         {
             get;
@@ -108,6 +108,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void PreExecution()
         {
+            Alphabet = null;
             switch (settings.Color)
             {
                 case 0: transcriptorPresentation.RectangleColor = "Black"; break;
@@ -135,7 +136,12 @@ namespace Cryptool.Plugins.Transcriptor
         public void Execute()
         {
             ProgressChanged(0, 1);
-            
+
+            if (Alphabet == null || Alphabet.Length == 0)
+            {
+                Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }
+
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
                 try
@@ -144,7 +150,7 @@ namespace Cryptool.Plugins.Transcriptor
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage("Could not display Picture " +ex.Message, NotificationLevel.Error);
+                    GuiLogMessage(String.Format("Could not display Picture: {0}", ex.Message), NotificationLevel.Error);
                 }
 
                 if (settings.Mode == 0)
