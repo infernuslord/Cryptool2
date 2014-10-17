@@ -22,8 +22,8 @@ namespace Transcriptor
         # region Variables
 
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
-        String rectangleColor;
-        int strokeThicknes, alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
+        String rectangleColor, selectedRectangleColor;
+        int alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
         bool mtOn, mouseDown, ctrlBtnPressed = false, firstSignOn = false;
         List<Sign> signList = new List<Sign>();
         ObservableCollection<Sign> signItems = new ObservableCollection<Sign>();
@@ -44,7 +44,7 @@ namespace Transcriptor
             this.transcriptor = transcriptor;
             this.DataContext = this;
             mouseDown = false;
-
+            
             rectangle = new Rectangle
             {
                 Fill = Brushes.Transparent,
@@ -52,10 +52,11 @@ namespace Transcriptor
         }
 
         #region Get\Set
-        public int StrokeThicknes
+
+        public String SelectedRectangleColor
         {
-            get { return strokeThicknes;  }
-            set { strokeThicknes = value; }
+            get { return selectedRectangleColor; }
+            set { selectedRectangleColor = value; }
         }
 
         public String RectangleColor
@@ -129,7 +130,7 @@ namespace Transcriptor
                                     statsList.Remove(signList[i].Letter);
                                 }
 
-                                if (signList[i].Rectangle.Stroke != (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor))
+                                if (signList[i].Rectangle.Stroke != (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor))
                                 {
                                     firstSigns.Remove(signList[i]);
                                 }
@@ -156,8 +157,8 @@ namespace Transcriptor
                         xCordinateDown = e.GetPosition(canvas).X;
                         yCordinateDown = e.GetPosition(canvas).Y;
 
-                        rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
-                        rectangle.StrokeThickness = strokeThicknes;
+                        rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
+                        rectangle.StrokeThickness = 1;
 
                         Canvas.SetLeft(rectangle, xCordinateDown);
                         Canvas.SetTop(rectangle, yCordinateDown);
@@ -175,15 +176,15 @@ namespace Transcriptor
                             {
                                 if (signList[k].Id == number)
                                 {
-                                    if (signList[k].Rectangle.Stroke == (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor))
+                                    if (signList[k].Rectangle.Stroke == (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor))
                                     {
-                                        signList[k].Rectangle.Stroke = Brushes.Blue;
+                                        signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
                                         firstSigns.Add(signList[k]);
                                         break;
                                     }
                                     else
                                     {
-                                        signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(rectangleColor);
+                                        signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor);
                                         firstSigns.Remove(signList[k]);
                                         break;
                                     }
@@ -408,7 +409,7 @@ namespace Transcriptor
             Rectangle newRectangle = new Rectangle
             {
                 Fill = Brushes.Transparent,
-                Stroke = rectangle.Stroke,
+                Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor),
                 StrokeThickness = 1,
                 Width = width,
                 Height = height,
