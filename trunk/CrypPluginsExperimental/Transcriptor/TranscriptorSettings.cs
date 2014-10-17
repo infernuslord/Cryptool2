@@ -26,8 +26,8 @@ namespace Cryptool.Plugins.Transcriptor
     {
         #region Private Variables
 
-        private int color;
-        private int stroke;
+        private int rectangleColor;
+        private int selectedRectangleColor;
         private int mode = 1;
         private int method = 1;
         private int threshold = 75;
@@ -35,37 +35,37 @@ namespace Cryptool.Plugins.Transcriptor
         #endregion
 
         #region TaskPane Settings
-        
-        [TaskPane("Color", "ColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Black", "White", "Red" })]
-        public int Color
+
+        [TaskPane("Rectangle Color", "ColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Blue", "Green", "Yellow" })]
+        public int RectangleColor
         {
             get
             {
-                return color;
+                return rectangleColor;
             }
             set
             {
-                if (color != value)
+                if (rectangleColor != value)
                 {
-                    color = value;
-                    OnPropertyChanged("Color");
+                    rectangleColor = value;
+                    OnPropertyChanged("RectangleColor");
                 }
             }
         }
 
-        [TaskPane("Stroke", "StrokeTooltip", null, 2, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 3)]
-        public int Stroke
+        [TaskPane("Selected Rectangle Color", "ColorTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Red", "Black", "White" })]
+        public int SelectedRectangleColor
         {
             get
             {
-                return stroke;
+                return selectedRectangleColor;
             }
             set
             {
-                if (stroke != value)
+                if (selectedRectangleColor != value)
                 {
-                    stroke = value;
-                    OnPropertyChanged("Stroke");
+                    selectedRectangleColor = value;
+                    OnPropertyChanged("SelectedRectangleColor");
                 }
             }
         }

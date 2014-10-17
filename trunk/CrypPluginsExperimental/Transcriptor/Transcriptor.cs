@@ -109,14 +109,19 @@ namespace Cryptool.Plugins.Transcriptor
         public void PreExecution()
         {
             Alphabet = null;
-            switch (settings.Color)
+            switch (settings.RectangleColor)
             {
-                case 0: transcriptorPresentation.RectangleColor = "Black"; break;
-                case 1: transcriptorPresentation.RectangleColor = "White"; break;
-                case 2: transcriptorPresentation.RectangleColor = "Red"; break;
+                case 0: transcriptorPresentation.RectangleColor = "Blue"; break;
+                case 1: transcriptorPresentation.RectangleColor = "Green"; break;
+                case 2: transcriptorPresentation.RectangleColor = "Yellow"; break;
             }
 
-            transcriptorPresentation.StrokeThicknes = settings.Stroke;
+            switch (settings.SelectedRectangleColor)
+            {
+                case 0: transcriptorPresentation.SelectedRectangleColor = "Red"; break;
+                case 1: transcriptorPresentation.SelectedRectangleColor = "Black"; break;
+                case 2: transcriptorPresentation.SelectedRectangleColor = "White"; break;
+            }
 
             if (settings.Mode == 0)
             {
