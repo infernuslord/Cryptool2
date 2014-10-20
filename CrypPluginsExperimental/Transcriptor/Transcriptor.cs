@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2014 Olga Groh
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -29,19 +29,15 @@ using System;
 
 namespace Cryptool.Plugins.Transcriptor
 {
-    // HOWTO: Change author name, email address, organization and URL.
     [Author("Olga Groh", "o_groh@student.uni-kassel.de", "Uni Kassel", "www.uni-kassel.de")]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
-    // You can (and should) provide a user documentation as XML file and an own icon.
     [PluginInfo("Transcriptor", "Transcriptor", "Transcriptor/userdoc.xml", new[] {"Transcriptor/icon.png"})]
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
+    
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class Transcriptor : ICrypComponent
     {
         #region Private Variables
 
-        // HOWTO: You need to adapt the settings class as well, see the corresponding file.
         private readonly TranscriptorSettings settings;
         private TranscriptorPresentation transcriptorPresentation;
 
@@ -58,8 +54,7 @@ namespace Cryptool.Plugins.Transcriptor
         #region Data Properties
 
         /// <summary>
-        /// HOWTO: Input interface to read the input data. 
-        /// You can add more input properties of other type if needed.
+        /// The Image File from the user
         /// </summary>
         [PropertyInfo(Direction.InputData, "Image File", "Image ToolTip")]
         public ICryptoolStream Image
@@ -68,7 +63,10 @@ namespace Cryptool.Plugins.Transcriptor
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Working Alphabet", "Alphabet ToolTip", false)]
+        /// <summary>
+        /// It's possible to use a custom Alphabet
+        /// </summary>
+        [PropertyInfo(Direction.InputData, "Alphabet", "Alphabet ToolTip", false)]
         public string Alphabet
         {
             get;
@@ -76,8 +74,7 @@ namespace Cryptool.Plugins.Transcriptor
         }
 
         /// <summary>
-        /// HOWTO: Output interface to write the output data.
-        /// You can add more output properties ot other type if needed.
+        /// The Output Text
         /// </summary>
         [PropertyInfo(Direction.OutputData, "TextOutput name", "TextOutput Tooltip")]
         public string Text
@@ -109,6 +106,8 @@ namespace Cryptool.Plugins.Transcriptor
         public void PreExecution()
         {
             Alphabet = null;
+
+            // Transfer the choosen rectangle color setting to the GUI
             switch (settings.RectangleColor)
             {
                 case 0: transcriptorPresentation.RectangleColor = "Blue"; break;
@@ -116,6 +115,7 @@ namespace Cryptool.Plugins.Transcriptor
                 case 2: transcriptorPresentation.RectangleColor = "Yellow"; break;
             }
 
+            // Transfer the color which will be presented whenn the user marks a new sign
             switch (settings.SelectedRectangleColor)
             {
                 case 0: transcriptorPresentation.SelectedRectangleColor = "Red"; break;
@@ -123,6 +123,7 @@ namespace Cryptool.Plugins.Transcriptor
                 case 2: transcriptorPresentation.SelectedRectangleColor = "White"; break;
             }
 
+            // Transfer the Mode to the GUI
             if (settings.Mode == 0)
             {
                 transcriptorPresentation.MatchTemplateOn = false;
@@ -142,6 +143,7 @@ namespace Cryptool.Plugins.Transcriptor
         {
             ProgressChanged(0, 1);
 
+            // If the Alphabet plugin is not plug the standard Alphabet will be used
             if (Alphabet == null || Alphabet.Length == 0)
             {
                 Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -151,7 +153,16 @@ namespace Cryptool.Plugins.Transcriptor
             {
                 try
                 {
+                    // When the workflow runs the GUI is set to be enabled
                     transcriptorPresentation.grid.IsEnabled = true;
+
+                    // When the mode is set to manually the firstSign Button is not necessary and therefor disabled
+                    if (transcriptorPresentation.MatchTemplateOn == false)
+                    {
+                        transcriptorPresentation.TransformButton.IsEnabled = false;
+                    }
+
+                    //Gets the Image from the Input Plugin and chage the DPI to 96
                     transcriptorPresentation.picture.Source = ByteToImage(Image.CreateReader().ReadFully());
                 }
                 catch (Exception ex)
@@ -175,6 +186,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void Stop()
         {
+            //When the worklow stops the GUI is set to disable so its not possible to triger click events
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
                 try
@@ -231,6 +243,11 @@ namespace Cryptool.Plugins.Transcriptor
 
         #endregion
 
+        /// <summary>
+        /// The outputText contains the Letters of the sorted
+        /// signList which will be handed over to the Text vaiable
+        /// </summary>
+        /// <param name="outputText"></param>
         internal void GenerateText(string outputText)
         {
             Text = outputText;
@@ -264,6 +281,10 @@ namespace Cryptool.Plugins.Transcriptor
             return dpi96Image;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ex"></param>
         internal void GuiLogMessage(Exception ex)
         {
             GuiLogMessage(String.Format("Error: {0}", ex.Message), NotificationLevel.Error);
