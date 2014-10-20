@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2014 Olga Groh
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ namespace Cryptool.Plugins.Transcriptor
         private int mode = 1;
         private int method = 1;
         private int threshold = 75;
+        private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
  
         #endregion
 
@@ -70,7 +71,25 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("Mode", "ModeTooltip", "Mode", 3, false, ControlType.ComboBox, new String[] { "Manually", "Semi-Automatic" })]
+        [TaskPane("Alphabet", "Alphabet ToolTip", null, 3, false, ControlType.TextBoxReadOnly)]
+        public String Alphabet
+        {
+            get
+            {
+                return alphabet;
+            }
+            set
+            {
+                if (alphabet != value)
+                {
+                    alphabet = value;
+                    OnPropertyChanged("Alphabet");
+                }
+            }
+
+        }
+
+        [TaskPane("Mode", "ModeTooltip", "Mode", 4, false, ControlType.ComboBox, new String[] { "Manually", "Semi-Automatic" })]
         public int Mode
         {
             get
@@ -88,7 +107,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("ComparisionMethods", "ComparisonMethodsTooltip", "Mode", 4, false, ControlType.ComboBox, new String[] { "CCOEFF", "CCOEFF_NORMED",
+        [TaskPane("ComparisionMethods", "ComparisonMethodsTooltip", "Mode", 5, false, ControlType.ComboBox, new String[] { "CCOEFF", "CCOEFF_NORMED",
             "CCORR", "CCORR_NORMED", "SQDIFF", "SQDIFF_NORMED" })]
         public int Method
         {
@@ -106,7 +125,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
         
-        [TaskPane("Threshold", "ThresholdTooltip", "Mode", 5, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        [TaskPane("Threshold", "ThresholdTooltip", "Mode", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int Threshold
         {
             get
