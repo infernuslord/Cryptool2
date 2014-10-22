@@ -39,11 +39,11 @@ namespace Transcriptor
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
         String rectangleColor, selectedRectangleColor;
         int alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
-        bool mtOn, mouseDown, ctrlBtnPressed = false, firstSignOn = false;
-        List<Sign> signList = new List<Sign>();
-        ObservableCollection<Sign> signItems = new ObservableCollection<Sign>(); // Handels ListboxItems
+        bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false;
+        List<Symbol> symbolList = new List<Symbol>();
+        ObservableCollection<Symbol> symbolItems = new ObservableCollection<Symbol>(); // Handels ListboxItems
         Dictionary<char, int> statsList = new Dictionary<char, int>();
-        List<Sign> firstSigns = new List<Sign>();
+        List<Symbol> firstSymbols = new List<Symbol>();
         double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
         Rectangle rectangle;
         BitmapSource croppedBitmap;
@@ -104,8 +104,8 @@ namespace Transcriptor
 
         /// <summary>
         /// MouseDown is used for:
-        /// 1. When Ctrl is pushed a Sign can be deleted
-        /// 2. When FirstSign On is active a Sign can be marked as such
+        /// 1. When Ctrl is pushed a Symbol can be deleted
+        /// 2. When FirstSymbol on is active a Symbol can be marked as such
         /// 3. Startpoint of the rectangles are saved in xCordinateDown and yCordinateDown
         /// </summary>
         /// <param name="sender"></param>
@@ -119,7 +119,7 @@ namespace Transcriptor
                     canvas.Children.Remove(rectangle);
                 }
 
-                // Removes a Sign Element from Canvas and signList
+                // Removes a Symbol Element from Canvas and symbolList
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 {
                     ctrlBtnPressed = true;
@@ -132,42 +132,42 @@ namespace Transcriptor
                         // Gets the rectangle's ID
                         int number = Convert.ToInt32(element.Substring(9));
 
-                        for (int i = 0; i < signList.Count; i++)
+                        for (int i = 0; i < symbolList.Count; i++)
                         {
-                            // The statsList's value is subtracted since the Sign is removed
-                            if (number == signList[i].Id)
+                            // The statsList's value is subtracted since the Symbol is removed
+                            if (number == symbolList[i].Id)
                             {
-                                int value = statsList[signList[i].Letter];
-                                statsList[signList[i].Letter] = value - 1;
+                                int value = statsList[symbolList[i].Letter];
+                                statsList[symbolList[i].Letter] = value - 1;
 
                                 //When the value is 0 the Letter is also removed from the ListBox
-                                if (statsList[signList[i].Letter] == 0)
+                                if (statsList[symbolList[i].Letter] == 0)
                                 {
-                                    /*Since the Sign Object to be earased isn't always
-                                     * the one that is in the signItems List an if-case is
+                                    /*Since the Symbol Object to be earased isn't always
+                                     * the one that is in the symbolItems List an if-case is
                                      * needed to find the right one in the List. So it can be removed*/
-                                    for (int j = 0; j < signItems.Count; j++)
+                                    for (int j = 0; j < symbolItems.Count; j++)
                                     {
-                                        if (signItems[j].Letter == signList[i].Letter)
+                                        if (symbolItems[j].Letter == symbolList[i].Letter)
                                         {
-                                            signItems.RemoveAt(j);
+                                            symbolItems.RemoveAt(j);
                                             break;
                                         }
                                     }
 
-                                    signListbox.Items.Refresh();
-                                    statsList.Remove(signList[i].Letter);
+                                    symbolListbox.Items.Refresh();
+                                    statsList.Remove(symbolList[i].Letter);
                                 }
 
                                 /*If the rectangle has a different Color, the rectangle
-                                 * is a firstSign Object so it will be removed from the firstSign List, too.*/
-                                if (signList[i].Rectangle.Stroke != (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor))
+                                 * is a firstSymbol Object so it will be removed from the firstSymbol List, too.*/
+                                if (symbolList[i].Rectangle.Stroke != (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor))
                                 {
-                                    firstSigns.Remove(signList[i]);
+                                    firstSymbols.Remove(symbolList[i]);
                                 }
 
-                                //Finally the Sign will be also removed from the signList
-                                signList.RemoveAt(i);
+                                //Finally the Symbol will be also removed from the symbolList
+                                symbolList.RemoveAt(i);
                                 break;
                             }
                         }
@@ -177,14 +177,14 @@ namespace Transcriptor
 
                         if (statsList.Count <= transcriptor.Alphabet.Length)
                         {
-                            addSignButton.IsEnabled = true;
+                            addSymbolButton.IsEnabled = true;
                         }
                     }
                 }
                 else
                 {
                     //The Cordinates will be saved in Variables so the rectangle can be draged
-                    if (!firstSignOn)
+                    if (!firstSymbolOn)
                     {
                         mouseDown = true;
                         ctrlBtnPressed = false;
@@ -201,30 +201,30 @@ namespace Transcriptor
                     }
                     else
                     {
-                        // If the Object is a rectangle and firstSign on
+                        // If the Object is a rectangle and firstSymbol on
                         var element = (e.OriginalSource as FrameworkElement);
 
                         if (element.Name.Contains("rectangle"))
                         {
                             int number = Convert.ToInt32(element.Name.Substring(9));
 
-                            for (int k = 0; k < signList.Count; k++)
+                            for (int k = 0; k < symbolList.Count; k++)
                             {
                                 /*If the Id is correct the Color of the rectangle will
-                                be changed and the sign will be added to the firstSign List*/
-                                if (signList[k].Id == number)
+                                be changed and the symbol will be added to the firstSymbol List*/
+                                if (symbolList[k].Id == number)
                                 {
-                                    if (signList[k].Rectangle.Stroke == (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor))
+                                    if (symbolList[k].Rectangle.Stroke == (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor))
                                     {
-                                        signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
-                                        firstSigns.Add(signList[k]);
+                                        symbolList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
+                                        firstSymbols.Add(symbolList[k]);
                                         break;
                                     }
                                     else
                                     {
-                                        //If the User clicks again on a firstSign rectangle it will be removed from the List
-                                        signList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor);
-                                        firstSigns.Remove(signList[k]);
+                                        //If the User clicks again on a firstSymbol rectangle it will be removed from the List
+                                        symbolList[k].Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(SelectedRectangleColor);
+                                        firstSymbols.Remove(symbolList[k]);
                                         break;
                                     }
                                 }
@@ -282,7 +282,7 @@ namespace Transcriptor
                     xCordinateUp = e.GetPosition(canvas).X;
                     yCordinateUp = e.GetPosition(canvas).Y;
 
-                    if (!ctrlBtnPressed && !firstSignOn)
+                    if (!ctrlBtnPressed && !firstSymbolOn)
                     {
                         //The Rectangle's Width and the Height is calculated
                         currentRectangeleWidth = (int)(Math.Max(xCordinateUp, xCordinateDown) - Math.Min(xCordinateDown, xCordinateUp));
@@ -324,19 +324,19 @@ namespace Transcriptor
         }
 
         /// <summary>
-        /// Adds a Sign to the signList and to the ListBox.
+        /// Adds a Symbol to the symbolList and to the ListBox.
         /// If Mode is set to semi-automatik the MatchTemplate Methode is called
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void addSignButton_Click(object sender, RoutedEventArgs e)
+        private void addSymbolButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 //If the all the letters in the used alphabet is in the ListBox the Button is disabled
                 if (statsList.Count >= transcriptor.Alphabet.Length)
                 {
-                    addSignButton.IsEnabled = false;
+                    addSymbolButton.IsEnabled = false;
                 }
                 else
                 {
@@ -353,13 +353,13 @@ namespace Transcriptor
                         }
                     }
 
-                    //Creates a new Sign with the SignImage and letter afterwards the AddSignToLust is called
-                    Sign newSign = new Sign(indexCount, newLetter, croppedBitmap);
-                    signItems.Add(newSign);
-                    signListbox.ItemsSource = signItems;
+                    //Creates a new Symbol with the SymbolImage and letter afterwards the AddSymbolToList is called
+                    Symbol newSymbol = new Symbol(indexCount, newLetter, croppedBitmap);
+                    symbolItems.Add(newSymbol);
+                    symbolListbox.ItemsSource = symbolItems;
                     indexCount++;
 
-                    AddSignToList(newSign, currentRectangeleWidth, currentRectangleHeight,
+                    AddSymbolToList(newSymbol, currentRectangeleWidth, currentRectangleHeight,
                         Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
 
                     if (alphabetCount >= transcriptor.Alphabet.Length)
@@ -369,7 +369,7 @@ namespace Transcriptor
 
                     if (MatchTemplateOn)
                     {
-                        MatchSign(newSign);
+                        MatchSymbol(newSymbol);
                     }
                 }
             }
@@ -380,7 +380,7 @@ namespace Transcriptor
         }
 
         /// <summary>
-        /// When the user double clicks in an item a Sign will be created an added to signList
+        /// When the user double clicks in an item a Symbol will be created an added to symbolList
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -393,10 +393,10 @@ namespace Transcriptor
 
                 if (item != null || item.IsSelected)
                 {
-                    //From the Item the letter can be extracted and added to the signList and canvas
-                    Sign sign = new Sign(indexCount, item.Content.ToString()[0], croppedBitmap);
+                    //From the Item the letter can be extracted and added to the symbolList and canvas
+                    Symbol symbol = new Symbol(indexCount, item.Content.ToString()[0], croppedBitmap);
                     indexCount++;
-                    AddSignToList(sign, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
+                    AddSymbolToList(symbol, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
                         Math.Min(yCordinateDown, yCordinateUp));
                 }
             }
@@ -407,7 +407,7 @@ namespace Transcriptor
         }
 
         /// <summary>
-        /// Sets either firstSign on or off
+        /// Sets the button either firstSymbol on or off
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -415,16 +415,16 @@ namespace Transcriptor
         {
             try
             {
-                if (firstSignOn == false)
+                if (firstSymbolOn == false)
                 {
 
-                    TransformButton.Content = "First Sign On";
-                    firstSignOn = true;
+                    TransformButton.Content = "First symbol on";
+                    firstSymbolOn = true;
                 }
                 else
                 {
-                    TransformButton.Content = "First Sign Off";
-                    firstSignOn = false;
+                    TransformButton.Content = "First symbol off";
+                    firstSymbolOn = false;
                 }
             }
             catch (Exception ex)
@@ -442,13 +442,13 @@ namespace Transcriptor
         {
             try
             {
-                Sign spaceSign = new Sign(indexCount, ' ', croppedBitmap);
+                Symbol spaceSymbol = new Symbol(indexCount, ' ', croppedBitmap);
                 indexCount++;
 
-                AddSignToList(spaceSign, currentRectangeleWidth, currentRectangleHeight,
+                AddSymbolToList(spaceSymbol, currentRectangeleWidth, currentRectangleHeight,
                             Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
 
-                spaceSign.Rectangle.ToolTip = "Space";
+                spaceSymbol.Rectangle.ToolTip = "Space";
             }
             catch (Exception ex)
             {
@@ -457,7 +457,7 @@ namespace Transcriptor
         }
 
         /// <summary>
-        /// If mode is set to semi-Automatik the signList needs to sorted
+        /// If mode is set to semi-Automatik the symbolList needs to sorted
         /// first after that the list will be saved in a String and handed over to the output Plugin
         /// If mode is set to manually the sorting has been done by the user.
         /// </summary>
@@ -472,36 +472,35 @@ namespace Transcriptor
 
                 if (MatchTemplateOn)
                 {
-                    //Fist signList will be first sorted after the X Cordinate
-                    signList.Sort(new SignComparer(true));
-                    /*firstSign will be sorted after the y Cordinate so its
+                    //Fist symbolList will be first sorted after the X Cordinate
+                    symbolList.Sort(new SymbolComparer(true));
+                    /*firstSymbols will be sorted after the y Cordinate so its
                      * not necasary to click on the lines in the Text by order*/
-                    firstSigns.Sort(new SignComparer(false));
+                    firstSymbols.Sort(new SymbolComparer(false));
                     
-                    for (int i = 0; i < firstSigns.Count; i++)
+                    for (int i = 0; i < firstSymbols.Count; i++)
                     {
-                        upperBound = firstSigns[i].Y + (firstSigns[i].Rectangle.Height / 2);
-                        lowerBound = firstSigns[i].Y - (firstSigns[i].Rectangle.Height / 2);
+                        upperBound = firstSymbols[i].Y + (firstSymbols[i].Rectangle.Height / 2);
+                        lowerBound = firstSymbols[i].Y - (firstSymbols[i].Rectangle.Height / 2);
 
-                        /*The signList objects which are in the upper and lower Bound will be append to the Text
-                         * since the sortig of the signList is already done the Text will be presented properly*/
-                        for (int j = 0; j < signList.Count; j++)
+                        /*The symbolList objects which are in the upper and lower Bound will be append to the Text
+                         * since the sortig of the symbolList is already done the Text will be presented properly*/
+                        for (int j = 0; j < symbolList.Count; j++)
                         {
-                            if (signList[j].Y > lowerBound && signList[j].Y < upperBound)
+                            if (symbolList[j].Y > lowerBound && symbolList[j].Y < upperBound)
                             {
-                                textBuilder.Append(signList[j]);
+                                textBuilder.Append(symbolList[j]);
                             }
                         }
-                        textBuilder.Append(" ");
                     }
                 }
                 else
                 {
                     /*If the mode is set to manually the sorting needs to done by the user and
-                     * the signList Letters will be append to the Text*/
-                    for (int i = 0; i < signList.Count; i++)
+                     * the symbolList Letters will be append to the Text*/
+                    for (int i = 0; i < symbolList.Count; i++)
                     {
-                        textBuilder.Append(signList[i].Letter);
+                        textBuilder.Append(symbolList[i].Letter);
                     }
                 }
 
@@ -518,14 +517,14 @@ namespace Transcriptor
         #region Helper Methods
 
         /// <summary>
-        /// Draws a new Rectangle and ads newSign to the SignList
+        /// Draws a new Rectangle, custom ToolTip and adds newSymbol to the SymbolList
         /// </summary>
-        /// <param name="newSign"></param>
+        /// <param name="newSymbol"></param>
         /// <param name="width"></param>
         /// <param name="height"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        private void AddSignToList(Sign newSign, int width, int height, double x, double y)
+        private void AddSymbolToList(Symbol newSymbol, int width, int height, double x, double y)
         {
             //Adds a fixed rectangle to the canvas
             Rectangle newRectangle = new Rectangle
@@ -535,29 +534,53 @@ namespace Transcriptor
                 StrokeThickness = 1,
                 Width = width,
                 Height = height,
-                Name = "rectangle" +newSign.Id,
-                ToolTip = newSign.Letter,
+                Name = "rectangle" +newSymbol.Id,
             };
 
+            /*searches the symbolItems Object with the same Letter as newSymbol.Letter
+             *this way the Image from the ListBox can be presented in the ToolTip, too*/
+            int index = 0;
+            for (int i = 0; i < symbolItems.Count; i++)
+            {
+                if (newSymbol.Letter == symbolItems[i].Letter)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            //ToolTip Layout configurations
+            StackPanel stack = new StackPanel();
+            stack.Orientation = Orientation.Vertical;
+            stack.Children.Add(new TextBlock { Text = symbolItems[index].Letter.ToString(), FontSize = 15,
+                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0,0,0,0), FontWeight = FontWeights.Bold  });
+
+            stack.Children.Add(new Image { Source = symbolItems[index].Image, Stretch = Stretch.Fill, Width = 40,
+                Height = 40, VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Left });
+
+            newRectangle.ToolTip = stack;
+            
+            //places the rectangle on the canvas
             Canvas.SetLeft(newRectangle, x);
             Canvas.SetTop(newRectangle, y);
             canvas.Children.Add(newRectangle);
 
-            //the rectangle is bound to a Sign
-            newSign.Rectangle = newRectangle;
-            newSign.X = x;
-            newSign.Y = y;
+            //the rectangle is bound to a Symbol
+            newSymbol.Rectangle = newRectangle;
+            newSymbol.X = x;
+            newSymbol.Y = y;
 
-            signList.Add(newSign);
+            symbolList.Add(newSymbol);
 
-            if (statsList.ContainsKey(newSign.Letter))
+            if (statsList.ContainsKey(newSymbol.Letter))
             {
-                int value = statsList[newSign.Letter];
-                statsList[newSign.Letter] = value + 1;
+                int value = statsList[newSymbol.Letter];
+                statsList[newSymbol.Letter] = value + 1;
             }
             else
             {
-                statsList.Add(newSign.Letter, 1);
+                statsList.Add(newSymbol.Letter, 1);
             }
         }
 
@@ -566,11 +589,11 @@ namespace Transcriptor
             Image<Gray, Byte> cImage = new Image<Gray, byte>(ToBitmap(croppedBitmap));
             cImage = cImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
 
-            if (signItems.Count > 0)
+            if (symbolItems.Count > 0)
             {
-                for (int i = 0; i < signItems.Count; i++)
+                for (int i = 0; i < symbolItems.Count; i++)
                 {
-                    Image<Gray, Byte> sImage = new Image<Gray, byte>(ToBitmap(signItems[i].Image));
+                    Image<Gray, Byte> sImage = new Image<Gray, byte>(ToBitmap(symbolItems[i].Image));
                     sImage = sImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
 
                     Image<Gray, Byte> diffImage = cImage.AbsDiff(sImage);
@@ -590,33 +613,34 @@ namespace Transcriptor
                         }
                     }
 
-                    signItems[i].Probability = pixelCounter * 0.01;
+                    symbolItems[i].Probability = pixelCounter * 0.01;
                 }
 
-                signListbox.Items.Refresh();
+                
+                symbolListbox.Items.Refresh();
             }
         }
 
         /// <summary>
-        /// Finds equal Signs and adds them to the signList
+        /// Finds equal symbols and adds them to the symbolList
         /// </summary>
-        /// <param name="newSign"></param>
-        private void MatchSign(Sign newSign)
+        /// <param name="newSymbol"></param>
+        private void MatchSymbol(Symbol newSymbol)
         {
             int cropWidth = currentRectangeleWidth;
             int cropHeight = currentRectangleHeight;
 
             //Since Emgu CV is not compatible to WPF the pictures have to be changed to System.Drawing objects 
-            System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int)newSign.X, (int)newSign.Y, cropWidth, cropHeight);
+            System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int)newSymbol.X, (int)newSymbol.Y, cropWidth, cropHeight);
             Image<Gray, Byte> sourceImage = new Image<Gray, byte>(ToBitmap(picture.Source as BitmapSource));
 
             //The Images have to be resized so they have the same Width and height like the picture.Source otherwise the coordinates are wrong
             sourceImage = sourceImage.Resize((int)picture.Width, (int)picture.Height, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-            System.Drawing.Bitmap signBitmap = new System.Drawing.Bitmap(sourceImage.Bitmap);
-            signBitmap = signBitmap.Clone(cropRect, System.Drawing.Imaging.PixelFormat.DontCare);
+            System.Drawing.Bitmap symbolBitmap = new System.Drawing.Bitmap(sourceImage.Bitmap);
+            symbolBitmap = symbolBitmap.Clone(cropRect, System.Drawing.Imaging.PixelFormat.DontCare);
 
-            //The templateImage is the Image with the Sign
-            Image<Gray, Byte> templateImage = new Image<Gray, byte>(signBitmap);
+            //The templateImage is the Image with the Symbol
+            Image<Gray, Byte> templateImage = new Image<Gray, byte>(symbolBitmap);
             Image<Gray, float> resultImage;
 
             switch (comparisonMethod)
@@ -632,31 +656,31 @@ namespace Transcriptor
             
             float[, ,] matches = resultImage.Data;
             bool skip = false;
-            bool firstSign = true;
+            bool firstSymbol = true;
 
             for (int y = 0; y < matches.GetLength(0); y++)
             {
                 for (int x = 0; x < matches.GetLength(1); x++)
                 {
                     /*The matchScore will be calculated for x and y and if its bigger then the choosen Threshold
-                     * a Sign Object will be created*/
+                     * a Symbol Object will be created*/
                     double matchScore = matches[y, x, 0];
 
                     if (matchScore > Threshold)
                     {
-                        if (firstSign)
+                        if (firstSymbol)
                         {
-                            firstSign = false;
+                            firstSymbol = false;
                         }
                         else
                         {
-                            Sign equalSign = new Sign(indexCount, newSign.Letter, newSign.Image);
+                            Symbol equalSymbol = new Symbol(indexCount, newSymbol.Letter, newSymbol.Image);
                             indexCount++;
 
-                            AddSignToList(equalSign, currentRectangeleWidth, currentRectangleHeight, x, y); 
+                            AddSymbolToList(equalSymbol, currentRectangeleWidth, currentRectangleHeight, x, y); 
                         }
 
-                        //a Skip is necasary beacause MatchTemplate would find Sign objects several times
+                        //a Skip is necasary beacause MatchTemplate would find Symbol objects several times
                         x += currentRectangeleWidth;
                         skip = true;
                     }
