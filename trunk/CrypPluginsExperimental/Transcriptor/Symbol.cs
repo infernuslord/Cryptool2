@@ -18,7 +18,7 @@ using System.Windows.Media.Imaging;
 
 namespace Transcriptor
 {
-    class Sign
+    class Symbol
     {
         int id;
         double xCordinate, yCordinate, probability;
@@ -27,11 +27,11 @@ namespace Transcriptor
         BitmapSource image;
 
         # region Constructor
-        public Sign(int SignId, char signLetter, BitmapSource signImage)
+        public Symbol(int symbolId, char symbolLetter, BitmapSource symbolImage)
         {
-            id = SignId;
-            letter = signLetter;
-            image = signImage;
+            id = symbolId;
+            letter = symbolLetter;
+            image = symbolImage;
         }
         #endregion
 

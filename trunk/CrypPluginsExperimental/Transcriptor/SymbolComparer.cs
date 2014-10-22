@@ -17,11 +17,11 @@ using System.Collections.Generic;
 
 namespace Transcriptor
 {
-    class SignComparer : IComparer<Sign>
+    class SymbolComparer : IComparer<Symbol>
     {
         bool mode;
 
-        public SignComparer(bool mode)
+        public SymbolComparer(bool mode)
         {
             this.mode = mode;
         }
@@ -33,7 +33,7 @@ namespace Transcriptor
         /// <param name="b"></param>
         /// <returns>If mode set to true the Sort Function will sort X coordinates
         /// If mode set to false the Y coordinates will be sorted</returns>
-        public int Compare(Sign a, Sign b)
+        public int Compare(Symbol a, Symbol b)
         {
             if (mode == true)
             {

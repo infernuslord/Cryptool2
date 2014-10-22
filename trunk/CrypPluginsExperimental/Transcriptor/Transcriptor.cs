@@ -115,7 +115,7 @@ namespace Cryptool.Plugins.Transcriptor
                 case 2: transcriptorPresentation.RectangleColor = "Yellow"; break;
             }
 
-            // Transfer the color which will be presented whenn the user marks a new sign
+            // Transfer the color which will be presented whenn the user marks a new symbol
             switch (settings.SelectedRectangleColor)
             {
                 case 0: transcriptorPresentation.SelectedRectangleColor = "Red"; break;
@@ -156,7 +156,7 @@ namespace Cryptool.Plugins.Transcriptor
                     // When the workflow runs the GUI is set to be enabled
                     transcriptorPresentation.grid.IsEnabled = true;
 
-                    // When the mode is set to manually the firstSign Button is not necessary and therefor disabled
+                    // When the mode is set to manually the firstLine Button is not necessary and therefor disabled
                     if (transcriptorPresentation.MatchTemplateOn == false)
                     {
                         transcriptorPresentation.TransformButton.IsEnabled = false;
@@ -245,7 +245,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         /// <summary>
         /// The outputText contains the Letters of the sorted
-        /// signList which will be handed over to the Text vaiable
+        /// symbolList which will be handed over to the Text vaiable
         /// </summary>
         /// <param name="outputText"></param>
         internal void GenerateText(string outputText)

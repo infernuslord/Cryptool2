@@ -89,8 +89,8 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SignComparer.cs" />
-    <Compile Include="Sign.cs" />
+    <Compile Include="SymbolComparer.cs" />
+    <Compile Include="Symbol.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
