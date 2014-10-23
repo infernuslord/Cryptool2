@@ -225,6 +225,9 @@ namespace Cryptool.Plugins.ImageProcessor
                                     }
                                 }
                                 break;
+                            case ActionType.blacknwhite:
+                                this.blacknwhite(img);
+                                break;
                         }
 
                         OnPropertyChanged("OutputImage");
@@ -333,6 +336,20 @@ namespace Cryptool.Plugins.ImageProcessor
             }
         }
 
+        private void blacknwhite(Image<Bgr, Byte> img = null)
+        {
+            if ( img == null )
+            {
+                if( InputImage1 == null )
+                    return;
+                img = new Image<Bgr, Byte>(new Bitmap(InputImage1.CreateReader()));
+            }
+            using (Image<Gray, Byte> blacknwhite = img.Convert<Gray, byte>().ThresholdBinary(new Gray(settings.Threshold), new Gray(255)))
+            {
+                CreateOutputStream(blacknwhite.ToBitmap());
+            }
+        }
+
         #endregion
 
         #region Event Handling
@@ -369,6 +386,10 @@ namespace Cryptool.Plugins.ImageProcessor
                 case "SliderY1":
                 case "SliderY2":
                     this.CropImage();
+                    OnPropertyChanged("OutputImage");
+                    break;
+                case "Threshold":
+                    this.blacknwhite();
                     OnPropertyChanged("OutputImage");
                     break;
                 default:

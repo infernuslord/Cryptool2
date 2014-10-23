@@ -22,7 +22,7 @@ using Cryptool.PluginBase.Miscellaneous;
 namespace Cryptool.Plugins.ImageProcessor
 {
 
-    public enum ActionType { flip, gray, smooth, resize, rotate, invert, and, or, xor, create, crop, xorgray };
+    public enum ActionType { flip, gray, smooth, resize, rotate, invert, and, or, xor, create, crop, xorgray, blacknwhite };
 
     public class ImageProcessorSettings : ISettings
     {
@@ -35,6 +35,7 @@ namespace Cryptool.Plugins.ImageProcessor
         private int sliderX2 = 0;
         private int sliderY1 = 0;
         private int sliderY2 = 0;
+        private int threshold = 0;
         private int sizeX = 50;
         private int sizeY = 50;
         private int degrees = 90;
@@ -59,7 +60,8 @@ namespace Cryptool.Plugins.ImageProcessor
             "XOR-Connect Images",
             "Create Image",
             "Crop Image",
-            "XOR GrayscaleImages"})]
+            "XOR GrayscaleImages",
+            "Black and White"})]
         public ActionType Action
         {
             get
@@ -197,6 +199,23 @@ namespace Cryptool.Plugins.ImageProcessor
             }
         }
 
+        [TaskPane("Threshold", "Enter the value of the threshold", null, 1, true, ControlType.Slider, 0, 255)]
+        public int Threshold
+        {
+            get
+            {
+                return threshold;
+            }
+            set
+            {
+                if (threshold != value)
+                {
+                    threshold = value;
+                    OnPropertyChanged("Threshold");
+                }
+            }
+        }
+
         [TaskPane("SizeX", "Enter the value of horizontal pixels", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 0, 5000)]
         public int SizeX
         {
@@ -262,6 +281,7 @@ namespace Cryptool.Plugins.ImageProcessor
             settingChanged("SliderX2", Visibility.Collapsed);
             settingChanged("SliderY1", Visibility.Collapsed);
             settingChanged("SliderY2", Visibility.Collapsed);
+            settingChanged("Threshold", Visibility.Collapsed);
             switch (Action)
             {
                 case ActionType.flip: // Fliping
@@ -286,6 +306,9 @@ namespace Cryptool.Plugins.ImageProcessor
                 case ActionType.create: // Create Image
                     settingChanged("SizeX", Visibility.Visible);
                     settingChanged("SizeY", Visibility.Visible);
+                    break;
+                case ActionType.blacknwhite: // Black and White Image
+                    settingChanged("Threshold", Visibility.Visible);
                     break;
             }
         }
