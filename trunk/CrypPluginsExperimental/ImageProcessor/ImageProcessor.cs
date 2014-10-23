@@ -204,6 +204,27 @@ namespace Cryptool.Plugins.ImageProcessor
                                     }
                                 }
                                 break;
+                            case ActionType.xor:    // xor-connect Images
+                                using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
+                                {
+                                    using (Image<Bgr, byte> newImg = img.Xor(secondImg))
+                                    {
+                                        CreateOutputStream(newImg.ToBitmap());
+                                    }
+                                }
+                                break;
+                            case ActionType.xorgray:    // xor- Imagegrayscales
+                                using (Image<Gray, byte> grayImg2 = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())).Convert<Gray, byte>())
+                                {
+                                    using (Image<Gray, byte> grayImg1 = img.Convert<Gray, byte>())
+                                    {
+                                        using (Image<Gray, byte> newImg = grayImg1.Xor(grayImg2))
+                                        {
+                                            CreateOutputStream(newImg.ToBitmap());
+                                        }
+                                    }
+                                }
+                                break;
                         }
 
                         OnPropertyChanged("OutputImage");
