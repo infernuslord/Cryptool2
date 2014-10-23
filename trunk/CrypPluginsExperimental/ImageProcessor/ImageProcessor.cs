@@ -22,6 +22,7 @@ using Cryptool.PluginBase.IO;
 using System.Windows.Controls;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Emgu.CV;
@@ -52,7 +53,7 @@ namespace Cryptool.Plugins.ImageProcessor
         #region Data Properties
 
         /// <summary>
-        /// Description
+        /// Input image1 ICryptoolStream, handles "inputImage1".
         /// </summary>
         [PropertyInfo(Direction.InputData, "InputImage1", "This is the standard image used for the processing.")]
         public ICryptoolStream InputImage1
@@ -62,9 +63,9 @@ namespace Cryptool.Plugins.ImageProcessor
         }
 
         /// <summary>
-        /// Description
+        /// Input image2 ICryptoolStream, handles "inputImage2".
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputImage1", "This is the second image only used for the and- and or-functions.")]
+        [PropertyInfo(Direction.InputData, "InputImage2", "This is the second image only used for and-, or-, xor-functions.")]
         public ICryptoolStream InputImage2
         {
             get;
@@ -72,7 +73,17 @@ namespace Cryptool.Plugins.ImageProcessor
         }
 
         /// <summary>
-        /// Description
+        /// Output original unprocessed image as ICryptoolStream.
+        /// </summary>
+        [PropertyInfo(Direction.OutputData, "OutputOriginalImage", "This is the original unprocessed image.")]
+        public ICryptoolStream OutputOriginalImage
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// Output processed image as ICryptoolStream.
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputImage", "This is the processed image.")]
         public ICryptoolStream OutputImage
@@ -122,7 +133,7 @@ namespace Cryptool.Plugins.ImageProcessor
                     InputImage1 = InputImage2;
                 }
                 else
-                {
+                {;
                     GuiLogMessage("Please select an image.", NotificationLevel.Error);
                     return;
                 }
@@ -134,6 +145,8 @@ namespace Cryptool.Plugins.ImageProcessor
                 {
                     using (Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap))
                     {
+                        CreateOutputStream(bitmap, 1);
+                        OnPropertyChanged("OutputOriginalImage");
                         switch (settings.Action)
                         {
                             case ActionType.flip:   // Flip Image
@@ -275,10 +288,42 @@ namespace Cryptool.Plugins.ImageProcessor
 
         #region HelpFunctions
 
-        /// <summary>Create output stream to display.</summary>
-        /// <param name="bitmap">The bitmap to display.</param>
+        /// <summary>
+        /// Resizes bitmap b to width nWidth and height nHeight.
+        /// </summary>
+        /// <param name="b">The bitmap to resize.</param>
+        /// <param name="nWidth">The new width.</param>
+        /// <param name="nHeight">The new height.</param>
+        private Bitmap ResizeBitmap(Bitmap b, int nWidth, int nHeight)
+        {
+            Bitmap result = new Bitmap(nWidth, nHeight);
+            using (Graphics g = Graphics.FromImage(result))
+            {
+                g.SmoothingMode = SmoothingMode.None;
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.DrawImage(b, 0, 0, nWidth, nHeight);
+            }
+            return result;
+        }
+
         private void CreateOutputStream(Bitmap bitmap)
         {
+            CreateOutputStream(bitmap, 2);
+        }
+
+        /// <summary>Create output stream to display.</summary>
+        /// <param name="bitmap">The bitmap to display.</param>
+        private void CreateOutputStream(Bitmap bitmap, int i)
+        {
+            Bitmap newBitmap;
+            if (bitmap.HorizontalResolution < 100)
+            {
+                newBitmap = ResizeBitmap(bitmap, (int)bitmap.HorizontalResolution, (int)bitmap.VerticalResolution);
+            }
+            else
+            {
+                newBitmap = bitmap;
+            }
             ImageFormat format = ImageFormat.Bmp;
             if (settings.OutputFileFormat == 1)
             {
@@ -290,15 +335,24 @@ namespace Cryptool.Plugins.ImageProcessor
             }
 
             //avoid "generic error in GDI+"
-            Bitmap saveableBitmap = CopyBitmap(bitmap, format);
+            Bitmap saveableBitmap = CopyBitmap(newBitmap, format);
 
             //save bitmap
             MemoryStream outputStream = new MemoryStream();
             saveableBitmap.Save(outputStream, format);
             saveableBitmap.Dispose();
-            bitmap.Dispose();
+            newBitmap.Dispose();
 
-            OutputImage = new CStreamWriter(outputStream.GetBuffer());
+            switch (i)
+            {
+                case 1:
+                    OutputOriginalImage = new CStreamWriter(outputStream.GetBuffer());
+                    break;
+                case 2:
+                    OutputImage = new CStreamWriter(outputStream.GetBuffer());
+                    break;
+            }
+
         }
 
         /// <summary>Makes sure that a bitmap is not a useless "MemoryBitmap".</summary>
