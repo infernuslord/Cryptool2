@@ -120,13 +120,6 @@
   <ItemGroup>
     <Resource Include="icon.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="cvextern.dll" />
-    <Content Include="wallpaper-928939.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="pHash.lib" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

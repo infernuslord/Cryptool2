@@ -47,12 +47,15 @@ namespace Cryptool.Plugins.ImageHash
 
         private readonly ImageHashSettings settings;
         private ICryptoolStream inputImage;
+        private int progress = 1;
+        private const int STEPS = 11;
         private Image<Bgr, Byte> orgImg;
         private Image<Gray, double> step1Img;
         private Image<Gray, double> step2Img;
         private Image<Gray, double> step4Img;
         private Bitmap step6Bmp;
         private byte[] outputHash;
+        private Boolean isRunning = true;
 
         #endregion
 
@@ -155,8 +158,8 @@ namespace Cryptool.Plugins.ImageHash
         /// </summary>
         public void Execute()
         {
-            int progress = 1;
-            const int STEPS = 11;
+            isRunning = true;
+
             // An imagesize under 4x4 does not make any sense
             if (settings.Size < 4)
             {
@@ -220,15 +223,17 @@ namespace Cryptool.Plugins.ImageHash
                 {
                     // Original Image:
                     orgImg = new Image<Bgr, Byte>(bitmap);
-                    if (settings.PresentationStep >= 1)
+                    CreateOutputStream(bitmap, 1);
+                    OnPropertyChanged("OutputOriginalImage");
+                    if ((settings.PresentationStep > 1 && settings.ShowEachStep) || (settings.PresentationStep == 1))
                     {
-                        CreateOutputStream(bitmap, 1);
-                        OnPropertyChanged("OutputOriginalImage");
+                        CreateOutputStream(bitmap);
+                        OnPropertyChanged("OutputImage");
                     }
                     // Step 1: Gray scale
                     step1Img = orgImg.Convert<Gray, byte>().Convert<Gray, double>();
                     ProgressChanged(progress++, STEPS);
-                    if (settings.PresentationStep >= 2)
+                    if ((settings.PresentationStep > 2 && settings.ShowEachStep) || (settings.PresentationStep == 2))
                     {
                         CreateOutputStream(step1Img.ToBitmap());
                         OnPropertyChanged("OutputImage");
@@ -240,7 +245,7 @@ namespace Cryptool.Plugins.ImageHash
                     int halfSize = size / 2;    // usually 8
                     step2Img = step1Img.Resize(size, size, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
                     ProgressChanged(progress++, STEPS);
-                    if (settings.PresentationStep >= 3)
+                    if ((settings.PresentationStep > 3 && settings.ShowEachStep) || (settings.PresentationStep == 3))
                     {
                         CreateOutputStream(step2Img.ToBitmap());
                         OnPropertyChanged("OutputImage");
@@ -249,9 +254,9 @@ namespace Cryptool.Plugins.ImageHash
 
                     // Step 3: Find brightest quarter
                     float[] subImage = new float[4];
-                    for (int i = 0; i < step2Img.Width; i++)
+                    for (int i = 0; i < step2Img.Width && isRunning; i++)
                     {
-                        for (int j = 0; j < step2Img.Height; j++)
+                        for (int j = 0; j < step2Img.Height && isRunning; j++)
                         {
                             if ((i < halfSize) && (j < halfSize))
                             {
@@ -296,7 +301,7 @@ namespace Cryptool.Plugins.ImageHash
                     }
 
                     ProgressChanged(progress++, STEPS);
-                    if (settings.PresentationStep >= 4)
+                    if ((settings.PresentationStep > 4 && settings.ShowEachStep) || (settings.PresentationStep == 4))
                     {
                         CreateOutputStream(step4Img.ToBitmap());
                         OnPropertyChanged("OutputImage");
@@ -317,9 +322,9 @@ namespace Cryptool.Plugins.ImageHash
                     Boolean[][] b = new Boolean[4][];
                     for (int i=0; i<b.Length; i++)
                         b[i] = new Boolean[(size * size) / median.Length];
-                    for (int i = 0; i < step4Bmp.Width; i++)
+                    for (int i = 0; i < step4Bmp.Width && isRunning; i++)
                     {
-                        for (int j = 0; j < step4Bmp.Height; j++)
+                        for (int j = 0; j < step4Bmp.Height && isRunning; j++)
                         {
                             if ((i < halfSize) && (j < halfSize))
                             {
@@ -390,9 +395,9 @@ namespace Cryptool.Plugins.ImageHash
 
                     // Step 7: Calculate the hash
                     bool[] bools = new bool[b.Length * b[0].Length];
-                    for (int i = 0; i < b.Length; i++)
+                    for (int i = 0; i < b.Length && isRunning; i++)
                     {
-                        for (int j = 0; j < b[i].Length; j++)
+                        for (int j = 0; j < b[i].Length && isRunning; j++)
                         {
                             bools[i*b[i].Length+j] = b[i][j];
                         }
@@ -400,7 +405,7 @@ namespace Cryptool.Plugins.ImageHash
 
                     byte[] byteArray = new byte[bools.Length / 8];
                     int bitIndex = 0, byteIndex = 0;
-                    for (int i = 0; i < bools.Length; i++)
+                    for (int i = 0; i < bools.Length && isRunning; i++)
                     {
                         if (bools[i])
                         {
@@ -438,7 +443,6 @@ namespace Cryptool.Plugins.ImageHash
                             break;
                         case 3:
                             CreateOutputStream(step2Img.ToBitmap());
-                            //CreateOutputStream(step2Bmp);
                             break;
                         case 4:
                             CreateOutputStream(step4Img.ToBitmap());
@@ -505,6 +509,7 @@ namespace Cryptool.Plugins.ImageHash
         /// </summary>
         public void Stop()
         {
+            isRunning = false;
         }
 
         /// <summary>
@@ -556,7 +561,7 @@ namespace Cryptool.Plugins.ImageHash
             Bitmap newBitmap;
             if (bitmap.HorizontalResolution < 100)
             {
-                newBitmap = ResizeBitmap(bitmap, 320, 320);
+                newBitmap = ResizeBitmap(bitmap, (int)bitmap.HorizontalResolution, (int)bitmap.VerticalResolution);
             }
             else
             {

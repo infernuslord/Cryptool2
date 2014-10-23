@@ -28,6 +28,7 @@ namespace Cryptool.Plugins.ImageHash
         private int size = 16;
         private int presentationStep = 5;
         private static String stepName = "Step 4: Black and White";
+        private Boolean showEachStep = true;
 
         #endregion
 
@@ -76,7 +77,23 @@ namespace Cryptool.Plugins.ImageHash
                 }
             }
         }
-        [TaskPane("", "StepNameTooltip", "SliderGroup", 3, false, ControlType.TextBoxReadOnly)]
+
+
+        /// <summary>
+        /// Boolean that sets if every step of the image processing is directly shown.
+        /// </summary>
+        [TaskPane("Show each step", "showEachStepTooltip", "SliderGroup", 3, false, ControlType.CheckBox)]
+        public bool ShowEachStep
+        {
+            get { return this.showEachStep; }
+            set
+            {
+                this.showEachStep = value;
+            }
+        }
+
+
+        [TaskPane("", "StepNameTooltip", "SliderGroup", 4, false, ControlType.TextBoxReadOnly)]
         public String StepName
         {
             get { return stepName; }
@@ -90,7 +107,7 @@ namespace Cryptool.Plugins.ImageHash
             }
         }
 
-        [TaskPane("", "PresentationStepTooltip", "SliderGroup", 4, true, ControlType.Slider, 1, 5)]
+        [TaskPane("", "PresentationStepTooltip", "SliderGroup", 5, true, ControlType.Slider, 1, 5)]
         public int PresentationStep
         {
             get { return (int)presentationStep; }
