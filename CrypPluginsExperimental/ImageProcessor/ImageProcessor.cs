@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.ImageProcessor
         public ImageProcessor()
         {
             this.settings = new ImageProcessorSettings();
-            this.settings.UpdateTaskPaneVisibility(); // FIXME: Zeitpunkt scheint zu früh. Nach Start werden alle Optionen angezeigt!
+            this.settings.UpdateTaskPaneVisibility();
             settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
         }
 
@@ -136,27 +136,30 @@ namespace Cryptool.Plugins.ImageProcessor
                     {
                         switch (settings.Action)
                         {
-                            case ActionType.flip: // Flip Image
+                            case ActionType.flip:   // Flip Image
                                 switch (settings.FlipType)
                                 {
-                                    case 0: // Horizontal
+                                    case 0:         // Horizontal
                                         img._Flip(Emgu.CV.CvEnum.FLIP.HORIZONTAL);
                                         CreateOutputStream(img.ToBitmap());
                                         break;
-                                    case 1: // Vertical
+                                    case 1:         // Vertical
                                         img._Flip(Emgu.CV.CvEnum.FLIP.VERTICAL);
                                         CreateOutputStream(img.ToBitmap());
                                         break;
                                 }
                                 break;
-                            case ActionType.gray: // Gray Scale
+                            case ActionType.gray:   // Gray Scale
                                 using (Image<Gray, double> grayImg = img.Convert<Gray, byte>().Convert<Gray, double>())
                                 {
                                     CreateOutputStream(grayImg.ToBitmap());
                                 }
                                 break;
                             case ActionType.smooth: // Smoothing
-                                img._SmoothGaussian(settings.Smooth);
+                                int smooth = settings.Smooth;
+                                if (smooth % 2 == 0)
+                                    smooth++;
+                                img._SmoothGaussian(smooth);
                                 CreateOutputStream(img.ToBitmap());
                                 break;
                             case ActionType.resize: // Resizeing
@@ -165,7 +168,7 @@ namespace Cryptool.Plugins.ImageProcessor
                                     CreateOutputStream(newImg.ToBitmap());
                                 }
                                 break;
-                            case ActionType.crop: // cropping
+                            case ActionType.crop:   // Cropping
                                 this.CropImage();
                                 break;
                             case ActionType.rotate: // Rotating
@@ -186,7 +189,7 @@ namespace Cryptool.Plugins.ImageProcessor
                                     CreateOutputStream(newImg.ToBitmap());
                                 }
                                 break;
-                            case ActionType.and:    // and-connect Images
+                            case ActionType.and:    // And-connect Images
                                 using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
                                 {
                                     using (Image<Bgr, byte> newImg = img.And(secondImg))
@@ -195,7 +198,7 @@ namespace Cryptool.Plugins.ImageProcessor
                                     }
                                 }
                                 break;
-                            case ActionType.or:    // and-connect Images
+                            case ActionType.or:    // Ond-connect Images
                                 using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
                                 {
                                     using (Image<Bgr, byte> newImg = img.Or(secondImg))
@@ -204,7 +207,7 @@ namespace Cryptool.Plugins.ImageProcessor
                                     }
                                 }
                                 break;
-                            case ActionType.xor:    // xor-connect Images
+                            case ActionType.xor:    // Xor-connect Images
                                 using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
                                 {
                                     using (Image<Bgr, byte> newImg = img.Xor(secondImg))
@@ -213,7 +216,7 @@ namespace Cryptool.Plugins.ImageProcessor
                                     }
                                 }
                                 break;
-                            case ActionType.xorgray:    // xor- Imagegrayscales
+                            case ActionType.xorgray: // Xor- ImageGrayScales
                                 using (Image<Gray, byte> grayImg2 = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())).Convert<Gray, byte>())
                                 {
                                     using (Image<Gray, byte> grayImg1 = img.Convert<Gray, byte>())
@@ -272,8 +275,8 @@ namespace Cryptool.Plugins.ImageProcessor
 
         #region HelpFunctions
 
-        /// <summary>Save an image to a file</summary>
-        /// <param name="bitmap">The image to save</param>
+        /// <summary>Create output stream to display.</summary>
+        /// <param name="bitmap">The bitmap to display.</param>
         private void CreateOutputStream(Bitmap bitmap)
         {
             ImageFormat format = ImageFormat.Bmp;
