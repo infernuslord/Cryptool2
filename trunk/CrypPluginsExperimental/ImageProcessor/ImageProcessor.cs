@@ -44,6 +44,7 @@ namespace Cryptool.Plugins.ImageProcessor
         {
             this.settings = new ImageProcessorSettings();
             this.settings.UpdateTaskPaneVisibility();
+            settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
         }
 
         #endregion
@@ -287,6 +288,8 @@ namespace Cryptool.Plugins.ImageProcessor
 
         private void CropImage()
         {
+            if (InputImage1 == null)
+                return;
             using (CStreamReader reader = InputImage1.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
@@ -334,6 +337,22 @@ namespace Cryptool.Plugins.ImageProcessor
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+        
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "SliderX1":
+                case "SliderX2":
+                case "SliderY1":
+                case "SliderY2":
+                    this.CropImage();
+                    OnPropertyChanged("OutputImage");
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion
