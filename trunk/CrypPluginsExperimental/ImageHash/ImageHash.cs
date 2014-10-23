@@ -47,8 +47,6 @@ namespace Cryptool.Plugins.ImageHash
 
         private readonly ImageHashSettings settings;
         private ICryptoolStream inputImage;
-        private int progress = 1;
-        private const int STEPS = 11;
         private Image<Bgr, Byte> orgImg;
         private Image<Gray, double> step1Img;
         private Image<Gray, double> step2Img;
@@ -158,6 +156,8 @@ namespace Cryptool.Plugins.ImageHash
         /// </summary>
         public void Execute()
         {
+            int progress = 1;
+            const int STEPS = 11;
             isRunning = true;
 
             // An imagesize under 4x4 does not make any sense
@@ -240,9 +240,9 @@ namespace Cryptool.Plugins.ImageHash
                     }
                     ProgressChanged(progress++, STEPS);
                     
-                    // Step 2: Resize to sizexsize (16x16)
-                    int size = settings.Size;   // usually 16
-                    int halfSize = size / 2;    // usually 8
+                    // Step 2: Resize to sizexsize (standard: 16x16)
+                    int size = settings.Size;   // standard: 16
+                    int halfSize = size / 2;    // standard: 8
                     step2Img = step1Img.Resize(size, size, Emgu.CV.CvEnum.INTER.CV_INTER_NN);
                     ProgressChanged(progress++, STEPS);
                     if ((settings.PresentationStep > 3 && settings.ShowEachStep) || (settings.PresentationStep == 3))
