@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.ImageProcessor
         public ImageProcessor()
         {
             this.settings = new ImageProcessorSettings();
-            this.settings.UpdateTaskPaneVisibility();
+            this.settings.UpdateTaskPaneVisibility(); // FIXME: Zeitpunkt scheint zu früh. Nach Start werden alle Optionen angezeigt!
             settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
         }
 
@@ -336,6 +336,7 @@ namespace Cryptool.Plugins.ImageProcessor
             }
         }
 
+        //Convert bgr Image to black and white
         private void blacknwhite(Image<Bgr, Byte> img = null)
         {
             if ( img == null )
@@ -348,6 +349,20 @@ namespace Cryptool.Plugins.ImageProcessor
             {
                 CreateOutputStream(blacknwhite.ToBitmap());
             }
+        }
+
+        //Changes the contrast of an image
+        private void contrast(Image<Bgr, Byte> img = null)
+        {
+            if ( img == null )
+            {
+                if ( InputImage1 == null )
+                    return;
+                img = new Image<Bgr, Byte>(new Bitmap(InputImage1.CreateReader()));
+            }
+            Image<Bgr, Byte> constrast_img = img.Copy();
+            constrast_img._GammaCorrect((double)settings.Contrast / 100); // 0.01 - 10
+            CreateOutputStream(constrast_img.ToBitmap());
         }
 
         #endregion
@@ -390,6 +405,10 @@ namespace Cryptool.Plugins.ImageProcessor
                     break;
                 case "Threshold":
                     this.blacknwhite();
+                    OnPropertyChanged("OutputImage");
+                    break;
+                case "Contrast":
+                    this.contrast();
                     OnPropertyChanged("OutputImage");
                     break;
                 default:
