@@ -58,13 +58,26 @@ namespace PictureOutput
 
         public void PreExecution()
         {
-            
+            _data = null;
+            _stream = null;
+            _presentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
+            {
+                try
+                {
+                    _presentation.Picture.Source = null;                    
+                }
+                catch (Exception ex)
+                {
+                    GuiLogMessage("Could not clear picture in PreExecute: " + ex.Message, NotificationLevel.Error);
+                }
+            }, null);
         }
 
         public void Execute()
         {
             try
             {
+                ProgressChanged(0, 0);
                 if(_data == null && _stream == null)
                     return;
 
