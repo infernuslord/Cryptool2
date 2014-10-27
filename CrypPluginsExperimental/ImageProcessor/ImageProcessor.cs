@@ -73,16 +73,6 @@ namespace Cryptool.Plugins.ImageProcessor
         }
 
         /// <summary>
-        /// Output original unprocessed image as ICryptoolStream.
-        /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputOriginalImage", "This is the original unprocessed image.")]
-        public ICryptoolStream OutputOriginalImage
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Output processed image as ICryptoolStream.
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputImage", "This is the processed image.")]
@@ -145,8 +135,6 @@ namespace Cryptool.Plugins.ImageProcessor
                 {
                     using (Image<Bgr, Byte> img = new Image<Bgr, Byte>(bitmap))
                     {
-                        CreateOutputStream(bitmap, 1);
-                        OnPropertyChanged("OutputOriginalImage");
                         switch (settings.Action)
                         {
                             case ActionType.flip:   // Flip Image
@@ -306,14 +294,9 @@ namespace Cryptool.Plugins.ImageProcessor
             return result;
         }
 
-        private void CreateOutputStream(Bitmap bitmap)
-        {
-            CreateOutputStream(bitmap, 2);
-        }
-
         /// <summary>Create output stream to display.</summary>
         /// <param name="bitmap">The bitmap to display.</param>
-        private void CreateOutputStream(Bitmap bitmap, int i)
+        private void CreateOutputStream(Bitmap bitmap)
         {
             Bitmap newBitmap;
             if (bitmap.HorizontalResolution < 100)
@@ -343,15 +326,7 @@ namespace Cryptool.Plugins.ImageProcessor
             saveableBitmap.Dispose();
             newBitmap.Dispose();
 
-            switch (i)
-            {
-                case 1:
-                    OutputOriginalImage = new CStreamWriter(outputStream.GetBuffer());
-                    break;
-                case 2:
-                    OutputImage = new CStreamWriter(outputStream.GetBuffer());
-                    break;
-            }
+            OutputImage = new CStreamWriter(outputStream.GetBuffer());
 
         }
 
