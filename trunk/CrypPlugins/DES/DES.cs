@@ -234,7 +234,16 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     throw new Exception(String.Format("The specified key has a length of {0} bytes. The DES algorithm needs a keylength of 8 bytes.", this.inputKey.Length));
             }
 
-            alg.Key = this.inputKey;
+            try
+            {
+                alg.Key = inputKey;
+            }
+            catch
+            {
+                //dirty hack to allow weak keys:
+                FieldInfo field = alg.GetType().GetField("KeyValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                field.SetValue(alg, inputKey);
+            }
 
             //check for a valid IV
 
@@ -310,7 +319,17 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 // special handling of OFB mode, as it's not available for DES in .Net
                 if (settings.Mode == 3)    // OFB - bei OFB ist encrypt = decrypt, daher keine Fallunterscheidung
                 {
-                    p_encryptor = p_alg.CreateEncryptor(p_alg.Key, p_alg.IV);
+                    try
+                    {
+                        p_encryptor = p_alg.CreateEncryptor(p_alg.Key, p_alg.IV);
+                    }
+                    catch
+                    {
+                        //dirty hack to allow weak keys:
+                        MethodInfo mi = p_alg.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance);
+                        object[] Par = { p_alg.Key, p_alg.Mode, p_alg.IV, p_alg.FeedbackSize, 0 };
+                        p_encryptor = mi.Invoke(p_alg, Par) as ICryptoTransform;
+                    }
 
                     byte[] IV = new byte[p_alg.IV.Length];
                     Array.Copy(p_alg.IV, IV, p_alg.IV.Length);
@@ -331,8 +350,19 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                     outputStreamWriter.Write(outputData);
                 }
                 else
-                {
-                    p_encryptor = (action==0) ? p_alg.CreateEncryptor() : p_alg.CreateDecryptor();
+                {                    
+                    try
+                    {
+                        p_encryptor = (action == 0) ? p_alg.CreateEncryptor() : p_alg.CreateDecryptor();
+                    }
+                    catch
+                    {
+                        //dirty hack to allow weak keys:
+                        MethodInfo mi = (action == 0) ?  p_alg.GetType().GetMethod("_NewEncryptor", BindingFlags.NonPublic | BindingFlags.Instance)
+                            : p_alg.GetType().GetMethod("_NewDecryptor", BindingFlags.NonPublic | BindingFlags.Instance); ;                                               
+                        object[] par = { p_alg.Key, p_alg.Mode, p_alg.IV, p_alg.FeedbackSize, 0 };
+                        p_encryptor = mi.Invoke(p_alg, par) as ICryptoTransform;
+                    }
                     p_crypto_stream = new CryptoStream((Stream)reader, p_encryptor, CryptoStreamMode.Read);
                     
                     byte[] buffer = new byte[p_alg.BlockSize / 8];
