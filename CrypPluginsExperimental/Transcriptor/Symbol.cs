@@ -21,7 +21,8 @@ namespace Transcriptor
     class Symbol
     {
         int id;
-        double xCordinate, yCordinate, probability;
+        double xCordinate, yCordinate;
+        double probability = 100;
         Rectangle rectangle;
         char letter;
         BitmapSource image;
