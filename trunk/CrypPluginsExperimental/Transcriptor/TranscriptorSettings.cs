@@ -29,7 +29,6 @@ namespace Cryptool.Plugins.Transcriptor
         private int rectangleColor;
         private int selectedRectangleColor;
         private int mode = 1;
-        private int method = 1;
         private int threshold = 75;
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
  
@@ -37,7 +36,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         #region TaskPane Settings
 
-        [TaskPane("Rectangle Color", "ColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Blue", "Green", "Yellow" })]
+        [TaskPane("Rectangle Color", "RectangleColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Blue", "Green", "Yellow" })]
         public int RectangleColor
         {
             get
@@ -54,7 +53,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("Selected Rectangle Color", "ColorTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Red", "Black", "White" })]
+        [TaskPane("Selected Rectangle Color", "SelectedColorTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Red", "Black", "White" })]
         public int SelectedRectangleColor
         {
             get
@@ -106,25 +105,7 @@ namespace Cryptool.Plugins.Transcriptor
                 }
             }
         }
-
-        [TaskPane("ComparisionMethods", "ComparisonMethodsTooltip", "Mode", 5, false, ControlType.ComboBox, new String[] { "CCOEFF", "CCOEFF_NORMED",
-            "CCORR", "CCORR_NORMED", "SQDIFF", "SQDIFF_NORMED" })]
-        public int Method
-        {
-            get
-            {
-                return method;
-            }
-            set
-            {
-                if (value != method)
-                {
-                    method = value;
-                    OnPropertyChanged("Method");
-                }
-            }
-        }
-        
+       
         [TaskPane("Threshold", "ThresholdTooltip", "Mode", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int Threshold
         {
@@ -150,12 +131,10 @@ namespace Cryptool.Plugins.Transcriptor
         {
             if (Mode == 1)
             {
-                settingChanged("Method", Visibility.Visible);
                 settingChanged("Threshold", Visibility.Visible);
             }
             else
             {
-                settingChanged("Method", Visibility.Collapsed);
                 settingChanged("Threshold", Visibility.Collapsed);
             }
         }

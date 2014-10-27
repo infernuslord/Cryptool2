@@ -38,9 +38,9 @@ namespace Transcriptor
 
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
         String rectangleColor, selectedRectangleColor;
-        int alphabetCount = 0, indexCount = 0, comparisonMethod, currentRectangeleWidth, currentRectangleHeight;
+        int alphabetCount = 0, indexCount = 0, currentRectangeleWidth, currentRectangleHeight;
         bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false;
-        List<Symbol> symbolList = new List<Symbol>();
+        List<Symbol> symbolList = new List<Symbol>(); //contains all symbols wich will are used for the Text
         ObservableCollection<Symbol> symbolItems = new ObservableCollection<Symbol>(); // Handels ListboxItems
         Dictionary<char, int> statsList = new Dictionary<char, int>();
         List<Symbol> firstSymbols = new List<Symbol>();
@@ -86,12 +86,6 @@ namespace Transcriptor
             set { mtOn = value; }
         }
 
-        public int ComparisonMethod
-        {
-            get { return comparisonMethod; }
-            set { comparisonMethod = value; }
-        }
-
         public float Threshold
         {
             get { return threshold; }
@@ -104,7 +98,7 @@ namespace Transcriptor
 
         /// <summary>
         /// MouseDown is used for:
-        /// 1. When Ctrl is pushed a Symbol can be deleted
+        /// 1. When Ctrl-Btn is pushed a Symbol can be deleted
         /// 2. When FirstSymbol on is active a Symbol can be marked as such
         /// 3. Startpoint of the rectangles are saved in xCordinateDown and yCordinateDown
         /// </summary>
@@ -134,16 +128,16 @@ namespace Transcriptor
 
                         for (int i = 0; i < symbolList.Count; i++)
                         {
-                            // The statsList's value is subtracted since the Symbol is removed
+                            // The statsList's value is subtracted beacause the Symbol is removed
                             if (number == symbolList[i].Id)
                             {
                                 int value = statsList[symbolList[i].Letter];
                                 statsList[symbolList[i].Letter] = value - 1;
 
-                                //When the value is 0 the Letter is also removed from the ListBox
+                                //When the value is 0 the Symbol is also removed from the ListBox
                                 if (statsList[symbolList[i].Letter] == 0)
                                 {
-                                    /*Since the Symbol Object to be earased isn't always
+                                    /*Since the Symbol Object which gets earased isn't always
                                      * the one that is in the symbolItems List an if-case is
                                      * needed to find the right one in the List. So it can be removed*/
                                     for (int j = 0; j < symbolItems.Count; j++)
@@ -340,17 +334,13 @@ namespace Transcriptor
                 }
                 else
                 {
-                    char newLetter = transcriptor.Alphabet[alphabetCount++];
+                    alphabetCount = 0;
+                    char newLetter = transcriptor.Alphabet[alphabetCount];
 
                     //Uses the next free Letter
                     while (statsList.ContainsKey(newLetter))
                     {
                         newLetter = transcriptor.Alphabet[alphabetCount++];
-
-                        if (alphabetCount >= transcriptor.Alphabet.Length)
-                        {
-                            alphabetCount = 0;
-                        }
                     }
 
                     //Creates a new Symbol with the SymbolImage and letter afterwards the AddSymbolToList is called
@@ -359,17 +349,17 @@ namespace Transcriptor
                     symbolListbox.ItemsSource = symbolItems;
                     indexCount++;
 
-                    AddSymbolToList(newSymbol, currentRectangeleWidth, currentRectangleHeight,
-                        Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
-
-                    if (alphabetCount >= transcriptor.Alphabet.Length)
-                    {
-                        alphabetCount = 0;
-                    }
-
+                    /*If MatchTemplateOn is set to true the AddSymbolToList Method is not necasary here.
+                     * MatchTemplate mode can not check if a symbol is already in the List*/
                     if (MatchTemplateOn)
                     {
-                        MatchSymbol(newSymbol);
+                        MatchSymbol(newSymbol, currentRectangeleWidth, currentRectangleHeight,
+                        (int) Math.Min(xCordinateDown, xCordinateUp), (int) Math.Min(yCordinateDown, yCordinateUp));
+                    }
+                    else
+                    {
+                        AddSymbolToList(newSymbol, currentRectangeleWidth, currentRectangleHeight,
+                        Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
                     }
                 }
             }
@@ -380,7 +370,8 @@ namespace Transcriptor
         }
 
         /// <summary>
-        /// When the user double clicks in an item a Symbol will be created an added to symbolList
+        /// When the user double clicks in an item a Symbol will be created an added to symbolList.
+        /// When the user also press the Ctrl-Button all Symbols like the item will be deleted in all lists
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -393,11 +384,56 @@ namespace Transcriptor
 
                 if (item != null || item.IsSelected)
                 {
-                    //From the Item the letter can be extracted and added to the symbolList and canvas
-                    Symbol symbol = new Symbol(indexCount, item.Content.ToString()[0], croppedBitmap);
-                    indexCount++;
-                    AddSymbolToList(symbol, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
-                        Math.Min(yCordinateDown, yCordinateUp));
+                    //All Symbols like the item object will be removed
+                    if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                    {
+                        for (int i = 0; i < symbolList.Count; i++)
+                        {
+                            if (symbolList[i].Letter.Equals(item.Content.ToString()[0]))
+                            {
+                                canvas.Children.Remove(symbolList[i].Rectangle);
+                                symbolList.RemoveAt(i);
+                                i--;
+                            }
+                        }
+
+                        //Removes the letter in statsList
+                        statsList.Remove(item.Content.ToString()[0]);
+
+                        //Also in firstSymbols
+                        for (int k = 0; k < firstSymbols.Count; k++)
+                        {
+                            if (firstSymbols[k].Letter.Equals(item.Content.ToString()[0]))
+                            {
+                                firstSymbols.RemoveAt(k);
+                                k--;
+                            }
+                        }
+
+                        //Finds the Symbol in symbolItems and removes it
+                        for (int j = 0; j < symbolItems.Count; j++)   
+                        {
+                            if (symbolItems[j].Letter.Equals(item.Content.ToString()[0]))   
+                            {
+                                symbolItems.RemoveAt(j);
+                                 break;   
+                            }    
+                        }
+
+                        if (statsList.Count <= transcriptor.Alphabet.Length)
+                        {
+                            addSymbolButton.IsEnabled = true;
+                        }
+                    }
+                    //A new Symbol gets created and added in symbolList 
+                    else
+                    {
+                        //From the item the letter can be extracted and added to the symbolList and canvas
+                        Symbol symbol = new Symbol(indexCount, item.Content.ToString()[0], croppedBitmap);
+                        indexCount++;
+                        AddSymbolToList(symbol, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
+                            Math.Min(yCordinateDown, yCordinateUp));
+                    }
                 }
             }
             catch (Exception ex)
@@ -442,13 +478,12 @@ namespace Transcriptor
         {
             try
             {
+                //Creates a spaceSymbol Objects and add it in the symbolList
                 Symbol spaceSymbol = new Symbol(indexCount, ' ', croppedBitmap);
                 indexCount++;
 
                 AddSymbolToList(spaceSymbol, currentRectangeleWidth, currentRectangleHeight,
                             Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
-
-                spaceSymbol.Rectangle.ToolTip = "Space";
             }
             catch (Exception ex)
             {
@@ -537,29 +572,8 @@ namespace Transcriptor
                 Name = "rectangle" +newSymbol.Id,
             };
 
-            /*searches the symbolItems Object with the same Letter as newSymbol.Letter
-             *this way the Image from the ListBox can be presented in the ToolTip, too*/
-            int index = 0;
-            for (int i = 0; i < symbolItems.Count; i++)
-            {
-                if (newSymbol.Letter == symbolItems[i].Letter)
-                {
-                    index = i;
-                    break;
-                }
-            }
-
-            //ToolTip Layout configurations
-            StackPanel stack = new StackPanel();
-            stack.Orientation = Orientation.Vertical;
-            stack.Children.Add(new TextBlock { Text = symbolItems[index].Letter.ToString(), FontSize = 15,
-                HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0,0,0,0), FontWeight = FontWeights.Bold  });
-
-            stack.Children.Add(new Image { Source = symbolItems[index].Image, Stretch = Stretch.Fill, Width = 40,
-                Height = 40, VerticalAlignment = VerticalAlignment.Bottom, HorizontalAlignment = HorizontalAlignment.Left });
-
-            newRectangle.ToolTip = stack;
+            //Adds the right with an image
+            newRectangle.ToolTip = AddToolTip(newSymbol.Letter);
             
             //places the rectangle on the canvas
             Canvas.SetLeft(newRectangle, x);
@@ -586,36 +600,45 @@ namespace Transcriptor
 
         private void calculateProbability()
         {
-            Image<Gray, Byte> cImage = new Image<Gray, byte>(ToBitmap(croppedBitmap));
-            cImage = cImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-
+            Image<Gray, Byte> rectangleImage = new Image<Gray, byte>(ToBitmap(croppedBitmap));
+            rectangleImage = rectangleImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+            System.Drawing.Bitmap rectangleBitmap = rectangleImage.ToBitmap();
+            
             if (symbolItems.Count > 0)
             {
                 for (int i = 0; i < symbolItems.Count; i++)
                 {
-                    Image<Gray, Byte> sImage = new Image<Gray, byte>(ToBitmap(symbolItems[i].Image));
-                    sImage = sImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+                    Image<Gray, Byte> itemImage = new Image<Gray, byte>(ToBitmap(symbolItems[i].Image));
+                    itemImage = itemImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+                    System.Drawing.Bitmap itemBitmap = itemImage.ToBitmap();
 
-                    Image<Gray, Byte> diffImage = cImage.AbsDiff(sImage);
+                    Image<Gray, Byte> absImage = rectangleImage.AbsDiff(itemImage);
+                    Image<Gray, Byte> diffImage = absImage + rectangleImage;
+                    
                     System.Drawing.Bitmap bitmapDiff = diffImage.ToBitmap();
-                    int pixelCounter = 0;
-
+                    int diffPixelCounter = 0, itemPixelCounter = 0;
+                    
                     for (int x = 0; x < bitmapDiff.Width; x++)
                     {
                         for (int y = 0; y < bitmapDiff.Height; y++)
                         {
-                            System.Drawing.Color pixelColor = bitmapDiff.GetPixel(x, y);
+                            System.Drawing.Color diffPixelColor = bitmapDiff.GetPixel(x, y);
+                            System.Drawing.Color itemPixelColor = itemBitmap.GetPixel(x, y);
 
-                            if ((pixelColor.R + pixelColor.G + pixelColor.B) == 0)
+                            if ((int)diffPixelColor.R < 255 && (int)diffPixelColor.G < 255 && (int)diffPixelColor.B < 255)
                             {
-                                pixelCounter++;
+                                diffPixelCounter++;
+                            }
+
+                            if ((int)itemPixelColor.R < 255 && (int)itemPixelColor.G < 255 && (int)itemPixelColor.B < 255)
+                            {
+                                itemPixelCounter++;
                             }
                         }
                     }
 
-                    symbolItems[i].Probability = pixelCounter * 0.01;
+                    symbolItems[i].Probability = Math.Ceiling(((double)diffPixelCounter / (double)itemPixelCounter) * 100d);
                 }
-
                 
                 symbolListbox.Items.Refresh();
             }
@@ -625,13 +648,10 @@ namespace Transcriptor
         /// Finds equal symbols and adds them to the symbolList
         /// </summary>
         /// <param name="newSymbol"></param>
-        private void MatchSymbol(Symbol newSymbol)
+        private void MatchSymbol(Symbol newSymbol, int width, int height, int symbolX, int symbolY)
         {
-            int cropWidth = currentRectangeleWidth;
-            int cropHeight = currentRectangleHeight;
-
             //Since Emgu CV is not compatible to WPF the pictures have to be changed to System.Drawing objects 
-            System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int)newSymbol.X, (int)newSymbol.Y, cropWidth, cropHeight);
+            System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle(symbolX, symbolY, width, height);
             Image<Gray, Byte> sourceImage = new Image<Gray, byte>(ToBitmap(picture.Source as BitmapSource));
 
             //The Images have to be resized so they have the same Width and height like the picture.Source otherwise the coordinates are wrong
@@ -642,22 +662,13 @@ namespace Transcriptor
             //The templateImage is the Image with the Symbol
             Image<Gray, Byte> templateImage = new Image<Gray, byte>(symbolBitmap);
             Image<Gray, float> resultImage;
+    
+            //The template method
+            resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED);
 
-            switch (comparisonMethod)
-            {
-                case 0: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF); break;
-                case 1: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED); break;
-                case 2: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCORR); break;
-                case 3: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCORR_NORMED); break;
-                case 4: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_SQDIFF); break;
-                case 5: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_SQDIFF_NORMED); break;
-                default: resultImage = sourceImage.MatchTemplate(templateImage, Emgu.CV.CvEnum.TM_TYPE.CV_TM_CCOEFF_NORMED); break;
-            }
-            
             float[, ,] matches = resultImage.Data;
             bool skip = false;
-            bool firstSymbol = true;
-
+            
             for (int y = 0; y < matches.GetLength(0); y++)
             {
                 for (int x = 0; x < matches.GetLength(1); x++)
@@ -668,24 +679,18 @@ namespace Transcriptor
 
                     if (matchScore > Threshold)
                     {
-                        if (firstSymbol)
-                        {
-                            firstSymbol = false;
-                        }
-                        else
-                        {
-                            Symbol equalSymbol = new Symbol(indexCount, newSymbol.Letter, newSymbol.Image);
-                            indexCount++;
+                        Symbol equalSymbol = new Symbol(indexCount, newSymbol.Letter, newSymbol.Image);    
+                        indexCount++;
 
-                            AddSymbolToList(equalSymbol, currentRectangeleWidth, currentRectangleHeight, x, y); 
-                        }
-
-                        //a Skip is necasary beacause MatchTemplate would find Symbol objects several times
+                        AddSymbolToList(equalSymbol, currentRectangeleWidth, currentRectangleHeight, x, y); 
+                        
+                        //a Skip is necasary beacause otherwise MatchTemplate finds Symbol objects several times
                         x += currentRectangeleWidth;
                         skip = true;
                     }
                 }
 
+                //For the y coordinate a skip is necasary, too
                 if (skip)
                 {
                     y += currentRectangleHeight;
@@ -713,6 +718,62 @@ namespace Transcriptor
                 return bitmap;
             }
         }
+
+        /// <summary>
+        /// Adds the right toolTip in a rectangle
+        /// </summary>
+        /// <param name="letter"></param>
+        /// <returns></returns>
+        private object AddToolTip(char letter)
+        {
+            if (letter.Equals(' '))
+            {
+                return "Space";
+
+            }
+            else
+            {
+                /*searches the symbolItems Object with the same Letter as newSymbol.Letter
+                 * *this way the Image from the ListBox can be presented in the ToolTip, too*/
+                int index = 0;
+
+                for (int i = 0; i < symbolItems.Count; i++)
+                {
+                    if (letter == symbolItems[i].Letter)
+                    {
+                        index = i;
+                        break;
+                    }
+                }
+
+                //ToolTip Layout configurations
+                StackPanel stack = new StackPanel();
+                stack.Orientation = Orientation.Vertical;
+                stack.Children.Add(new TextBlock
+                {
+                    Text = letter.ToString(),
+                    FontSize = 15,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 0),
+                    FontWeight = FontWeights.Bold
+                });
+
+                stack.Children.Add(new Image
+                {
+                    Source = symbolItems[index].Image,
+                    Stretch = Stretch.Fill,
+                    Width = 40,
+                    Height = 40,
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                    HorizontalAlignment = HorizontalAlignment.Left
+                });
+
+                return stack;
+            }
+            
+        }
+
         #endregion
     }
 }

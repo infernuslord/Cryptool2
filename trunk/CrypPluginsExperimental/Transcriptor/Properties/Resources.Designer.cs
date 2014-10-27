@@ -59,5 +59,14 @@ namespace Transcriptor.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set the rectangle color ähnelt.
+        /// </summary>
+        internal static string RectangleColorTooltip {
+            get {
+                return ResourceManager.GetString("RectangleColorTooltip", resourceCulture);
+            }
+        }
     }
 }
