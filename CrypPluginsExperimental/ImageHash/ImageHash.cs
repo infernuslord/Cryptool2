@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.ImageHash
         /// <summary>
         /// Input image ICryptoolStream, handles "inputImage".
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputImage", "This is the standard image used for the hashing.")]
+        [PropertyInfo(Direction.InputData, "InputImage", "This is the standard image used for the hashing.", true)]
         public ICryptoolStream InputImage
         {
             get
@@ -130,6 +130,14 @@ namespace Cryptool.Plugins.ImageHash
         /// </summary>
         public void PreExecution()
         {
+            inputImage = null;
+            orgImg = null;
+            step1Img = null;
+            step2Img = null;
+            step4Img = null;
+            step6Bmp = null;
+            outputHash = null;
+            isRunning = true;
         }
 
         /// <summary>
@@ -148,7 +156,6 @@ namespace Cryptool.Plugins.ImageHash
         {
             int progress = 1;
             const int STEPS = 11;
-            isRunning = true;
 
             // An imagesize under 4x4 does not make any sense
             if (settings.Size < 4)

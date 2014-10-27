@@ -55,7 +55,7 @@ namespace Cryptool.Plugins.ImageProcessor
         /// <summary>
         /// Input image1 ICryptoolStream, handles "inputImage1".
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputImage1", "This is the standard image used for the processing.")]
+        [PropertyInfo(Direction.InputData, "InputImage1", "This is the standard image used for the processing.", true)]
         public ICryptoolStream InputImage1
         {
             get;
@@ -107,6 +107,8 @@ namespace Cryptool.Plugins.ImageProcessor
         /// </summary>
         public void PreExecution()
         {
+            InputImage1 = null;
+            InputImage2 = null;
         }
 
         /// <summary>
@@ -123,7 +125,7 @@ namespace Cryptool.Plugins.ImageProcessor
                     InputImage1 = InputImage2;
                 }
                 else
-                {;
+                {
                     GuiLogMessage("Please select an image.", NotificationLevel.Error);
                     return;
                 }
@@ -191,42 +193,70 @@ namespace Cryptool.Plugins.ImageProcessor
                                 }
                                 break;
                             case ActionType.and:    // And-connect Images
-                                using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
+                                if (InputImage1 != null && InputImage2 != null)
                                 {
-                                    using (Image<Bgr, byte> newImg = img.And(secondImg))
+                                    using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
                                     {
-                                        CreateOutputStream(newImg.ToBitmap());
-                                    }
-                                }
-                                break;
-                            case ActionType.or:    // Ond-connect Images
-                                using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
-                                {
-                                    using (Image<Bgr, byte> newImg = img.Or(secondImg))
-                                    {
-                                        CreateOutputStream(newImg.ToBitmap());
-                                    }
-                                }
-                                break;
-                            case ActionType.xor:    // Xor-connect Images
-                                using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
-                                {
-                                    using (Image<Bgr, byte> newImg = img.Xor(secondImg))
-                                    {
-                                        CreateOutputStream(newImg.ToBitmap());
-                                    }
-                                }
-                                break;
-                            case ActionType.xorgray: // Xor- ImageGrayScales
-                                using (Image<Gray, byte> grayImg2 = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())).Convert<Gray, byte>())
-                                {
-                                    using (Image<Gray, byte> grayImg1 = img.Convert<Gray, byte>())
-                                    {
-                                        using (Image<Gray, byte> newImg = grayImg1.Xor(grayImg2))
+                                        using (Image<Bgr, byte> newImg = img.And(secondImg))
                                         {
                                             CreateOutputStream(newImg.ToBitmap());
                                         }
                                     }
+                                }
+                                else
+                                {
+                                    GuiLogMessage("Please select two images.", NotificationLevel.Error);
+                                }
+                                break;
+                            case ActionType.or:    // Ond-connect Images
+                                if (InputImage1 != null && InputImage2 != null)
+                                {
+                                    using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
+                                    {
+                                        using (Image<Bgr, byte> newImg = img.Or(secondImg))
+                                        {
+                                            CreateOutputStream(newImg.ToBitmap());
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    GuiLogMessage("Please select two images.", NotificationLevel.Error);
+                                }
+                                break;
+                            case ActionType.xor:    // Xor-connect Images
+                                if (InputImage1 != null && InputImage2 != null)
+                                {
+                                    using (Image<Bgr, Byte> secondImg = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())))
+                                    {
+                                        using (Image<Bgr, byte> newImg = img.Xor(secondImg))
+                                        {
+                                            CreateOutputStream(newImg.ToBitmap());
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    GuiLogMessage("Please select two images.", NotificationLevel.Error);
+                                }
+                                break;
+                            case ActionType.xorgray: // Xor- ImageGrayScales
+                                if (InputImage1 != null && InputImage2 != null)
+                                {
+                                    using (Image<Gray, byte> grayImg2 = new Image<Bgr, Byte>(new Bitmap(InputImage2.CreateReader())).Convert<Gray, byte>())
+                                    {
+                                        using (Image<Gray, byte> grayImg1 = img.Convert<Gray, byte>())
+                                        {
+                                            using (Image<Gray, byte> newImg = grayImg1.Xor(grayImg2))
+                                            {
+                                                CreateOutputStream(newImg.ToBitmap());
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    GuiLogMessage("Please select two images.", NotificationLevel.Error);
                                 }
                                 break;
                             case ActionType.blacknwhite:
