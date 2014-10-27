@@ -96,16 +96,6 @@ namespace Cryptool.Plugins.ImageHash
         }
 
         /// <summary>
-        /// Output original unprocessed image as ICryptoolStream.
-        /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputOriginalImage", "This is the original unprocessed Image.")]
-        public ICryptoolStream OutputOriginalImage
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
         /// Output processed image as ICryptoolStream.
         /// </summary>
         [PropertyInfo(Direction.OutputData, "OutputImage", "This is the OutputImage after processing.")]
@@ -223,8 +213,6 @@ namespace Cryptool.Plugins.ImageHash
                 {
                     // Original Image:
                     orgImg = new Image<Bgr, Byte>(bitmap);
-                    CreateOutputStream(bitmap, 1);
-                    OnPropertyChanged("OutputOriginalImage");
                     if ((settings.PresentationStep > 1 && settings.ShowEachStep) || (settings.PresentationStep == 1))
                     {
                         CreateOutputStream(bitmap);
@@ -549,14 +537,9 @@ namespace Cryptool.Plugins.ImageHash
             return result;
         }
 
-        private void CreateOutputStream(Bitmap bitmap)
-        {
-            CreateOutputStream(bitmap, 2);
-        }
-
         /// <summary>Create output stream to display.</summary>
         /// <param name="bitmap">The bitmap to display.</param>
-        private void CreateOutputStream(Bitmap bitmap, int i)
+        private void CreateOutputStream(Bitmap bitmap)
         {
             Bitmap newBitmap;
             if (bitmap.HorizontalResolution < 100)
@@ -586,16 +569,7 @@ namespace Cryptool.Plugins.ImageHash
             saveableBitmap.Dispose();
             newBitmap.Dispose();
 
-            switch (i)
-            {
-                case 1:
-                    OutputOriginalImage = new CStreamWriter(outputStream.GetBuffer());
-                    break;
-                case 2:
-                    OutputImage = new CStreamWriter(outputStream.GetBuffer());
-                    break;
-            }
-            
+            OutputImage = new CStreamWriter(outputStream.GetBuffer());
         }
 
         /// <summary>Makes sure that a bitmap is not a useless "MemoryBitmap".</summary>
