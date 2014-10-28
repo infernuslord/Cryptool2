@@ -39,7 +39,7 @@ namespace Transcriptor
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
         String rectangleColor, selectedRectangleColor;
         int alphabetCount = 0, indexCount = 0, currentRectangeleWidth, currentRectangleHeight;
-        bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false;
+        bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false, isBlackImage = false;
         List<Symbol> symbolList = new List<Symbol>(); //contains all symbols wich will are used for the Text
         ObservableCollection<Symbol> symbolItems = new ObservableCollection<Symbol>(); // Handels ListboxItems
         Dictionary<char, int> statsList = new Dictionary<char, int>();
@@ -598,38 +598,59 @@ namespace Transcriptor
             }
         }
 
+        /// <summary>
+        /// Calculates for all Symbols in the itemList how similar they are to the croppedBitmap
+        /// </summary>
         private void calculateProbability()
         {
             Image<Gray, Byte> rectangleImage = new Image<Gray, byte>(ToBitmap(croppedBitmap));
-            rectangleImage = rectangleImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-            System.Drawing.Bitmap rectangleBitmap = rectangleImage.ToBitmap();
-            
+
             if (symbolItems.Count > 0)
             {
+                //Inverts the Image if it has black background
+                if (isBlackImage)
+                {
+                    rectangleImage = rectangleImage.Not();
+                }
+
+                //Both images must have the same size so they both get set to 50x50 pixel
+                rectangleImage = rectangleImage.Resize(50, 50, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+
                 for (int i = 0; i < symbolItems.Count; i++)
                 {
                     Image<Gray, Byte> itemImage = new Image<Gray, byte>(ToBitmap(symbolItems[i].Image));
-                    itemImage = itemImage.Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
-                    System.Drawing.Bitmap itemBitmap = itemImage.ToBitmap();
 
-                    Image<Gray, Byte> absImage = rectangleImage.AbsDiff(itemImage);
-                    Image<Gray, Byte> diffImage = absImage + rectangleImage;
-                    
-                    System.Drawing.Bitmap bitmapDiff = diffImage.ToBitmap();
-                    int diffPixelCounter = 0, itemPixelCounter = 0;
-                    
-                    for (int x = 0; x < bitmapDiff.Width; x++)
+                    if (isBlackImage)
                     {
-                        for (int y = 0; y < bitmapDiff.Height; y++)
-                        {
-                            System.Drawing.Color diffPixelColor = bitmapDiff.GetPixel(x, y);
-                            System.Drawing.Color itemPixelColor = itemBitmap.GetPixel(x, y);
+                        itemImage = itemImage.Not();
+                    }
 
+                    itemImage = itemImage.Resize(50, 50, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR);
+
+                    //Calculates the absolute differance of both images so both images will overlap
+                    Image<Gray, Byte> absImage = rectangleImage.AbsDiff(itemImage);
+
+                    /*afterwards the cropImage is added to the absImage so only the pixels are visible
+                     * wich are in the symbol from the image*/
+                    Image<Gray, Byte> diffImage = absImage + rectangleImage;
+
+                    int diffPixelCounter = 0, itemPixelCounter = 0;
+
+                    for (int x = 0; x < diffImage.Width; x++)
+                    {
+                        for (int y = 0; y < diffImage.Height; y++)
+                        {
+                            //Saves the color from the pixel of diffImage and itemImage
+                            System.Drawing.Color diffPixelColor = diffImage.Bitmap.GetPixel(x, y);
+                            System.Drawing.Color itemPixelColor = itemImage.Bitmap.GetPixel(x, y);
+
+                            //Counts only the pixes without the background
                             if ((int)diffPixelColor.R < 255 && (int)diffPixelColor.G < 255 && (int)diffPixelColor.B < 255)
                             {
                                 diffPixelCounter++;
                             }
 
+                            //Counts the pixels from the item symbol
                             if ((int)itemPixelColor.R < 255 && (int)itemPixelColor.G < 255 && (int)itemPixelColor.B < 255)
                             {
                                 itemPixelCounter++;
@@ -637,10 +658,26 @@ namespace Transcriptor
                         }
                     }
 
-                    symbolItems[i].Probability = Math.Ceiling(((double)diffPixelCounter / (double)itemPixelCounter) * 100d);
+                    //Afterwards the diffpixels are divided with the itempixel to get are procentual value
+                    if (itemPixelCounter == 0)
+                    {
+                        symbolItems[i].Probability = 0;
+                    }
+                    else
+                    {
+                        symbolItems[i].Probability = Math.Ceiling(((double)diffPixelCounter / (double)itemPixelCounter) * 100d);
+                    }
                 }
-                
+
                 symbolListbox.Items.Refresh();
+            }
+            else
+            {
+                //If the image has black background the picture has to be inverted first
+                if (rectangleImage.Bitmap.GetPixel(0, 0).R == 0)
+                {
+                    isBlackImage = true;
+                }
             }
         }
 
