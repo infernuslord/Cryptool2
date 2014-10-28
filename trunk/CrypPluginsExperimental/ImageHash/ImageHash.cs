@@ -155,9 +155,10 @@ namespace Cryptool.Plugins.ImageHash
         public void Execute()
         {
             int progress = 1;
-            const int STEPS = 11;
+            const int STEPS = 10;
 
             // An imagesize under 4x4 does not make any sense
+            // Sices above 128x128 get to slow
             if (settings.Size < 4)
             {
                 settings.Size = 4;
@@ -206,6 +207,7 @@ namespace Cryptool.Plugins.ImageHash
                 }
             }
             OnPropertyChanged("size");
+
             ProgressChanged(0, 1);
 
             if (InputImage == null)
@@ -532,14 +534,30 @@ namespace Cryptool.Plugins.ImageHash
         /// <param name="b">The bitmap to resize.</param>
         /// <param name="nWidth">The new width.</param>
         /// <param name="nHeight">The new height.</param>
-        private Bitmap ResizeBitmap(Bitmap b, int nWidth, int nHeight)
+        private Bitmap ResizeBitmap(Bitmap b)
         {
-            Bitmap result = new Bitmap(nWidth, nHeight);
+            int size = 0;
+            if (b.Width < b.Height)
+            {
+                size = b.Width;
+            }
+            else
+            {
+                size = b.Height;
+            }
+
+            int newSize = size;
+            while (newSize < 300)
+            {
+                newSize *= 2;
+            }
+            Bitmap result = new Bitmap(newSize, newSize);
+            newSize += newSize / (size * 2 - 1);
             using (Graphics g = Graphics.FromImage(result))
             {
                 g.SmoothingMode = SmoothingMode.None;
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.DrawImage(b, 0, 0, nWidth, nHeight);
+                g.DrawImage(b, 0, 0, newSize, newSize);
             }
             return result;
         }
@@ -548,15 +566,9 @@ namespace Cryptool.Plugins.ImageHash
         /// <param name="bitmap">The bitmap to display.</param>
         private void CreateOutputStream(Bitmap bitmap)
         {
-            Bitmap newBitmap;
-            if (bitmap.HorizontalResolution < 100)
-            {
-                newBitmap = ResizeBitmap(bitmap, (int)bitmap.HorizontalResolution, (int)bitmap.VerticalResolution);
-            }
-            else
-            {
-                newBitmap = bitmap;
-            }
+            // Avoid smoothing of WPF
+            if (settings.PresentationStep > 2) 
+                bitmap = ResizeBitmap(bitmap);
             ImageFormat format = ImageFormat.Bmp;
             if (settings.OutputFileFormat == 1)
             {
@@ -567,14 +579,14 @@ namespace Cryptool.Plugins.ImageHash
                 format = ImageFormat.Tiff;
             }
 
-            //avoid "generic error in GDI+"
-            Bitmap saveableBitmap = CopyBitmap(newBitmap, format);
+            // Avoid "generic error in GDI+"
+            Bitmap saveableBitmap = CopyBitmap(bitmap, format);
 
-            //save bitmap
+            // Save bitmap
             MemoryStream outputStream = new MemoryStream();
             saveableBitmap.Save(outputStream, format);
             saveableBitmap.Dispose();
-            newBitmap.Dispose();
+            bitmap.Dispose();
 
             OutputImage = new CStreamWriter(outputStream.GetBuffer());
         }

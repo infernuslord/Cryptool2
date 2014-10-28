@@ -131,7 +131,14 @@ namespace Cryptool.Plugins.ImageProcessor
             {
                 if (smooth != value)
                 {
-                    smooth = value;
+                    if (value > 10000)
+                    {
+                        smooth = 10000;
+                    }
+                    else
+                    {
+                        smooth = value;
+                    }
                     OnPropertyChanged("smooth");
                 }
             }
@@ -246,7 +253,14 @@ namespace Cryptool.Plugins.ImageProcessor
             {
                 if (sizeX != value)
                 {
-                    sizeX = value;
+                    if (value > 4096)
+                    {
+                        sizeX = 4096;
+                    }
+                    else
+                    {
+                        sizeX = value;
+                    }
                     OnPropertyChanged("sizeX");
                 }
             }
@@ -263,7 +277,14 @@ namespace Cryptool.Plugins.ImageProcessor
             {
                 if (sizeY != value)
                 {
-                    sizeY = value;
+                    if (value > 4096)
+                    {
+                        sizeY = 4096;
+                    }
+                    else
+                    {
+                        sizeY = value;
+                    }
                     OnPropertyChanged("sizeY");
                 }
             }
@@ -280,7 +301,14 @@ namespace Cryptool.Plugins.ImageProcessor
             {
                 if (degrees != value)
                 {
-                    degrees = value;
+                    if (value > 36000)
+                    {
+                        degrees = 360;
+                    }
+                    else
+                    {
+                        degrees = value;
+                    }
                     OnPropertyChanged("degrees");
                 }
             }
