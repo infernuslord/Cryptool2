@@ -23,6 +23,8 @@ using System.Windows.Controls;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
 using Emgu.CV;
@@ -159,13 +161,22 @@ namespace Cryptool.Plugins.ImageProcessor
                                 }
                                 break;
                             case ActionType.smooth: // Smoothing
+                                if (settings.Smooth > 10000)
+                                    settings.Smooth = 10000;
                                 int smooth = settings.Smooth;
                                 if (smooth % 2 == 0)
+                                {
                                     smooth++;
+                                    settings.Smooth = smooth;
+                                }
                                 img._SmoothGaussian(smooth);
                                 CreateOutputStream(img.ToBitmap());
                                 break;
                             case ActionType.resize: // Resizeing
+                                if (settings.SizeX > 4096)
+                                    settings.SizeX = 4096;
+                                if (settings.SizeY > 4096)
+                                    settings.SizeY = 4096;
                                 using (Image<Bgr, byte> newImg = img.Resize(settings.SizeX, settings.SizeY, Emgu.CV.CvEnum.INTER.CV_INTER_LINEAR))
                                 {
                                     CreateOutputStream(newImg.ToBitmap());
@@ -175,7 +186,18 @@ namespace Cryptool.Plugins.ImageProcessor
                                 this.CropImage();
                                 break;
                             case ActionType.rotate: // Rotating
-                                using (Image<Bgr, byte> newImg = img.Rotate(settings.Degrees, new Bgr(Color.White)))
+                                if (settings.Degrees > 36000)
+                                    settings.Degrees = 360;
+                                int degrees = settings.Degrees;
+                                while (degrees > 3600)
+                                {
+                                    degrees -= 3600;
+                                }
+                                while (degrees > 360)
+                                {
+                                    degrees -= 360;
+                                }
+                                using (Image<Bgr, byte> newImg = img.Rotate(degrees, new Bgr(System.Drawing.Color.White)))
                                 {
                                     CreateOutputStream(newImg.ToBitmap());
                                 }
@@ -187,6 +209,10 @@ namespace Cryptool.Plugins.ImageProcessor
                                 }
                                 break;
                             case ActionType.create: // Create Image
+                                if (settings.SizeX > 65536)
+                                    settings.SizeX = 65536;
+                                if (settings.SizeY > 65536)
+                                    settings.SizeY = 65536;
                                 using (Image<Gray, Single> newImg = new Image<Gray, Single>(settings.SizeX, settings.SizeY))
                                 {
                                     CreateOutputStream(newImg.ToBitmap());
@@ -312,14 +338,24 @@ namespace Cryptool.Plugins.ImageProcessor
         /// <param name="b">The bitmap to resize.</param>
         /// <param name="nWidth">The new width.</param>
         /// <param name="nHeight">The new height.</param>
-        private Bitmap ResizeBitmap(Bitmap b, int nWidth, int nHeight)
+        private Bitmap ResizeBitmap(Bitmap b)
         {
-            Bitmap result = new Bitmap(nWidth, nHeight);
-            using (Graphics g = Graphics.FromImage(result))
+            int newWidth = b.Width;
+            int newHeight = b.Height;
+            while (newWidth < 300 || newHeight < 300)
+            {
+                newWidth *= 2;
+                newHeight *= 2;
+            }
+            Bitmap result = new Bitmap(newWidth, newHeight);
+            newWidth += newWidth / (b.Width * 2 - 1);
+            newHeight += newHeight / (b.Height * 2 - 1);
+            using (Graphics g = Graphics.FromImage((System.Drawing.Image)result))
             {
                 g.SmoothingMode = SmoothingMode.None;
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                g.DrawImage(b, 0, 0, nWidth, nHeight);
+                RectangleF outRect = new RectangleF(0, 0, newWidth, newHeight);
+                g.DrawImage(b, outRect);
             }
             return result;
         }
@@ -328,15 +364,12 @@ namespace Cryptool.Plugins.ImageProcessor
         /// <param name="bitmap">The bitmap to display.</param>
         private void CreateOutputStream(Bitmap bitmap)
         {
-            Bitmap newBitmap;
-            if (bitmap.HorizontalResolution < 100)
+            // Avoid smoothing of WPF
+            if (bitmap.Height < 300)
             {
-                newBitmap = ResizeBitmap(bitmap, (int)bitmap.HorizontalResolution, (int)bitmap.VerticalResolution);
+                bitmap = ResizeBitmap(bitmap);
             }
-            else
-            {
-                newBitmap = bitmap;
-            }
+
             ImageFormat format = ImageFormat.Bmp;
             if (settings.OutputFileFormat == 1)
             {
@@ -347,14 +380,14 @@ namespace Cryptool.Plugins.ImageProcessor
                 format = ImageFormat.Tiff;
             }
 
-            //avoid "generic error in GDI+"
-            Bitmap saveableBitmap = CopyBitmap(newBitmap, format);
+            // Avoid "generic error in GDI+"
+            Bitmap saveableBitmap = CopyBitmap(bitmap, format);
 
-            //save bitmap
+            // Save bitmap
             MemoryStream outputStream = new MemoryStream();
             saveableBitmap.Save(outputStream, format);
             saveableBitmap.Dispose();
-            newBitmap.Dispose();
+            bitmap.Dispose();
 
             OutputImage = new CStreamWriter(outputStream.GetBuffer());
 
