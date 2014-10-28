@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">ImageHash Smooth Comparison</title>
+  <summary lang="en">Comparison an image with a smoothed version of the same image, including their hamming distance and equality percentage</summary>
+  <description lang="en">This template generates a blockhash of an image. The same image is smoothed and also hashed. These hashed images and their differences are shown. This template also calculates the hamming distance between the two calculated hashes and the equality of the two images in percent.</description>
+  <keywords>hash, blockhash, image, hamming, equality, comparison, smooth</keywords>
+
+  <title lang="de">BildHash Weichzeichnungs-Vergleich</title>
+  <summary lang="de">Vergleich eines Bildes mit einer weichgezeichneten Version des gleichen Bildes, ihre Hamming Distanz und prozentuale Gleichheit</summary>
+  <description lang="de">Diese Vorlage erzeugt einen Blockhash zu einem gewählten Bild. Das gleiche Bild wird dann weich gezeichnet und wiederum der Hash berechnet. Diese beiden Hashes und ihre Unterschiede werden dargestellt. Außerdem berechnet diese Vorlage auch die Hamming Distanz zwischen den beiden Hashes und gibt die prozentuale Gleichheit der beiden Bilder an.</description>
+  <keywords lang="de">hash, blockhash, image, hamming, gleichheit, vergleich, weich</keywords>
+
+  <icon file="ImageHash.png" />
+  <relevantPlugins>
+    <plugin name="ImageHash" />
+    <plugin name="HammingDistance" />
+  </relevantPlugins>
+
+</sample>
