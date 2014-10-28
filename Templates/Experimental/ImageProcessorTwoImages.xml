@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">ImageProcessor with 2 Images</title>
+  <summary lang="en">Connect two Images in multiple modes</summary>
+  <description lang="en">This template takes one input image once unprocessed, once smoothed. These two images are combined than, via an And-connection. The action "Smooth Image" is chosen from the dropdown menu and can be changed. The degree of smoothing is also chosen by the user and taken from the textfield.</description>
+  <keywords>image, imageprocessor, connect, and, or, xor, smooth</keywords>
+
+  <title lang="de">BildProzessor mit 2 Bildern</title>
+  <summary lang="de">Verbinde zwei Bilder in mehreren Modi</summary>
+  <description lang="de">Dieses Template nimmt das eingegebene Bild einmal unverändert, einmal weich gezeichnet. Diese beiden Bilder werden dann mittels einer Und-Verbindung verknüpft. Die Aktion "Weich zeichnen" wird in einem Drop-Down-Menu ausgewählt und kann verändert werden. Der Grad der Weichzeichnung wird in ein Textfeld eingegeben.</description>
+  <keywords lang="de">Bild, Bildprozessor, verknüpfen, und, oder, exklusiv, weich</keywords>
+
+  <icon file="ImageProcessor.png" />
+  <relevantPlugins>
+    <plugin name="ImageProcessor" />
+  </relevantPlugins>
+
+</sample>
