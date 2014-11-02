@@ -15,7 +15,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding Image}" Stretch="Fill" Width="40" Height="40"></Image>
                                     <TextBlock Text="{Binding Letter}" Margin="10,0,0,0"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-                                    <TextBlock Text="{Binding Probability}" Name="ProbItem"  FontSize="20" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                    <TextBlock Text="{Binding Probability}" FontSize="20" Margin="10,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                                     <TextBlock Text="%" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
@@ -26,7 +26,9 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                     </ListBox>
-                    <Image Height="166" HorizontalAlignment="Left" Margin="7,8,0,0" Name="croppedImage" Stretch="Fill" VerticalAlignment="Top" Width="200" />
+                    <Border BorderThickness="1" VerticalAlignment="Top" BorderBrush="Black" HorizontalAlignment="Left" Margin="7,8,0,0">
+                        <Image Height="166" HorizontalAlignment="Left" Name="croppedImage" Stretch="Fill" VerticalAlignment="Top" Width="200" />
+                    </Border>
                     <Button Content="New symbol" Height="23" HorizontalAlignment="Left" Margin="7,196,0,0" Name="addSymbolButton" VerticalAlignment="Top" Width="100" Click="addSymbolButton_Click"/>
                     <Label Content="Likeliest symbol:" Height="30" HorizontalAlignment="Left" Margin="7,169,0,0" Name="label1" VerticalAlignment="Top" Width="142" FontWeight="Bold" FontStretch="Normal" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" />
                     <Button Content="Generate" Height="23" HorizontalAlignment="Left" Margin="110,437,0,0" Name="generateButton" VerticalAlignment="Top" Width="100" Click="generateButton_Click" />

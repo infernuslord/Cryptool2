@@ -35,8 +35,8 @@ namespace Cryptool.Plugins.Transcriptor
         #endregion
 
         #region TaskPane Settings
-
-        [TaskPane("Rectangle Color", "RectangleColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Blue", "Green", "Yellow" })]
+        
+        [TaskPane("RectangleColorCaption", "RectangleColorTooltip", null, 1, false, ControlType.ComboBox, new String[] { "Blue", "Green", "Yellow" })]
         public int RectangleColor
         {
             get
@@ -53,7 +53,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("Selected Rectangle Color", "SelectedColorTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Red", "Black", "White" })]
+        [TaskPane("SelectedRectangleColorCaption", "SelectedColorTooltip", null, 2, false, ControlType.ComboBox, new String[] { "Red", "Black", "White" })]
         public int SelectedRectangleColor
         {
             get
@@ -70,7 +70,7 @@ namespace Cryptool.Plugins.Transcriptor
             }
         }
 
-        [TaskPane("Alphabet", "Alphabet ToolTip", null, 3, false, ControlType.TextBoxReadOnly)]
+        [TaskPane("AlphabetCaption", "AlphabetToolTip", null, 3, false, ControlType.TextBoxReadOnly)]
         public String Alphabet
         {
             get
@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         }
 
-        [TaskPane("Mode", "ModeTooltip", "Mode", 4, false, ControlType.ComboBox, new String[] { "Manually", "Semi-Automatic" })]
+        [TaskPane("ModeCaption", "ModeTooltip", "ModeGroup", 4, false, ControlType.ComboBox, new String[] { "Manually", "Semi-Automatic" })]
         public int Mode
         {
             get
@@ -105,8 +105,8 @@ namespace Cryptool.Plugins.Transcriptor
                 }
             }
         }
-       
-        [TaskPane("Threshold", "ThresholdTooltip", "Mode", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+
+        [TaskPane("ThresholdCaption", "ThresholdTooltip", "ModeGroup", 6, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int Threshold
         {
             get

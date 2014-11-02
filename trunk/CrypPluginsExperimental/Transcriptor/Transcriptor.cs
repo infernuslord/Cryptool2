@@ -30,7 +30,7 @@ using System;
 namespace Cryptool.Plugins.Transcriptor
 {
     [Author("Olga Groh", "o_groh@student.uni-kassel.de", "Uni Kassel", "www.uni-kassel.de")]
-    [PluginInfo("Transcriptor", "Transcriptor", "Transcriptor/userdoc.xml", new[] {"Transcriptor/icon.png"})]
+    [PluginInfo("Transcriptor", "Transcriptor", "Transcriptor/DetailedDescription/doc.xml", new[] { "Transcriptor/icon.png" })]
     
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
@@ -56,7 +56,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// <summary>
         /// The Image File from the user
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Image File", "Image ToolTip")]
+        [PropertyInfo(Direction.InputData, "ImageFileName", "ImageToolTip", true)]
         public ICryptoolStream Image
         {
             get;
@@ -66,7 +66,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// <summary>
         /// It's possible to use a custom Alphabet
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Alphabet", "Alphabet ToolTip", false)]
+        [PropertyInfo(Direction.InputData, "AlphabetName", "AlphabetToolTip2", false)]
         public string Alphabet
         {
             get;
@@ -76,7 +76,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// <summary>
         /// The Output Text
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "TextOutput name", "TextOutput Tooltip")]
+        [PropertyInfo(Direction.OutputData, "TextOutputName", "TextOutputTooltip")]
         public string Text
         {
             get;
@@ -106,6 +106,8 @@ namespace Cryptool.Plugins.Transcriptor
         public void PreExecution()
         {
             Alphabet = null;
+            Image = null;
+
 
             // Transfer the choosen rectangle color setting to the GUI
             switch (settings.RectangleColor)
@@ -211,6 +213,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void Dispose()
         {
+
         }
 
         #endregion

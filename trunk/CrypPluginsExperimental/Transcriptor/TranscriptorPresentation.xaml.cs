@@ -26,6 +26,7 @@ using System.Text;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System.IO;
+using System.ComponentModel;
 
 namespace Transcriptor
 {
@@ -645,13 +646,13 @@ namespace Transcriptor
                             System.Drawing.Color itemPixelColor = itemImage.Bitmap.GetPixel(x, y);
 
                             //Counts only the pixes without the background
-                            if ((int)diffPixelColor.R < 255 && (int)diffPixelColor.G < 255 && (int)diffPixelColor.B < 255)
+                            if ((int)diffPixelColor.R <= 127)
                             {
                                 diffPixelCounter++;
                             }
 
                             //Counts the pixels from the item symbol
-                            if ((int)itemPixelColor.R < 255 && (int)itemPixelColor.G < 255 && (int)itemPixelColor.B < 255)
+                            if ((int)itemPixelColor.R <= 127)
                             {
                                 itemPixelCounter++;
                             }
@@ -665,11 +666,14 @@ namespace Transcriptor
                     }
                     else
                     {
-                        symbolItems[i].Probability = Math.Ceiling(((double)diffPixelCounter / (double)itemPixelCounter) * 100d);
+                        symbolItems[i].Probability = Math.Round(((double)diffPixelCounter / (double)itemPixelCounter) * 100d, 2);
                     }
                 }
 
-                symbolListbox.Items.Refresh();
+                //Handels the sorting
+                symbolListbox.Items.SortDescriptions.Clear();
+                SortDescription sortDescription = new SortDescription("Probability", ListSortDirection.Descending);
+                symbolListbox.Items.SortDescriptions.Add(sortDescription);
             }
             else
             {
