@@ -117,7 +117,79 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlphabetCaption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AlphabetName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AlphabetToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="AlphabetToolTip2" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Black" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Blue" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Green" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ImageFileName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ImageToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Manually" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ModeCaption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ModeGroup" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ModeTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="RectangleColorCaption" xml:space="preserve">
+    <value />
+  </data>
   <data name="RectangleColorTooltip" xml:space="preserve">
     <value>Set the rectangle color</value>
+  </data>
+  <data name="Red" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectedColorTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SelectedRectangleColorCaption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="SemiAutomatic" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextOutputName" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TextOutputTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ThresholdCaption" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ThresholdTooltip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="White" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Yellow" xml:space="preserve">
+    <value />
   </data>
 </root>

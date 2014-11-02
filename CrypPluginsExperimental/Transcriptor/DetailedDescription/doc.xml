@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<!-- You can edit this file manually or with the Util/CrypDocumentationEditor -->
+<documentation>
+  <language culture="en"/>
+  <language culture="de-DE"/>
+
+  <introduction lang="en">
+    With the help of the Transcriptor it is possible to convernt an image with a ciphertext to a computer processable ciphertext.
+    Afterwards the text can be used for further analyzes.
+  </introduction>
+
+  <introduction lang="de-DE">
+    Mit Hilfe des Transkriptors kann man ein Bild, welches einen Chiffretext enthält, zu einem im Computer verarbeitbaren Chiffretext umwandeln.
+    Anschließend kann man diesen Text weiteren Analysen unterziehen.
+  </introduction>
+
+  <usage lang="en">
+  </usage>
+
+  <usage lang="de-DE">
+  </usage>
+  
+  <presentation lang="en">
+  </presentation>
+  
+  <presentation lang="de-DE">
+  </presentation>
+  
+  <references>
+  </references>
+</documentation>
