@@ -87,8 +87,6 @@
     <Compile Include="AlreadySievedException.cs" />
     <Compile Include="FactorManager.cs" />
     <Compile Include="NotSievableException.cs" />
-    <Compile Include="PeerToPeer.cs" />
-    <Compile Include="PeerToPeerStatusUpdater.cs" />
     <Compile Include="ProgressRelationPackages.xaml.cs">
       <DependentUpon>ProgressRelationPackages.xaml</DependentUpon>
     </Compile>
@@ -110,19 +108,9 @@
     <Compile Include="QuadraticSieveSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CrypNetwork\CrypNetwork.csproj">
-      <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
-      <Name>CrypNetwork</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\P2PEditor\P2PEditor.csproj">
-      <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
-      <Name>P2PEditor</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

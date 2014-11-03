@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Cryptool.P2P;
 using Cryptool.PluginBase;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
@@ -97,30 +96,7 @@ namespace KeySearcher
             Cryptool.PluginBase.Properties.Settings.Default.PropertyChanged += delegate
                                                     {
                                                         OpenCLGroupVisiblity();
-                                                    };
-
-            if (!P2PManager.IsP2PSupported && TaskPaneAttributeChanged != null)
-            {
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UsePeerToPeer", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("AutoconnectPeerToPeer", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("VerbosePeerToPeerDisplay", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ChunkSize", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("StatusKeyButton", Visibility.Collapsed)));
-
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EvaluationHost", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EvaluationUser", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EvaluationPassword", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("EvaluationDatabase", Visibility.Collapsed)));
-
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UseExternalClient", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("Port", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("ExternalClientPassword", Visibility.Collapsed)));
-
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UpdateTime", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("DisableUpdate", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("CsvPath", Visibility.Collapsed)));
-                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("DefaultPath", Visibility.Collapsed)));
-            }
+                                                    }; 
         }
 
         [TaskPane("KeyCaption", "KeyTooltip", null, 1, false, ControlType.KeyTextBox, true, "KeyManager")]
@@ -170,12 +146,8 @@ namespace KeySearcher
         {
             get
             {
-                if (!P2PManager.IsP2PSupported)
-                {
-                    UsePeerToPeer = false;
-                    return false;
-                }
-                return usePeerToPeer;
+                UsePeerToPeer = false;
+                return false;
             }
             set
             {

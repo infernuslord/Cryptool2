@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿ 
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Cryptool.CrypTutorials;
-using Cryptool.P2P;
-using Cryptool.P2PEditor;
+using System.Windows.Controls; 
+using Cryptool.CrypTutorials;  
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 
@@ -31,11 +19,8 @@ namespace Startcenter
         {
             InitializeComponent();
 
-            if (!P2PManager.IsP2PSupported)
-            {
                 DistCompButton.Visibility = Visibility.Collapsed;
-                DistCompLabel.Visibility = Visibility.Collapsed;
-            }
+                DistCompLabel.Visibility = Visibility.Collapsed; 
         }
 
         private void WizardButton_Click(object sender, RoutedEventArgs e)
@@ -59,8 +44,7 @@ namespace Startcenter
         }
 
         private void ConnectButton_Click(object sender, RoutedEventArgs e)
-        {
-            OnOpenEditor(typeof(P2PEditor), null);
+        { 
         }
 
         private void WebpageButton_Click(object sender, RoutedEventArgs e)

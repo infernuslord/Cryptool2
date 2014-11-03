@@ -4,13 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:SettingsTabs="clr-namespace:Cryptool.CrypWin.SettingsTabs" mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" xmlns:my="clr-namespace:Startcenter;assembly=Startcenter">
+    <!-- 
+    
     <UserControl.Resources>
         <my:TrueToVisibleConverter x:Key="TrueToVisibleConverter1" />
-    </UserControl.Resources>
+    </UserControl.Resources> 
+    -->
+    
     <Grid>
         <Image Source="/CrypWin;component/images/LogoBlau.png" Opacity="0.2" />
         
-        <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=SettingsTabs:PluginsSettingsTab, AncestorLevel=1}, Path=IsVisible, Converter={StaticResource TrueToVisibleConverter1}}">
+        <Grid Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=SettingsTabs:PluginsSettingsTab, AncestorLevel=1}, Path=IsVisible}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition />

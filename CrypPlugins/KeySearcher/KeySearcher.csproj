@@ -111,7 +111,6 @@
     <Compile Include="P2P\Helper\ConnectionHelper.cs" />
     <Compile Include="P2P\Helper\DatabaseStatistics.cs" />
     <Compile Include="P2P\Helper\WidthConverter.cs" />
-    <Compile Include="P2P\KSP2PManager.cs" />
     <Compile Include="P2P\Presentation\StatisticsGenerator.cs" />
     <Compile Include="P2P\Presentation\StatusContainer.cs" />
     <Compile Include="P2P\Exceptions\KeySearcherStopException.cs" />
@@ -132,7 +131,6 @@
     <Compile Include="P2P\Tree\Node.cs" />
     <Compile Include="P2P\Tree\NodeBase.cs" />
     <Compile Include="P2P\Tree\NodeFactory.cs" />
-    <Compile Include="P2P\Storage\StorageHelper.cs" />
     <Compile Include="P2P\DistributedBruteForceManager.cs" />
     <Compile Include="Presentation\Controls\P2PQuickWatchPresentation.xaml.cs">
       <DependentUpon>P2PQuickWatchPresentation.xaml</DependentUpon>
@@ -165,11 +163,6 @@
     <Compile Include="Server\Server.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\CrypNetwork\CrypNetwork.csproj">
-      <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
-      <Name>CrypNetwork</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
       <Project>{25DB2B47-A457-4EC2-960B-395CE07AE093}</Project>
       <Name>CrypPluginBase</Name>
@@ -188,11 +181,6 @@
     <ProjectReference Include="..\..\LibSource\OpenCLNet\OpenCLNet.csproj">
       <Project>{0946E1A6-5488-4711-AD10-D54D6A5D2F32}</Project>
       <Name>OpenCLNet</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\P2PEditor\P2PEditor.csproj">
-      <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
-      <Name>P2PEditor</Name>
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>

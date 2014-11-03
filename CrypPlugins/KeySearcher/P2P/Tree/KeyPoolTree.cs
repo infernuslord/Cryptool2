@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Numerics;
-using Cryptool.P2PEditor.Distributed;
+using System.Numerics; 
 using Cryptool.PluginBase;
 using KeySearcher.Helper;
-using KeySearcher.KeyPattern;
-using KeySearcher.P2P.Exceptions;
+using KeySearcher.KeyPattern; 
 using KeySearcher.P2P.Presentation;
 using KeySearcher.P2P.Storage;
 using KeySearcher.Properties;
@@ -20,7 +18,6 @@ namespace KeySearcher.P2P.Tree
         private readonly StatusContainer statusContainer;
         private readonly StatisticsGenerator statisticsGenerator;
         private readonly NodeBase rootNode;
-        private readonly StorageHelper storageHelper;
         private readonly StatusUpdater statusUpdater;
         private readonly int updateIntervalMod;
 
@@ -46,14 +43,13 @@ namespace KeySearcher.P2P.Tree
             this.statisticsGenerator = statisticsGenerator;
             Identifier = identifierGenerator.Generate();
 
-            storageHelper = new StorageHelper(keySearcher, statisticsGenerator, statusContainer);
             statusUpdater = new StatusUpdater(statusContainer, identifierGenerator.GenerateStatusKey());
             skippedReservedNodes = false;
             updateIntervalMod = 5;
 
             if (statisticsGenerator != null)
                 statisticsGenerator.MarkStartOfNodeSearch();
-            rootNode = NodeFactory.CreateNode(storageHelper, keyQualityHelper, null, 0, length-1,
+            rootNode = NodeFactory.CreateNode(keyQualityHelper, null, 0, length-1,
                                               Identifier);
             if (statisticsGenerator != null)
                 statisticsGenerator.MarkEndOfNodeSearch();
@@ -63,12 +59,12 @@ namespace KeySearcher.P2P.Tree
 
         public DateTime StartDate()
         {
-            return storageHelper.StartDate(Identifier);
+            return new DateTime();
         }
 
         public long SubmitterID()
         {
-            return storageHelper.SubmitterID(Identifier);
+            return -1;
         }
 
         public Leaf FindNextLeaf()
@@ -107,64 +103,9 @@ namespace KeySearcher.P2P.Tree
 
         private Leaf FindNextLeaf(SearchOption useReservedLeafsOption)
         {
-            try
-            {
-                if (currentNode == null)
-                {
-                    return null;
-                }
-
-                var isReserved = false;
-                var useReservedLeafs = useReservedLeafsOption == SearchOption.UseReservedLeafs;
-
-                storageHelper.UpdateFromDht(currentNode, true);
-                currentNode.UpdateCache();
-                while (currentNode.IsCalculated() || (!useReservedLeafs && (isReserved = currentNode.IsReserved())))
-                {
-                    if (isReserved)
-                    {
-                        skippedReservedNodes = true;
-                    }
-
-                    // Current node is calculated or reserved, 
-                    // move one node up and update it
-                    currentNode = currentNode.ParentNode;
-
-                    // Root node calculated => everything finished
-                    if (currentNode == null)
-                    {
-                        currentNode = rootNode;
-                        return null;
-                    }
-
-                    // Update the new _currentNode
-                    storageHelper.UpdateFromDht(currentNode, true);
-                    currentNode.UpdateCache();
-                }
-
-                // currentNode is calculateable => find leaf
-                currentNode.UpdateCache();
-                return currentNode.CalculatableLeaf(useReservedLeafs);
-            }
-            catch (KeySearcherStopException)
-            {
-                throw new KeySearcherStopException();
-            }
-        }
-
-
-        internal bool IsCalculationFinished()
-        {
-            try
-            {
-                storageHelper.UpdateFromDht(rootNode, true);
-                return rootNode.IsCalculated();
-            }
-            catch (KeySearcherStopException)
-            {
-                throw new KeySearcherStopException();
-            }
-        }
+            return null;
+        } 
+      
 
         internal void Reset()
         {
@@ -180,13 +121,11 @@ namespace KeySearcher.P2P.Tree
         }
 
         public void UpdateStatusForNewCalculation()
-        {
-            statusUpdater.SendUpdate(DistributedJobStatus.Status.New);
+        { 
         }
 
         public void UpdateStatusForFinishedCalculation()
-        {
-            statusUpdater.SendUpdate(DistributedJobStatus.Status.Finished);
+        { 
         }
 
         public void UpdateStatus(Leaf currentLeaf)

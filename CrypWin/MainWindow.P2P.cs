@@ -21,8 +21,6 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
-using Cryptool.P2P;
-using Cryptool.PluginBase;
 
 namespace Cryptool.CrypWin
 {
@@ -118,74 +116,6 @@ namespace Cryptool.CrypWin
                 }, null);
             }
 
-        }
-
-        private void InitP2P()
-        {
-            var reconnectTimer = new System.Windows.Forms.Timer();
-            reconnectTimer.Tick += delegate
-            {
-                lock (_reconnectSyncObject)
-                {
-                    if (_reconnect && !P2PManager.IsConnected &&
-                        !P2PManager.ConnectionManager.IsConnecting)
-                    {
-                        _reconnect = false;
-                        _reconnecting = true;
-                        GuiLogMessage("Lost P2P Connection. Try reconnecting...",
-                                      NotificationLevel.Error);
-
-                        P2PManager.Connect();
-                    }
-                }
-            };
-
-            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += delegate
-            {
-                lock (_reconnectSyncObject)
-                {
-                    if (_reconnecting)
-                    {
-                        _reconnecting = false;
-
-                        if (P2PManager.IsConnected)
-                            GuiLogMessage("Successfully reconnected!", NotificationLevel.Balloon);
-                        else
-                            _reconnect = true;   //try again..
-                    }
-                }
-            };
-
-            P2PManager.P2PBase.OnSystemJoined += delegate
-            {
-                P2PIconImageGray = false;
-            };
-            P2PManager.P2PBase.OnSystemLeft += delegate
-            {
-                P2PIconImageGray = true;
-
-                if (P2PManager.ConnectionManager.Disconnected)
-                    return;
-                if (!P2PManager.ConnectionManager.IsConnecting)
-                    _reconnect = true;
-            };
-            P2PManager.ConnectionManager.OnP2PTryConnectingStateChangeOccurred += delegate(object sender, bool newState)
-            {
-                P2PIconImageRotating = newState;
-            };
-            P2PIconImageGray = true;
-
-            reconnectTimer.Interval = 1000;
-            reconnectTimer.Start();
-
-            P2PButtonVisibility = Visibility.Visible;
-        }
-
-        private void ValidateAndSetupPeer2Peer()
-        {
-            P2PManager.OnGuiLogNotificationOccured += OnGuiLogNotificationOccured;
-            P2PManager.IsAutoconnectConsoleOptionSet = IsCommandParameterGiven("-peer2peer") || IsCommandParameterGiven("-p2p");
-            P2PManager.HandleConnectOnStartup();
         }
     }
 }

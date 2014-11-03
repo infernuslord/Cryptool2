@@ -26,7 +26,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using Cryptool.CrypWin.Helper;
 using Cryptool.CrypWin.Properties;
-using Cryptool.P2P;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.IO;
@@ -75,18 +74,9 @@ namespace Cryptool.CrypWin
             {
                 case PowerModes.Resume:
                     GuiLogMessage("Computer resuming!", NotificationLevel.Info);
-
-                    if (p2pConnectedOnSuspend)
-                    {
-                        P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += ConnectionManager_OnP2PConnectionStateChangeOccurred;
-                        P2PManager.Connect();
-                    }
-                    else
-                    {
-                        ReexecuteSuspendedEditors();
-                    }
-
+                    ReexecuteSuspendedEditors();
                     break;
+
                 case PowerModes.Suspend:
                     GuiLogMessage("Computer suspending!", NotificationLevel.Info);
 
@@ -100,13 +90,8 @@ namespace Cryptool.CrypWin
                             runningEditorsOnSuspend.Add(editor);
                         }
                     }
-
-                    //Handle P2P connection:
-                    p2pConnectedOnSuspend = P2PManager.IsConnected;
-                    if (p2pConnectedOnSuspend)
-                        P2PManager.Disconnect();
-
                     break;
+
                 case PowerModes.StatusChange:
                     if (Settings.Default.StopWorkspaces)
                     {
@@ -143,12 +128,6 @@ namespace Cryptool.CrypWin
                 if (editor.CanExecute)
                     editor.Execute();
             }
-        }
-
-        void ConnectionManager_OnP2PConnectionStateChangeOccurred(object sender, bool newState)
-        {
-            ReexecuteSuspendedEditors();
-            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= ConnectionManager_OnP2PConnectionStateChangeOccurred;
         }
 
         void SystemEvents_SessionEnding(object sender, SessionEndingEventArgs e)

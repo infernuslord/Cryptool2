@@ -19,48 +19,14 @@ namespace KeySearcher.P2P.Tree
         internal bool leftChildReserved;
         internal bool rightChildReserved;
 
-        public Node(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
-            : base(storageHelper, keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
+        public Node(KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger @from, BigInteger to, string distributedJobIdentifier)
+            : base(keyQualityHelper, parentNode, @from, to, distributedJobIdentifier)
         {
         }
 
         private void LoadOrUpdateChildNodes()
         {
-            try
-            {
-                var middle = (From + To) / 2;
-
-                if (!LeftChildFinished)
-                {
-                    if (leftChild == null)
-                    {
-                        leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
-                                                            DistributedJobIdentifier);
-                    }
-                    else
-                    {
-                        StorageHelper.UpdateFromDht(leftChild);
-                    }
-                }
-
-                // Only load right node, if the left one is finished or reserved
-                if ((LeftChildFinished || leftChild.IsReserved()) && !RightChildFinished)
-                {
-                    if (rightChild == null)
-                    {
-                        rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
-                                                             DistributedJobIdentifier);
-                    }
-                    else
-                    {
-                        StorageHelper.UpdateFromDht(rightChild);
-                    }
-                }
-            }
-            catch (KeySearcherStopException)
-            {
-                throw new KeySearcherStopException();
-            }                
+           
         }
 
         public override bool IsCalculated()
@@ -78,10 +44,7 @@ namespace KeySearcher.P2P.Tree
             RightChildIntegrated = false;
             Result.Clear();
             Activity.Clear();
-            UpdateCache();
-            var reqRes = StorageHelper.UpdateInDht(this);
-            if (reqRes == null || !reqRes.IsSuccessful())
-                throw new InvalidOperationException(string.Format("Writing node {0} failed!", this));
+            UpdateCache(); 
         }
 
         public void ClearChildsLocal()
@@ -168,52 +131,7 @@ namespace KeySearcher.P2P.Tree
         //Updates also the right children (if necessary)
         public void UpdateAll()
         {
-            try
-            {
-                var middle = (From + To) / 2;
-
-                if (!LeftChildFinished)
-                {
-                    if (leftChild == null)
-                    {
-                        var reqRes = KSP2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, From, middle));
-                        if (reqRes != null && reqRes.GetData() != null)
-                        {
-                            leftChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, From, middle,
-                                                               DistributedJobIdentifier);
-                        }
-                    }
-
-                    if (leftChild != null && leftChild is Node)
-                    {
-                        ((Node)leftChild).UpdateAll();
-                        UpdateChildrenReservationIndicators();
-                    }
-                }
-
-                if (!RightChildFinished)
-                {
-                    if (rightChild == null)
-                    {
-                        var reqRes = KSP2PManager.Retrieve(StorageHelper.KeyInDht(DistributedJobIdentifier, middle + 1, To));
-                        if (reqRes != null && reqRes.GetData() != null)
-                        {
-                            rightChild = NodeFactory.CreateNode(StorageHelper, KeyQualityHelper, this, middle + 1, To,
-                                                             DistributedJobIdentifier);
-                        }
-                    }
-
-                    if (rightChild != null && rightChild is Node)
-                    {
-                        ((Node)rightChild).UpdateAll();
-                        UpdateChildrenReservationIndicators();
-                    }
-                }
-            }
-            catch (KeySearcherStopException)
-            {
-                throw new KeySearcherStopException();
-            }   
+             
         }
     }
 }

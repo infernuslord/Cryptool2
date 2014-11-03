@@ -15,13 +15,8 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Cryptool.P2P;
 using Cryptool.PluginBase;
 using System.ComponentModel;
-using Cryptool.PluginBase.Miscellaneous;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -122,7 +117,8 @@ namespace Cryptool.Plugins.QuadraticSieve
         {
             get
             {
-                if (!P2PManager.IsP2PSupported)
+                //TODO CKONZE reenable p2p
+                if (false)
                 {
                     UsePeer2Peer = false;
                     return false;
@@ -145,7 +141,8 @@ namespace Cryptool.Plugins.QuadraticSieve
             if (TaskPaneAttributeChanged == null)
                 return;
 
-            if (!P2PManager.IsP2PSupported)
+            //TODO CKONZE reenable p2p
+            if (false)
             {
                 TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer("UsePeer2Peer", Visibility.Collapsed)));
             }
@@ -180,7 +177,8 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         [TaskPane( "StatusKeyButtonCaption", "StatusKeyButtonTooltip", null, 5, true, ControlType.Button)]
         public void StatusKeyButton()
-        {
+        {  
+            
             if (!quadraticSieve.Running)
             {
                 quadraticSieve.GuiLogMessage("Quadratic sieve must be running to copy the status key.", NotificationLevel.Error);
@@ -192,11 +190,15 @@ namespace Cryptool.Plugins.QuadraticSieve
                 return;
             }
 
-            var statusKey = quadraticSieve.PeerToPeer.StatusKey();
+            //TODO CKONZE reenable p2p
+            /*
+                 var statusKey = quadraticSieve.PeerToPeer.StatusKey();
 
-            Clipboard.SetDataObject(statusKey, true);
-            quadraticSieve.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
+                 Clipboard.SetDataObject(statusKey, true);
+                    
+                 quadraticSieve.GuiLogMessage("Status key '" + statusKey + "' has been copied to clipboard.",
                                       NotificationLevel.Info);
+             */
         }
 
         #endregion

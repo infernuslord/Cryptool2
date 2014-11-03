@@ -7,9 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
-using Cryptool.P2P;
 using Cryptool.P2PEditor.Converters;
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.Worker;
@@ -52,9 +50,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
         public JobDisplay()
         {
             InitializeComponent();
-            UpdateRefreshTimerSettings(P2PManager.IsConnected);
-
-            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += P2PManager_OnP2PConnectionStateChangeOccurred;
+          
 
             updateJobDetailsTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(5)};
             updateJobDetailsTimer.Tick += UpdateJobDetailsTimerElapsed;
@@ -75,8 +71,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         void UpdateJobDetailsTimerElapsed(object sender, EventArgs eventArgs)
         {
-            if (!P2PManager.IsConnected || !IsVisible) return;
-            if (updateTask != null) return;
+           if (updateTask != null) return;
 
             updateTask = new JobListDetailsUpdateWorker(Jobs, JobListManager);
             updateTask.RunWorkerCompleted += UpdateTaskRunWorkerCompleted;
@@ -96,18 +91,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void UpdateRefreshTimerSettings(bool isConnected)
         {
-            if (P2PSettings.Default.DistributedJobListRefreshInterval == 0) return;
-
-            if (refreshListTimer == null)
-            {
-                refreshListTimer = new Timer(P2PSettings.Default.DistributedJobListRefreshInterval * 1000);
-                refreshListTimer.Elapsed += RefreshListTimerElapsed;
-            }
-
-            if (isConnected)
-                refreshListTimer.Start();
-            else
-                refreshListTimer.Stop();
         }
 
         void RefreshListTimerElapsed(object sender, ElapsedEventArgs e)
@@ -123,8 +106,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         public void UpdateJobList()
         {
-            if (!P2PManager.IsConnected) return;
-
+      
             P2PEditor.GuiLogMessage(Properties.Resources.Requesting_new_job_list___, NotificationLevel.Debug);
             var updateWorker = new JobListUpdateWorker(JobListManager);
             updateWorker.RunWorkerCompleted += HandleRefreshedJobList;
@@ -199,7 +181,6 @@ namespace Cryptool.P2PEditor.GUI.Controls
         {
             var jobToDelete = (DistributedJob)JobListBox.SelectedItem;
 
-            if (jobToDelete == null || jobToDelete.Owner != P2PSettings.Default.PeerName) return;
 
             P2PEditor.GuiLogMessage(
                 string.Format(Properties.Resources.Deleting_job__0____1___, jobToDelete.Name, jobToDelete.Guid),
@@ -229,26 +210,7 @@ namespace Cryptool.P2PEditor.GUI.Controls
 
         private void DisconnectButton_Click(object sender, RoutedEventArgs e)
         {
-            if (P2PManager.IsConnected)
-            {
-                P2PManager.Disconnect();
-                this.P2PEditor.GuiLogMessage(Cryptool.P2PEditor.Resources.Attributes.stop_launched, NotificationLevel.Info);
-                try
-                {
-                    this.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
-                    {
-                        this.P2PEditorPresentation.Connect.RaiseP2PConnectingEvent(false);
-                        this.P2PEditorPresentation.Connect.IsP2PConnecting = false;
-                    }, null);
-                }
-                catch (Exception) 
-                { 
-                }
-            }
-            else
-            {
-                this.P2PEditor.GuiLogMessage(Cryptool.P2PEditor.Resources.Attributes.stop_failed, NotificationLevel.Warning);
-            }
+           
         }
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
