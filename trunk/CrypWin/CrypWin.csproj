@@ -64,17 +64,21 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibDev\CrypProprietary.dll</HintPath>
     </Reference>
-    <Reference Include="DevComponents.WpfDock">
+    <Reference Include="DevComponents.WpfDock, Version=7.0.0.9, Culture=neutral, PublicKeyToken=adef513edc9ed778, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibDev\DevComponents.WpfDock.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="DevComponents.WpfEditors">
+    <Reference Include="DevComponents.WpfEditors, Version=7.0.0.9, Culture=neutral, PublicKeyToken=cbba4a1563683cdb, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibDev\DevComponents.WpfEditors.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="DevComponents.WpfRibbon">
+    <Reference Include="DevComponents.WpfRibbon, Version=7.0.0.9, Culture=neutral, PublicKeyToken=2037e151916410e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\LibDev\DevComponents.WpfRibbon.dll</HintPath>
-      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\LibDev\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
