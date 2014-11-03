@@ -40,7 +40,6 @@
     </Reference>
     <Reference Include="CertificateLibrary">
       <HintPath>..\..\Lib\p2p\CertificateLibrary.dll</HintPath>
-      <Private>false</Private>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -213,6 +212,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
