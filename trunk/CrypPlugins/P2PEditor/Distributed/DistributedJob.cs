@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using Cryptool.P2P;
 using System.Security.Cryptography;
 
 namespace Cryptool.P2PEditor.Distributed
@@ -11,7 +10,6 @@ namespace Cryptool.P2PEditor.Distributed
         public DistributedJob()
         {
             Guid = Guid.NewGuid();
-            Owner = P2PSettings.Default.PeerName;
             CreateDate = DateTime.UtcNow;
         }
 
@@ -90,6 +88,7 @@ namespace Cryptool.P2PEditor.Distributed
 
         public void ConvertRawWorkspaceToLocalFile(byte[] rawWorkspaceData)
         {
+            /*
             var workspacePath = P2PSettings.Default.WorkspacePath;
             if (String.IsNullOrEmpty(workspacePath) || !Directory.Exists(workspacePath))
             {
@@ -111,6 +110,7 @@ namespace Cryptool.P2PEditor.Distributed
             }
 
             File.WriteAllBytes(LocalFilePath, rawWorkspaceData);
+             */
         }
 
         #region INotifyPropertyChanged Members

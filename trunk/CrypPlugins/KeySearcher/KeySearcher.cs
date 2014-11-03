@@ -20,9 +20,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using Cryptool.P2P;
-using Cryptool.P2P.Types;
+using System.Text; 
 using Cryptool.PluginBase;
 using System.Windows.Controls;
 using System.ComponentModel;
@@ -300,8 +298,8 @@ namespace KeySearcher
             {
                 IsKeySearcherRunning = false;
 
-                username = P2PSettings.Default.PeerName;
-                maschineid = UniqueIdentifier.GetID();
+                username = "";
+                maschineid = 0;
 
                 if (OpenCL.NumberOfPlatforms > 0)
                 {
@@ -944,11 +942,7 @@ namespace KeySearcher
                                                                                     keyQualityHelper,
                                                                                     p2PQuickWatchPresentation, keyPoolTreePresentation);
                     distributedBruteForceManager.Execute();
-                }
-                catch (NotConnectedException)
-                {
-                    GuiLogMessage(Resources.P2P_not_connected_, NotificationLevel.Error);
-                }
+                } 
                 catch (KeySearcherStopException)
                 {
                     update = true;
@@ -1201,18 +1195,7 @@ namespace KeySearcher
                 currentExternalJobGuid = Guid.NewGuid();
             }
 
-            Int64 id = -1;
-            try
-            {
-                id = UniqueIdentifier.GetID(clientName);
-                
-            }
-            catch (Exception ex)
-            {
-                GuiLogMessage(string.Format("Error trying to calculate an unique ID: {0}", ex.Message), NotificationLevel.Error);
-                this.Stop();
-                return;
-            }
+           var id = -1;
 
             String hostname = MachineName.MachineNameToUse + "/" + clientName;
             ExternalClientHostname = hostname;
@@ -1801,7 +1784,7 @@ namespace KeySearcher
         private void EnhanceUserName(ref ValueKey vk)
         {
             DateTime chunkstart = DateTime.UtcNow;
-            username = P2PSettings.Default.PeerName;
+            username = "";
 
             //Enhance our userdata if there exists a valid user:
             if ((username != null) && (!username.Equals("")))

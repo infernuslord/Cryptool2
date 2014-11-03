@@ -39,7 +39,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="CertificateLibrary">
-      <HintPath>..\..\LibP2P\CertificateLibrary.dll</HintPath>
+      <HintPath>..\..\Lib\p2p\CertificateLibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -136,11 +136,6 @@
     <ProjectReference Include="..\..\CrypCore\CrypCore.csproj">
       <Project>{FF5D473C-0716-4D3E-9078-2EBD979F94C6}</Project>
       <Name>CrypCore</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\CrypNetwork\CrypNetwork.csproj">
-      <Project>{7D3E4C88-7EA8-45EA-AC1E-FC8ED8EDDB7A}</Project>
-      <Name>CrypNetwork</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">

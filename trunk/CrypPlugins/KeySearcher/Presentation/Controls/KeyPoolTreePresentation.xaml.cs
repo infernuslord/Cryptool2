@@ -66,9 +66,7 @@ namespace KeySearcher.Presentation.Controls
                 if (PatternPool != null && KeyQualityHelper != null && KeyGenerator != null && StatusContainer != null)
                 {
                     var identifier = KeyGenerator.Generate();
-                    var storageHelper = new StorageHelper(null, null, StatusContainer);
-
-                    _rootNode = new Node(storageHelper, KeyQualityHelper, null, 0, PatternPool.Length - 1, identifier);
+                    _rootNode = new Node(KeyQualityHelper, null, 0, PatternPool.Length - 1, identifier);
                     _rootNode.UpdateCache();    //Updates one path
                     _rootNode.UpdateAll();      //Updates everything that is not null in DHT
                 }

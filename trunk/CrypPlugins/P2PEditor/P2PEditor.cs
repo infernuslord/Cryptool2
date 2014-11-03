@@ -14,12 +14,10 @@
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
+using System;  
 using System.ComponentModel;
 using System.Windows.Controls;
-using Cryptool.Core;
-using Cryptool.P2P;
+using Cryptool.Core; 
 using Cryptool.P2PEditor.Distributed;
 using Cryptool.P2PEditor.GUI;
 using Cryptool.PluginBase;
@@ -45,7 +43,7 @@ namespace Cryptool.P2PEditor
             initialNewEventHandled = false;
 
             Presentation = new P2PEditorPresentation(this, jobListManager);
-            Settings = new P2PEditorSettings(this);
+            Settings = new P2PEditorSettings();
         }
 
         #region IEditor Members
@@ -62,13 +60,7 @@ namespace Cryptool.P2PEditor
         {
             if (OnSelectedPluginChanged != null)
                 OnSelectedPluginChanged(this, new PluginChangedEventArgs(this, Properties.Resources.P2P_Configuration, DisplayPluginMode.Normal));
-            
-            if (!P2PManager.IsConnected)
-            {
-                //GuiLogMessage("Cannot display new job form, no connection to p2p network.", NotificationLevel.Warning);
-                return;
-            }
-
+        
             // Avoid switching to the add view, but allow using the new button later
             if (!initialNewEventHandled)
                 initialNewEventHandled = true;
@@ -217,9 +209,6 @@ namespace Cryptool.P2PEditor
 
         public void Initialize()
         {
-            ((P2PEditorSettings)Settings).UpdateSettings();
-            OnProjectTitleChanged(this, Properties.Resources.P2PEditor_Tab_Caption);
-            Presentation.ToolTip = Properties.Resources.P2PEditor_Tab_Caption;
         }
 
         public void Dispose()

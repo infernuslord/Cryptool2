@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Cryptool.P2P;
 using KeySearcher.Helper;
-using KeySearcher.P2P.Exceptions;
 using KeySearcher.P2P.Storage;
 using KeySearcher.Properties;
 
@@ -16,8 +14,8 @@ namespace KeySearcher.P2P.Tree
         private const int RESERVATIONTIMEOUT = 30;
         private long clientIdentifier = -1;
 
-        public Leaf(StorageHelper storageHelper, KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
-            : base(storageHelper, keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
+        public Leaf(KeyQualityHelper keyQualityHelper, Node parentNode, BigInteger id, string distributedJobIdentifier)
+            : base(keyQualityHelper, parentNode, id, id, distributedJobIdentifier)
         {
         }
 
@@ -51,12 +49,7 @@ namespace KeySearcher.P2P.Tree
 
         public override void Reset()
         {
-            //ParentNode.Reset();
-            Result.Clear();
-            Activity.Clear();
-            var reqRes = StorageHelper.UpdateInDht(this);
-            if (reqRes == null || !reqRes.IsSuccessful())
-                throw new InvalidOperationException(string.Format("Writing leaf {0} failed!", this));
+           
         }
 
         public override void UpdateCache()
@@ -67,23 +60,12 @@ namespace KeySearcher.P2P.Tree
 
         public bool ReserveLeaf()
         {
-            LastReservationDate = DateTime.UtcNow;
-            clientIdentifier = UniqueIdentifier.GetID();
-            var reqRes = StorageHelper.UpdateInDht(this);
-            return (reqRes != null) && (reqRes.IsSuccessful());
+            return false;
         }
 
         public void GiveLeafFree()
         {
-            StorageHelper.UpdateFromDht((this));          
-            //Only give leaf free, if the reservation is still ours:
-            if (clientIdentifier == UniqueIdentifier.GetID())
-            {
-                LastReservationDate = new DateTime(0);
-                clientIdentifier = -1;
-                isLeafReserved = false;
-                StorageHelper.UpdateInDht(this);
-            }
+          
         }
 
         public override bool IsReserved()

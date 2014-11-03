@@ -5,7 +5,6 @@ using System.Numerics;
 using System.Text;
 using System.Threading;
 using System.Windows.Threading;
-using Cryptool.P2P;
 using KeySearcher.KeyPattern;
 using KeySearcherPresentation.Controls;
 using Timer = System.Timers.Timer;
@@ -94,9 +93,7 @@ namespace KeySearcher.P2P.Presentation
 
         private void UpdateTrafficStatistics()
         {
-            status.SentBytesByLinkManager = P2PManager.P2PBase.TotalBytesSentOnAllLinks();
-            status.ReceivedBytesByLinkManager = P2PManager.P2PBase.TotalBytesReceivedOnAllLinks();
-            status.TotalBytesByLinkManager = status.ReceivedBytesByLinkManager + status.SentBytesByLinkManager;
+          
         }
 
         private void HandleUpdateOfOverheadTime()

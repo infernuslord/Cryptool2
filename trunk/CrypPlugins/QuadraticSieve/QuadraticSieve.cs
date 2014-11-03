@@ -17,8 +17,7 @@
 using System;
 using System.Collections;
 using System.Globalization;
-using System.Linq;
-using System.Text;
+using System.Linq; 
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
@@ -32,7 +31,6 @@ using System.Reflection;
 using System.Numerics;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Cryptool.P2P;
 using QuadraticSieve.Properties;
 
 namespace Cryptool.Plugins.QuadraticSieve
@@ -64,8 +62,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private Mutex conf_listMutex = new Mutex();
         private bool userStopped = false;
         private FactorManager factorManager;
-        private PeerToPeer peerToPeer;
-        private PeerToPeerStatusUpdater peerToPeerStatusUpdater;
+     
         private bool usePeer2Peer;
         private bool otherPeerFinished;
         private bool useGnuplot = false;
@@ -111,10 +108,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                 if (!Directory.Exists(directoryName)) Directory.CreateDirectory(directoryName);
 
                 Presentation = new QuadraticSievePresentation();
-
-                peerToPeer = new PeerToPeer(quadraticSieveQuickWatchPresentation, newRelationPackageEvent);
-                peerToPeerStatusUpdater = new PeerToPeerStatusUpdater(peerToPeer);
-                peerToPeer.P2PWarning += new PeerToPeer.P2PWarningHandler(peerToPeer_P2PWarning);
 
                 quadraticSieveQuickWatchPresentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
@@ -181,33 +174,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             {
                 Thread.CurrentThread.CurrentCulture = _cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = _cultureUiInfo;
-
-                usePeer2Peer = settings.UsePeer2Peer;
-                if (usePeer2Peer && !P2PManager.IsConnected && P2PManager.IsConnecting)
-                {
-                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleConnectionStateChange;
-                    GuiLogMessage("Connecting to Peer2Peer network... Please wait!", NotificationLevel.Info);
-                    waitForConnection.WaitOne();                    
-                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= HandleConnectionStateChange;
-                }
-                else if (usePeer2Peer && !P2PManager.IsConnected)
-                {
-                    GuiLogMessage("No connection to Peer2Peer network. Sieving locally now but waiting for connection...", NotificationLevel.Warning);
-                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += OnP2PConnectionStateChangeOccurred;
-                    usePeer2Peer = false;
-                }
-
-                if (usePeer2Peer && (settings.Channel == null ||settings.Channel.Trim() == ""))
-                {
-                    GuiLogMessage("No channel for Peer2Peer network specified. Sieving locally now!", NotificationLevel.Warning);
-                    usePeer2Peer = false;
-                }
-
-                if (settings.UsePeer2Peer)
-                {
-                    peerToPeer.SetChannel(settings.Channel);
-                    peerToPeer.SetNumber(InputNumber);
-                }
 
                 if (useGnuplot)
                     gnuplotFile = new StreamWriter(Path.Combine(directoryName, "gnuplot.dat"), false);
@@ -312,25 +278,7 @@ namespace Cryptool.Plugins.QuadraticSieve
             finally
             {
                 alreadyInUse = false;
-                if (usePeer2Peer)
-                {
-                    P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred -= OnP2PConnectionStateChangeOccurred;
-                }
             }
-        }
-
-        private void OnP2PConnectionStateChangeOccurred(object sender, bool newState)
-        {
-            usePeer2Peer = newState;
-            if (usePeer2Peer)
-                GuiLogMessage("Using Peer2Peer network now!", NotificationLevel.Info);
-            else
-                GuiLogMessage("Lost Peer2Peer network connection... Sieving locally now!", NotificationLevel.Info);
-        }
-
-        private void HandleConnectionStateChange(object sender, bool newState)
-        {
-            waitForConnection.Set();
         }
 
         private bool checkInUse()
@@ -594,36 +542,14 @@ namespace Cryptool.Plugins.QuadraticSieve
                 while (relationPackageQueue.Count != 0)       //get all the results from the helper threads, and store them
                 {
                     IntPtr relationPackage = (IntPtr)relationPackageQueue.Dequeue();
-
-                    if (settings.UsePeer2Peer)
-                    {
-                        byte[] serializedRelationPackage = (byte[])serializeRelationPackage.Invoke(null, new object[] { relationPackage });
-                        peerToPeer.Put(serializedRelationPackage);
-                    }
-
                     saveRelationPackage.Invoke(null, new object[] { conf, relationPackage });
                 }
 
-                if (usePeer2Peer)
-                {
-                    Queue dhtqueue = peerToPeer.GetLoadedRelationPackagesQueue();
-                    while (dhtqueue.Count != 0)       //get all the loaded results from the DHT, and store them
-                    {
-                        byte[] relationPackage = (byte[])dhtqueue.Dequeue();
-                        IntPtr deserializedRelationPackage = (IntPtr)deserializeRelationPackage.Invoke(null, new object[] { relationPackage });
-                        saveRelationPackage.Invoke(null, new object[] { conf, deserializedRelationPackage });
-                    }
-                }
 
                 if (!userStopped)
                 {
                     num_relations = (int) getNumRelations.Invoke(null, new object[] {conf});
                     showProgressPresentation(max_relations, num_relations, start_relations, start_sieving_time);
-                }
-
-                if (usePeer2Peer && !peerToPeer.SyncFactorManager(factorManager))   //another peer already finished sieving
-                {
-                    throw new AlreadySievedException();
                 }
             }            
         }
@@ -638,8 +564,6 @@ namespace Cryptool.Plugins.QuadraticSieve
             double globalPerformance = 0;
             foreach (double r in relationsPerMS)
                 globalPerformance += r;
-            if (usePeer2Peer)
-                globalPerformance += peerToPeer.GetP2PPerformance();
 
             //Calculate the total time assuming that we can sieve 1 minute with the same performance:
             double relationsCalculatableIn1Minute = 1000 * 60 * 1 * globalPerformance;
@@ -711,9 +635,6 @@ namespace Cryptool.Plugins.QuadraticSieve
 
             //add the trivial factors to the factor list:
             factorManager.AddFactors(list);
-
-            if (usePeer2Peer)
-                peerToPeer.SyncFactorManager(factorManager);
             
             MethodInfo msieve_run_core = msieve.GetMethod("msieve_run_core");
 
@@ -725,9 +646,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                     //get one composite factor, which we want to sieve now:
                     BigInteger compositeFactor = factorManager.GetCompositeFactor();
                     showFactorInformations(compositeFactor);
-                    if (settings.UsePeer2Peer)
-                        peerToPeer.SetFactor(compositeFactor);
-
+               
                     //now start quadratic sieve on it:                
                     IntPtr resultList = (IntPtr)msieve_run_core.Invoke(null, new object[2] { obj, compositeFactor.ToString() });
                     if (otherPeerFinished)
@@ -743,9 +662,7 @@ namespace Cryptool.Plugins.QuadraticSieve
                         return;
 
                     factorManager.ReplaceCompositeByFactors(compositeFactor, resultList);   //add the result list to factorManager
-
-                    if (usePeer2Peer)
-                        peerToPeer.SyncFactorManager(factorManager);
+               
                 }
             }
             catch (NotSievableException)
@@ -801,9 +718,6 @@ namespace Cryptool.Plugins.QuadraticSieve
                         int amountOfFullRelations = (int)getAmountOfRelationsInRelationPackage.Invoke(null, new object[] { relationPackage });
                         relationsPerMS[threadNR] = amountOfFullRelations / (DateTime.Now - beginning).TotalMilliseconds;
 
-                        if (usePeer2Peer)
-                            peerToPeer.SetOurPerformance(relationsPerMS);
-
                         relationPackageQueue.Enqueue(relationPackage);
                         newRelationPackageEvent.Set();
                     }
@@ -833,9 +747,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         /// </summary>
         private void stopThreads()
         {
-            if (settings.UsePeer2Peer)
-                peerToPeer.StopLoadStoreThread();
-
+           
             if (conf_list != null)
             {
                 MethodInfo stop = msieve.GetMethod("stop");
@@ -868,8 +780,7 @@ namespace Cryptool.Plugins.QuadraticSieve
         private void ProgressChanged(double value, double max)
         {
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-            if (usePeer2Peer)
-                peerToPeerStatusUpdater.UpdateStatus(value/max);
+          
         }
 
         private void FactorsChanged(List<BigInteger> primeFactors, List<BigInteger> compositeFactors)
@@ -942,10 +853,6 @@ namespace Cryptool.Plugins.QuadraticSieve
 
         #region internal
 
-        internal PeerToPeer PeerToPeer
-        {
-            get { return peerToPeer; }
-        }
 
         internal bool Running
         {

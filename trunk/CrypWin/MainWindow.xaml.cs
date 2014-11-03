@@ -15,10 +15,8 @@
 */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -42,20 +40,17 @@ using Cryptool.Core;
 using Cryptool.CrypWin.Helper;
 using Cryptool.CrypWin.Properties;
 using Cryptool.CrypWin.Resources;
-using Cryptool.P2P;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Attributes;
 using Cryptool.PluginBase.Editor;
 using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
-using WorkspaceManager;
 using CrypWin.Helper;
 using DevComponents.WpfRibbon;
 using Microsoft.Win32;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using OnlineDocumentationGenerator.Generators.LaTeXGenerator;
 using Application = System.Windows.Application;
-using Binding = System.Windows.Data.Binding;
 using Button = System.Windows.Controls.Button;
 using ComboBox = System.Windows.Controls.ComboBox;
 using Control = System.Windows.Controls.Control;
@@ -67,7 +62,6 @@ using MessageBox = System.Windows.MessageBox;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Orientation = System.Windows.Controls.Orientation;
 using TabControl = System.Windows.Controls.TabControl;
-using ToolTip = System.Windows.Controls.ToolTip;
 using System.Security.Cryptography.X509Certificates;
 using System.Net;
 using System.Net.Security;
@@ -371,8 +365,6 @@ namespace Cryptool.CrypWin
                 Console.WriteLine("Upgrading config ...");
                 Settings.Default.Upgrade();                
                 Cryptool.PluginBase.Properties.Settings.Default.Upgrade();
-                //upgrade p2p settings                    
-                Cryptool.P2P.P2PSettings.Default.Upgrade();
                 //upgrade WorkspaceManagerModel settings
                 WorkspaceManagerModel.Properties.Settings.Default.Upgrade();
                 //upgrade Crypwin settings
@@ -484,12 +476,7 @@ namespace Cryptool.CrypWin
                 splitPanelNaviPaneAlgorithms.Visibility = Visibility.Collapsed;
             if (!Settings.Default.ShowAlgorithmsSettings)
                 splitPanelAlgorithmSettings.Visibility = Visibility.Collapsed;
-
-            if (P2PManager.IsP2PSupported)
-            {
-                InitP2P();
-            }
-
+      
             OnlineHelp.ShowDocPage += ShowHelpPage;
 
             SettingsPresentation.GetSingleton().OnGuiLogNotificationOccured += new GuiLogNotificationEventHandler(OnGuiLogNotificationOccured);
@@ -525,8 +512,6 @@ namespace Cryptool.CrypWin
                 {
                     //Reset all plugins settings
                     Cryptool.PluginBase.Properties.Settings.Default.Reset();
-                    //Reset p2p settings                    
-                    Cryptool.P2P.P2PSettings.Default.Reset();
                     //Reset WorkspaceManagerModel settings
                     WorkspaceManagerModel.Properties.Settings.Default.Reset();
                     //reset Crypwin settings
@@ -880,13 +865,7 @@ namespace Cryptool.CrypWin
             this.pluginManager.OnExceptionOccured += pluginManager_OnExceptionOccured;
             this.pluginManager.OnDebugMessageOccured += pluginManager_OnDebugMessageOccured;
             this.pluginManager.OnPluginLoaded += pluginManager_OnPluginLoaded;
-
-            // Initialize P2PManager
-            if (P2PManager.IsP2PSupported)
-            {
-                ValidateAndSetupPeer2Peer();
-            }
-
+         
             # region GUI stuff without plugin access
 
             naviPane.SystemText.CollapsedPaneText = Properties.Resources.Classic_Ciphers;
@@ -1508,8 +1487,8 @@ namespace Cryptool.CrypWin
                     var editor = AddEditorDispatched(editorType);
                     TabInfo info = new TabInfo();
 
-                    try
-                    {
+                    try 
+                    { 
                         if (editorType == typeof(P2PEditor.P2PEditor))
                             info.Title = P2PEditor.Properties.Resources.P2PEditor_Tab_Caption;
                         else if (editorType == typeof(WorkspaceManager.WorkspaceManagerClass))
@@ -2139,10 +2118,6 @@ namespace Cryptool.CrypWin
                     Settings.Default.logWindowAutoHide = dockWindowLogMessages.IsAutoHide;
 
                     SaveSettingsSavely();
-
-                    // TODO workaround, find/introduce a new event should be the way we want this to work
-                    if (P2PManager.IsP2PSupported)
-                        P2PManager.HandleDisconnectOnShutdown();
 
                     notifyIcon.Visible = false;
                     notifyIcon.Dispose();

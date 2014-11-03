@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using Cryptool.P2P;
+using System.Windows; 
 using KeySearcher.Properties;
 
 namespace KeySearcher.Helper
@@ -13,8 +12,8 @@ namespace KeySearcher.Helper
         public delegate void OnMachineNameToUseChangedHandler(string newMachineNameToUse);
         public static event OnMachineNameToUseChangedHandler OnMachineNameToUseChanged;
         
-        private static string realMachineName = UniqueIdentifier.GetHostName();
-        private static long id = UniqueIdentifier.GetID();
+        private static string realMachineName = "";
+        private static long id = 0;
 
         public static string MachineNameToUse
         {

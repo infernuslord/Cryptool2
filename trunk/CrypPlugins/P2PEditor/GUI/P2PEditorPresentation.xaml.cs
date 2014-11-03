@@ -18,10 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Threading;
-using Cryptool.P2P;
 using Cryptool.P2PEditor.Distributed;
-using System.Threading;
-using System.Windows.Media.Animation;
 
 namespace Cryptool.P2PEditor.GUI
 {
@@ -56,14 +53,6 @@ namespace Cryptool.P2PEditor.GUI
             JobListManager = jobListManager;
             P2PEditorPresentation = this;
 
-            P2PManager.ConnectionManager.OnP2PConnectionStateChangeOccurred += HandleChangedPeerToPeerConnectionState;
-
-            //We need this, because for a strange reason, the OnP2PConnectionStateChangeOccurred event is not triggered when reconnecting:
-            P2PManager.P2PBase.OnSystemJoined += delegate
-                                                        {
-                                                            HandleChangedPeerToPeerConnectionState
-                                                                (null, true);
-                                                        };
 
             InitializeComponent();
 
@@ -88,14 +77,7 @@ namespace Cryptool.P2PEditor.GUI
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(UpdateConnectionState));
 
-            if (P2PManager.IsConnected)
-            {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowActiveJobsView));
-            }
-            else
-            {
-                Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(ShowConnectView));
-            }
+      
         }
 
         public List<DistributedJob> Jobs
@@ -124,8 +106,7 @@ namespace Cryptool.P2PEditor.GUI
 
         internal void UpdateConnectionState()
         {
-            IsP2PConnected = P2PManager.IsConnected;
-            IsP2PConnecting = P2PManager.IsConnecting;
+           
         }
 
 
