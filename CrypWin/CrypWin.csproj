@@ -488,10 +488,6 @@
       <Name>CrypPluginBase</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\CrypPlugins\P2PEditor\P2PEditor.csproj">
-      <Project>{59DEB752-BEB6-4B2B-86A9-78B150537529}</Project>
-      <Name>P2PEditor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CrypPlugins\WorkspaceManager\WorkspaceManager.csproj">
       <Project>{949B4294-2894-43B4-BD73-E0B031F5434F}</Project>
       <Name>WorkspaceManager</Name>
