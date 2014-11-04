@@ -1489,9 +1489,10 @@ namespace Cryptool.CrypWin
 
                     try 
                     { 
-                        if (editorType == typeof(P2PEditor.P2PEditor))
+                        //removed P2P Editor: kopal 04.11.2014
+                        /*if (editorType == typeof(P2PEditor.P2PEditor))
                             info.Title = P2PEditor.Properties.Resources.P2PEditor_Tab_Caption;
-                        else if (editorType == typeof(WorkspaceManager.WorkspaceManagerClass))
+                        else */if (editorType == typeof(WorkspaceManager.WorkspaceManagerClass))
                             info.Title = WorkspaceManager.Properties.Resources.unnamed_project;
                         else
                             info.Title = editorType.GetPluginInfoAttribute().Caption;

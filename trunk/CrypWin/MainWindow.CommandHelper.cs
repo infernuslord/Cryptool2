@@ -496,7 +496,8 @@ namespace Cryptool.CrypWin
         private void P2P_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             // TODO synchronize instance with editor selection in settings tab
-            AddEditorDispatched(typeof(P2PEditor.P2PEditor));
+            //removed p2p editor: kopal 04.11.2014
+            //AddEditorDispatched(typeof(P2PEditor.P2PEditor));
         }
 
         # endregion P2P
