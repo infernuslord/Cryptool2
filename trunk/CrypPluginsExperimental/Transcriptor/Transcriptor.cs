@@ -26,11 +26,12 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System;
+using Transcriptor.Properties;
 
 namespace Cryptool.Plugins.Transcriptor
 {
     [Author("Olga Groh", "o_groh@student.uni-kassel.de", "Uni Kassel", "www.uni-kassel.de")]
-    [PluginInfo("Transcriptor", "Transcriptor", "Transcriptor/DetailedDescription/doc.xml", new[] { "Transcriptor/icon.png" })]
+    [PluginInfo("Transcriptor.Properties.Resources", "TranscriptorCaption", "TranscriptorTooltip", "Transcriptor/DetailedDescription/doc.xml", new[] { "Transcriptor/icon.png" })]
     
     [ComponentCategory(ComponentCategory.ToolsMisc)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
@@ -168,7 +169,7 @@ namespace Cryptool.Plugins.Transcriptor
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage(String.Format("Could not display Picture: {0}", ex.Message), NotificationLevel.Error);
+                    GuiLogMessage(String.Format(Resources.CouldnotDisplayPicture, ex.Message), NotificationLevel.Error);
                 }
             }, null);
             
@@ -196,7 +197,7 @@ namespace Cryptool.Plugins.Transcriptor
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage(String.Format("Error: {0}", ex.Message), NotificationLevel.Error);
+                    GuiLogMessage(String.Format(Resources.Error, ex.Message), NotificationLevel.Error);
                 }
             }, null);
         }
@@ -289,7 +290,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// <param name="ex"></param>
         internal void GuiLogMessage(Exception ex)
         {
-            GuiLogMessage(String.Format("Error: {0}", ex.Message), NotificationLevel.Error);
+            GuiLogMessage(String.Format(Resources.Error, ex.Message), NotificationLevel.Error);
         }
     }
 }

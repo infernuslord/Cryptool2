@@ -33,6 +33,7 @@ namespace Transcriptor
     /// <summary>
     /// Interaktionslogik für TranscriptorPresentation.xaml
     /// </summary>
+    [Cryptool.PluginBase.Attributes.Localization("Transcriptor.Properties.Resources")]
     public partial class TranscriptorPresentation : UserControl
     {
         # region Variables
@@ -455,12 +456,12 @@ namespace Transcriptor
                 if (firstSymbolOn == false)
                 {
 
-                    TransformButton.Content = "First symbol on";
+                    TransformButton.Content = Transcriptor.Properties.Resources.FirstSymbolOn;
                     firstSymbolOn = true;
                 }
                 else
                 {
-                    TransformButton.Content = "First symbol off";
+                    TransformButton.Content = Transcriptor.Properties.Resources.FirstSymbolOff;
                     firstSymbolOn = false;
                 }
             }
@@ -769,7 +770,7 @@ namespace Transcriptor
         {
             if (letter.Equals(' '))
             {
-                return "Space";
+                return Transcriptor.Properties.Resources.Space;
 
             }
             else

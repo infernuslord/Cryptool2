@@ -61,7 +61,16 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Add space ähnelt.
+        /// </summary>
+        internal static string AddSpace {
+            get {
+                return ResourceManager.GetString("AddSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet ähnelt.
         /// </summary>
         internal static string AlphabetCaption {
             get {
@@ -70,7 +79,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet ähnelt.
         /// </summary>
         internal static string AlphabetName {
             get {
@@ -79,7 +88,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The alphabet which is used in the Transcriptor ähnelt.
         /// </summary>
         internal static string AlphabetToolTip {
             get {
@@ -88,7 +97,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die It&apos;s possible to use a custom Alphabet ähnelt.
         /// </summary>
         internal static string AlphabetToolTip2 {
             get {
@@ -97,7 +106,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Black ähnelt.
         /// </summary>
         internal static string Black {
             get {
@@ -106,7 +115,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Blue ähnelt.
         /// </summary>
         internal static string Blue {
             get {
@@ -115,7 +124,52 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Could not display Picture: {0} ähnelt.
+        /// </summary>
+        internal static string CouldnotDisplayPicture {
+            get {
+                return ResourceManager.GetString("CouldnotDisplayPicture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error: {0} ähnelt.
+        /// </summary>
+        internal static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die First symbol off ähnelt.
+        /// </summary>
+        internal static string FirstSymbolOff {
+            get {
+                return ResourceManager.GetString("FirstSymbolOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die First symbol on ähnelt.
+        /// </summary>
+        internal static string FirstSymbolOn {
+            get {
+                return ResourceManager.GetString("FirstSymbolOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Generate ähnelt.
+        /// </summary>
+        internal static string Generate {
+            get {
+                return ResourceManager.GetString("Generate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Green ähnelt.
         /// </summary>
         internal static string Green {
             get {
@@ -124,7 +178,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Image File ähnelt.
         /// </summary>
         internal static string ImageFileName {
             get {
@@ -133,7 +187,16 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Image ähnelt.
+        /// </summary>
+        internal static string ImageHeader {
+            get {
+                return ResourceManager.GetString("ImageHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The file which contains the image ähnelt.
         /// </summary>
         internal static string ImageToolTip {
             get {
@@ -142,7 +205,16 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Likeliest symbol: ähnelt.
+        /// </summary>
+        internal static string LikeliestSymbol {
+            get {
+                return ResourceManager.GetString("LikeliestSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Manually ähnelt.
         /// </summary>
         internal static string Manually {
             get {
@@ -151,7 +223,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mode ähnelt.
         /// </summary>
         internal static string ModeCaption {
             get {
@@ -160,7 +232,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Mode ähnelt.
         /// </summary>
         internal static string ModeGroup {
             get {
@@ -169,7 +241,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose which mode should be used ähnelt.
         /// </summary>
         internal static string ModeTooltip {
             get {
@@ -178,7 +250,16 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die New symbol ähnelt.
+        /// </summary>
+        internal static string NewSymbol {
+            get {
+                return ResourceManager.GetString("NewSymbol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Rectangle color ähnelt.
         /// </summary>
         internal static string RectangleColorCaption {
             get {
@@ -196,7 +277,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Red ähnelt.
         /// </summary>
         internal static string Red {
             get {
@@ -205,7 +286,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set the color of the selected rectangle ähnelt.
         /// </summary>
         internal static string SelectedColorTooltip {
             get {
@@ -214,7 +295,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Selected rectangle color ähnelt.
         /// </summary>
         internal static string SelectedRectangleColorCaption {
             get {
@@ -223,7 +304,16 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Selection ähnelt.
+        /// </summary>
+        internal static string Selection {
+            get {
+                return ResourceManager.GetString("Selection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Semi-automatic ähnelt.
         /// </summary>
         internal static string SemiAutomatic {
             get {
@@ -232,7 +322,16 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Space ähnelt.
+        /// </summary>
+        internal static string Space {
+            get {
+                return ResourceManager.GetString("Space", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Text output ähnelt.
         /// </summary>
         internal static string TextOutputName {
             get {
@@ -241,7 +340,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The generated text ähnelt.
         /// </summary>
         internal static string TextOutputTooltip {
             get {
@@ -250,7 +349,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Threshold ähnelt.
         /// </summary>
         internal static string ThresholdCaption {
             get {
@@ -259,7 +358,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set the threshold for the semi-automatic mode ähnelt.
         /// </summary>
         internal static string ThresholdTooltip {
             get {
@@ -268,7 +367,25 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Transcriptor ähnelt.
+        /// </summary>
+        internal static string TranscriptorCaption {
+            get {
+                return ResourceManager.GetString("TranscriptorCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Transcripts an image with symbols into a Text ähnelt.
+        /// </summary>
+        internal static string TranscriptorTooltip {
+            get {
+                return ResourceManager.GetString("TranscriptorTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die White ähnelt.
         /// </summary>
         internal static string White {
             get {
@@ -277,7 +394,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Yellow ähnelt.
         /// </summary>
         internal static string Yellow {
             get {
