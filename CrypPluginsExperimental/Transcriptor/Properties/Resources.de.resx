@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AddSpace" xml:space="preserve">
-    <value>Add space</value>
+    <value>Leerzeichen</value>
   </data>
   <data name="AlphabetCaption" xml:space="preserve">
     <value>Alphabet</value>
@@ -127,108 +127,108 @@
     <value>Alphabet</value>
   </data>
   <data name="AlphabetToolTip" xml:space="preserve">
-    <value>The alphabet which is used in the Transcriptor</value>
+    <value>Das Alphabet das im Transkrriptor benutzt wird</value>
   </data>
   <data name="AlphabetToolTip2" xml:space="preserve">
-    <value>It's possible to use a custom Alphabet</value>
+    <value>Es ist möglich auch ein benutzerdefiniertes Alphabet zu benutzen</value>
   </data>
   <data name="Black" xml:space="preserve">
-    <value>Black</value>
+    <value>Schwarz</value>
   </data>
   <data name="Blue" xml:space="preserve">
-    <value>Blue</value>
+    <value>Blau</value>
   </data>
   <data name="CouldnotDisplayPicture" xml:space="preserve">
-    <value>Could not display Picture: {0}</value>
+    <value>Konnte Bild nicht darstellen: {0}</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Error: {0}</value>
+    <value>Fehler: {0}</value>
   </data>
   <data name="FirstSymbolOff" xml:space="preserve">
-    <value>First symbol off</value>
+    <value>1. Symbol an</value>
   </data>
   <data name="FirstSymbolOn" xml:space="preserve">
-    <value>First symbol on</value>
+    <value>1. Symbol aus</value>
   </data>
   <data name="Generate" xml:space="preserve">
-    <value>Generate</value>
+    <value>Generieren</value>
   </data>
   <data name="Green" xml:space="preserve">
-    <value>Green</value>
+    <value>Grün</value>
   </data>
   <data name="ImageFileName" xml:space="preserve">
-    <value>Image File</value>
+    <value>Bild Datei</value>
   </data>
   <data name="ImageHeader" xml:space="preserve">
-    <value>Image</value>
+    <value>Bild</value>
   </data>
   <data name="ImageToolTip" xml:space="preserve">
-    <value>The file which contains the image</value>
+    <value>Diese Datei enthält das Bild</value>
   </data>
   <data name="LikeliestSymbol" xml:space="preserve">
-    <value>Likeliest symbol:</value>
+    <value>Wahrscheinlichstes Symbol:</value>
   </data>
   <data name="Manually" xml:space="preserve">
-    <value>Manually</value>
+    <value>Manuell</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
-    <value>Mode</value>
+    <value>Modus</value>
   </data>
   <data name="ModeGroup" xml:space="preserve">
-    <value>Mode</value>
+    <value>Modus</value>
   </data>
   <data name="ModeTooltip" xml:space="preserve">
-    <value>Choose which mode should be used</value>
+    <value>Wähle welcher Modus gewählt werden soll</value>
   </data>
   <data name="NewSymbol" xml:space="preserve">
-    <value>New symbol</value>
+    <value>Neues Symbol</value>
   </data>
   <data name="RectangleColorCaption" xml:space="preserve">
-    <value>Rectangle color</value>
+    <value>Farbe des Rechtecks</value>
   </data>
   <data name="RectangleColorTooltip" xml:space="preserve">
-    <value>Set the rectangle color</value>
+    <value>Wähle die Farbe des Rechtecks</value>
   </data>
   <data name="Red" xml:space="preserve">
-    <value>Red</value>
+    <value>Rot</value>
   </data>
   <data name="SelectedColorTooltip" xml:space="preserve">
-    <value>Set the color of the selected rectangle</value>
+    <value>Wähle die Frabe des selektiert Rechtecks</value>
   </data>
   <data name="SelectedRectangleColorCaption" xml:space="preserve">
-    <value>Selected rectangle color</value>
+    <value>Farbe des selektierten Rechtecks</value>
   </data>
   <data name="Selection" xml:space="preserve">
-    <value>Selection</value>
+    <value>Auswahl</value>
   </data>
   <data name="SemiAutomatic" xml:space="preserve">
-    <value>Semi-automatic</value>
+    <value>Semi-Automatisch</value>
   </data>
   <data name="Space" xml:space="preserve">
-    <value>Space</value>
+    <value>Leerzeichen</value>
   </data>
   <data name="TextOutputName" xml:space="preserve">
-    <value>Text output</value>
+    <value>Text Ausgang</value>
   </data>
   <data name="TextOutputTooltip" xml:space="preserve">
-    <value>The generated text</value>
+    <value>Der generierte Text</value>
   </data>
   <data name="ThresholdCaption" xml:space="preserve">
-    <value>Threshold</value>
+    <value>Grenze</value>
   </data>
   <data name="ThresholdTooltip" xml:space="preserve">
-    <value>Set the threshold for the semi-automatic mode</value>
+    <value>Wähle die Grenze für den Semi-Automatischen Modus</value>
   </data>
   <data name="TranscriptorCaption" xml:space="preserve">
     <value>Transcriptor</value>
   </data>
   <data name="TranscriptorTooltip" xml:space="preserve">
-    <value>Transcripts an image with symbols into a Text</value>
+    <value>Transkribiert ein Bild mit Symbolen zu einem Text</value>
   </data>
   <data name="White" xml:space="preserve">
-    <value>White</value>
+    <value>Weiß</value>
   </data>
   <data name="Yellow" xml:space="preserve">
-    <value>Yellow</value>
+    <value>Gelb</value>
   </data>
 </root>
