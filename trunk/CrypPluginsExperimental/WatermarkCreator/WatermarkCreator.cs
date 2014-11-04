@@ -38,6 +38,9 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
         private readonly WatermarkCreatorSettings settings = new WatermarkCreatorSettings();
+        int rand1 = 19;
+        int rand2 = 24;
+        int errCor = 6;
 
         #endregion
 
@@ -120,33 +123,112 @@ namespace Cryptool.Plugins.WatermarkCreator
                 GuiLogMessage("Please provide a picture", NotificationLevel.Error);
                 return;
             }
-
             switch (settings.ModificationType) //ENUM
             {
-                case 0:
-                  break;
-                case 1:
+                case 0: //Visible Text
+                    if (Watermark == null)
+                    {
+                        GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
+                        return;
+                    }
+
+                    wmVisibleText();
+
+                    OnPropertyChanged("OutputPicture");
+                    ProgressChanged(1, 1);
                     break;
-                case 2:
+
+                case 1: //Visible Picture
+                    if (WImage == null)
+                    {
+                        GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
+                        return;
+                    }
                     break;
-                case 3:
+
+                case 2: //Invisible Text
+                    if (Watermark == null)
+                    {
+                        GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
+                        return;
+                    }
+
+                    createInvisibleWatermark();
+
+                    OnPropertyChanged("OutputPicture");
+                    ProgressChanged(1, 1);
+
+                    break;
+
+                case 3: //Invisible Picture
                     break;
                 default:
+                    GuiLogMessage("This error should actually never happen. WTF?", NotificationLevel.Error);
                     break;
             }
-            if (Watermark == null)
-            {
-                GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
-                return;
-            }
-
-            if(settings.ModificationType == null)
-
-            wmVisibleText();
-
-            OnPropertyChanged("OutputPicture");
-            ProgressChanged(1, 1);
         }
+
+
+
+        /// <summary>
+        /// Called once after workflow execution has stopped.
+        /// </summary>
+        public void PostExecution()
+        {
+        }
+
+        /// <summary>
+        /// Triggered time when user clicks stop button.
+        /// Shall abort long-running execution.
+        /// </summary>
+        public void Stop()
+        {
+        }
+
+        /// <summary>
+        /// Called once when plugin is loaded into editor workspace.
+        /// </summary>
+        public void Initialize()
+        {
+        }
+
+        /// <summary>
+        /// Called once when plugin is removed from editor workspace.
+        /// </summary>
+        public void Dispose()
+        {
+        }
+
+        #endregion
+
+        #region Event Handling
+
+        public event StatusChangedEventHandler OnPluginStatusChanged;
+
+        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
+
+        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void GuiLogMessage(string message, NotificationLevel logLevel)
+        {
+            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
+        }
+
+        private void OnPropertyChanged(string name)
+        {
+            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
+        }
+
+        private void ProgressChanged(double value, double max)
+        {
+            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
+        }
+
+        #endregion
+
+        #region Helpers
 
         private void wmVisibleText()
         {
@@ -218,81 +300,25 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        /// <summary>
-        /// Called once after workflow execution has stopped.
-        /// </summary>
-        public void PostExecution()
+        private void createInvisibleWatermark()
         {
+            net.watermark.Watermark water = new net.watermark.Watermark(10, errCor, 1.0, rand1, rand2);
+            using (CStreamReader reader = InputPicture.CreateReader())
+            {
+                using (Bitmap bitmap = new Bitmap(reader))
+                {
+                    water.embed(bitmap, Watermark);
+                    CreateOutputStream(bitmap);
+                }
+            }
         }
 
-        /// <summary>
-        /// Triggered time when user clicks stop button.
-        /// Shall abort long-running execution.
-        /// </summary>
-        public void Stop()
-        {
-        }
-
-        /// <summary>
-        /// Called once when plugin is loaded into editor workspace.
-        /// </summary>
-        public void Initialize()
-        {
-        }
-
-        /// <summary>
-        /// Called once when plugin is removed from editor workspace.
-        /// </summary>
-        public void Dispose()
-        {
-        }
-
-        #endregion
-
-        #region Event Handling
-
-        public event StatusChangedEventHandler OnPluginStatusChanged;
-
-        public event GuiLogNotificationEventHandler OnGuiLogNotificationOccured;
-
-        public event PluginProgressChangedEventHandler OnPluginProgressChanged;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void GuiLogMessage(string message, NotificationLevel logLevel)
-        {
-            EventsHelper.GuiLogMessage(OnGuiLogNotificationOccured, this, new GuiLogEventArgs(message, this, logLevel));
-        }
-
-        private void OnPropertyChanged(string name)
-        {
-            EventsHelper.PropertyChanged(PropertyChanged, this, new PropertyChangedEventArgs(name));
-        }
-
-        private void ProgressChanged(double value, double max)
-        {
-            EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
-        }
-
-        #endregion
-
-        #region Helpers
         private void CreateOutputStream(Bitmap bitmap)
         {
             ImageFormat format = ImageFormat.Bmp;
-            //if (settings.OutputFileFormat == 1)
-            //{
-            //    format = ImageFormat.Png;
-            //}
-            //else if (settings.OutputFileFormat == 2)
-            //{
-            //    format = ImageFormat.Tiff;
-            //}
 
-            //avoid "generic error in GDI+"
             Bitmap saveableBitmap = CopyBitmap(bitmap, format);
 
-            //save bitmap
             MemoryStream outputStream = new MemoryStream();
             saveableBitmap.Save(outputStream, format);
             saveableBitmap.Dispose();

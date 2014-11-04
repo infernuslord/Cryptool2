@@ -79,9 +79,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="reedsolomon\GenericGF.cs" />
+    <Compile Include="reedsolomon\GenericGFPoly.cs" />
+    <Compile Include="reedsolomon\ReedSolomonDecoder.cs" />
+    <Compile Include="reedsolomon\ReedSolomonEncoder.cs" />
+    <Compile Include="reedsolomon\ReedSolomonException.cs" />
+    <Compile Include="util\Bits.cs" />
     <Compile Include="WatermarkCreator.cs" />
     <Compile Include="WatermarkCreatorSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="watermark\DCT.cs" />
+    <Compile Include="watermark\Qt.cs" />
+    <Compile Include="watermark\RectangularArrays.cs" />
+    <Compile Include="watermark\Watermark.cs" />
+    <Compile Include="watermark\ZigZag.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CrypPluginBase\CrypPluginBase.csproj">
