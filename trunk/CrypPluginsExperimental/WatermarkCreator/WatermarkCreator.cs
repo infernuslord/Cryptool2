@@ -83,6 +83,13 @@ namespace Cryptool.Plugins.WatermarkCreator
             set;
         }
 
+        [PropertyInfo(Direction.OutputData, "EmbeddedText", "Text that was embedded in the Picture")]
+        public string EmbeddedText
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -123,6 +130,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                 GuiLogMessage("Please provide a picture", NotificationLevel.Error);
                 return;
             }
+
             switch (settings.ModificationType) //ENUM
             {
                 case 0: //Visible Text
@@ -160,8 +168,15 @@ namespace Cryptool.Plugins.WatermarkCreator
 
                     break;
 
-                case 3: //Invisible Picture
+                case 3: //Detect Invisible Text
+
+                    EmbeddedText = detectInvisibleWatermark();
+
+                    OnPropertyChanged("EmbeddedText");
+                    ProgressChanged(1, 1);
+
                     break;
+
                 default:
                     GuiLogMessage("This error should actually never happen. WTF?", NotificationLevel.Error);
                     break;
@@ -309,6 +324,18 @@ namespace Cryptool.Plugins.WatermarkCreator
                 {
                     water.embed(bitmap, Watermark);
                     CreateOutputStream(bitmap);
+                }
+            }
+        }
+
+        private string detectInvisibleWatermark()
+        {
+            net.watermark.Watermark water = new net.watermark.Watermark(10, errCor, 1.0, rand1, rand2);
+            using (CStreamReader reader = InputPicture.CreateReader())
+            {
+                using (Bitmap bitmap = new Bitmap(reader))
+                {
+                    string message = water.extract(bitmap);   
                 }
             }
         }
