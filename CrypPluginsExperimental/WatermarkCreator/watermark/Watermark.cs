@@ -79,21 +79,13 @@ namespace net.watermark
 
 		public static void writeRaw(string filename, int[][] data)
 		{
-			//FileOutputStream fos = new FileOutputStream(filename);
             System.IO.FileStream fos = new System.IO.FileStream(filename,System.IO.FileMode.OpenOrCreate);
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.io.OutputStream os = new java.io.BufferedOutputStream(fos, 1024);
             System.IO.BufferedStream os = new System.IO.BufferedStream(fos, 1024);
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.io.DataOutputStream dos = new java.io.DataOutputStream(os);
-            //Stream
             System.IO.Stream dos = new System.IO.MemoryStream();
-			//DataOutputStream dos = new DataOutputStream(os);
 			foreach (int[] element in data)
 			{
 				foreach (int element2 in element)
 				{
-					//dos.writeByte(element2);
                     dos.WriteByte((byte)element2); //TODO: Ob das so gut ist...
 				}
 			}
@@ -141,8 +133,6 @@ namespace net.watermark
 			calculateSizes();
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: public Watermark(final int boxSize, final int errorCorrectionBytes, final double opacity)
 		public Watermark(int boxSize, int errorCorrectionBytes, double opacity)
 		{
 			this.bitBoxSize = boxSize;
@@ -151,8 +141,6 @@ namespace net.watermark
 			calculateSizes();
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: public Watermark(final int boxSize, final int errorCorrectionBytes, final double opacity, final long seed1, final long seed2)
 		public Watermark(int boxSize, int errorCorrectionBytes, double opacity, long seed1, long seed2)
 		{
 			this.bitBoxSize = boxSize;
@@ -163,8 +151,6 @@ namespace net.watermark
 			calculateSizes();
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: public Watermark(final long seed1, final long seed2)
 		public Watermark(long seed1, long seed2)
 		{
 			this.randomizeEmbeddingSeed = seed1;
@@ -172,18 +158,12 @@ namespace net.watermark
 			calculateSizes();
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: private String bits2String(final net.util.Bits bits)
 		private string bits2String(Bits bits)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final StringBuilder buf = new StringBuilder();
 			StringBuilder buf = new StringBuilder();
 			{
 				for (int i = 0; i < this.maxTextLen; i++)
 				{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int c = (int) bits.getValue(i * 6, 6);
 					int c = (int) bits.getValue(i * 6, 6);
 					buf.Append(VALID_CHARS[c]);
 				}
@@ -198,8 +178,6 @@ namespace net.watermark
 			this.maxTextLen = this.maxBitsData / 6;
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: public void embed(final java.awt.image.BufferedImage image, final net.util.Bits data)
 		public virtual void embed(System.Drawing.Bitmap image, Bits data)
 		{
 			Bits bits;
@@ -224,10 +202,6 @@ namespace net.watermark
 			}
 
 			// create watermark image...
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int[][] watermarkBitmap = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] watermarkBitmap = new int[128][128];
 			int[][] watermarkBitmap = RectangularArrays.ReturnRectangularIntArray(128, 128);
 			for (int y = 0; y < 128 / this.bitBoxSize * this.bitBoxSize; y++)
 			{
@@ -246,8 +220,6 @@ namespace net.watermark
 				{
 					writeRaw("water1.raw", watermarkBitmap);
 				}
-//JAVA TO C# CONVERTER WARNING: 'final' catch parameters are not available in C#:
-//ORIGINAL LINE: catch (final java.io.IOException e)
 				catch (System.IO.IOException e)
 				{
 					Console.WriteLine(e.ToString());
@@ -256,8 +228,6 @@ namespace net.watermark
 			}
 
 			// embedding...
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int[][] grey = embed(image, watermarkBitmap);
 			int[][] grey = embed(image, watermarkBitmap);
 
 			// added computed data to original image...
@@ -265,17 +235,10 @@ namespace net.watermark
 			{
 				for (int x = 0; x < image.Width; x++)
 				{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.awt.Color color = new java.awt.Color(image.getRGB(x, y));
                     System.Drawing.Color color = image.GetPixel(x, y);
-					//System.Drawing.Color color = new System.Drawing.Color(image.getRGB(x, y));
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final float[] hsb = java.awt.Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
 					float[] hsb = RGBtoHSB(color.R, color.G, color.B);
 					// adjust brightness of the pixel...
 					hsb[2] = (float)(hsb[2] * (1.0 - this.opacity) + grey[y][x] * this.opacity / 255.0);
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.awt.Color colorNew = new java.awt.Color(java.awt.Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]));
                     System.Drawing.Color colorNew = HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 					image.SetPixel(x, y, colorNew);
 
@@ -283,129 +246,50 @@ namespace net.watermark
 			}
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: private int[][] embed(final java.awt.image.BufferedImage src, final int[][] water1)
 		private int[][] embed(System.Drawing.Bitmap src, int[][] water1)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int width = (src.getWidth() + 7) / 8 * 8;
 			int width = (src.Width + 7) / 8 * 8;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int height = (src.getHeight() + 7) / 8 * 8;
 			int height = (src.Height + 7) / 8 * 8;
 
 			// original image process
 			const int N = 8;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int buff1[][] = new int[height][width];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] buff1 = new int[height][width]; // Original image
 			int[][] buff1 = RectangularArrays.ReturnRectangularIntArray(height, width); // Original image
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int buff2[][] = new int[height][width];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] buff2 = new int[height][width]; // DCT Original image coefficients
 			int[][] buff2 = RectangularArrays.ReturnRectangularIntArray(height, width); // DCT Original image coefficients
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int buff3[][] = new int[height][width];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] buff3 = new int[height][width]; // IDCT Original image coefficients
 			int[][] buff3 = RectangularArrays.ReturnRectangularIntArray(height, width); // IDCT Original image coefficients
-
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int b1[][] = new int[N][N];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] b1 = new int[N][N]; // DCT input
 			int[][] b1 = RectangularArrays.ReturnRectangularIntArray(N, N); // DCT input
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int b2[][] = new int[N][N];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] b2 = new int[N][N]; // DCT output
 			int[][] b2 = RectangularArrays.ReturnRectangularIntArray(N, N); // DCT output
-
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int b3[][] = new int[N][N];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] b3 = new int[N][N]; // IDCT input
 			int[][] b3 = RectangularArrays.ReturnRectangularIntArray(N, N); // IDCT input
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int b4[][] = new int[N][N];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] b4 = new int[N][N]; // IDCT output
 			int[][] b4 = RectangularArrays.ReturnRectangularIntArray(N, N); // IDCT output
-
 			// watermark image process
 			const int W = 4;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int water2[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] water2 = new int[128][128]; // random watermark image
 			int[][] water2 = RectangularArrays.ReturnRectangularIntArray(128, 128); // random watermark image
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int water3[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] water3 = new int[128][128]; // DCT watermark image coefficients
 			int[][] water3 = RectangularArrays.ReturnRectangularIntArray(128, 128); // DCT watermark image coefficients
-
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int w1[][] = new int[W][W];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] w1 = new int[W][W]; // DCT input
 			int[][] w1 = RectangularArrays.ReturnRectangularIntArray(W, W); // DCT input
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int w2[][] = new int[W][W];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] w2 = new int[W][W]; // DCT output
 			int[][] w2 = RectangularArrays.ReturnRectangularIntArray(W, W); // DCT output
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int w3[][] = new int[W][W];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] w3 = new int[W][W]; // quantization output
 			int[][] w3 = RectangularArrays.ReturnRectangularIntArray(W, W); // quantization output
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int mfbuff1[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] mfbuff1 = new int[128][128]; // embed coefficients
 			int[][] mfbuff1 = RectangularArrays.ReturnRectangularIntArray(128, 128); // embed coefficients
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int mfbuff2[] = new int[width * height];
 			int[] mfbuff2 = new int[width * height]; // 2 to 1
-
 			// random process...
 			int a, b, c;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int tmp[] = new int[128 * 128];
 			int[] tmp = new int[128 * 128];
-
 			// random embed...
 			int c1;
 			int cc = 0;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int tmp1[] = new int[128 * 128];
 			int[] tmp1 = new int[128 * 128];
-
 			// divide 8x8 block...
 			int k = 0, l = 0;
-
 			// init buf1 from src image...
 			for (int y = 0; y < src.Height; y++)
 			{
 				for (int x = 0; x < src.Width; x++)
 				{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.awt.Color color = new java.awt.Color(src.getRGB(x, y));
                     System.Drawing.Color color = new System.Drawing.Color();
                     color = src.GetPixel(x, y);
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final float[] hsb = java.awt.Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
 					float[] hsb = RGBtoHSB(color.R, color.G, color.B);
 					// use brightness of the pixel...
 					buff1[y][x] = (int)(hsb[2] * 255.0);
 				}
 			}
-
-			// 將 Original image 切成 8*8 的 block 作 DCT 轉換
-			// System.out.println("Original image         ---> FDCT");
 			for (int y = 0; y < height; y += N)
 			{
 				for (int x = 0; x < width; x += N)
@@ -421,8 +305,6 @@ namespace net.watermark
 						k++;
 					}
 					k = 0;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final DCT o1 = new DCT();
 					DCT o1 = new DCT(); // 宣告 DCT 物件
 					o1.ForwardDCT(b1, b2); // 引用 DCT class 中,ForwardDCT的方法
 
@@ -440,12 +322,6 @@ namespace net.watermark
 
 				}
 			}
-			// System.out.println("                       OK!      ");
-
-			// watermark image 作 random 處理
-			// System.out.println("Watermark image        ---> Random");
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.Random r = new java.util.Random(this.randomizeWatermarkSeed);
 			Random r = new Random((int)this.randomizeWatermarkSeed); // 設定亂數產生器的seed
 			for (int i = 0; i < 128; i++)
 			{
@@ -465,12 +341,9 @@ namespace net.watermark
 					tmp[c] = 1;
 				}
 			}
-			// System.out.println("                       OK!      ");
-
 			// 將 watermark image 切成 4x4 的 block 作 DCT 轉換與quantization
 			k = 0;
 			l = 0;
-			// System.out.println("Watermark image        ---> FDCT & Quantization");
 			for (int y = 0; y < 128; y += W)
 			{
 				for (int x = 0; x < 128; x += W)
@@ -488,15 +361,11 @@ namespace net.watermark
 					k = 0;
 
 					// 宣告 DCT2 物件
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final DCT wm1 = new DCT(4);
 					DCT wm1 = new DCT(4);
 
 					// 引用DCT2 class 中,ForwardDCT的方法
 					wm1.ForwardDCT(w1, w2);
 
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final Qt qw1 = new Qt();
 					Qt qw1 = new Qt(); // 宣告 Qt 物件
 					qw1.WaterQt(w2, w3); // 引用Qt class 中,WaterQt的方法
 
@@ -513,14 +382,8 @@ namespace net.watermark
 					k = 0;
 				}
 			}
-			// System.out.println("                       OK!      ");
-
-			// Embedding Watermark water3[128][128] -->buff2[512][512]
-			// System.out.println("Watermarked image      ---> Embedding");
 
 			// Random Embedding
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.Random r1 = new java.util.Random(this.randomizeEmbeddingSeed);
 			Random r1 = new Random((int)this.randomizeEmbeddingSeed); // 設定亂數產生器的seed
 			for (int i = 0; i < 128; i++)
 			{
@@ -542,8 +405,6 @@ namespace net.watermark
 			}
 
 			// 二維 轉 一維
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final ZigZag scan = new ZigZag();
 			ZigZag scan = new ZigZag();
 			scan.two2one(mfbuff1, mfbuff2);
 
@@ -563,10 +424,7 @@ namespace net.watermark
 				}
 			}
 			cc = 0;
-			// System.out.println("                       OK!      ");
-
 			// 將 Watermarked image 切成 8*8 的 block 作 IDCT 轉換
-			// System.out.println("Watermarked image      ---> IDCT");
 			k = 0;
 			l = 0;
 			for (int y = 0; y < height; y += N)
@@ -585,8 +443,6 @@ namespace net.watermark
 					}
 					k = 0;
 
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final DCT o2 = new DCT();
 					DCT o2 = new DCT(); // 宣告 DCT 物件
 					o2.InverseDCT(b3, b4); // 引用DCT class 中,InverseDCT的方法
 
@@ -603,25 +459,17 @@ namespace net.watermark
 					k = 0;
 				}
 			}
-			// System.out.println("                       OK!      ");
 
 			return buff3;
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: public void embed(final java.awt.image.BufferedImage image, final String data)
 		public virtual void embed(System.Drawing.Bitmap image, string data)
 		{
 			embed(image, string2Bits(data));
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public net.util.Bits extractData(final java.awt.image.BufferedImage image) throws com.google.zxing.common.reedsolomon.ReedSolomonException
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
         public virtual Bits extractData(System.Drawing.Bitmap image)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int[][] extracted = extractRaw(image);
 			int[][] extracted = extractRaw(image);
 
 			if (debug)
@@ -630,8 +478,7 @@ namespace net.watermark
 				{
 					writeRaw("water2.raw", extracted);
 				}
-//JAVA TO C# CONVERTER WARNING: 'final' catch parameters are not available in C#:
-//ORIGINAL LINE: catch (final java.io.IOException e)
+
 				catch (System.IO.IOException e)
 				{
 					Console.WriteLine(e.ToString());
@@ -669,8 +516,7 @@ namespace net.watermark
 				{
 					writeRaw("water3.raw", extracted);
 				}
-//JAVA TO C# CONVERTER WARNING: 'final' catch parameters are not available in C#:
-//ORIGINAL LINE: catch (final java.io.IOException e)
+
 				catch (System.IO.IOException e)
 				{
 					Console.WriteLine(e.ToString());
@@ -718,93 +564,36 @@ namespace net.watermark
 			return bits;
 		}
 
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
-//ORIGINAL LINE: private int[][] extractRaw(final java.awt.image.BufferedImage src)
         private int[][] extractRaw(System.Drawing.Bitmap src)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int width = (src.getWidth() + 7) / 8 * 8;
 			int width = (src.Width + 7) / 8 * 8;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int height = (src.getHeight() + 7) / 8 * 8;
 			int height = (src.Height + 7) / 8 * 8;
 
 			// original image
 			const int N = 8;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int buff1[][] = new int[height][width];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] buff1 = new int[height][width]; // watermarked image
 			int[][] buff1 = RectangularArrays.ReturnRectangularIntArray(height, width); // watermarked image
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int buff2[][] = new int[height][width];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] buff2 = new int[height][width]; // DCT watermarked image coefficients
 			int[][] buff2 = RectangularArrays.ReturnRectangularIntArray(height, width); // DCT watermarked image coefficients
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int b1[][] = new int[N][N];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] b1 = new int[N][N]; // DCT input
 			int[][] b1 = RectangularArrays.ReturnRectangularIntArray(N, N); // DCT input
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int b2[][] = new int[N][N];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] b2 = new int[N][N]; // DCT output
 			int[][] b2 = RectangularArrays.ReturnRectangularIntArray(N, N); // DCT output
 
 			// watermark
 			const int W = 4;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int water1[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] water1 = new int[128][128]; // extract watermark image
 			int[][] water1 = RectangularArrays.ReturnRectangularIntArray(128, 128); // extract watermark image
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int water2[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] water2 = new int[128][128]; // DCT watermark image coefficients
 			int[][] water2 = RectangularArrays.ReturnRectangularIntArray(128, 128); // DCT watermark image coefficients
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int water3[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] water3 = new int[128][128]; // random watermark image
 			int[][] water3 = RectangularArrays.ReturnRectangularIntArray(128, 128); // random watermark image
-
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int w1[][] = new int[W][W];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] w1 = new int[W][W]; // dequantization output
 			int[][] w1 = RectangularArrays.ReturnRectangularIntArray(W, W); // dequantization output
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int w2[][] = new int[W][W];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] w2 = new int[W][W]; // DCT input
 			int[][] w2 = RectangularArrays.ReturnRectangularIntArray(W, W); // DCT input
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int w3[][] = new int[W][W];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] w3 = new int[W][W]; // DCT output
 			int[][] w3 = RectangularArrays.ReturnRectangularIntArray(W, W); // DCT output
 
 			// random process
 			int a, b, c, c1;
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int tmp[] = new int[128 * 128];
 			int[] tmp = new int[128 * 128];
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int tmp1[] = new int[128 * 128];
 			int[] tmp1 = new int[128 * 128];
 			int cc = 0;
 
 			// middle frequency coefficients
 			// final int mfbuff1[] = new int[128 * 128];
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int mfbuff1[] = new int[width * height];
 			int[] mfbuff1 = new int[width * height];
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final int mfbuff2[][] = new int[128][128];
-//JAVA TO C# CONVERTER NOTE: The following call to the 'RectangularArrays' helper class reproduces the rectangular array initialization that is automatic in Java:
-//ORIGINAL LINE: int[][] mfbuff2 = new int[128][128]; // 1 to 2
 			int[][] mfbuff2 = RectangularArrays.ReturnRectangularIntArray(128, 128); // 1 to 2
 
 			// divide 8x8 block
@@ -815,12 +604,8 @@ namespace net.watermark
 			{
 				for (int x = 0; x < src.Width; x++)
 				{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.awt.Color color = new java.awt.Color(src.getRGB(x, y));
 					System.Drawing.Color color = new System.Drawing.Color();
                     color = src.GetPixel(x, y);
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final float[] hsb = java.awt.Color.RGBtoHSB(color.getRed(), color.getGreen(), color.getBlue(), null);
 					float[] hsb = RGBtoHSB(color.R, color.G, color.B);
 					// use brightness of the pixel...
 					buff1[y][x] = (int)(hsb[2] * 255.0);
@@ -828,7 +613,6 @@ namespace net.watermark
 			}
 
 			// 將 watermark image 切成 8x8 的 block 作 DCT 轉換
-			// System.out.println("Watermarked image         ---> FDCT");
 			for (int y = 0; y < height; y += N)
 			{
 				for (int x = 0; x < width; x += N)
@@ -845,8 +629,6 @@ namespace net.watermark
 					}
 					k = 0;
 
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final DCT o1 = new DCT();
 					DCT o1 = new DCT(); // 宣告 DCT 物件
 					o1.ForwardDCT(b1, b2); // 引用DCT class 中,ForwardDCT的方法
 
@@ -863,10 +645,7 @@ namespace net.watermark
 					k = 0;
 				}
 			}
-			// System.out.println("                       OK!      ");
 
-			// extract middle frequency coefficients...
-			// System.out.println("watermark image       ---> Extracting");
 			for (int i = 0; i < height; i += N)
 			{
 				for (int j = 0; j < width; j += N)
@@ -883,15 +662,10 @@ namespace net.watermark
 			}
 			cc = 0;
 
-			// 一維 轉 二維
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final ZigZag scan = new ZigZag();
 			ZigZag scan = new ZigZag(); // 宣告 zigZag 物件
 			scan.one2two(mfbuff1, mfbuff2); // 引用zigZag class 中,one2two的方法
 
 			// random extracting
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.Random r1 = new java.util.Random(this.randomizeEmbeddingSeed);
 			Random r1 = new Random((int)this.randomizeEmbeddingSeed);
 			for (int i = 0; i < 128; i++)
 			{
@@ -911,11 +685,9 @@ namespace net.watermark
 					tmp1[c1] = 1;
 				}
 			}
-			// System.out.println("                       OK!      ");
 
 			k = 0;
 			l = 0;
-			// System.out.println("Watermark image       ---> Dequantization & IDCT");
 			for (int y = 0; y < 128; y += W)
 			{
 				for (int x = 0; x < 128; x += W)
@@ -933,13 +705,9 @@ namespace net.watermark
 					}
 					k = 0;
 
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final Qt qw2 = new Qt();
 					Qt qw2 = new Qt(); // 宣告 Qt 物件
 					qw2.WaterDeQt(w1, w2); // 引用Qt class 中,WaterDeQt的方法
 
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final DCT wm2 = new DCT(4);
 					DCT wm2 = new DCT(4); // 宣告 DCT2 物件
 					wm2.InverseDCT(w2, w3); // 引用DCT2 class 中,InverseDCT的方法
 					for (int p = y; p < y + W; p++)
@@ -955,11 +723,7 @@ namespace net.watermark
 					k = 0;
 				}
 			}
-			// System.out.println("                       OK!      ");
 
-			// System.out.println("Watermark image       ---> Re Random");
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final java.util.Random r = new java.util.Random(this.randomizeWatermarkSeed);
 			Random r = new Random((int)this.randomizeWatermarkSeed); // 設定亂數產生器的seed
 			for (int i = 0; i < 128; i++)
 			{
@@ -984,9 +748,6 @@ namespace net.watermark
 			return water3;
 		}
 
-//JAVA TO C# CONVERTER WARNING: Method 'throws' clauses are not available in .NET:
-//ORIGINAL LINE: public String extractText(final java.awt.image.BufferedImage image) throws com.google.zxing.common.reedsolomon.ReedSolomonException
-//JAVA TO C# CONVERTER WARNING: 'final' parameters are not available in .NET:
         public virtual string extractText(System.Drawing.Bitmap image)
 		{
 			return bits2String(extractData(image)).Trim();
@@ -1058,16 +819,12 @@ namespace net.watermark
 
 		private Bits string2Bits(string s)
 		{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final net.util.Bits bits = new net.util.Bits();
 			Bits bits = new Bits();
 
 			// remove invalid characters...
 			s = s.ToLower();
 			for (int i = 0; i < s.Length; i++)
 			{
-//JAVA TO C# CONVERTER WARNING: The original Java variable was marked 'final':
-//ORIGINAL LINE: final char c = s.charAt(i);
 				char c = s[i];
 				if (VALID_CHARS.IndexOf(c) < 0)
 				{

@@ -35,7 +35,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("ModificationType", "What kind of Watermark should be added?", null, 1, true, ControlType.ComboBox, new string[] { "Visible Text", "Visible Picture", "Invisible Text", "Invisible Picture" })]
+        [TaskPane("ModificationType", "What kind of Watermark should be added?", null, 1, true, ControlType.ComboBox, new string[] { "Embed Visible Text", "Embed Visible Picture", "Embed Invisible Text", "Detect Invisible Text" })]
         public int ModificationType
         {
             get
