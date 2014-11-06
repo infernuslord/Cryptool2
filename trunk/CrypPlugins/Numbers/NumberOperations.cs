@@ -77,7 +77,7 @@ namespace Cryptool.Plugins.Numbers
         }
 
         
-        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", true)]
+        [PropertyInfo(Direction.InputData, "Input2Caption", "Input2Tooltip", false)]
         public BigInteger Input2
         {
             get
@@ -198,7 +198,7 @@ namespace Cryptool.Plugins.Numbers
                             }
                             else
                             {
-                                result = BigInteger.Pow(Input1, (int)Input2);
+                                result = BigIntegerHelper.Pow(Input1, Input2);
                             }
                             break;
                         // gcd(x,y)
@@ -215,7 +215,14 @@ namespace Cryptool.Plugins.Numbers
                             break;
                         // modinv(x,y)
                         case 8:
-                            result = BigIntegerHelper.ModInverse(Input1, Input2);
+                            if (Input2 != 0)
+                            {
+                                result = BigIntegerHelper.ModInverse(Input1, Input2);
+                            }
+                            else
+                            {
+                                result = 1 / Input1;
+                            }
                             break;
                         // phi(x)
                         case 9:
