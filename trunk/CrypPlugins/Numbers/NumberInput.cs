@@ -28,6 +28,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using System.Threading;
+using System.Threading.Tasks;
 using Cryptool.PluginBase.Attributes;
 
 namespace Cryptool.Plugins.Numbers
@@ -91,9 +92,10 @@ namespace Cryptool.Plugins.Numbers
                 int digits, bits;
                 try
                 {
-                    var number = GetNumber();
-                    bits = number.BitCount(); 
-                    digits = BigInteger.Abs(number).ToString().Length;
+                    GetDigitsAndBitsWithTimeOut(out digits, out bits);
+                    //var number = GetNumberWithTimeOut(out digits, out bits);
+                    //bits = number.BitCount(); 
+                    //digits = BigInteger.Abs(number).ToString().Length;
                 }
                 catch (Exception ex)
                 {
@@ -110,6 +112,75 @@ namespace Cryptool.Plugins.Numbers
                 _presentation.StatusBar.Visibility = Visibility.Collapsed;
             }
         }
+
+        // status=0: no problems occured
+        // status=1: overflow
+        // status=2: not a number
+        private int[] GetDigitsAndBits(out int status)
+        {
+            try
+            {
+                var number = GetNumber();
+                int bits = number.BitCount();
+                int digits = BigInteger.Abs(number).ToString().Length;
+                status = 0;
+                return new int[] { digits, bits };
+            }
+            catch (Exception ex)
+            {
+                status = (ex is OutOfMemoryException || ex is OverflowException) ? 1 : 2;
+                return null;
+            }
+        }
+
+        Thread workerThread;
+        private void GetDigitsAndBitsWithTimeOut(out int digits, out int bits)
+        {
+            int[] result = null;
+            int status = 0;
+
+            if (workerThread != null && workerThread.IsAlive)
+                workerThread.Abort();
+
+            workerThread = new Thread(() => result = GetDigitsAndBits(out status));
+
+            workerThread.Start();
+
+            bool finished = workerThread.Join(TimeSpan.FromMilliseconds(500));
+            if (!finished)
+            {
+                workerThread.Abort();
+                throw new OverflowException();
+            }
+
+            if (status == 1)
+                throw new OverflowException();
+
+            if (status == 2)
+                throw new Exception();
+            
+            digits = result[0];
+            bits = result[1];
+        }
+
+        //private void GetDigitsAndBitsWithTimeOut(out int digits, out int bits)
+        //{
+        //    int[] result = null;
+
+        //    var tokenSource = new CancellationTokenSource();
+        //    CancellationToken token = tokenSource.Token;
+        //    int timeOut = 500; // milliseconds
+
+        //    bool success;
+        //    var task = Task.Factory.StartNew(() => result = GetDigitsAndBits(), token);
+        //    success = task.Wait(timeOut, token);
+
+        //    if (!success)
+        //        throw new OverflowException();
+
+        //    digits = result[0];
+        //    bits = result[1];
+        //}
 
         private BigInteger GetNumber()
         {
