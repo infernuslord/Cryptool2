@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">M209 Key Setup</title>
+  <summary lang="en">Usage of the <i>M209</i> cipher machine</summary>
+  <description lang="en">This template shows how the internal key of the <i>M209</i> cipher machine can be set up.</description>
+  <keywords>Machine, World War, Rotor, internal, key</keywords>
+
+  <title lang="de">M209-Chiffre Schlüsseleingabe</title>
+  <summary lang="de">Schlüsseleingabe bei der <i>M209</i>-Chiffriermaschine</summary>
+  <description lang="de">Diese Vorlage zeigt, wie der interne Schlüssel der <i>M209</i>-Chiffriermaschine eingestellt werden kann.</description>
+  <keywords lang="de">Maschine, Weltkrieg, interner, Schlüssel</keywords>
+
+  <icon file="M209_EncryptDecrypt.jpg" />
+
+  <relevantPlugins>
+    <plugin name="M209" />
+  </relevantPlugins>
+
+</sample>
