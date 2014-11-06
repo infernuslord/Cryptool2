@@ -45,7 +45,7 @@ namespace Cryptool.Vigenere
         public Vigenere()
         {
             this.settings = new VigenereSettings();
-            ((VigenereSettings)(this.settings)).LogMessage += Vigenere_LogMessage;
+            this.settings.LogMessage += Vigenere_LogMessage;
         }
 
         /// <summary>
@@ -83,15 +83,15 @@ namespace Cryptool.Vigenere
         }
 
         [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false)]
-        public string InputAlphabet
+        public string AlphabetSymbols
         {
-            get { return ((VigenereSettings)this.settings).AlphabetSymbols; }
+            get { return this.settings.AlphabetSymbols; }
             set
             {
                 if (value != null && value != settings.AlphabetSymbols) 
                 { 
-                    ((VigenereSettings)this.settings).AlphabetSymbols = value;
-                    OnPropertyChanged("InputAlphabet");
+                    this.settings.AlphabetSymbols = value;
+                    OnPropertyChanged("AlphabetSymbols");
                 }
             }
         }
@@ -358,7 +358,8 @@ namespace Cryptool.Vigenere
                     //show the progress
                     Progress(i, inputString.Length - 1);
                 }
-                outputString = output.ToString();
+
+                outputString = settings.AlphabetCase | settings.MemorizeCase ? output.ToString() : output.ToString().ToUpper();
                 OnPropertyChanged("OutputString");
             }
         }

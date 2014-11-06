@@ -124,7 +124,7 @@
     <value>Wählen Sie die Betriebsart des Plugins.</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Groß-/Kleinschreibung</value>
+    <value>Groß-/Kleinschreibung unterscheiden</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
     <value>Sollen Groß- und Kleinbuchstaben gleich behandelt werden?</value>
@@ -195,12 +195,6 @@
   <data name="ActionList2" xml:space="preserve">
     <value>Entschlüsselung</value>
   </data>
-  <data name="AlphabetCaseList1" xml:space="preserve">
-    <value>Groß-/Kleinschreibung nicht beachten</value>
-  </data>
-  <data name="AlphabetCaseList2" xml:space="preserve">
-    <value>Groß-/Kleinschreibung beachten</value>
-  </data>
   <data name="ModusList1" xml:space="preserve">
     <value>Selbstschlüssel-Verfahren (Autokey)</value>
   </data>
@@ -215,5 +209,14 @@
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
     <value>Ersetzen durch '?'</value>
+  </data>
+  <data name="AlphabetGroup" xml:space="preserve">
+    <value>Alphabet-Parameter</value>
+  </data>
+  <data name="MemorizeCaseCaption" xml:space="preserve">
+    <value>Ausgabeanzeige kennt ursprüngliche Groß-/Kleinschreibung</value>
+  </data>
+  <data name="MemorizeCaseTooltip" xml:space="preserve">
+    <value>Obwohl die Kleinbuchstaben vor der Verschlüsselung einander zu geordnet wurden (so dass ein "a" wie ein "A" behandelt wird), merkt sich das Programm, welche Schreibweise der Buchstabe hatte und stellt ihn in der Ausgabe entsprechend dar</value>
   </data>
 </root>

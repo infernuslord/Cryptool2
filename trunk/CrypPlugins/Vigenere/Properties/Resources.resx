@@ -124,7 +124,7 @@
     <value>Select the algorithm action</value>
   </data>
   <data name="AlphabetCaseCaption" xml:space="preserve">
-    <value>Alphabet case sensitive</value>
+    <value>Case sensitive</value>
   </data>
   <data name="AlphabetCaseTooltip" xml:space="preserve">
     <value>Should upper and lower case be treated differently? (Should a == A)</value>
@@ -195,12 +195,6 @@
   <data name="ActionList2" xml:space="preserve">
     <value>Decrypt</value>
   </data>
-  <data name="AlphabetCaseList1" xml:space="preserve">
-    <value>Case insensitive</value>
-  </data>
-  <data name="AlphabetCaseList2" xml:space="preserve">
-    <value>Case sensitive</value>
-  </data>
   <data name="ModusList1" xml:space="preserve">
     <value>Autokey</value>
   </data>
@@ -215,5 +209,14 @@
   </data>
   <data name="UnknownSymbolHandlingList3" xml:space="preserve">
     <value>Replace with '?'</value>
+  </data>
+  <data name="AlphabetGroup" xml:space="preserve">
+    <value>Alphabet parameters</value>
+  </data>
+  <data name="MemorizeCaseCaption" xml:space="preserve">
+    <value>Output contains Source Case</value>
+  </data>
+  <data name="MemorizeCaseTooltip" xml:space="preserve">
+    <value>Even the lowercase letters where mapped to uppercase letters (so that an "a" is processed like an "A") the old spelling of the letters remains</value>
   </data>
 </root>

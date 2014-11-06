@@ -97,29 +97,11 @@ namespace Cryptool.Vigenere.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet case sensitive ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Case sensitive ähnelt.
         /// </summary>
         internal static string AlphabetCaseCaption {
             get {
                 return ResourceManager.GetString("AlphabetCaseCaption", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Case insensitive ähnelt.
-        /// </summary>
-        internal static string AlphabetCaseList1 {
-            get {
-                return ResourceManager.GetString("AlphabetCaseList1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Case sensitive ähnelt.
-        /// </summary>
-        internal static string AlphabetCaseList2 {
-            get {
-                return ResourceManager.GetString("AlphabetCaseList2", resourceCulture);
             }
         }
         
@@ -129,6 +111,15 @@ namespace Cryptool.Vigenere.Properties {
         internal static string AlphabetCaseTooltip {
             get {
                 return ResourceManager.GetString("AlphabetCaseTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alphabet parameters ähnelt.
+        /// </summary>
+        internal static string AlphabetGroup {
+            get {
+                return ResourceManager.GetString("AlphabetGroup", resourceCulture);
             }
         }
         
@@ -183,6 +174,24 @@ namespace Cryptool.Vigenere.Properties {
         internal static string InputStringTooltip {
             get {
                 return ResourceManager.GetString("InputStringTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Output contains Source Case ähnelt.
+        /// </summary>
+        internal static string MemorizeCaseCaption {
+            get {
+                return ResourceManager.GetString("MemorizeCaseCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Even the lowercase letters where mapped to uppercase letters (so that an &quot;a&quot; is processed like an &quot;A&quot;) the old spelling of the letters remains ähnelt.
+        /// </summary>
+        internal static string MemorizeCaseTooltip {
+            get {
+                return ResourceManager.GetString("MemorizeCaseTooltip", resourceCulture);
             }
         }
         
