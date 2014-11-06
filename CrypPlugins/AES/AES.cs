@@ -333,7 +333,14 @@ namespace Cryptool.Plugins.Cryptography.Encryption
                 // the error messages will be doubled. 
                 // As a workaround we set p_crypto_stream to null here.
                 p_crypto_stream = null;
-                GuiLogMessage(cryptographicException.Message, NotificationLevel.Error);
+
+                string msg = cryptographicException.Message;
+
+                // Workaround for misleading german error message
+                if (msg == "Die Zeichenabstände sind ungültig und können nicht entfernt werden.")
+                    msg = "Das Padding ist ungültig und kann nicht entfernt werden.";
+
+                GuiLogMessage(msg, NotificationLevel.Error);
             }
             catch (Exception exception)
             {
