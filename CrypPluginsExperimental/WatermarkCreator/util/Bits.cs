@@ -75,8 +75,9 @@ namespace net.util
 		/// Decode using Reed-Solomon error correction (with n bytes at the end of bits). </summary>
 		public static Bits bitsReedSolomonDecode(Bits bits, int n)
 		{
-			int[] data = (new Bits(bits.getBits(0, bits.size() - n * 8))).Bytes;
-            Array.Copy(data, 0, data, 0, data.Length + n);
+			int[] tmpData = (new Bits(bits.getBits(0, bits.size() - n * 8))).Bytes;
+            int[] data = new int[tmpData.Length + n];
+            Array.Copy(tmpData, data, tmpData.Length);
 			for (int i = 0; i < n; i++)
 			{
 				data[data.Length - n + i] = (int) bits.getValue(bits.size() - n * 8 + i * 8, 8);
