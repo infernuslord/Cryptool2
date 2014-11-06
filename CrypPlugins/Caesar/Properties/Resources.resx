@@ -224,7 +224,7 @@
     <value />
   </data>
   <data name="AlphabetGroup" xml:space="preserve">
-    <value>Alphabet Parameters</value>
+    <value>Alphabet parameters</value>
   </data>
   <data name="MemorizeCaseCaption" xml:space="preserve">
     <value>Output contains Source Case</value>

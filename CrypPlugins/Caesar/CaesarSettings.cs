@@ -17,8 +17,8 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using Cryptool.PluginBase;
 using System.Windows.Controls;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Caesar
 {
@@ -157,24 +157,9 @@ namespace Cryptool.Caesar
             get { return shiftString; }
         }
 
+        //[SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
         [PropertySaveOrder(7)]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "AlphabetGroup", 4, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
-        public UnknownSymbolHandlingMode UnknownSymbolHandling
-        {
-            get { return this.unknownSymbolHandling; }
-            set
-            {
-                if (value != unknownSymbolHandling)
-                {
-                    this.unknownSymbolHandling = value;
-                    OnPropertyChanged("UnknownSymbolHandling");
-                }
-            }
-        }
-
-        [SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
-        [PropertySaveOrder(9)]
-        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", "AlphabetGroup", 6, false, ControlType.TextBoxReadOnly, "")]
+        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", "AlphabetGroup", 4, false, ControlType.TextBox, "")]
         public string AlphabetSymbols
         {
           get { return this.alphabet; }
@@ -195,12 +180,26 @@ namespace Cryptool.Caesar
           }
         }
 
+        [PropertySaveOrder(8)]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "AlphabetGroup", 5, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        public UnknownSymbolHandlingMode UnknownSymbolHandling
+        {
+            get { return this.unknownSymbolHandling; }
+            set
+            {
+                if (value != unknownSymbolHandling)
+                {
+                    this.unknownSymbolHandling = value;
+                    OnPropertyChanged("UnknownSymbolHandling");
+                }
+            }
+        }
+
         /// <summary>
         /// Visible setting how to deal with alphabet case. false = case insensitive, true = case sensitive
-        /// </summary>   
-        //[SettingsFormat(1, "Normal")]
-        [PropertySaveOrder(8)]
-        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", "AlphabetGroup", 7, false, ControlType.CheckBox)]
+        /// </summary
+        [PropertySaveOrder(9)]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", "AlphabetGroup", 6, false, ControlType.CheckBox)]
         public bool CaseSensitive
         {
             get { return this.caseSensitiveSensitive; }
@@ -255,25 +254,14 @@ namespace Cryptool.Caesar
             }
         }
 
-        /// <summary>
-        /// Visible setting how to deal with alphabet case. false = case insensitive, true = case sensitive
-        /// </summary>   
-        //[SettingsFormat(1, "Normal")]
-        [PropertySaveOrder(9)]
-        [TaskPane("MemorizeCaseCaption", "MemorizeCaseTooltip", "AlphabetGroup", 8, false, ControlType.CheckBox)]
+        [PropertySaveOrder(10)]
+        [TaskPane("MemorizeCaseCaption", "MemorizeCaseTooltip", "AlphabetGroup", 7, false, ControlType.CheckBox)]
         public bool MemorizeCase
         {
             get {return memorizeCase;}
             set
             {
-                if (CaseSensitive == true)
-                {
-                    memorizeCase = false;
-                }
-                else
-                {
-                    memorizeCase = value;
-                }                
+                memorizeCase = CaseSensitive ? false : value;
                 OnPropertyChanged("MemorizeCase");
             }
         }

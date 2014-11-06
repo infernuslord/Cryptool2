@@ -205,7 +205,7 @@
     <value>Zeigt die Zeichenzuordnung für ein einzelnes Zeichen des Eingabe-Alphabetes für die angegebene Verschiebung.</value>
   </data>
   <data name="AlphabetGroup" xml:space="preserve">
-    <value>Alphabet Parameter</value>
+    <value>Alphabet-Parameter</value>
   </data>
   <data name="MemorizeCaseCaption" xml:space="preserve">
     <value>Ausgabeanzeige kennt ursprüngliche Groß-/Kleinschreibung</value>
