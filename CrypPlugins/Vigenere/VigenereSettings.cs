@@ -19,8 +19,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Cryptool.PluginBase;
 using System.ComponentModel;
+using System.Windows.Controls;
+using Cryptool.PluginBase;
 
 namespace Cryptool.Vigenere
 {
@@ -64,8 +65,7 @@ namespace Cryptool.Vigenere
         {
             get
             {
-                if (caseSensitiveAlphabet == 0) return false;
-                else return true;
+                return caseSensitiveAlphabet;
             }
             set { } //readonly
         }
@@ -81,7 +81,8 @@ namespace Cryptool.Vigenere
         private char[] keyChars = { 'B', 'C', 'D' };
         private int[] keyShiftValues = { 1, 2, 3 };
         private UnknownSymbolHandlingMode unknowSymbolHandling = UnknownSymbolHandlingMode.Ignore;
-        private int caseSensitiveAlphabet = 0; //0=case insensitive, 1 = case sensitive
+        private bool caseSensitiveAlphabet = false;
+        private bool memorizeCase = false;
         #endregion
 
         #region Private methods
@@ -157,11 +158,11 @@ namespace Cryptool.Vigenere
                 //print some info in the log.
                 LogMessage(
                     "Accepted new shift values " + intArrayToString(offset) + "! (Adjusted key to '" +
-                    charArrayToString(keyChars) + "\'", NotificationLevel.Info);
+                    charArrayToString(keyChars) + ")'", NotificationLevel.Info);
             }
             catch (Exception ex)
             {
-                LogMessage("Bad shift value \"" + intArrayToString(offset) + "!", NotificationLevel.Error);
+                LogMessage("Bad shift value \"" + intArrayToString(offset) + "\"!", NotificationLevel.Error);
             }
         }
 
@@ -233,7 +234,6 @@ namespace Cryptool.Vigenere
         #region Algorithm settings properties (visible in the Settings pane)
 
         [PropertySaveOrder(3)]
-        [ContextMenu("ModusCaption", "ModusTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ModusList1", "ModusList2")]
         [TaskPane("ModusCaption", "ModusTooltip", null, 1, false, ControlType.ComboBox, new string[] { "ModusList1", "ModusList2" })]
         public int Modus
         {
@@ -250,7 +250,6 @@ namespace Cryptool.Vigenere
 
 
         [PropertySaveOrder(4)]
-        [ContextMenu("ActionCaption", "ActionTooltip", 2, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 2, false, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
         {
@@ -291,9 +290,31 @@ namespace Cryptool.Vigenere
             set { setKeyByCharacter(value); }
         }
 
+        //[SettingsFormat(0, "Normal", "Normal", "Black", "White", Orientation.Vertical)]
         [PropertySaveOrder(7)]
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 5, ContextMenuControlType.ComboBox, null, "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3")]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", null, 5, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", "AlphabetGroup", 5, false, ControlType.TextBox, null)]
+        public string AlphabetSymbols
+        {
+            get { return this.alphabet; }
+            set
+            {
+                string a = removeEqualChars(value);
+                if (a.Length == 0) //cannot accept empty alphabets
+                {
+                    LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                }
+                else if (!alphabet.Equals(a))
+                {
+                    this.alphabet = a;
+                    setKeyByValue(keyShiftValues); //re-evaluate if the shiftvalue is still within the range
+                    LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
+                    OnPropertyChanged("AlphabetSymbols");
+                }
+            }
+        }
+
+        [PropertySaveOrder(8)]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "AlphabetGroup", 6, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return (int)this.unknowSymbolHandling; }
@@ -307,10 +328,9 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertySaveOrder(8)]
-        [ContextMenu("AlphabetCaseCaption", "AlphabetCaseTooltip", 8, ContextMenuControlType.ComboBox, null, "AlphabetCaseList1", "AlphabetCaseList2")]
-        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", null, 8, false, ControlType.ComboBox, new string[] { "AlphabetCaseList1", "AlphabetCaseList2" })]
-        public int AlphabetCase
+        [PropertySaveOrder(9)]
+        [TaskPane("AlphabetCaseCaption", "AlphabetCaseTooltip", "AlphabetGroup", 7, false, ControlType.CheckBox)]
+        public bool AlphabetCase
         {
             get { return this.caseSensitiveAlphabet; }
             set
@@ -318,7 +338,7 @@ namespace Cryptool.Vigenere
                 if (value != caseSensitiveAlphabet)
                 {
                     this.caseSensitiveAlphabet = value;
-                    if (value == 0)
+                    if (!caseSensitiveAlphabet)
                     {
                         if (alphabet == (upperAlphabet + lowerAlphabet))
                         {
@@ -353,27 +373,18 @@ namespace Cryptool.Vigenere
             }
         }
 
-        [PropertySaveOrder(9)]
-        [TaskPane("AlphabetSymbolsCaption", "AlphabetSymbolsTooltip", null, 7, false, ControlType.TextBox, null)]
-        public string AlphabetSymbols
+        [PropertySaveOrder(10)]
+        [TaskPane("MemorizeCaseCaption", "MemorizeCaseTooltip", "AlphabetGroup", 8, false, ControlType.CheckBox)]
+        public bool MemorizeCase
         {
-            get { return this.alphabet; }
+            get { return memorizeCase; }
             set
             {
-                string a = removeEqualChars(value);
-                if (a.Length == 0) //cannot accept empty alphabets
-                {
-                    LogMessage("Ignoring empty alphabet from user! Using previous alphabet: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                }
-                else if (!alphabet.Equals(a))
-                {
-                    this.alphabet = a;
-                    setKeyByValue(keyShiftValues); //re-evaluate if the shiftvalue is stillt within the range
-                    LogMessage("Accepted new alphabet from user: \"" + alphabet + "\" (" + alphabet.Length.ToString() + " Symbols)", NotificationLevel.Info);
-                    OnPropertyChanged("AlphabetSymbols");
-                }
+                memorizeCase = AlphabetCase ? false : value;
+                OnPropertyChanged("MemorizeCase");
             }
         }
+
         #endregion
 
         #region INotifyPropertyChanged Members
