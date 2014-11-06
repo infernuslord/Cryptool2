@@ -239,7 +239,14 @@ namespace Cryptool.PluginBase.Miscellaneous
             if (e < 0) return (b > 1) ? 0 : (BigInteger)1 / Pow(b, -e);
             if (b <= 1) return b;
 
-            return BigInteger.Pow(b, (int)e);
+            try
+            {
+                return BigInteger.Pow(b, (int)e);
+            }
+            catch
+            {
+                throw new OverflowException();
+            }
         }
         
         /// <summary>
