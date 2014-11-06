@@ -40,29 +40,117 @@ namespace Cryptool.Plugins.M209
 
         private int selectedAction = 0;
 
+        public M209 m209;
+
         private string startwert = "AAAAAA";
 
         // aktive Pins an den Rotoren
-        private string rotor1 = "ABDHIKMNSTVW";
-        private string rotor2 = "ADEGJKLORSUX"; 
-        private string rotor3 = "ABGHJLMNRSTUX";
-        private string rotor4 = "CEFHIMNPSTU";
-        private string rotor5 = "BDEFHIMNPS";
-        private string rotor6 = "ABDHKNOQ";
+        public string[] initrotors = new String[6] {
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            "ABCDEFGHIJKLMNOPQRSTUVXYZ",    // no W
+            "ABCDEFGHIJKLMNOPQRSTUVX",      // no WYZ
+            "ABCDEFGHIJKLMNOPQRSTU",        // no V-Z
+            "ABCDEFGHIJKLMNOPQRS",          // no T-Z
+            "ABCDEFGHIJKLMNOPQ"             // no R-Z
+        };
+
+        // Default-Einstellungen
+        private string[] rotor = new string[6] { "ABDHIKMNSTVW", "ADEGJKLORSUX", "ABGHJLMNRSTUX", "CEFHIMNPSTU", "BDEFHIMNPS", "ABDHKNOQ" };
 
         public string[] bar = new string[27] {
             "36","06","16","15","45","04","04","04","04",
             "20","20","20","20","20","20","20","20","20",
             "20","25","25","05","05","05","05","05","05"
         };
-        private int unknownSymbolHandling = 0; // 0=ignore, leave unmodified
-        private int caseHandling = 0; // 0=preserve, 1, convert all to upper, 2= convert all to lower
+
+        private int unknownSymbolHandling = 0;  // 0=ignore, leave unmodified
+        private int caseHandling = 0;           // 0=preserve, 1=convert all to upper, 2=convert all to lower
+        private bool blockOutput = false;       // output data in blocks of 5 characters
+        private bool zspace = false;            // replace spaces with 'Z'
+        private bool formattedCheck = true;     // false: only ouput check value, true: output formatted internal key + check value
+        
+        #endregion
+
+        #region
+
+        public int Stangen
+        {
+            get
+            {
+                return (Model == 1) ? 25 : 27;
+            }
+        }
+
+        public int Rotoren
+        {
+            get
+            {
+                return (Model == 1) ? 5 : 6;
+            }
+        }
+
+        public int ActivePins
+        {
+            get
+            {
+                int res = 0;
+                for (int i = 0; i < Rotoren; i++)
+                    res += rotor[i].Length;
+                return res;
+            }
+        }
+
+        public int TotalPins
+        {
+            get
+            {
+                int res = 0;
+                for (int i = 0; i < Rotoren; i++)
+                    res += initrotors[i].Length;
+                return res;
+            }
+        }
+        
+        public String InternalKey
+        {
+            get
+            {
+                return String.Join(",", rotor) + "," + String.Join(",", bar);
+            }
+            set
+            {
+                string[] s = value.Split(new char[] { ',' });
+                if(s.Length!=Stangen+Rotoren) return;
+            }
+        }
+
+        public String FormattedInternalKey
+        {
+            get
+            {
+                string[] s = new string[27];
+
+                for (int i = 0; i < 27; i++)
+                {
+                    char l0 = (bar[i].Length>=1) ? bar[i][0] : '0';
+                    char l1 = (bar[i].Length>=2) ? bar[i][1] : '0';
+                    s[i] = String.Format("{0:00} {1}-{2} ", i+1, l0, l1);
+                }
+
+                for(int i=0;i<Rotoren;i++)
+                    for (int j = 0; j < initrotors[i].Length; j++)
+                        s[j] += String.Format("  {0}", (char)((rotor[i].Contains(initrotors[i][j])) ? initrotors[i][j] : '-'));
+                
+                return String.Join("\n",s);
+            }
+        }
+        
         #endregion
 
         #region TaskPane Settings
 
-        [ContextMenu("ModelCaption", "ModelTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "ModelList1", "ModelList2"})]
-        [TaskPane("ModelCaption", "ModelTooltip", null, 0, false, ControlType.ComboBox, new string[] { "ModelList1", "ModelList2"})]
+        [ContextMenu("ModelCaption", "ModelTooltip", 0, ContextMenuControlType.ComboBox, null, new string[] { "ModelList1", "ModelList2" })]
+        [TaskPane("ModelCaption", "ModelTooltip", null, 0, false, ControlType.ComboBox, new string[] { "ModelList1", "ModelList2" })]
         [PropertySaveOrder(1)]
         public int Model
         {
@@ -76,11 +164,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
-        //[TaskPane("Startwert", "6 stelliger Startwert", null, 1, false, DisplayLevel.Beginner, ControlType.NumericUpDown, ValidationType.RangeInteger, 0, Int32.MaxValue)]
+
         [ContextMenu("ActionCaption", "ActionTooltip", 1, ContextMenuControlType.ComboBox, new int[] { 1, 2 }, "ActionList1", "ActionList2")]
         [TaskPane("ActionCaption", "ActionTooltip", null, 1, true, ControlType.ComboBox, new string[] { "ActionList1", "ActionList2" })]
         public int Action
@@ -101,7 +185,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPaneAttribute("StartwertCaption", "StartwertTooltip", null, 3, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z]{6}$")]
+        [TaskPaneAttribute("StartwertCaption", "StartwertTooltip", null, 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z][A-VX-Z][A-VX][A-U][A-S][A-Q]?$")]
         public string Startwert
         {
             get
@@ -118,99 +202,109 @@ namespace Cryptool.Plugins.M209
             }
         }
 
+        [TaskPane("RandomKeyCaption", "RandomKeyTooltip", "RandomKeyGroup", 3, false, ControlType.Button)]
+        public void RandomKey()
+        {
+            m209.RandomKey();
+        }
+
         #region Wheel options
-        [TaskPane("Rotor1Caption", "Rotor1Tooltip", "WheelGroup", 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z]{0,26}$")]
+        [TaskPane("Rotor1Caption", "Rotor1Tooltip", "WheelGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Z]{0,26}$")]
         public string Rotor1
         {
             get
             {
-                return rotor1;
+                return rotor[0];
             }
             set
             {
-                if (rotor1 != value)
+                //char[] c = value.ToCharArray().Distinct().ToArray();
+                //Array.Sort(c);
+                //value = new String(c);
+
+                if (rotor[0] != value)
                 {
-                    rotor1 = value;
+                    rotor[0] = value;
                     OnPropertyChanged("Rotor1");
                 }
             }
         }
-        [TaskPane("Rotor2Caption", "Rotor2Tooltip", "WheelGroup", 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-VX-Z]{0,25}$")]
+        [TaskPane("Rotor2Caption", "Rotor2Tooltip", "WheelGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[A-VX-Z]{0,25}$")]
         public string Rotor2
         {
             get
             {
-                return rotor2;
+                return rotor[1];
             }
             set
             {
-                if (rotor2 != value)
+                if (rotor[1] != value)
                 {
-                    rotor2 = value;
+                    rotor[1] = value;
                     OnPropertyChanged("Rotor2");
                 }
             }
         }
-        [TaskPane("Rotor3Caption", "Rotor3Tooltip", "WheelGroup", 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-VX]{0,23}$")]
+        [TaskPane("Rotor3Caption", "Rotor3Tooltip", "WheelGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[A-VX]{0,23}$")]
         public string Rotor3
         {
             get
             {
-                return rotor3;
+                return rotor[2];
             }
             set
             {
-                if (rotor3 != value)
+                if (rotor[2] != value)
                 {
-                    rotor3 = value;
+                    rotor[2] = value;
                     OnPropertyChanged("Rotor3");
                 }
             }
         }
-        [TaskPane("Rotor4Caption", "Rotor4Tooltip", "WheelGroup", 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-U]{0,21}$")]
+        [TaskPane("Rotor4Caption", "Rotor4Tooltip", "WheelGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[A-U]{0,21}$")]
         public string Rotor4
         {
             get
             {
-                return rotor4;
+                return rotor[3];
             }
             set
             {
-                if (rotor4 != value)
+                if (rotor[3] != value)
                 {
-                    rotor4 = value;
+                    rotor[3] = value;
                     OnPropertyChanged("Rotor4");
                 }
             }
         }
-        [TaskPane("Rotor5Caption", "Rotor5Tooltip", "WheelGroup", 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-S]{0,19}$")]
+        [TaskPane("Rotor5Caption", "Rotor5Tooltip", "WheelGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[A-S]{0,19}$")]
         public string Rotor5
         {
             get
             {
-                return rotor5;
+                return rotor[4];
             }
             set
             {
-                if (rotor5 != value)
+                if (rotor[4] != value)
                 {
-                    rotor5 = value;
+                    rotor[4] = value;
                     OnPropertyChanged("Rotor5");
                 }
             }
         }
-        [TaskPane("Rotor6Caption", "Rotor6Tooltip", "WheelGroup", 2, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Q]{0,17}$")]
+        [TaskPane("Rotor6Caption", "Rotor6Tooltip", "WheelGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[A-Q]{0,17}$")]
         public string Rotor6
         {
             get
             {
-                return rotor6;
+                return rotor[5];
             }
             set
             {
-                if (rotor6 != value)
+                if (rotor[5] != value)
                 {
-                    rotor6 = value;
+                    rotor[5] = value;
                     OnPropertyChanged("Rotor6");
                 }
             }
@@ -220,7 +314,7 @@ namespace Cryptool.Plugins.M209
         #endregion
 
         #region Bar options
-        [TaskPane("Bar1Caption", "Bar1Tooltip", "BarGroup", 3, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar1Caption", "Bar1Tooltip", "BarGroup", 11, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar1
         {
             get
@@ -236,7 +330,7 @@ namespace Cryptool.Plugins.M209
                 }
             }
         }
-        [TaskPane("Bar2Caption", "Bar2Tooltip", "BarGroup", 4, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar2Caption", "Bar2Tooltip", "BarGroup", 12, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar2
         {
             get
@@ -253,7 +347,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar3Caption", "Bar3Tooltip", "BarGroup", 5, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar3Caption", "Bar3Tooltip", "BarGroup", 13, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar3
         {
             get
@@ -270,7 +364,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar4Caption", "Bar4Tooltip", "BarGroup", 6, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar4Caption", "Bar4Tooltip", "BarGroup", 14, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar4
         {
             get
@@ -287,7 +381,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar5Caption", "Bar5Tooltip", "BarGroup", 7, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar5Caption", "Bar5Tooltip", "BarGroup", 15, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar5
         {
             get
@@ -304,7 +398,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar6Caption", "Bar6Tooltip", "BarGroup", 8, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar6Caption", "Bar6Tooltip", "BarGroup", 16, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar6
         {
             get
@@ -321,7 +415,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar7Caption", "Bar7Tooltip", "BarGroup", 9, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar7Caption", "Bar7Tooltip", "BarGroup", 17, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar7
         {
             get
@@ -338,7 +432,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar8Caption", "Bar8Tooltip", "BarGroup", 10, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar8Caption", "Bar8Tooltip", "BarGroup", 18, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar8
         {
             get
@@ -355,7 +449,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar9Caption", "Bar9Tooltip", "BarGroup", 11, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar9Caption", "Bar9Tooltip", "BarGroup", 19, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar9
         {
             get
@@ -372,7 +466,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar10Caption", "Bar10Tooltip", "BarGroup", 12, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar10Caption", "Bar10Tooltip", "BarGroup", 20, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar10
         {
             get
@@ -389,7 +483,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar11Caption", "Bar11Tooltip", "BarGroup", 13, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar11Caption", "Bar11Tooltip", "BarGroup", 21, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar11
         {
             get
@@ -406,7 +500,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar12Caption", "Bar12Tooltip", "BarGroup", 14, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar12Caption", "Bar12Tooltip", "BarGroup", 22, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar12
         {
             get
@@ -423,7 +517,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar13Caption", "Bar13Tooltip", "BarGroup", 15, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar13Caption", "Bar13Tooltip", "BarGroup", 23, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar13
         {
             get
@@ -440,7 +534,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar14Caption", "Bar14Tooltip", "BarGroup", 16, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar14Caption", "Bar14Tooltip", "BarGroup", 24, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar14
         {
             get
@@ -457,7 +551,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar15Caption", "Bar15Tooltip", "BarGroup", 17, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar15Caption", "Bar15Tooltip", "BarGroup", 25, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar15
         {
             get
@@ -474,7 +568,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar16Caption", "Bar16Tooltip", "BarGroup", 18, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar16Caption", "Bar16Tooltip", "BarGroup", 26, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar16
         {
             get
@@ -491,7 +585,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar17Caption", "Bar17Tooltip", "BarGroup", 19, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar17Caption", "Bar17Tooltip", "BarGroup", 27, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar17
         {
             get
@@ -508,7 +602,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar18Caption", "Bar18Tooltip", "BarGroup", 20, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar18Caption", "Bar18Tooltip", "BarGroup", 28, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar18
         {
             get
@@ -525,7 +619,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar19Caption", "Bar19Tooltip", "BarGroup", 21, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar19Caption", "Bar19Tooltip", "BarGroup", 29, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar19
         {
             get
@@ -542,7 +636,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar20Caption", "Bar20Tooltip", "BarGroup", 22, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar20Caption", "Bar20Tooltip", "BarGroup", 30, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar20
         {
             get
@@ -559,7 +653,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar21Caption", "Bar21Tooltip", "BarGroup", 23, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar21Caption", "Bar21Tooltip", "BarGroup", 31, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar21
         {
             get
@@ -576,7 +670,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar22Caption", "Bar22Tooltip", "BarGroup", 24, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar22Caption", "Bar22Tooltip", "BarGroup", 32, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar22
         {
             get
@@ -593,7 +687,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar23Caption", "Bar23Tooltip", "BarGroup", 25, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar23Caption", "Bar23Tooltip", "BarGroup", 33, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar23
         {
             get
@@ -610,7 +704,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar24Caption", "Bar24Tooltip", "BarGroup", 26, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar24Caption", "Bar24Tooltip", "BarGroup", 34, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar24
         {
             get
@@ -627,7 +721,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar25Caption", "Bar25Tooltip", "BarGroup", 27, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar25Caption", "Bar25Tooltip", "BarGroup", 35, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar25
         {
             get
@@ -644,7 +738,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar26Caption", "Bar26Tooltip", "BarGroup", 28, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar26Caption", "Bar26Tooltip", "BarGroup", 36, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar26
         {
             get
@@ -661,7 +755,7 @@ namespace Cryptool.Plugins.M209
             }
         }
 
-        [TaskPane("Bar27Caption", "Bar27Tooltip", "BarGroup", 29, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
+        [TaskPane("Bar27Caption", "Bar27Tooltip", "BarGroup", 37, true, ControlType.TextBox, ValidationType.RegEx, "^[0-6]{0,2}$")]
         public string Bar27
         {
             get
@@ -683,47 +777,86 @@ namespace Cryptool.Plugins.M209
 
         #region Text options
 
-        [ContextMenu("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", 3, ContextMenuControlType.ComboBox, null, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
-        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "TextOptionsGroup", 3, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
+        [TaskPane("UnknownSymbolHandlingCaption", "UnknownSymbolHandlingTooltip", "TextOptionsGroup", 50, false, ControlType.ComboBox, new string[] { "UnknownSymbolHandlingList1", "UnknownSymbolHandlingList2", "UnknownSymbolHandlingList3" })]
         public int UnknownSymbolHandling
         {
             get { return this.unknownSymbolHandling; }
             set
             {
-                if ((int)value != unknownSymbolHandling)
+                if (value != unknownSymbolHandling)
                 {
-                    this.unknownSymbolHandling = (int)value;
-                    OnPropertyChanged("UnknownSymbolHandling");   
+                    this.unknownSymbolHandling = value;
+                    OnPropertyChanged("UnknownSymbolHandling");
                 }
             }
         }
 
-        [ContextMenu("CaseHandlingCaption", "CaseHandlingTooltip", 4, ContextMenuControlType.ComboBox, null, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
-        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip", "TextOptionsGroup", 4, false, ControlType.ComboBox, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
+        [TaskPane("CaseHandlingCaption", "CaseHandlingTooltip", "TextOptionsGroup", 51, false, ControlType.ComboBox, new string[] { "CaseHandlingList1", "CaseHandlingList2", "CaseHandlingList3" })]
         public int CaseHandling
         {
             get { return this.caseHandling; }
             set
             {
-                if ((int)value != caseHandling)
+                if (value != caseHandling)
                 {
-                    this.caseHandling = (int)value;
-                    OnPropertyChanged("CaseHandling");                    
+                    this.caseHandling = value;
+                    OnPropertyChanged("CaseHandling");
+                }
+            }
+        }
+
+        [TaskPane("ZSpaceCaption", "ZSpaceTooltip", "TextOptionsGroup", 52, false, ControlType.CheckBox)]
+        public bool ZSpace
+        {
+            get { return this.zspace; }
+            set
+            {
+                if (value != zspace)
+                {
+                    this.zspace = value;
+                    OnPropertyChanged("ZSpace");
+                }
+            }
+        }
+
+        [TaskPane("BlockCaption", "BlockTooltip", "TextOptionsGroup", 53, false, ControlType.CheckBox)]
+        public bool BlockOutput
+        {
+            get { return this.blockOutput; }
+            set
+            {
+                if (value != blockOutput)
+                {
+                    this.blockOutput = value;
+                    OnPropertyChanged("BlockOutput");
+                }
+            }
+        }
+
+        [TaskPane("FormattedCheckCaption", "FormattedCheckTooltip", "TextOptionsGroup", 54, false, ControlType.CheckBox)]
+        public bool FormattedCheck
+        {
+            get { return this.formattedCheck; }
+            set
+            {
+                if (value != formattedCheck)
+                {
+                    this.formattedCheck = value;
+                    OnPropertyChanged("FormattedCheck");
                 }
             }
         }
 
         #endregion
-
+        
         //Taskpane ende
         #endregion
-
+        
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void Initialize()
         {
-            
         }
 
         protected void OnPropertyChanged(string name)

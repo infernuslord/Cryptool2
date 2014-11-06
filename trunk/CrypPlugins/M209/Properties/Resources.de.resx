@@ -292,7 +292,13 @@
     <value>Positionen der Schieber, z.B. 24</value>
   </data>
   <data name="BarGroup" xml:space="preserve">
-    <value>Stangen-Optionen</value>
+    <value>Schieberpositionen</value>
+  </data>
+  <data name="BlockCaption" xml:space="preserve">
+    <value>Ausgabe in 5er-Blöcken</value>
+  </data>
+  <data name="BlockTooltip" xml:space="preserve">
+    <value>Soll die Textausgabe der Komponente in Blöcken von 5 Zeichen formatiert werden?</value>
   </data>
   <data name="CaseHandlingCaption" xml:space="preserve">
     <value>Groß-/Kleinschreibung</value>
@@ -309,6 +315,24 @@
   <data name="CaseHandlingTooltip" xml:space="preserve">
     <value>Wie sollen Groß- und Kleinbuchstaben behandelt werden?</value>
   </data>
+  <data name="FormattedCheckCaption" xml:space="preserve">
+    <value>Ausgabe des Schlüsselblattes</value>
+  </data>
+  <data name="FormattedCheckTooltip" xml:space="preserve">
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird am Ausgang "Schlüsseltest" neben dem Kontrollwert auch der interne Schlüssel in formatierter Version ausgegeben. Sonst wird nur der Kontrollwert ausgegeben.</value>
+  </data>
+  <data name="InputInternalKeyCaption" xml:space="preserve">
+    <value>Eingabe interner Schlüssel</value>
+  </data>
+  <data name="InputInternalKeyTooltip" xml:space="preserve">
+    <value>Eingabe des internen Schlüssels, der aus einer durch Komma getrennten Aufzählung der Positionen der aktiven Stifte und den Positionen der Schieber besteht.</value>
+  </data>
+  <data name="KeyCheckCaption" xml:space="preserve">
+    <value>Schlüsseltest</value>
+  </data>
+  <data name="KeyCheckTooltip" xml:space="preserve">
+    <value>Der Klartext bestehend aus 26 'A' wird mit dem externen Schlüssel 'AAAAAA' verschlüsselt. Der entstehende Geheimtext wird zur Kontrolle des internen Schlüssels verwendet.</value>
+  </data>
   <data name="ModelCaption" xml:space="preserve">
     <value>Modell</value>
   </data>
@@ -321,17 +345,32 @@
   <data name="ModelTooltip" xml:space="preserve">
     <value>Modell</value>
   </data>
+  <data name="OutputInternalKeyCaption" xml:space="preserve">
+    <value>Ausgabe interner Schlüssel</value>
+  </data>
+  <data name="OutputInternalKeyTooltip" xml:space="preserve">
+    <value>Ausgabe des internen Schlüssels, der aus den aktiven Stiften der Rotoren und den Positionen der Schieber auf den Stangen besteht.</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Textausgabe</value>
   </data>
   <data name="OutputStringTooltip" xml:space="preserve">
-    <value>Der mit der M209-Chiffre verschlüsselte Text</value>
+    <value>Der mit der M209-Chiffre verschlüsselte oder entschlüsselte Text</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>M209</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verschlüsselungsmaschine, die vom US-Militär im Zweiten Weltkrieg benutzt wurde</value>
+  </data>
+  <data name="RandomKeyCaption" xml:space="preserve">
+    <value>generiere internen Schlüssel</value>
+  </data>
+  <data name="RandomKeyGroup" xml:space="preserve">
+    <value>Interner Schlüssel</value>
+  </data>
+  <data name="RandomKeyTooltip" xml:space="preserve">
+    <value>Klicken Sie auf diese Schaltfläche, um einen zufälligen internen Schlüssel (bestehend aus den Positionen der Stifte und der Schieber) zu generieren.</value>
   </data>
   <data name="Rotor1Caption" xml:space="preserve">
     <value>Rotor 1</value>
@@ -400,6 +439,12 @@
     <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
   </data>
   <data name="WheelGroup" xml:space="preserve">
-    <value>Rotor-Optionen</value>
+    <value>Stiftpositionen</value>
+  </data>
+  <data name="ZSpaceCaption" xml:space="preserve">
+    <value>Ersetze Leerzeichen durch 'Z'</value>
+  </data>
+  <data name="ZSpaceTooltip" xml:space="preserve">
+    <value>Ersetze Leerzeichen durch 'Z' bei der Verschlüsselung und 'Z' durch Leerzeichen bei der Entschlüsselung.</value>
   </data>
 </root>

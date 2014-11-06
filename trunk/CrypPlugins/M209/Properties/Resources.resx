@@ -292,7 +292,13 @@
     <value>Please activate Slider, e.g. 24</value>
   </data>
   <data name="BarGroup" xml:space="preserve">
-    <value>Bar options</value>
+    <value>Lug positions</value>
+  </data>
+  <data name="BlockCaption" xml:space="preserve">
+    <value>Format output in blocks</value>
+  </data>
+  <data name="BlockTooltip" xml:space="preserve">
+    <value>Shall the output of the component be formatted in blocks of 5 characters?</value>
   </data>
   <data name="CaseHandlingCaption" xml:space="preserve">
     <value>Case handling</value>
@@ -309,6 +315,24 @@
   <data name="CaseHandlingTooltip" xml:space="preserve">
     <value>What should be done with upper and lower case letters?</value>
   </data>
+  <data name="FormattedCheckCaption" xml:space="preserve">
+    <value>Output key sheet</value>
+  </data>
+  <data name="FormattedCheckTooltip" xml:space="preserve">
+    <value>If this checkbox is activated, a formatted key sheet for the internal key is sent to the "Key Check" output along with the control value. Otherwise, only the control value is output.</value>
+  </data>
+  <data name="InputInternalKeyCaption" xml:space="preserve">
+    <value>Input internal key</value>
+  </data>
+  <data name="InputInternalKeyTooltip" xml:space="preserve">
+    <value>Input of the internal key, consisting of a string of the comma-separated positions of the active rotor pins and the positions of the lugs.</value>
+  </data>
+  <data name="KeyCheckCaption" xml:space="preserve">
+    <value>Key Check</value>
+  </data>
+  <data name="KeyCheckTooltip" xml:space="preserve">
+    <value>The plaintext consisting of 26 letters 'A' is encrypted with the external key 'AAAAAA'. The resulting ciphertext is used to check the correctness of the internal key.</value>
+  </data>
   <data name="ModelCaption" xml:space="preserve">
     <value>Model</value>
   </data>
@@ -321,6 +345,12 @@
   <data name="ModelTooltip" xml:space="preserve">
     <value>Choose the machine model.</value>
   </data>
+  <data name="OutputInternalKeyCaption" xml:space="preserve">
+    <value>Output internal key</value>
+  </data>
+  <data name="OutputInternalKeyTooltip" xml:space="preserve">
+    <value>Output of the internal key, consisting of the active rotor pins and the positions of the lugs on the bars.</value>
+  </data>
   <data name="OutputStringCaption" xml:space="preserve">
     <value>Text output</value>
   </data>
@@ -332,6 +362,15 @@
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Classic Cipher Machine from the 2nd World War (USA)</value>
+  </data>
+  <data name="RandomKeyCaption" xml:space="preserve">
+    <value>Generate internal key</value>
+  </data>
+  <data name="RandomKeyGroup" xml:space="preserve">
+    <value>Internal key</value>
+  </data>
+  <data name="RandomKeyTooltip" xml:space="preserve">
+    <value>Press this button to generate a random internal key consisting of the positions of the pins and the lugs.</value>
   </data>
   <data name="Rotor1Caption" xml:space="preserve">
     <value>Rotor #1</value>
@@ -400,6 +439,12 @@
     <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
   </data>
   <data name="WheelGroup" xml:space="preserve">
-    <value>Wheel options</value>
+    <value>Pin positions</value>
+  </data>
+  <data name="ZSpaceCaption" xml:space="preserve">
+    <value>Replace space with 'Z'</value>
+  </data>
+  <data name="ZSpaceTooltip" xml:space="preserve">
+    <value>Replace space characters with 'Z' during encryption and 'Z' with space during decryption.</value>
   </data>
 </root>
