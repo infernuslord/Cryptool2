@@ -40,7 +40,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         private readonly WatermarkCreatorSettings settings = new WatermarkCreatorSettings();
         int rand1 = 19;
         int rand2 = 24;
-        int errCor = 6;
+        int errCor = 0;
 
         #endregion
 
@@ -252,65 +252,42 @@ namespace Cryptool.Plugins.WatermarkCreator
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
                     Bitmap image = PaletteToRGB(bitmap);
-                    System.Drawing.Image imgPhoto = image;
-                    int phWidth = imgPhoto.Width; int phHeight = imgPhoto.Height;
+                    System.Drawing.Image imagePhoto = image;
+                    int width = imagePhoto.Width; 
+                    int height = imagePhoto.Height;
 
-                    Bitmap bmPhoto = new Bitmap(phWidth, phHeight, PixelFormat.Format24bppRgb);
-                    bmPhoto.SetResolution(72, 72);
-                    Graphics grPhoto = Graphics.FromImage(bmPhoto);
+                    Bitmap bitmapmPhoto = new Bitmap(width, height, PixelFormat.Format24bppRgb);
+                    bitmapmPhoto.SetResolution(72, 72);
+                    Graphics graphicPhoto = Graphics.FromImage(bitmapmPhoto);
 
-                    grPhoto.SmoothingMode = SmoothingMode.AntiAlias;
-                    grPhoto.DrawImage(
-                        imgPhoto,
-                        new Rectangle(0, 0, phWidth, phHeight),
-                        0,
-                        0,
-                        phWidth,
-                        phHeight,
-                        GraphicsUnit.Pixel);
-
-                    int[] sizes = new int[] { 16, 14, 12, 10, 8, 6, 4 };
-                    Font crFont = null;
-                    SizeF crSize = new SizeF();
-                    for (int i = 0; i < 7; i++)
+                    graphicPhoto.SmoothingMode = SmoothingMode.AntiAlias;
+                    graphicPhoto.DrawImage(imagePhoto, new Rectangle(0, 0, width, height), 0, 0, width, height, GraphicsUnit.Pixel);
+                    int[] sizes = new int[] { 20, 18, 16, 14, 12, 10, 8, 6, 4, 2 }; //possible text sizes
+                    Font font = null;
+                    SizeF size = new SizeF();
+                    for (int i = 0; i < 10; i++)
                     {
-                        crFont = new Font("arial", sizes[i],
-                                                     FontStyle.Bold);
-                        crSize = grPhoto.MeasureString(Watermark,
-                                                             crFont);
-
-                        if ((ushort)crSize.Width < (ushort)phWidth)
+                        font = new Font("arial", sizes[i], FontStyle.Bold);
+                        size = graphicPhoto.MeasureString(Watermark, font);
+                        if ((ushort)size.Width < (ushort)width)
                             break;
                     }
-
-                    int yPixlesFromBottom = (int)(phHeight * .05);
-                    float yPosFromBottom = ((phHeight -
-                               yPixlesFromBottom) - (crSize.Height / 2));
-                    float xCenterOfImg = (phWidth / 2);
+                    int yPixlesFromBottom = (int)(height * .05);
+                    float yPosFromBottom = ((height - yPixlesFromBottom) - (size.Height / 2));
+                    float xCenterOfImg = (width / 2);
 
                     StringFormat StrFormat = new StringFormat();
                     StrFormat.Alignment = StringAlignment.Center;
 
                     SolidBrush semiTransBrush2 = new SolidBrush(Color.FromArgb(153, 0, 0, 0));
 
-                    grPhoto.DrawString(Watermark,
-                        crFont,
-                        semiTransBrush2,
-                        new PointF(xCenterOfImg + 1, yPosFromBottom + 1),
-                        StrFormat);
+                    graphicPhoto.DrawString(Watermark, font, semiTransBrush2, new PointF(xCenterOfImg + 1, yPosFromBottom + 1), StrFormat);
 
-                    SolidBrush semiTransBrush = new SolidBrush(
-                                 Color.FromArgb(153, 255, 255, 255));
+                    SolidBrush semiTransBrush = new SolidBrush(Color.FromArgb(153, 255, 255, 255));
 
-                    grPhoto.DrawString(Watermark,
-                        crFont,
-                        semiTransBrush,
-                        new PointF(xCenterOfImg, yPosFromBottom),
-                        StrFormat);
+                    graphicPhoto.DrawString(Watermark, font, semiTransBrush, new PointF(xCenterOfImg, yPosFromBottom), StrFormat);
 
-                    //image = new Bitmap(image.Width, image.Height, grPhoto);
-
-                    CreateOutputStream(bmPhoto);
+                    CreateOutputStream(bitmapmPhoto);
                 }
             }
         }
@@ -335,7 +312,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             {
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
-                    string message = water.extract(bitmap);   
+                    return water.extractText(bitmap);   
                 }
             }
         }
