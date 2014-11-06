@@ -117,6 +117,13 @@ namespace Cryptool.Plugins.ZufallsTests
             set;
         }
 
+        [PropertyInfo(Direction.OutputData, "SuccessCaption", "SuccessTooltip")]
+        public bool Success
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region IPlugin Members
@@ -158,7 +165,9 @@ namespace Cryptool.Plugins.ZufallsTests
                 {
                     GuiLogMessage("More data is needed to execute this test properly. \nThe minimum amount of numbers required for this Test is: " + (minimumDataAmount[selected] ), NotificationLevel.Info);
                     Result = "More data is needed to execute this test properly. \nThe minimum amount of numbers required for this Test is: " + (minimumDataAmount[selected] );
+                    Success = false;
                     OnPropertyChanged("Result");
+                    OnPropertyChanged("Success");
                     ProgressChanged(1, 1);
 
                     fileStream = null;
@@ -206,37 +215,42 @@ namespace Cryptool.Plugins.ZufallsTests
                 run_tests();
                 //GuiLogMessage("All the tests will be executed", NotificationLevel.Info);
             }
-            Result = validateOutput();
+
+            int passed = get_passed();
+            switch (passed)
+            {
+                case 1:
+                    Result = "The data PASSED this test on randomness";
+                    Success = true;
+                    break;
+                case 0:
+                    Result = "The data is WEAK according to its randomness";
+                    Success = true;
+                    break;
+                case -1:
+                    Result = "The data FAILED on this test on randomness";
+                    Success = false;
+                    break;
+                default:
+                    Result = "Something went wrong";
+                    Success = false;
+                    break;
+            }
+
             reachedEOF = get_EOF();
             if (reachedEOF == 1)
             {
                 GuiLogMessage("More data is needed to execute this test properly. \nHave a look at the tool description to get information about the minimum data needed for each test", NotificationLevel.Info);
                 Result = "More data is needed to execute this test properly. \nHave a look at the tool description to get information about the minimum data needed for each test";
+                Success = false;
             }
+
             OnPropertyChanged("Result");
+            OnPropertyChanged("Success");
+
             ProgressChanged(1, 1);
             
             fileStream = null;
-        }
-
-        private string validateOutput()
-        {
-            int passed = get_passed();
-            if (passed == 1)
-            {
-                return "The data PASSED this test on randomness";
-            }
-            else if (passed == 0)
-            {
-                return "The data is WEAK according to its randomness";
-            }
-            else if (passed == -1)
-            {
-                return "The data FAILED on this test on randomness";
-            }
-            else
-                return "Something went wrong";
-
         }
 
         public void PostExecution()
