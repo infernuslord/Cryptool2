@@ -71,18 +71,17 @@ namespace Cryptool.Caesar
             set;
         }
 
-
         [PropertyInfo(Direction.InputData, "InputAlphabetCaption", "InputAlphabetTooltip", false)]
-        public string InputAlphabet
+        public string AlphabetSymbols
         {
             get { return this.settings.AlphabetSymbols; }
-            set 
+            set
             {
-              if (value != null && value != settings.AlphabetSymbols) 
-              { 
-                this.settings.AlphabetSymbols = value;
-                OnPropertyChanged("InputAlphabet");
-              } 
+                if (value != null && value != settings.AlphabetSymbols)
+                {
+                    this.settings.AlphabetSymbols = value;
+                    OnPropertyChanged("AlphabetSymbols");
+                }
             }
         }
 
