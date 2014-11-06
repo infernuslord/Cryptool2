@@ -327,7 +327,7 @@ namespace WorkspaceManager.View.Visuals
                 ParameterPanel parameterPanel;
                 ParameterPanel noVerticalGroupParameterPanel;
 
-                Expander testexoander = new Expander();
+                Expander testexpander = new Expander();
 
                 Expander noverticalgroupexpander = new Expander();
 
@@ -343,11 +343,11 @@ namespace WorkspaceManager.View.Visuals
 
                 Border bodi = new Border();
 
-                testexoander.IsExpanded = true;
+                testexpander.IsExpanded = true;
 
                 parameterPanel = new ParameterPanel(isSideBar);
 
-                entgrou.gorupPanel.Add(testexoander);
+                entgrou.gorupPanel.Add(testexpander);
 
                 parameterPanel.Name = "border1";
 
@@ -360,7 +360,7 @@ namespace WorkspaceManager.View.Visuals
 
                 if (!string.IsNullOrEmpty(cel[0].tpa.groupName))
                 {
-                    testexoander.Header = cel[0].tpa.GroupName;
+                    testexpander.Header = cel[0].tpa.GroupName;
                 }
 
                 StackPanel contentPanel = new StackPanel();
@@ -540,12 +540,12 @@ namespace WorkspaceManager.View.Visuals
 
                 bodi.Style = (Style)FindResource("border1");
 
-                testexoander.Content = bodi;
+                testexpander.Content = bodi;
                 
                 if (isSideBar)
-                    myStack.Children.Add(testexoander);
+                    myStack.Children.Add(testexpander);
                 else
-                    myWrap.Children.Add(testexoander);
+                    myWrap.Children.Add(testexpander);
 
                 parameterPanel.setMaxSizes(true);
                 noVerticalGroupParameterPanel.setMaxSizes(true);
