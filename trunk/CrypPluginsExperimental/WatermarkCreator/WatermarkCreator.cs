@@ -12,6 +12,12 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+  
+   For invisible Watermarks, an existing Project has been used:
+   Original Project can be found at https://code.google.com/p/dct-watermark/
+   Ported to C# to be used within CrypTool 2 by Nils Rehwald
+   Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
+   Thanks to Nils Kopal for Support and Bugfixing 
 */
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -38,9 +44,12 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
         private readonly WatermarkCreatorSettings settings = new WatermarkCreatorSettings();
-        int rand1 = 19;
-        int rand2 = 24;
-        int errCor = 0;
+        int boxSize = 10;
+        int errorCorrection = 0;
+        double opacity = 1.0;
+        long seed1 = 19;
+        long seed2 = 24;
+        enum cmd { embVisText, embVisPic, embInvisText, extInvisText };
 
         #endregion
 
@@ -131,9 +140,9 @@ namespace Cryptool.Plugins.WatermarkCreator
                 return;
             }
 
-            switch (settings.ModificationType) //ENUM
+            switch (settings.ModificationType)
             {
-                case 0: //Visible Text
+                case (int)cmd.embVisText: //Visible Text
                     if (Watermark == null)
                     {
                         GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
@@ -146,15 +155,20 @@ namespace Cryptool.Plugins.WatermarkCreator
                     ProgressChanged(1, 1);
                     break;
 
-                case 1: //Visible Picture
+                case (int)cmd.embVisPic: //Visible Picture
                     if (WImage == null)
                     {
                         GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
                         return;
                     }
+
+                    wmVisiblePicture();
+
+                    OnPropertyChanged("OutputPicture");
+                    ProgressChanged(1, 1);
                     break;
 
-                case 2: //Invisible Text
+                case (int)cmd.embInvisText: //Invisible Text
                     if (Watermark == null)
                     {
                         GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
@@ -168,7 +182,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
                     break;
 
-                case 3: //Detect Invisible Text
+                case (int)cmd.extInvisText: //Detect Invisible Text
 
                     EmbeddedText = detectInvisibleWatermark();
 
@@ -292,9 +306,14 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
+        private void wmVisiblePicture()
+        {
+            
+        }
+
         private void createInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(10, errCor, 1.0, rand1, rand2);
+            net.watermark.Watermark water = new net.watermark.Watermark(boxSize, errorCorrection, opacity, seed1, seed2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
@@ -307,7 +326,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private string detectInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(10, errCor, 1.0, rand1, rand2);
+            net.watermark.Watermark water = new net.watermark.Watermark(boxSize, errorCorrection, opacity, seed1, seed2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))

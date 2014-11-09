@@ -1,4 +1,8 @@
-﻿/*
+﻿/* Original Project can be found at https://code.google.com/p/dct-watermark/
+ * Ported to C# to be used within CrypTool 2 by Nils Rehwald
+ * Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
+ * Thanks to Nils Kopal for Support and Bugfixing 
+ * 
  * Copyright 2007 ZXing authors Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
  * file except in compliance with the License. You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed to in writing, software
