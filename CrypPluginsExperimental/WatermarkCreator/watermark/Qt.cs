@@ -3,6 +3,11 @@
 namespace net.watermark
 {
 
+    /* Original Project can be found at https://code.google.com/p/dct-watermark/
+    * Ported to C# to be used within CrypTool 2 by Nils Rehwald
+    * Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
+    * Thanks to Nils Kopal for Support and Bugfixing */
+  
 	// 程式名稱：Qt.java
 	// 程式功能： Qt 類別,含WaterQt(量化)與WaterDeQt(反量化)兩種方法
     // Ported to C# by Nils Rehwald

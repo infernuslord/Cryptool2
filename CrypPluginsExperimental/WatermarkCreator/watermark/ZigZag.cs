@@ -1,5 +1,9 @@
 ﻿namespace net.watermark
 {
+    /* Original Project can be found at https://code.google.com/p/dct-watermark/
+    * Ported to C# to be used within CrypTool 2 by Nils Rehwald
+    * Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
+    * Thanks to Nils Kopal for Support and Bugfixing */
 
 	// 程式名稱：zigZag.java
 	// 程式功能：zigZag 類別,含two2one(二維轉一維)與one2two
