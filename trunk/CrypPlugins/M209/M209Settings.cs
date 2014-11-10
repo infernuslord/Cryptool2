@@ -134,6 +134,7 @@ namespace Cryptool.Plugins.M209
                 {
                     char l0 = (bar[i].Length>=1) ? bar[i][0] : '0';
                     char l1 = (bar[i].Length>=2) ? bar[i][1] : '0';
+                    if (bar[i].Length == 1 && l0 >= '4') { l1 = l0; l0 = '0'; }
                     s[i] = String.Format("{0:00} {1}-{2} ", i+1, l0, l1);
                 }
 

@@ -298,7 +298,7 @@
     <value>Format output in blocks</value>
   </data>
   <data name="BlockTooltip" xml:space="preserve">
-    <value>Shall the output of the component be formatted in blocks of 5 characters?</value>
+    <value>Format the output of the component in blocks of 5 characters?</value>
   </data>
   <data name="CaseHandlingCaption" xml:space="preserve">
     <value>Case handling</value>
@@ -436,7 +436,7 @@
     <value>Replace with 'X'</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>What should be done with encountered characters at the input which are not in the alphabet?</value>
+    <value>What should be done with input characters which are not in the plaintext alphabet?</value>
   </data>
   <data name="WheelGroup" xml:space="preserve">
     <value>Pin positions</value>
