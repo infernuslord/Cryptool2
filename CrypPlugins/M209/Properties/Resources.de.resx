@@ -319,7 +319,7 @@
     <value>Ausgabe des Schlüsselblattes</value>
   </data>
   <data name="FormattedCheckTooltip" xml:space="preserve">
-    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird am Ausgang "Schlüsseltest" neben dem Kontrollwert auch der interne Schlüssel in formatierter Version ausgegeben. Sonst wird nur der Kontrollwert ausgegeben.</value>
+    <value>Wenn dieses Kontrollkästchen aktiviert ist, wird am Ausgang "Schlüsseltest" neben dem Kontrollwert auch der interne Schlüssel in formatierter Form ausgegeben. Sonst wird nur der Kontrollwert ausgegeben.</value>
   </data>
   <data name="InputInternalKeyCaption" xml:space="preserve">
     <value>Eingabe interner Schlüssel</value>
@@ -436,7 +436,7 @@
     <value>Ersetzen durch 'X'</value>
   </data>
   <data name="UnknownSymbolHandlingTooltip" xml:space="preserve">
-    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Eingabe-Alphabets sind?</value>
+    <value>Wie soll auf Zeichen in der Eingabe reagiert werden, die nicht Bestandteil des Klartext-Alphabets sind?</value>
   </data>
   <data name="WheelGroup" xml:space="preserve">
     <value>Stiftpositionen</value>

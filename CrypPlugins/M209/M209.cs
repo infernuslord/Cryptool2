@@ -126,15 +126,13 @@ namespace Cryptool.Plugins.M209
             get
             {
                 string keycheck = cipherText("AAAAAAAAAAAAAAAAAAAAAAAAAA", "AAAAAA", 0, false);
+                keycheck = BlockFormat(keycheck, 5);
 
                 if (!settings.FormattedCheck)
-                    return BlockFormat(keycheck, 5);
+                    return keycheck;
 
-                //string sep = "-----------------------\n";
                 string sep = "-------------------------------\n";
                 
-                //keycheck = BlockFormat(keycheck.Substring(0, 20), 5) + "\n" + BlockFormat(keycheck.Substring(20), 5);
-                keycheck = BlockFormat(keycheck, 5);
                 return sep + "NR LUGS  1  2  3  4  5  6\n" + sep + settings.FormattedInternalKey + "\n" + sep + "26 LETTER CHECK\n\n" + keycheck + "\n" + sep;
             }
         }
@@ -415,9 +413,9 @@ namespace Cryptool.Plugins.M209
 
             // check if the lug setting is capable of generating all offsets
             int ofs = CheckLugs();
-            if (ofs != 28)
+            if (ofs != 26)
             {
-                GuiLogMessage(String.Format("The internal key is weak. It generates only {0} of the 27 possible offsets.", ofs-1), NotificationLevel.Warning);
+                GuiLogMessage(String.Format("The internal key is weak. It generates only {0} of the 26 possible offsets.", ofs-1), NotificationLevel.Warning);
             }
 
             OutputString = cipherText(Text, settings.Startwert, settings.Action, settings.ZSpace);
@@ -491,7 +489,7 @@ namespace Cryptool.Plugins.M209
                     if (overlaps != null && CheckOverlaps(overlaps))
                     {
                         LugsFromOverlaps(set, overlaps);
-                        if (CheckLugs() == 28)
+                        if (CheckLugs() == 26)
                         {   // if valid key was found, transfer it to the settings
                             updatePins(pins);
                             updateLugs();
@@ -611,15 +609,15 @@ namespace Cryptool.Plugins.M209
                     StangeSchieber[i, j] = l_single[i][j];
         }
 
-        // Test, if all numbers from 0 to 27 can be generated with the given lugs.
+        // Test, if all offsets from 0 to 25 can be generated with the given lugs.
         private int CheckLugs()
         {
             HashSet<int> numbers = new HashSet<int>();
 
             for (int i = 0; i < 64; i++)
             {
-                numbers.Add(countStangen(i));
-                if (numbers.Count == 28) break;
+                numbers.Add(countStangen(i) % 26);
+                if (numbers.Count == 26) break;
             }
 
             return numbers.Count;

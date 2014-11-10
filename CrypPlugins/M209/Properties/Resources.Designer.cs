@@ -601,7 +601,7 @@ namespace Cryptool.M209.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Shall the output of the component be formatted in blocks of 5 characters? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Format the output of the component in blocks of 5 characters? ähnelt.
         /// </summary>
         internal static string BlockTooltip {
             get {
@@ -1015,7 +1015,7 @@ namespace Cryptool.M209.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die What should be done with encountered characters at the input which are not in the alphabet? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die What should be done with input characters which are not in the plaintext alphabet? ähnelt.
         /// </summary>
         internal static string UnknownSymbolHandlingTooltip {
             get {

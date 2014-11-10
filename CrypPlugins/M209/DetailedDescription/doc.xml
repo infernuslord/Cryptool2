@@ -17,7 +17,7 @@
     Die M-209 ist eine tragbare mechanische Rotor-Chiffriermaschine, die hauptsächlich während des Zweiten Weltkriegs vom US-Militär eingesetzt wurde.
     <newline />
     <newline />
-    Der Schlüssel der M-209 besteht aus einem externen und einem internen Schlüssel. Der externe Schlüssel gibt die Anfangsstellung der Rotoren an und kann an der Maschine von aussen eingestellt werden.
+    Der Schlüssel der M-209 besteht aus einem externen und einem internen Schlüssel. Der externe Schlüssel gibt die Anfangsstellung der Rotoren an und kann an der Maschine von außen eingestellt werden.
     Der interne Schlüssel besteht aus der Angabe der Positionen der aktiven Stifte an den Rotoren und der Verteilung der Schieber an den 27 Stangen des Stangenrades. Die Stifte und Schieber können nur
     durch einen Eingriff in die innere Mechanik der Maschine geändert werden. Da die Änderung des internen Schlüssels komplizierter war, wurde dieser seltener als der externe Schlüssel geändert.
   </introduction>
@@ -31,7 +31,7 @@
     The internal key can also be specified in the settings of the component. Enter the effective pins on a rotor as a sequence of those letters, whose pin should be in the effective position, for example "ABDFGMX".
     The drum of the M-209 contains 27 bars. Each bar carries two lugs, that can be placed in one of 6 positions, or in a neutral position (0). In the settings, you can enter the positions of the two lugs for each bar as a
     pair of numbers, for example "15" means that the lugs are placed in positions 1 and 5; "03" means that one lug is in the neutral position and the other in position 3.
-    The neutral position can also be omitted: instead of "03", you can simply enter the value "3" and the second lug is automatically placed at the neutral position.
+    The neutral position can also be omitted: instead of "30", you can simply enter the value "3" and the second lug is automatically placed at the neutral position.
     <newline />
     <newline />
     Manually transferring the internal key of one M-209 component to the settings of another M-209 component is very laborious, but there is an alternative way to achieve this.
@@ -39,7 +39,7 @@
     of the decrypting M-209 component. The decrypting M-209 then adopts the internal key of the encrypting M-209.
     <newline />
     <newline />
-    The security of the M-209 depeds on the quality of the internal key. The M-209 manual <ref id="manual" /> lists some criteria that a secure key must meet. The component is able to create a random internal key, that meets the security criteria.
+    The security of the M-209 depends mainly on the quality of the internal key. The M-209 manual <ref id="manual" /> lists some criteria that a secure key must meet. The component is able to create a random internal key, that meets the security criteria.
     Click on the button labeled <b>"Generate internal key"</b> in the settings of the component. The effective pins and the lug positions (and thus the internal key) in the settings of the component are then filled in with the
     automatically generated values.
     <newline />
@@ -60,7 +60,7 @@
     Der interne Schlüssel kann ebenfalls in den Einstellungen angegeben werden. Geben Sie die aktiven Stifte für jeden Rotor als eine Folge der Buchstaben an, an dessen Positionen der Stift aktiv sein soll, z.B. "ABDFGMX".
     Das Stangenrad der M-209 enthält 27 Stangen, wobei auf jeder der Stangen zwei Schieber angebracht sind. Diese können an einer von 6 Positionen oder an einer neutralen Position (0) angebracht werden. Geben Sie in den Einstellungen
     für jede Stange die zwei Positionen als ein Zahlenpaar an, z.B. "15" bedeutet, dass die Schieber auf den Positionen 1 und 5 sind; "03" bedeutet, dass ein Schieber auf der neutralen Position und einer auf Position 3 ist.
-    Die Angabe der neutralen Position kann auch weggelassen werden: statt "03" kann man auch nur "3" eingeben, der zweite Schieber wird dann automatisch auf die neutrale Position gesetzt.
+    Die Angabe der neutralen Position kann auch weggelassen werden: statt "30" kann man auch nur "3" eingeben, der zweite Schieber wird dann automatisch auf die neutrale Position gesetzt.
     <newline />
     <newline />
     Die Übertragung des internen Schlüssels von einer M-209-Komponente zu einer anderen über die Einstellungen ist sehr aufwändig. Der interne Schlüssel kann daher alternativ auch über den Eingang <b>"Eingabe interner Schlüssel"</b> angegeben werden.
@@ -68,7 +68,7 @@
     den internen Schlüssel von der verschlüsselnden Komponente.
     <newline />
     <newline />
-    Die Sicherheit der M-209 hängt von der Qualität des internen Schlüssels ab. Das Handbuch der M-209 <ref id="manual" /> gibt eine Reihe von Kriterien an, die ein sicherer Schlüssel erfüllen muss. Die Komponente ist in der Lage, einen zufälligen
+    Die Sicherheit der M-209 hängt vor allem von der Qualität des internen Schlüssels ab. Das Handbuch der M-209 <ref id="manual" /> gibt eine Reihe von Kriterien an, die ein sicherer Schlüssel erfüllen muss. Die Komponente ist in der Lage, einen zufälligen
     internen Schlüssel zu generieren, der diesen Sicherheitskriterien entspricht. Klicken Sie dafür auf die Schaltfläche <b>"generiere internen Schlüssel"</b> in den Einstellungen der Komponente.
     Die aktiven Stifte und die Schieberpositionen (also der interne Schlüssel) in den Einstellungen werden dann mit den automatisch erzeugten Werten belegt.
     <newline />
