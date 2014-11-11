@@ -37,13 +37,12 @@ namespace net.util
 		/// Unzip the bits </summary>
 		public static Bits bitsGZIPDecode(Bits bits)
 		{
-            sbyte[] sdata = bits.Data; //TODO: Possible Error
+            sbyte[] sdata = bits.Data;
             byte[] bdata = (byte[])(Array)sdata;
             System.IO.MemoryStream byteIn = new System.IO.MemoryStream(bdata);
             System.IO.Compression.GZipStream zipIn = new System.IO.Compression.GZipStream(byteIn, System.IO.Compression.CompressionMode.Compress);
 			int b;
 			Bits result = new Bits();
-            //while ((b = zipIn.read()) >= 0)
 			while ((b = zipIn.ReadByte()) >= 0)
 			{
 				result.addValue(b, 8);
@@ -71,7 +70,7 @@ namespace net.util
 			catch (System.IO.IOException e)
 			{
                 Console.WriteLine(e.GetType().Name);
-                return null; //Bessere Idee? TODO
+                return null;
 			}
 		}
 
@@ -115,80 +114,6 @@ namespace net.util
 				result.addValue(data[i], 8);
 			}
 			return result;
-		}
-
-		/// <summary>
-		/// Some test I run, just while debugging. </summary>
-
-		public static void Main(string[] args)
-		{
-			Bits bits = new Bits();
-			bits.addBit(true);
-			bits.addBit(false);
-			bits.addBit(true);
-			Console.WriteLine(bits);
-			Console.WriteLine(bits.getValue(0, 3));
-			bits.addValue(6, 3);
-			Console.WriteLine(bits);
-			Console.WriteLine(bits.getValue(3, 3));
-			sbyte[] data = bits.Data;
-			foreach (sbyte element in data)
-			{
-				Console.Write(element + " ");
-			}
-			Console.WriteLine();
-			Console.WriteLine("------");
-			bits.reset();
-			bits.addData(data);
-			Console.WriteLine(bits);
-			data[0] = unchecked((sbyte) 0xFF);
-			bits.addData(data);
-			Console.WriteLine(bits);
-			data = bits.Data;
-			foreach (sbyte element in data)
-			{
-				Console.Write(element + " ");
-			}
-			Console.WriteLine();
-			Console.WriteLine("------");
-
-			int[] bytes = bits.Bytes;
-			foreach (int b in bytes)
-			{
-				Console.Write(b + " ");
-			}
-			Console.WriteLine();
-			Console.WriteLine("------");
-
-			Console.WriteLine(bitsGZIPEncode(bits));
-			try
-			{
-				Console.WriteLine(bitsGZIPDecode(bitsGZIPEncode(bits)));
-			}
-
-			catch (System.IO.IOException e)
-			{
-				Console.WriteLine(e.ToString());
-				Console.Write(e.StackTrace);
-			}
-			Console.WriteLine("------");
-
-			Bits bitsRS = bitsReedSolomonEncode(bits, 2);
-			Console.WriteLine(bitsRS);
-			try
-			{
-				Console.WriteLine(bitsReedSolomonDecode(bitsRS, 2));
-				bitsRS.setBit(10, false);
-				Console.WriteLine(bitsRS);
-				Console.WriteLine(bitsReedSolomonDecode(bitsRS, 2));
-			}
-
-			catch (ReedSolomonException e)
-			{
-				Console.WriteLine(e.ToString());
-				Console.Write(e.StackTrace);
-			}
-
 		}
 
 		/// <summary>
@@ -310,7 +235,7 @@ namespace net.util
             {
                 returns.RemoveAt(i);
             }
-            return returns; //TODO: Moeglicher Fehler
+            return returns;
 		}
 
 		public virtual int[] Bytes

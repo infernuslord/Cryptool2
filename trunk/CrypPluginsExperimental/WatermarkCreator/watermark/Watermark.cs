@@ -40,47 +40,6 @@ namespace net.watermark
 		/// <tt>lena2.jpg</tt>, reads it again, and extracts the watermark.
 		/// </summary>
 
-        
-		public static void Main(string[] args)
-		{
-			debug = true;
-			try
-			{
-				string message = "¡This is a TEST!";
-
-				Watermark watermark = new Watermark(8, 20, 0.6);
-
-				// read source image...
-                System.Drawing.Bitmap image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile("lena.jpg"); 
-                //BufferedImage image = ImageIO.read(new File("lena.jpg"));
-
-				Console.WriteLine("Image width:  " + image.Width);
-				Console.WriteLine("Image height: " + image.Height);
-				Console.WriteLine("Message: " + message);
-				Console.WriteLine("Max bits total:   " + watermark.maxBitsTotal);
-				Console.WriteLine("Max bits message: " + watermark.maxBitsData);
-				Console.WriteLine("Max text len:     " + watermark.maxTextLen);
-
-				// embedding...
-				watermark.embed(image, message);
-
-				// save the new image as JPEG, and load it again...
-                image.Save("lena2.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-                image = (System.Drawing.Bitmap)System.Drawing.Image.FromFile("lena2.jpg"); 
-                //ImageIO.write(image, "jpeg", new File("lena2.jpg"));
-				//image = ImageIO.read(new File("lena2.jpg"));
-
-				// extraction...
-				message = watermark.extractText(image);
-				Console.WriteLine("Extracted Message: " + message);
-			}
-
-			catch (Exception e)
-			{
-				Console.WriteLine(e.GetType().Name);
-			}
-		}
-
 		public static void writeRaw(string filename, int[][] data)
 		{
             System.IO.FileStream fos = new System.IO.FileStream(filename,System.IO.FileMode.OpenOrCreate);
@@ -240,7 +199,7 @@ namespace net.watermark
 				for (int x = 0; x < image.Width; x++)
 				{
                     System.Drawing.Color color = image.GetPixel(x, y);
-					float[] hsb = RGBtoHSB(color.R, color.G, color.B);
+					double[] hsb = RGBtoHSB(color);
 					// adjust brightness of the pixel...
 					hsb[2] = (float)(hsb[2] * (1.0 - this.opacity) + grey[y][x] * this.opacity / 255.0);
                     System.Drawing.Color colorNew = HSBtoRGB(hsb[0], hsb[1], hsb[2]);
@@ -289,7 +248,7 @@ namespace net.watermark
 				{
                     System.Drawing.Color color = new System.Drawing.Color();
                     color = src.GetPixel(x, y);
-					float[] hsb = RGBtoHSB(color.R, color.G, color.B);
+					double[] hsb = RGBtoHSB(color);
 					// use brightness of the pixel...
 					buff1[y][x] = (int)(hsb[2] * 255.0);
 				}
@@ -610,7 +569,7 @@ namespace net.watermark
 				{
 					System.Drawing.Color color = new System.Drawing.Color();
                     color = src.GetPixel(x, y);
-					float[] hsb = RGBtoHSB(color.R, color.G, color.B);
+					double[] hsb = RGBtoHSB(color);
 					// use brightness of the pixel...
 					buff1[y][x] = (int)(hsb[2] * 255.0);
 				}
@@ -857,102 +816,42 @@ namespace net.watermark
 			return bits;
 		}
 
-        public static System.Drawing.Color HSBtoRGB(float hue, float saturation, float brightness)
+        public static double[] RGBtoHSB(System.Drawing.Color color)
         {
-            int r = 0, g = 0, b = 0;
-            if (saturation == 0)
-            {
-                r = g = b = (int)(brightness * 255.0f + 0.5f);
-            }
-            else
-            {
-                float h = (hue - (float)Math.Floor(hue)) * 6.0f;
-                float f = h - (float)Math.Floor(h);
-                float p = brightness * (1.0f - saturation);
-                float q = brightness * (1.0f - saturation * f);
-                float t = brightness * (1.0f - (saturation * (1.0f - f)));
-                switch ((int)h)
-                {
-                    case 0:
-                        r = (int)(brightness * 255.0f + 0.5f);
-                        g = (int)(t * 255.0f + 0.5f);
-                        b = (int)(p * 255.0f + 0.5f);
-                        break;
-                    case 1:
-                        r = (int)(q * 255.0f + 0.5f);
-                        g = (int)(brightness * 255.0f + 0.5f);
-                        b = (int)(p * 255.0f + 0.5f);
-                        break;
-                    case 2:
-                        r = (int)(p * 255.0f + 0.5f);
-                        g = (int)(brightness * 255.0f + 0.5f);
-                        b = (int)(t * 255.0f + 0.5f);
-                        break;
-                    case 3:
-                        r = (int)(p * 255.0f + 0.5f);
-                        g = (int)(q * 255.0f + 0.5f);
-                        b = (int)(brightness * 255.0f + 0.5f);
-                        break;
-                    case 4:
-                        r = (int)(t * 255.0f + 0.5f);
-                        g = (int)(p * 255.0f + 0.5f);
-                        b = (int)(brightness * 255.0f + 0.5f);
-                        break;
-                    case 5:
-                        r = (int)(brightness * 255.0f + 0.5f);
-                        g = (int)(p * 255.0f + 0.5f);
-                        b = (int)(q * 255.0f + 0.5f);
-                        break;
-                }
-            }
-            return System.Drawing.Color.FromArgb(Convert.ToByte(255), Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b));
+            double[] hsb = new double[3];
+            int max = Math.Max(color.R, Math.Max(color.G, color.B));
+            int min = Math.Min(color.R, Math.Min(color.G, color.B));
+            hsb[0] = color.GetHue();
+            hsb[1] = (max == 0) ? 0 : 1d - (1d * min / max);
+            hsb[2] = max / 255d;
+            return hsb;
         }
 
-        public static float[] RGBtoHSB(int red, int green, int blue)
+        public static System.Drawing.Color HSBtoRGB(double hue, double saturation, double value)
         {
-            float[] hsbarray = new float[3];
+            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            double f = hue / 60 - Math.Floor(hue / 60);
 
-            float r = ((float)red / 255);
-            float g = ((float)green / 255);
-            float b = ((float)blue / 255);
+            value = value * 255;
+            int v = Convert.ToInt32(value);
+            int p = Convert.ToInt32(value * (1 - saturation));
+            int q = Convert.ToInt32(value * (1 - f * saturation));
+            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
 
-            // Find strongest color
-            float max = Math.Max(r, Math.Max(g, b));
-            float min = Math.Min(r, Math.Min(g, b));
-
-            float h = 0;
-
-            //Crazy calculations to find out hsb values from some sick formula. Source: http://www.codeproject.com/Articles/19045/Manipulating-colors-in-NET-Part
-            if (max == r && g >= b)
-            {
-                h = 60 * (g - b) / (max - min);
-            }
-            else if (max == r && g < b)
-            {
-                h = 60 * (g - b) / (max - min) + 360;
-            }
-            else if (max == g)
-            {
-                h = 60 * (b - r) / (max - min) + 120;
-            }
-            else if (max == b)
-            {
-                h = 60 * (r - g) / (max - min) + 240;
-            }
+            if (hi == 0)
+                return System.Drawing.Color.FromArgb(255, v, t, p);
+            else if (hi == 1)
+                return System.Drawing.Color.FromArgb(255, q, v, p);
+            else if (hi == 2)
+                return System.Drawing.Color.FromArgb(255, p, v, t);
+            else if (hi == 3)
+                return System.Drawing.Color.FromArgb(255, p, q, v);
+            else if (hi == 4)
+                return System.Drawing.Color.FromArgb(255, t, p, v);
             else
-            {
-                Console.WriteLine("Some Wild error appeared while converting RGB to HSB. Fix it an get a Pokemon as reward");
-            }
-
-            float s = (max == 0) ? 0 : (1 - (min / max));
-
-            hsbarray[0] = h;
-            hsbarray[1] = s;
-            hsbarray[2] = max;
-
-            return hsbarray;
+                return System.Drawing.Color.FromArgb(255, v, p, q);
         }
-
+        
 	}
 
 }
