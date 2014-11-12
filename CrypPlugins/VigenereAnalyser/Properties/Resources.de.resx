@@ -117,106 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Kopiere alle Zeilen</value>
+  </data>
+  <data name="Copy_key" xml:space="preserve">
+    <value>Kopiere Schlüssel</value>
+  </data>
+  <data name="Copy_line" xml:space="preserve">
+    <value>Kopiere selektierte Zeile</value>
+  </data>
+  <data name="Copy_text" xml:space="preserve">
+    <value>Kopiere Text</value>
+  </data>
+  <data name="Copy_value" xml:space="preserve">
+    <value>Kopiere Wert</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Vigenère-Analyse</value>
+    <value>Vigenère Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Analysiert einen mit dem Vigenère-Verfahren verschlüsselten Geheimtext und gibt das verwendete Schlüsselwort aus.</value>
-  </data>
-  <data name="FriedmanInputCaption" xml:space="preserve">
-    <value>Fließkommazahl mit doppelter Genauigkeit</value>
-  </data>
-  <data name="FriedmanInputTooltip" xml:space="preserve">
-    <value>Die vom Friedman-Test vorgeschlagene Schlüssellänge.</value>
-  </data>
-  <data name="StringInputCaption" xml:space="preserve">
-    <value>Text-Eingabe</value>
-  </data>
-  <data name="StringInputTooltip" xml:space="preserve">
-    <value>Der mit dem Vigenère-Verfahren verschlüsselte Geheimtext.</value>
-  </data>
-  <data name="KasiskiInputCaption" xml:space="preserve">
-    <value>Integer-Array</value>
-  </data>
-  <data name="KasiskiInputTooltip" xml:space="preserve">
-    <value>Integer-Array mit den vom Kasiski-Test vorgeschlagenen Schlüssellängen.</value>
-  </data>
-  <data name="KeywordOutputCaption" xml:space="preserve">
-    <value>Integer-Array</value>
-  </data>
-  <data name="KeywordOutputTooltip" xml:space="preserve">
-    <value>Schlüsselwort (dargestellt als Integer-Array).</value>
-  </data>
-  <data name="FrequencyStatsCaption" xml:space="preserve">
-    <value>Zeichenkette</value>
-  </data>
-  <data name="FrequencyStatsTooltip" xml:space="preserve">
-    <value>Bitte nur mit Textausgang der Häufigkeitsanalyse verbinden.</value>
-  </data>
-  <data name="FrequencyOutputCaption" xml:space="preserve">
-    <value>String</value>
-  </data>
-  <data name="FrequencyOutputTooltip" xml:space="preserve">
-    <value>Der in Spalten aufgeteilte Geheimtext. Die Anzahl der Spalten entspricht der Schlüssellänge.</value>
-  </data>
-  <data name="StringOutputCaption" xml:space="preserve">
-    <value>Text-Ausgabe</value>
-  </data>
-  <data name="StringOutputTooltip" xml:space="preserve">
-    <value>Schlüsselwort, mit dem der eingegebene Geheimtext verschlüsselt wurde. </value>
-  </data>
-  <data name="ColumnAnalysisCaption" xml:space="preserve">
-    <value>Methode der Spaltenanalyse</value>
-  </data>
-  <data name="ColumnAnalysisTooltip" xml:space="preserve">
-    <value>Wählen Sie, mit welcher Methode die Spalten des Geheimtextes analysiert werden sollen.</value>
-  </data>
-  <data name="EICCaption" xml:space="preserve">
-    <value>Erwarteter Koinzidenzindex</value>
-  </data>
-  <data name="EICTooltip" xml:space="preserve">
-    <value>Erwarteten Koinzidenzindex anpassen</value>
-  </data>
-  <data name="ELFCaption" xml:space="preserve">
-    <value>Erwartete Buchstabenhäufigkeit einer Sprache</value>
-  </data>
-  <data name="ELFTooltip" xml:space="preserve">
-    <value>Wählen Sie die Null-Hypothese für die Chi-Square-Statistik</value>
-  </data>
-  <data name="InternalKeyLengthAnalysisCaption" xml:space="preserve">
-    <value>Methode der Schlüssellängen-Analyse</value>
-  </data>
-  <data name="InternalKeyLengthAnalysisTooltip" xml:space="preserve">
-    <value>Wählen Sie die interne oder die externe Analysemethode für die Schlüssellänge.</value>
-  </data>
-  <data name="Max_KeylengthCaption" xml:space="preserve">
-    <value>Maximale Schlüssellänge</value>
-  </data>
-  <data name="Max_KeylengthTooltip" xml:space="preserve">
-    <value>Bitte die maximale Schlüssellänge für die 'Sampled Index of coincidence'-Methode eingeben; default = 15</value>
-  </data>
-  <data name="ColumnAnalysisList1" xml:space="preserve">
-    <value>Verwende häufigsten Buchstaben</value>
-  </data>
-  <data name="ColumnAnalysisList2" xml:space="preserve">
-    <value>Verwende Summe der Quadrate</value>
-  </data>
-  <data name="ELFList1" xml:space="preserve">
-    <value>englisch</value>
-  </data>
-  <data name="ELFList2" xml:space="preserve">
-    <value>deutsch</value>
-  </data>
-  <data name="ELFList3" xml:space="preserve">
-    <value>französisch</value>
-  </data>
-  <data name="ELFList4" xml:space="preserve">
-    <value>spanisch</value>
-  </data>
-  <data name="ELFList5" xml:space="preserve">
-    <value>italienisch</value>
-  </data>
-  <data name="ELFList6" xml:space="preserve">
-    <value>portugiesisch</value>
+    <value>Analysiert einen Geheimtext der mit der Vigenère-Chiffre verschlüsselt ist. Ausgabe ist der Schlüssel der Vigenère Chiffre.</value>
   </data>
 </root>

@@ -123,100 +123,19 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Analyzes a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher.</value>
   </data>
-  <data name="FriedmanInputCaption" xml:space="preserve">
-    <value>Double precision floating point value.</value>
+  <data name="Copy_all" xml:space="preserve">
+    <value>Copy all lines</value>
   </data>
-  <data name="FriedmanInputTooltip" xml:space="preserve">
-    <value>Keylength as proposed by the Friedman Test.</value>
+  <data name="Copy_key" xml:space="preserve">
+    <value>Copy key</value>
   </data>
-  <data name="StringInputCaption" xml:space="preserve">
-    <value>Text Input</value>
+  <data name="Copy_line" xml:space="preserve">
+    <value>Copy selected line</value>
   </data>
-  <data name="StringInputTooltip" xml:space="preserve">
-    <value>Ciphertext encrypted with the Vigenère cipher.</value>
+  <data name="Copy_text" xml:space="preserve">
+    <value>Copy text</value>
   </data>
-  <data name="KasiskiInputCaption" xml:space="preserve">
-    <value>Integer Array.</value>
-  </data>
-  <data name="KasiskiInputTooltip" xml:space="preserve">
-    <value>The Array contains keylengths as proposed by the Kasiski Test.</value>
-  </data>
-  <data name="KeywordOutputCaption" xml:space="preserve">
-    <value>Integer Array.</value>
-  </data>
-  <data name="KeywordOutputTooltip" xml:space="preserve">
-    <value>Keyword represented as an integer Array.</value>
-  </data>
-  <data name="FrequencyStatsCaption" xml:space="preserve">
-    <value>String</value>
-  </data>
-  <data name="FrequencyStatsTooltip" xml:space="preserve">
-    <value>Please only connect to the text output of the Frequency Test.</value>
-  </data>
-  <data name="FrequencyOutputCaption" xml:space="preserve">
-    <value>String</value>
-  </data>
-  <data name="FrequencyOutputTooltip" xml:space="preserve">
-    <value>The ciphertext divided into columns. Number of columns (strings) equals keylength.</value>
-  </data>
-  <data name="StringOutputCaption" xml:space="preserve">
-    <value>Text output</value>
-  </data>
-  <data name="StringOutputTooltip" xml:space="preserve">
-    <value>Keyword of the cipher which was used to encrypt the input text. </value>
-  </data>
-  <data name="ColumnAnalysisCaption" xml:space="preserve">
-    <value>Method of column analysis</value>
-  </data>
-  <data name="ColumnAnalysisTooltip" xml:space="preserve">
-    <value>Select the method of analysis of the ciphertext columns</value>
-  </data>
-  <data name="EICCaption" xml:space="preserve">
-    <value>Expected Index of coincidence</value>
-  </data>
-  <data name="EICTooltip" xml:space="preserve">
-    <value>Adjust the expected index of coincidence</value>
-  </data>
-  <data name="ELFCaption" xml:space="preserve">
-    <value>Expected Letter Frequency of a language</value>
-  </data>
-  <data name="ELFTooltip" xml:space="preserve">
-    <value>Select the Null hypothesis for the Chi-square statistic</value>
-  </data>
-  <data name="InternalKeyLengthAnalysisCaption" xml:space="preserve">
-    <value>Method of keylength analysis</value>
-  </data>
-  <data name="InternalKeyLengthAnalysisTooltip" xml:space="preserve">
-    <value>Select the internal or external method for analysis of the keylength</value>
-  </data>
-  <data name="Max_KeylengthCaption" xml:space="preserve">
-    <value>Maximum Keylength</value>
-  </data>
-  <data name="Max_KeylengthTooltip" xml:space="preserve">
-    <value>Enter maximum keylength to be analyzed by the 'Sampled Index of coincidence' method. default = 15</value>
-  </data>
-  <data name="ColumnAnalysisList1" xml:space="preserve">
-    <value>Use most frequent letter</value>
-  </data>
-  <data name="ColumnAnalysisList2" xml:space="preserve">
-    <value>Use sum of squares</value>
-  </data>
-  <data name="ELFList1" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="ELFList2" xml:space="preserve">
-    <value>German</value>
-  </data>
-  <data name="ELFList3" xml:space="preserve">
-    <value>French</value>
-  </data>
-  <data name="ELFList4" xml:space="preserve">
-    <value>Spanish</value>
-  </data>
-  <data name="ELFList5" xml:space="preserve">
-    <value>Italian</value>
-  </data>
-  <data name="ELFList6" xml:space="preserve">
-    <value>Portugeese</value>
+  <data name="Copy_value" xml:space="preserve">
+    <value>Copy value</value>
   </data>
 </root>
