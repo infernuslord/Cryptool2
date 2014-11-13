@@ -35,6 +35,7 @@ namespace Cryptool.VigenereAnalyser
         private bool _stopped;
         private DateTime _startTime;
         private DateTime _endTime;
+        private string _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         public VigenereAnalyser()
         {
@@ -50,8 +51,8 @@ namespace Cryptool.VigenereAnalyser
         [PropertyInfo(Direction.InputData, "CiphertextCaption", "CiphertextTooltip", true)]
         public string Ciphertext { get; set; }
 
-        [PropertyInfo(Direction.InputData, "AlphabetCaption", "AlphabetTooltip", false)]
-        public string Alphabet { get; set; }
+        [PropertyInfo(Direction.InputData, "VigenreAlphabetCaption", "VigenereAlphabetTooltip", false)]
+        public string VigenereAlphabet { get; set; }
 
         [PropertyInfo(Direction.OutputData, "PlaintextCaption", "PlaintextTooltip", true)]
         public String Plaintext
@@ -75,19 +76,19 @@ namespace Cryptool.VigenereAnalyser
             }
             else if (_settings.Language == Language.German)
             {
-                Load4Grams("de-4gram-nocs.bin", "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+                Load4Grams("de-4gram-nocs.bin", "ABCDEFGHIJKLMNOPQRSTUVWXYZÄÜÖß");
             }
             else
             {
                 Load4Grams("en-4gram-nocs.bin", "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
-            }                       
-            Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            }            
+            VigenereAlphabet = _alphabet;
         }
 
         public void PostExecution()
         {
             Ciphertext = null;
-            Alphabet = null;
+            VigenereAlphabet = null;
         }
 
         public event StatusChangedEventHandler OnPluginStatusChanged;
@@ -122,9 +123,14 @@ namespace Cryptool.VigenereAnalyser
                 GuiLogMessage("No Ciphertext given for analysis!", NotificationLevel.Error);
                 return;
             }
-            if (_settings.ToKeyLength > RemoveInvalidChars(Ciphertext,Alphabet).Length)
+            if (string.IsNullOrEmpty(VigenereAlphabet))
             {
-                _settings.ToKeyLength = RemoveInvalidChars(Ciphertext, Alphabet).Length;
+                GuiLogMessage("No Vigenere Alphabet given for analysis!", NotificationLevel.Error);
+                return;
+            }
+            if (_settings.ToKeyLength > RemoveInvalidChars(Ciphertext,_alphabet).Length)
+            {
+                _settings.ToKeyLength = RemoveInvalidChars(Ciphertext, _alphabet).Length;
                 GuiLogMessage("Max tested keylength can not be longer than the ciphertext. Set max tested keylength to ciphertext length.",NotificationLevel.Warning);
             }
             if (_settings.ToKeyLength < _settings.FromKeylength)
@@ -133,20 +139,18 @@ namespace Cryptool.VigenereAnalyser
                 _settings.ToKeyLength = _settings.FromKeylength;
                 _settings.FromKeylength = temp;
             }
-            var ciphertext = MapTextIntoNumberSpace(RemoveInvalidChars(Ciphertext, Alphabet), Alphabet);
+            var ciphertext = MapTextIntoNumberSpace(RemoveInvalidChars(Ciphertext.ToUpper(), _alphabet), _alphabet);
             UpdateDisplayStart();
             for (var keylength = _settings.FromKeylength; keylength <= _settings.ToKeyLength; keylength++)
             {
-                HillclimbVigenere(ciphertext, keylength, Alphabet, _quadgrams, _settings.Restarts, _settings.Greedy);
+                HillclimbVigenere(ciphertext, keylength, _quadgrams, _settings.Restarts, _settings.Greedy);
                 if (_stopped)
                 {
                     UpdateDisplayEnd();
                     return;
                 }
-            }
-            
+            }            
             UpdateDisplayEnd();
-
             if (_presentation.BestList.Count > 0)
             {
                 Plaintext = _presentation.BestList[0].Text;
@@ -202,16 +206,16 @@ namespace Cryptool.VigenereAnalyser
         /// </summary>
         /// <param name="ciphertext"></param>
         /// <param name="keylength"></param>
-        /// <param name="alphabet"></param>
         /// <param name="ngrams4"></param>
         /// <param name="restarts"></param>
         /// <param name="greedy"></param>
-        private void HillclimbVigenere(int[] ciphertext, int keylength, string alphabet, double[, , ,] ngrams4, int restarts = 10, bool greedy = false)
+        private void HillclimbVigenere(int[] ciphertext, int keylength, double[, , ,] ngrams4, int restarts = 10, bool greedy = false)
         {
             var globalbestkeycost = double.MinValue;
             var bestkey = new int[keylength];
-            var alphabetlength = alphabet.Length;
-            var numalphabet = MapTextIntoNumberSpace(alphabet, alphabet);
+            var alphabetlength = _alphabet.Length;
+            var numalphabet = MapTextIntoNumberSpace(_alphabet, _alphabet);
+            var numvigalphabet = MapTextIntoNumberSpace(VigenereAlphabet, _alphabet);
             var random = new Random(Guid.NewGuid().GetHashCode());
             var totalrestarts = restarts;
 
@@ -240,7 +244,8 @@ namespace Cryptool.VigenereAnalyser
                                 copykey[k] = runkey[k];
                             }
                             copykey[i] = j;
-                            var plaintext = _settings.Mode == Mode.Vigenere ? DecryptVigenere(ciphertext, copykey, numalphabet) : DecryptAutokey(ciphertext, copykey, numalphabet);
+                            var plaintext = _settings.Mode == Mode.Vigenere ? DecryptVigenereOwnAlphabet(ciphertext, copykey, numvigalphabet) :
+                                DecryptAutokeyOwnAlphabet(ciphertext, copykey, numvigalphabet);
                             var costvalue = CalculateQuadgramCost(ngrams4, plaintext) + (_settings.KeyStyle == KeyStyle.NaturalLanguage ? CalculateQuadgramCost(ngrams4, copykey) : 0);
                             if (costvalue > bestkeycost)
                             {
@@ -264,8 +269,8 @@ namespace Cryptool.VigenereAnalyser
                 restarts--;
                 if (bestkeycost > globalbestkeycost)
                 {
-                    globalbestkeycost = bestkeycost;                    
-                    AddNewBestListEntry(bestkey, globalbestkeycost, alphabet, ciphertext);
+                    globalbestkeycost = bestkeycost;
+                    AddNewBestListEntry(bestkey, globalbestkeycost, ciphertext);
                 }
                 ProgressChanged((keylength - _settings.FromKeylength) * totalrestarts + totalrestarts - restarts, (_settings.ToKeyLength - _settings.FromKeylength + 1) * totalrestarts);
             }         
@@ -276,15 +281,14 @@ namespace Cryptool.VigenereAnalyser
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
-        /// <param name="alphabet"></param>
         /// <param name="ciphertext"></param>
-        private void AddNewBestListEntry(int[] key, double value, string alphabet,int[] ciphertext)
+        private void AddNewBestListEntry(int[] key, double value,int[] ciphertext)
         {            
             var entry = new ResultEntry()
             {
-                Key = MapNumbersIntoTextSpace(key, alphabet),
-                Text = MapNumbersIntoTextSpace(_settings.Mode == Mode.Vigenere ? DecryptVigenere(ciphertext, key, MapTextIntoNumberSpace(alphabet, alphabet)) : 
-                    DecryptAutokey(ciphertext, key, MapTextIntoNumberSpace(alphabet, alphabet)), alphabet),
+                Key = MapNumbersIntoTextSpace(key, _alphabet),
+                Text = MapNumbersIntoTextSpace(_settings.Mode == Mode.Vigenere ? DecryptVigenereOwnAlphabet(ciphertext, key,  MapTextIntoNumberSpace(VigenereAlphabet,_alphabet)) :
+                    DecryptAutokeyOwnAlphabet(ciphertext, key, MapTextIntoNumberSpace(VigenereAlphabet, _alphabet)), _alphabet),
                 Value = value
             };
 
@@ -329,48 +333,56 @@ namespace Cryptool.VigenereAnalyser
         }
 
         /// <summary>
-        /// Decrypts the given ciphertext using the given key and alphabet
+        /// Decrypts the given ciphertext using the given key and an own alphabet
         /// </summary>
         /// <param name="ciphertext"></param>
         /// <param name="key"></param>
         /// <param name="alphabet"></param>
         /// <returns></returns>
-        public static int[] DecryptVigenere(int[] ciphertext, int[] key, int[] alphabet)
+        public static int[] DecryptVigenereOwnAlphabet(int[] ciphertext, int[] key, int[] alphabet)
         {
-            var plaintext = new int[ciphertext.Length];
             var plaintextlength = ciphertext.Length; // improves the speed because length has not to be calculated in the loop
+            var plaintext = new int[plaintextlength];
             var keylength = key.Length; // improves the speed because length has not to be calculated in the loop
             var alphabetlength = alphabet.Length; // improves the speed because length has not to be calculated in the loop
+            var lookup = new int[alphabetlength]; // improves the speed because length has not to be calculated in the loop
+            for (var position = 0; position < alphabetlength; position++)
+            {
+                lookup[alphabet[position]] = position;
+            }
             for (var position = 0; position < plaintextlength; position++)
             {
-                plaintext[position] = alphabet[Mod(ciphertext[position] - key[position % keylength], alphabetlength)];
+                plaintext[position] = alphabet[(lookup[ciphertext[position]] - lookup[key[position % keylength]] + alphabetlength) % alphabetlength];
             }
-
             return plaintext;
         }
 
         /// <summary>
-        /// Decrypts the given ciphertext using the given key and alphabet
+        /// Decrypts the given ciphertext using the given key and an own alphabet
         /// </summary>
         /// <param name="ciphertext"></param>
         /// <param name="key"></param>
         /// <param name="alphabet"></param>
         /// <returns></returns>
-        public static int[] DecryptAutokey(int[] ciphertext, int[] key, int[] alphabet)
+        public static int[] DecryptAutokeyOwnAlphabet(int[] ciphertext, int[] key, int[] alphabet)
         {
-            var plaintext = new int[ciphertext.Length];
             var plaintextlength = ciphertext.Length; // improves the speed because length has not to be calculated in the loop
+            var plaintext = new int[plaintextlength];
             var keylength = key.Length; // improves the speed because length has not to be calculated in the loop
             var alphabetlength = alphabet.Length; // improves the speed because length has not to be calculated in the loop
+            var lookup = new int[alphabetlength]; // improves the speed because length has not to be calculated in the loop
+            for (var position = 0; position < alphabetlength; position++)
+            {
+                lookup[alphabet[position]] = position;
+            }
             for (var position = 0; position < keylength; position++)
             {
-                plaintext[position] = alphabet[Mod(ciphertext[position] - key[position % keylength], alphabetlength)];
+                plaintext[position] = alphabet[(lookup[ciphertext[position]] - lookup[key[position % keylength]] + alphabetlength) % alphabetlength];
             }
             for (var position = keylength; position < plaintextlength; position++)
             {
-                plaintext[position] = alphabet[Mod(ciphertext[position] - plaintext[position - keylength], alphabetlength)];
+                plaintext[position] = alphabet[(lookup[ciphertext[position]] - lookup[plaintext[position - keylength]] + alphabetlength) % alphabetlength];
             }
-
             return plaintext;
         }
 
