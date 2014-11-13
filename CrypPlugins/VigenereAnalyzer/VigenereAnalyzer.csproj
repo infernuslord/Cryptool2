@@ -8,8 +8,8 @@
     <ProjectGuid>{1696C227-2A99-4A14-AE81-6A8438D42D06}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cryptool.VigenereAnalyser</RootNamespace>
-    <AssemblyName>VigenereAnalyser</AssemblyName>
+    <RootNamespace>Cryptool.VigenereAnalyzer</RootNamespace>
+    <AssemblyName>VigenereAnalyzer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>false</SignAssembly>
@@ -97,9 +97,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="VigenereAnalyser.cs" />
+    <Compile Include="VigenereAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VigenereAnalyserSettings.cs" />
+    <Compile Include="VigenereAnalyzerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="icon.png" />
