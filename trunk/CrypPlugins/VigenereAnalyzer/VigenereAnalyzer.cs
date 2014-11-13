@@ -1,43 +1,54 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿/*
+   Copyright 2014 Nils Kopal, Applied Information Security, Uni Kassel
+   https://www.uni-kassel.de/eecs/fachgebiete/ais/mitarbeiter/nils-kopal-m-sc.html
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.IO;
 using System.ComponentModel;
-using System.Windows.Documents;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using System.Threading;
 
-namespace Cryptool.VigenereAnalyser
+namespace Cryptool.VigenereAnalyzer
 {
     public delegate void PluginProgress(double current, double maximum);
     public delegate void UpdateOutput(String keyString, String plaintextString);
 
-    [Author("Nils Kopal", "Nils.Kopal@Uni-Kassel.de", "Uni Duisburg", "http://ais.uni-kassel.de")]
-    [PluginInfo("Cryptool.VigenereAnalyser.Properties.Resources",
-    "PluginCaption", "PluginTooltip", "", "VigenereAnalyser/icon.png")]
+    [Author("Nils Kopal", "Nils.Kopal@Uni-Kassel.de", "Uni Duisburg", "https://www.ais.uni-kassel.de")]
+    [PluginInfo("Cryptool.VigenereAnalyzer.Properties.Resources",
+    "PluginCaption", "PluginTooltip", "", "VigenereAnalyzer/icon.png")]
     [ComponentCategory(ComponentCategory.CryptanalysisSpecific)]
-    public class VigenereAnalyser : ICrypComponent
+    public class VigenereAnalyzer : ICrypComponent
     {
         private const int MaxBestListEntries = 20;
         private readonly AssignmentPresentation _presentation = new AssignmentPresentation();
         private string _plaintext;
         private string _key;
-        private readonly VigenereAnalyserSettings _settings = new VigenereAnalyserSettings();
+        private readonly VigenereAnalyzerSettings _settings = new VigenereAnalyzerSettings();
         private double[,,,] _quadgrams;
         private bool _stopped;
         private DateTime _startTime;
         private DateTime _endTime;
-        private string _alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        private const string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        public VigenereAnalyser()
+        public VigenereAnalyzer()
         {
             _presentation.UpdateOutputFromUserChoice+=UpdateOutputFromUserChoice;
         }
@@ -51,7 +62,7 @@ namespace Cryptool.VigenereAnalyser
         [PropertyInfo(Direction.InputData, "CiphertextCaption", "CiphertextTooltip", true)]
         public string Ciphertext { get; set; }
 
-        [PropertyInfo(Direction.InputData, "VigenreAlphabetCaption", "VigenereAlphabetTooltip", false)]
+        [PropertyInfo(Direction.InputData, "VigenereAlphabetCaption", "VigenereAlphabetTooltip", false)]
         public string VigenereAlphabet { get; set; }
 
         [PropertyInfo(Direction.OutputData, "PlaintextCaption", "PlaintextTooltip", true)]
@@ -82,7 +93,7 @@ namespace Cryptool.VigenereAnalyser
             {
                 Load4Grams("en-4gram-nocs.bin", "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
             }            
-            VigenereAlphabet = _alphabet;
+            VigenereAlphabet = Alphabet;
         }
 
         public void PostExecution()
@@ -128,9 +139,9 @@ namespace Cryptool.VigenereAnalyser
                 GuiLogMessage("No Vigenere Alphabet given for analysis!", NotificationLevel.Error);
                 return;
             }
-            if (_settings.ToKeyLength > RemoveInvalidChars(Ciphertext,_alphabet).Length)
+            if (_settings.ToKeyLength > RemoveInvalidChars(Ciphertext,Alphabet).Length)
             {
-                _settings.ToKeyLength = RemoveInvalidChars(Ciphertext, _alphabet).Length;
+                _settings.ToKeyLength = RemoveInvalidChars(Ciphertext, Alphabet).Length;
                 GuiLogMessage("Max tested keylength can not be longer than the ciphertext. Set max tested keylength to ciphertext length.",NotificationLevel.Warning);
             }
             if (_settings.ToKeyLength < _settings.FromKeylength)
@@ -139,7 +150,7 @@ namespace Cryptool.VigenereAnalyser
                 _settings.ToKeyLength = _settings.FromKeylength;
                 _settings.FromKeylength = temp;
             }
-            var ciphertext = MapTextIntoNumberSpace(RemoveInvalidChars(Ciphertext.ToUpper(), _alphabet), _alphabet);
+            var ciphertext = MapTextIntoNumberSpace(RemoveInvalidChars(Ciphertext.ToUpper(), Alphabet), Alphabet);
             UpdateDisplayStart();
             for (var keylength = _settings.FromKeylength; keylength <= _settings.ToKeyLength; keylength++)
             {
@@ -160,6 +171,9 @@ namespace Cryptool.VigenereAnalyser
             ProgressChanged(1, 1);            
         }
 
+        /// <summary>
+        /// Set start time in UI
+        /// </summary>
         private void UpdateDisplayStart()
         {
             Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -171,6 +185,9 @@ namespace Cryptool.VigenereAnalyser
             }, null);
         }
 
+        /// <summary>
+        /// Set end time in UI
+        /// </summary>
         private void UpdateDisplayEnd()
         {
             Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
@@ -213,9 +230,9 @@ namespace Cryptool.VigenereAnalyser
         {
             var globalbestkeycost = double.MinValue;
             var bestkey = new int[keylength];
-            var alphabetlength = _alphabet.Length;
-            var numalphabet = MapTextIntoNumberSpace(_alphabet, _alphabet);
-            var numvigalphabet = MapTextIntoNumberSpace(VigenereAlphabet, _alphabet);
+            var alphabetlength = Alphabet.Length;
+            var numalphabet = MapTextIntoNumberSpace(Alphabet, Alphabet);
+            var numvigalphabet = MapTextIntoNumberSpace(VigenereAlphabet, Alphabet);
             var random = new Random(Guid.NewGuid().GetHashCode());
             var totalrestarts = restarts;
 
@@ -277,18 +294,18 @@ namespace Cryptool.VigenereAnalyser
         }
 
         /// <summary>
-        /// Add an entry to the BestList
+        /// Adds an entry to the BestList
         /// </summary>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <param name="ciphertext"></param>
         private void AddNewBestListEntry(int[] key, double value,int[] ciphertext)
         {            
-            var entry = new ResultEntry()
+            var entry = new ResultEntry
             {
-                Key = MapNumbersIntoTextSpace(key, _alphabet),
-                Text = MapNumbersIntoTextSpace(_settings.Mode == Mode.Vigenere ? DecryptVigenereOwnAlphabet(ciphertext, key,  MapTextIntoNumberSpace(VigenereAlphabet,_alphabet)) :
-                    DecryptAutokeyOwnAlphabet(ciphertext, key, MapTextIntoNumberSpace(VigenereAlphabet, _alphabet)), _alphabet),
+                Key = MapNumbersIntoTextSpace(key, Alphabet),
+                Text = MapNumbersIntoTextSpace(_settings.Mode == Mode.Vigenere ? DecryptVigenereOwnAlphabet(ciphertext, key,  MapTextIntoNumberSpace(VigenereAlphabet,Alphabet)) :
+                    DecryptAutokeyOwnAlphabet(ciphertext, key, MapTextIntoNumberSpace(VigenereAlphabet, Alphabet)), Alphabet),
                 Value = value
             };
 
@@ -325,6 +342,7 @@ namespace Cryptool.VigenereAnalyser
                     }
                     _presentation.ListView.DataContext = _presentation.BestList;
                 }
+                // ReSharper disable once EmptyGeneralCatchClause
                 catch (Exception)
                 {
                     //wtf?
@@ -436,22 +454,6 @@ namespace Cryptool.VigenereAnalyser
                 position++;
             }
             return numbers;
-        }
-
-        /// <summary>
-        /// Calculates the mathemtical modulo operation: a mod n
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="n"></param>
-        /// <returns></returns>
-        private static int Mod(int a, int n)
-        {
-            var result = a % n;
-            if (a < 0)
-            {
-                result += n;
-            }
-            return result;
         }
 
         /// <summary>

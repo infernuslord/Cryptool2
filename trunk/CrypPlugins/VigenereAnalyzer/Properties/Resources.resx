@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Vigenère Analyser</value>
+    <value>Vigenère Analyzer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Analyzes a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher.</value>
@@ -137,5 +137,104 @@
   </data>
   <data name="Copy_value" xml:space="preserve">
     <value>Copy value</value>
+  </data>
+  <data name="FromKeylengthCaption" xml:space="preserve">
+    <value>Analyse from Keylength</value>
+  </data>
+  <data name="FromKeylengthTooltip" xml:space="preserve">
+    <value>Analyse the given Ciphertext and start from this keylength.</value>
+  </data>
+  <data name="GreedyCaption" xml:space="preserve">
+    <value>Greedy</value>
+  </data>
+  <data name="GreedyTooltip" xml:space="preserve">
+    <value>Do a greedy hillclimbing or not.</value>
+  </data>
+  <data name="KeyStyleCaption" xml:space="preserve">
+    <value>Keystyle</value>
+  </data>
+  <data name="KeyStyleTooltip" xml:space="preserve">
+    <value>Is the key a natural passphrase or not?</value>
+  </data>
+  <data name="LanguageCaption" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LanguageTooltip" xml:space="preserve">
+    <value>Use this language for the quadgram scoring.</value>
+  </data>
+  <data name="ModeCaption" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="ModeTooltip" xml:space="preserve">
+    <value>Use this mode for the analysis.</value>
+  </data>
+  <data name="NaturalLanguage" xml:space="preserve">
+    <value>Natural Language</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Random</value>
+  </data>
+  <data name="RestartsCaption" xml:space="preserve">
+    <value>Restarts</value>
+  </data>
+  <data name="RestartsTooltip" xml:space="preserve">
+    <value>Amount of restarts of the hillclimbing algorithm.</value>
+  </data>
+  <data name="ToKeylengthCaption" xml:space="preserve">
+    <value>Analyse to Keylength</value>
+  </data>
+  <data name="ToKeylengthTooltip" xml:space="preserve">
+    <value>Analyse the given Ciphertext and stop including this keylength.</value>
+  </data>
+  <data name="Vigenere" xml:space="preserve">
+    <value>Classic Vigenère</value>
+  </data>
+  <data name="VigenereAutokey" xml:space="preserve">
+    <value>Vigenère Autokey</value>
+  </data>
+  <data name="CiphertextCaption" xml:space="preserve">
+    <value>Ciphertext</value>
+  </data>
+  <data name="CiphertextTooltip" xml:space="preserve">
+    <value>The ciphertext that should be analyzed.</value>
+  </data>
+  <data name="ElapsedLabel" xml:space="preserve">
+    <value>Elapsed Time:</value>
+  </data>
+  <data name="EndLabel" xml:space="preserve">
+    <value>End Time:</value>
+  </data>
+  <data name="KeyCaption" xml:space="preserve">
+    <value>Best Key</value>
+  </data>
+  <data name="KeyHeader" xml:space="preserve">
+    <value>Key</value>
+  </data>
+  <data name="KeyLengthHeader" xml:space="preserve">
+    <value>Key Length</value>
+  </data>
+  <data name="KeyTooltip" xml:space="preserve">
+    <value>The best key found during the analysis.</value>
+  </data>
+  <data name="PlaintextCaption" xml:space="preserve">
+    <value>Best Plaintext</value>
+  </data>
+  <data name="PlaintextTooltip" xml:space="preserve">
+    <value>The best plaintext which was found during the analysis.</value>
+  </data>
+  <data name="StartLabel" xml:space="preserve">
+    <value>Start Time:</value>
+  </data>
+  <data name="TextHeader" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="VigenereAlphabetCaption" xml:space="preserve">
+    <value>Vigenère Alphabet</value>
+  </data>
+  <data name="VigenereAlphabetTooltip" xml:space="preserve">
+    <value>Use this Vigenère alphabet for the analyis.</value>
   </data>
 </root>

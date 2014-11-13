@@ -1,14 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
+﻿/*
+   Copyright 2014 Nils Kopal, Applied Information Security, Uni Kassel
+   http://www.uni-kassel.de/eecs/fachgebiete/ais/mitarbeiter/nils-kopal-m-sc.html
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
 using Cryptool.PluginBase;
-using Cryptool.PluginBase.IO;
 using System.ComponentModel;
 
 
-namespace Cryptool.VigenereAnalyser
+namespace Cryptool.VigenereAnalyzer
 {
     public enum Mode
     {
@@ -35,7 +46,7 @@ namespace Cryptool.VigenereAnalyser
         NaturalLanguage=1        
     }
 
-    class VigenereAnalyserSettings : ISettings
+    class VigenereAnalyzerSettings : ISettings
     {      
         private Mode _mode = Mode.Vigenere;
         private int _fromKeylength;
@@ -86,7 +97,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
 
-        [TaskPane("ToKeyLengthCaption", "ToKeyLengthTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
+        [TaskPane("ToKeylengthCaption", "ToKeylengthTooltip", null, 3, false, ControlType.NumericUpDown, ValidationType.RangeInteger, 1, 100)]
         public int ToKeyLength
         {
             get
@@ -120,7 +131,7 @@ namespace Cryptool.VigenereAnalyser
             }
         }
 
-        [TaskPane("LanguageCaption", "LanguageTooltip", null, 5, false, ControlType.ComboBox, new string[]{"Englisch","German"})]
+        [TaskPane("LanguageCaption", "LanguageTooltip", null, 5, false, ControlType.ComboBox, new string[]{"English","German"})]
         public Language Language
         {
             get
