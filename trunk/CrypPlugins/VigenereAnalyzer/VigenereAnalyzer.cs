@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using Cryptool.PluginBase;
 using System.ComponentModel;
+using Cryptool.PluginBase.IO;
 using Cryptool.PluginBase.Miscellaneous;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -485,7 +486,7 @@ namespace Cryptool.VigenereAnalyzer
         private void Load4Grams(string filename, string alphabet)
         {
             _quadgrams = new double[alphabet.Length, alphabet.Length, alphabet.Length, alphabet.Length];
-            using (var fileStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            using (var fileStream = new FileStream(Path.Combine(DirectoryHelper.DirectoryCrypPlugins, filename), FileMode.Open, FileAccess.Read))
             {
                 using (var reader = new BinaryReader(fileStream))
                 {
