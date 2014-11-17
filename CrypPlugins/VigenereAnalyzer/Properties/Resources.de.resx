@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CiphertextCaption" xml:space="preserve">
+    <value>Geheimtext</value>
+  </data>
+  <data name="CiphertextTooltip" xml:space="preserve">
+    <value>Der Geheimtext der analysiert werden soll.</value>
+  </data>
   <data name="Copy_all" xml:space="preserve">
-    <value>Kopiere alle Zeilen</value>
+    <value>Kopiere alle Zeilen.</value>
   </data>
   <data name="Copy_key" xml:space="preserve">
     <value>Kopiere Schlüssel</value>
@@ -132,10 +138,106 @@
   <data name="Copy_value" xml:space="preserve">
     <value>Kopiere Wert</value>
   </data>
+  <data name="CurrentAnalysedKeylengthLabel" xml:space="preserve">
+    <value>Aktuell analysierte Schlüssellänge:</value>
+  </data>
+  <data name="ElapsedLabel" xml:space="preserve">
+    <value>Vergangene Zeit:</value>
+  </data>
+  <data name="EndLabel" xml:space="preserve">
+    <value>Endzeit:</value>
+  </data>
+  <data name="FromKeylengthCaption" xml:space="preserve">
+    <value>Analyse von Schlüssellänge:</value>
+  </data>
+  <data name="FromKeylengthTooltip" xml:space="preserve">
+    <value>Analysiere den gegebenen Geheimtext und beginne mit dieser Schlüssellänge.</value>
+  </data>
+  <data name="GreedyCaption" xml:space="preserve">
+    <value>Greedy</value>
+  </data>
+  <data name="GreedyTooltip" xml:space="preserve">
+    <value>Mache ein "Greedy-Hillclimbing" oder nicht.</value>
+  </data>
+  <data name="KeyCaption" xml:space="preserve">
+    <value>Bester Schlüssel</value>
+  </data>
+  <data name="KeyHeader" xml:space="preserve">
+    <value>Schlüssel</value>
+  </data>
+  <data name="KeyLengthHeader" xml:space="preserve">
+    <value>Schlüssellänge:</value>
+  </data>
+  <data name="KeyStyleCaption" xml:space="preserve">
+    <value>Art des Schlüssels</value>
+  </data>
+  <data name="KeyStyleTooltip" xml:space="preserve">
+    <value>Ist der Schlüssel eine natürliche Passphrase oder nicht?</value>
+  </data>
+  <data name="KeyTooltip" xml:space="preserve">
+    <value>Der Beste Schlüssel, welcher während der Analyse gefunden wurde.</value>
+  </data>
+  <data name="LanguageCaption" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="LanguageTooltip" xml:space="preserve">
+    <value>Benutze diese Sprache für die Quadgramm-Bewerung.</value>
+  </data>
+  <data name="ModeCaption" xml:space="preserve">
+    <value>Modus</value>
+  </data>
+  <data name="ModeTooltip" xml:space="preserve">
+    <value>Benutze diesen Modus für die Analyse.</value>
+  </data>
+  <data name="NaturalLanguage" xml:space="preserve">
+    <value>Natürliche Sprache</value>
+  </data>
+  <data name="PlaintextCaption" xml:space="preserve">
+    <value>Bester Klartext</value>
+  </data>
+  <data name="PlaintextTooltip" xml:space="preserve">
+    <value>Der beste Klartext, welcher während der Analyse gefunden wurde.</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Analysiert einen Geheimtext der mit der Vigenère-Chiffre verschlüsselt ist. Ausgabe ist der Schlüssel der Vigenère Chiffre.</value>
+    <value>Kryptoanalyse des Vigenère-Verfahrens mittels Hillclimbings.</value>
+  </data>
+  <data name="Random" xml:space="preserve">
+    <value>Zufällig</value>
+  </data>
+  <data name="RestartsCaption" xml:space="preserve">
+    <value>Neustarts</value>
+  </data>
+  <data name="RestartsTooltip" xml:space="preserve">
+    <value>Anzahl der Neustarts die während des Hillclimbings durchgeführt werden sollen.</value>
+  </data>
+  <data name="StartLabel" xml:space="preserve">
+    <value>Startzeit:</value>
+  </data>
+  <data name="TextHeader" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="ToKeylengthCaption" xml:space="preserve">
+    <value>Analysiere bis Schlüssellänge:</value>
+  </data>
+  <data name="ToKeylengthTooltip" xml:space="preserve">
+    <value>Analysiere bis einschließlich dieser Schlüssellänge.</value>
+  </data>
+  <data name="ValueHeader" xml:space="preserve">
+    <value>Wert</value>
+  </data>
+  <data name="Vigenere" xml:space="preserve">
+    <value>Klassischer Vigenère</value>
+  </data>
+  <data name="VigenereAlphabetCaption" xml:space="preserve">
+    <value>Vigenère Alphabet</value>
+  </data>
+  <data name="VigenereAlphabetTooltip" xml:space="preserve">
+    <value>Benutze diese Vigenère-Alphabet für die Analyse.</value>
+  </data>
+  <data name="VigenereAutokey" xml:space="preserve">
+    <value>Vigenère-Selbstschlüssel-Verfahren</value>
   </data>
 </root>

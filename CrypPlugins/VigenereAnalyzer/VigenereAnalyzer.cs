@@ -154,14 +154,14 @@ namespace Cryptool.VigenereAnalyzer
             UpdateDisplayStart();
             for (var keylength = _settings.FromKeylength; keylength <= _settings.ToKeyLength; keylength++)
             {
+                UpdateDisplayEnd(keylength);
                 HillclimbVigenere(ciphertext, keylength, _quadgrams, _settings.Restarts, _settings.Greedy);
                 if (_stopped)
-                {
-                    UpdateDisplayEnd();
+                {                    
                     return;
                 }
-            }            
-            UpdateDisplayEnd();
+            }
+            UpdateDisplayEnd(_settings.ToKeyLength);
             if (_presentation.BestList.Count > 0)
             {
                 Plaintext = _presentation.BestList[0].Text;
@@ -188,7 +188,7 @@ namespace Cryptool.VigenereAnalyzer
         /// <summary>
         /// Set end time in UI
         /// </summary>
-        private void UpdateDisplayEnd()
+        private void UpdateDisplayEnd(int keylength)
         {
             Presentation.Dispatcher.Invoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
             {
@@ -197,6 +197,7 @@ namespace Cryptool.VigenereAnalyzer
                 var elapsedspan = new TimeSpan(elapsedtime.Days, elapsedtime.Hours, elapsedtime.Minutes, elapsedtime.Seconds, 0);
                 ((AssignmentPresentation)Presentation).endTime.Content = "" + _endTime;
                 ((AssignmentPresentation)Presentation).elapsedTime.Content = "" + elapsedspan;
+                ((AssignmentPresentation)Presentation).currentAnalysedKeylength.Content = "" + keylength;
 
             }, null);
         }
@@ -282,7 +283,7 @@ namespace Cryptool.VigenereAnalyzer
                     }
                     runkey = bestkey;
                 } while (foundbetter);
-
+                UpdateDisplayEnd(keylength);
                 restarts--;
                 if (bestkeycost > globalbestkeycost)
                 {

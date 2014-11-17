@@ -41,8 +41,8 @@
                     <Label Name="elapsedTime" Style="{StaticResource ValueRow1}" Grid.Column="1" Grid.Row="1" Margin="120,0,0,0" />
                     <Label Content="{Loc RemainingLabel}" Grid.Column="2" Grid.Row="1" Visibility="Hidden" />
                     <Label Name="timeLeft" Style="{StaticResource ValueRow2}" Grid.Column="2" Grid.Row="1" Margin="120,0,0,0" />
-                    <Label Content="{Loc Keys_secLabel}" Grid.Column="2" Grid.Row="2" Visibility="Hidden" />
-                    <Label Name="keysPerSecond" Style="{StaticResource ValueRow2}" Margin="120,0,0,0" Grid.Column="2" Grid.Row="2" />
+                    <Label Content="{Loc CurrentAnalysedKeylengthLabel}" Grid.Column="2" Grid.Row="2"/>
+                    <Label Name="currentAnalysedKeylength" Style="{StaticResource ValueRow2}" Margin="230,0,0,0" Grid.Column="2" Grid.Row="2" />
                 </Grid>
             </Border>
             <Border BorderBrush="Silver" BorderThickness="2,0,2,2">

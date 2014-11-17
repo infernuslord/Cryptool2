@@ -121,7 +121,7 @@
     <value>Vigenère Analyzer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Analyzes a ciphertext encrypted with the Vigenère cipher. Output is the keyword of the Vigènere cipher.</value>
+    <value>Cryptanalysis of the Vigenère Cipher using hillclimbing.</value>
   </data>
   <data name="Copy_all" xml:space="preserve">
     <value>Copy all lines</value>
@@ -236,5 +236,8 @@
   </data>
   <data name="VigenereAlphabetTooltip" xml:space="preserve">
     <value>Use this Vigenère alphabet for the analyis.</value>
+  </data>
+  <data name="CurrentAnalysedKeylengthLabel" xml:space="preserve">
+    <value>Current analyzed keylength:</value>
   </data>
 </root>
