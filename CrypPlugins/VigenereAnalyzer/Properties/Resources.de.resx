@@ -121,7 +121,7 @@
     <value>Geheimtext</value>
   </data>
   <data name="CiphertextTooltip" xml:space="preserve">
-    <value>Der Geheimtext der analysiert werden soll.</value>
+    <value>Der Geheimtext, der analysiert werden soll.</value>
   </data>
   <data name="Copy_all" xml:space="preserve">
     <value>Kopiere alle Zeilen.</value>
@@ -157,7 +157,7 @@
     <value>Greedy</value>
   </data>
   <data name="GreedyTooltip" xml:space="preserve">
-    <value>Mache ein "Greedy-Hillclimbing" oder nicht.</value>
+    <value>"Greedy-Hillclimbing"</value>
   </data>
   <data name="KeyCaption" xml:space="preserve">
     <value>Bester Schlüssel</value>
@@ -172,16 +172,17 @@
     <value>Art des Schlüssels</value>
   </data>
   <data name="KeyStyleTooltip" xml:space="preserve">
-    <value>Ist der Schlüssel eine natürliche Passphrase oder nicht?</value>
+    <value>Ist der Schlüssel eine natürlichsprachliche Passphrase?</value>
   </data>
   <data name="KeyTooltip" xml:space="preserve">
-    <value>Der Beste Schlüssel, welcher während der Analyse gefunden wurde.</value>
+    <value>Der beste Schlüssel, der während der Analyse gefunden
+wurde.</value>
   </data>
   <data name="LanguageCaption" xml:space="preserve">
     <value>Sprache</value>
   </data>
   <data name="LanguageTooltip" xml:space="preserve">
-    <value>Benutze diese Sprache für die Quadgramm-Bewerung.</value>
+    <value>Benutze diese Sprache für die Quadgramm-Bewertung.</value>
   </data>
   <data name="ModeCaption" xml:space="preserve">
     <value>Modus</value>
@@ -196,22 +197,25 @@
     <value>Bester Klartext</value>
   </data>
   <data name="PlaintextTooltip" xml:space="preserve">
-    <value>Der beste Klartext, welcher während der Analyse gefunden wurde.</value>
+    <value>Der beste Klartext, der während der Analyse gefunden
+wurde.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Vigenère Analyse</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Kryptoanalyse des Vigenère-Verfahrens mittels Hillclimbings.</value>
+    <value>Kryptoanalyse des Vigenère-Verfahrens mittels
+Hillclimbing.</value>
   </data>
   <data name="Random" xml:space="preserve">
     <value>Zufällig</value>
   </data>
   <data name="RestartsCaption" xml:space="preserve">
-    <value>Neustarts</value>
+    <value>Anzahl Neustarts</value>
   </data>
   <data name="RestartsTooltip" xml:space="preserve">
-    <value>Anzahl der Neustarts die während des Hillclimbings durchgeführt werden sollen.</value>
+    <value>Anzahl der Neustarts, die während des Hillclimbings
+durchgeführt werden sollen.</value>
   </data>
   <data name="StartLabel" xml:space="preserve">
     <value>Startzeit:</value>
@@ -232,7 +236,7 @@
     <value>Klassischer Vigenère</value>
   </data>
   <data name="VigenereAlphabetCaption" xml:space="preserve">
-    <value>Vigenère Alphabet</value>
+    <value>Vigenère-Alphabet</value>
   </data>
   <data name="VigenereAlphabetTooltip" xml:space="preserve">
     <value>Benutze diese Vigenère-Alphabet für die Analyse.</value>

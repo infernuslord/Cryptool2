@@ -121,7 +121,7 @@
     <value>Vigenère Analyzer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
-    <value>Cryptanalysis of the Vigenère Cipher using hillclimbing.</value>
+    <value>Cryptanalysis of the Vigenère cipher using hillclimbing.</value>
   </data>
   <data name="Copy_all" xml:space="preserve">
     <value>Copy all lines</value>

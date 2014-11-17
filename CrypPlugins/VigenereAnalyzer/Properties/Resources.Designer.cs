@@ -313,7 +313,7 @@ namespace Cryptool.VigenereAnalyzer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cryptanalysis of the Vigenère Cipher using hillclimbing..
+        ///   Looks up a localized string similar to Cryptanalysis of the Vigenère cipher using hillclimbing..
         /// </summary>
         public static string PluginTooltip {
             get {
