@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Kryptos K2 Analysis</title>
+  <summary lang="en">Analysis of Kryptos K2</summary>
+  <description lang="en">Kryptos is an encrypted sculpture by American artist Jim Sanborn located on the grounds of the Central Intelligence Agency (CIA) in Langley, Virginia. Since its dedication on November 3, 1990, there has been much speculation about the meaning of the encrypted messages it bears. Of the four messages, three have been solved, with the fourth remaining one of the most famous unsolved codes in the world. The sculpture continues to provide a diversion for cryptanalysts, both amateur and professional, who are attempting to decrypt the final section. Source: http://en.wikipedia.org/wiki/Kryptos</description>
+  <keywords>Kryptos, Vigenère, CIA, Sanborn, Challlenge, Scuplture, Riddle</keywords>
+
+  <title lang="de">Kryptos K2 Analyse</title>
+  <summary lang="de">Kryptoanalyse von Kryptos K2</summary>
+  <description lang="de">Kryptos ist eine Skulptur des US-amerikanischen Bildhauers Jim Sanborn auf dem Gelände der Central Intelligence Agency (CIA) in Langley, Virginia, USA. Seit ihrer Einweihung am 3. November 1990 gibt es viele Spekulationen über die auf ihr angebrachten verschlüsselten Nachrichten. Angestellte der CIA und andere Kryptoanalytiker haben schon viele Versuche unternommen, diese zu entschlüsseln. Quelle: http://de.wikipedia.org/wiki/Kryptos_(Skulptur)</description>
+  <keywords lang="de">Kryptos, Vigenère, CIA, Sanborn, Challenge, Skulptur, Rätsel</keywords>
+
+  <icon file="kryptos.png" />
+  <relevantPlugins>
+    <plugin name="VigenereAnalyzer" />
+  </relevantPlugins>
+
+</sample>
