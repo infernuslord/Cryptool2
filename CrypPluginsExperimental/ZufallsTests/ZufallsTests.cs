@@ -80,6 +80,9 @@ namespace Cryptool.Plugins.ZufallsTests
         [DllImport("ZufallsGeneratorenDLL.dll")]
         internal static extern void setNTuple(int n);
 
+        [DllImport("ZufallsGeneratorenDLL.dll")]
+        internal static extern void closeFile();
+
         #region Private Variables
 
         private readonly ZufallsTestSettings settings = new ZufallsTestSettings();
@@ -151,6 +154,10 @@ namespace Cryptool.Plugins.ZufallsTests
         {
             ProgressChanged(0, 1);
 
+
+            deleteDataFile();
+
+
             minimumDataAmount.Clear();
             fillDataDic();
 
@@ -170,7 +177,7 @@ namespace Cryptool.Plugins.ZufallsTests
                     OnPropertyChanged("Success");
                     ProgressChanged(1, 1);
 
-                    fileStream = null;
+                    //fileStream = null;
                     return;
                 }
                 int bytesRead;
@@ -183,7 +190,8 @@ namespace Cryptool.Plugins.ZufallsTests
                 }
             }
             ProgressChanged(0.5, 1);
-            fileStream.Close();
+            //fileStream.Close();				
+
 
             // The execution of the DLL methods documented above
             initializeTest_types();
@@ -249,12 +257,15 @@ namespace Cryptool.Plugins.ZufallsTests
             OnPropertyChanged("Success");
 
             ProgressChanged(1, 1);
-            
-            fileStream = null;
+
+            //fileStream.Dispose();
+            //fileStream.Close();
+            //fileStream = null;
         }
 
         public void PostExecution()
         {
+            deleteDataFile();
         }
 
         public void Stop()
@@ -271,7 +282,7 @@ namespace Cryptool.Plugins.ZufallsTests
         {
         }
 
-        private void writeData(byte[] buffer, int bytesRead)
+        private void writeDataOld(byte[] buffer, int bytesRead)
         {
             if(fileStream == null)
             {
@@ -280,20 +291,27 @@ namespace Cryptool.Plugins.ZufallsTests
             fileStream.Write(buffer, 0, bytesRead);
         }
 
-        public void writeData(BigInteger bigInput)
+
+        private void writeData(byte[] buffer, int bytesRead)
         {
-            byte[] bigArr = bigInput.ToByteArray();
-            //validateDataSize(bigArr);
+            using (FileStream fileStream = new FileStream("data.txt",
+            FileMode.Append, FileAccess.Write, FileShare.Write))
+            {
+                fileStream.Write(buffer, 0, bytesRead);
+            }
 
-            fileStream = new FileStream(@"data.txt", FileMode.Create);
+        }
 
+        private void deleteDataFile()
+        {
             try
             {
-                fileStream.Write(bigArr, 0, bigArr.Length);
+                File.Delete(@"data.txt");
             }
-            finally
+            catch(Exception e)
             {
-                fileStream.Close();
+                closeFile();
+                File.Delete(@"data.txt");
             }
         }
 

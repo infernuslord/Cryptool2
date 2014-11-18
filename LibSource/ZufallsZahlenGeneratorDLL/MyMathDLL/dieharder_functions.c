@@ -71,6 +71,11 @@ void setSeed(int s)
 	Seed = s;
 }
 
+void closeFile()
+{
+	fclose(dataIN);
+}
+
 void set_globals()
 {
 	fasterFactor = 1;
