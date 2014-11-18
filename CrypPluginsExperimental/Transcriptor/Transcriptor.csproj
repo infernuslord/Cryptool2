@@ -158,7 +158,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="DetailedDescription\transcriptor_auswahl_de.png" />
     <Resource Include="icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Liste_de.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="DetailedDescription\Tooltip.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

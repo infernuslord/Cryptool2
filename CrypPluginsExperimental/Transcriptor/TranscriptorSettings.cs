@@ -88,7 +88,7 @@ namespace Cryptool.Plugins.Transcriptor
 
         }
 
-        [TaskPane("ModeCaption", "ModeTooltip", "ModeGroup", 4, false, ControlType.ComboBox, new String[] { "Manually", "Semi-Automatic" })]
+        [TaskPane("ModeCaption", "ModeTooltip", "ModeGroup", 4, false, ControlType.ComboBox, new String[] { "Manually", "SemiAutomatic" })]
         public int Mode
         {
             get

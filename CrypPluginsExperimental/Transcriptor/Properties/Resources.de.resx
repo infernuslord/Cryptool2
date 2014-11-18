@@ -145,10 +145,10 @@
     <value>Fehler: {0}</value>
   </data>
   <data name="FirstSymbolOff" xml:space="preserve">
-    <value>1. Symbol an</value>
+    <value>1. Symbol aus</value>
   </data>
   <data name="FirstSymbolOn" xml:space="preserve">
-    <value>1. Symbol aus</value>
+    <value>1. Symbol an</value>
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Generieren</value>
@@ -223,7 +223,7 @@
     <value>Transcriptor</value>
   </data>
   <data name="TranscriptorTooltip" xml:space="preserve">
-    <value>Transkribiert ein Bild mit Symbolen zu einem Text</value>
+    <value>Transkribiert ein Bild, mit Symbolen, zu einem Text</value>
   </data>
   <data name="White" xml:space="preserve">
     <value>Weiß</value>
