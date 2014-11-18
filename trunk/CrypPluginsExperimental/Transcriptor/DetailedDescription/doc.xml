@@ -19,6 +19,45 @@
   </usage>
 
   <usage lang="de-DE">
+    Mit der <docRef item="FileInput.FileInputClass"/>  kann man das Bild, welches die Symbolen enthält, in den Transkriptor laden. Standartmäßig wird das lateinische
+    Alphabet in Großbuchstaben für das Transkribieren verwendet. Es ist aber auch möglich andere Alphabete zu benutzen,
+    indem man <docRef item="Cryptool.Alphabets.Alphabet"/> verwendet. Um den Text später auszugeben, verwendet man die <docRef item="TextOutput.TextOutput"/>.
+  <newline/>
+    <newline/>
+    Sobald der Workspace gestartet worden ist, kann man mit dem Transkriptor interagieren. Man markiert ein Symbol indem man ein
+    Rechteck darüber zieht. Das ausgewählte Symbol wird dann in der Auswahl dargestellt. Jetzt kann man auf die "Neues Symbol"-Taste
+    drücken und das Symbol wird in der Liste dargestellt:
+    <newline/>
+    <img src="Transcriptor/DetailedDescription/Liste_de.png"/>
+    <newline/>
+    Es können auch Leerzeichen in dem Text hinzugefügt werden indem ein Rechteck über die Stelle gezogen wird und anschließend auf die
+    "Leerzeichen"-Taste geklickt wird. Wenn die Maus über ein Rechteck gehalten wird, erscheint ein Tooltip mit dem repräsentierten Buchstaben
+    und Bild:
+    <img src="Transcriptor/DetailedDescription/Tooltip.png"/>
+    <newline/>
+
+    Symbole können auch wieder gelöscht werden indem man die Strg-Taste gedrückt hält und auf das Rechteck klickt. Es können auch ganze Gruppen
+    von Symbolen gelöscht werden indem man die Strg-Taste gedrückt hält und in der Liste auf ein Symbol doppelklickt.
+    Sobald man fertig ist, kann man auf die "Generieren"-Taste drücken und der Text wird ausgegeben.
+
+    <section headline="Semi-Autoamtisch">
+      Im Semi-Automatischen Modus werden beim Hinzufügen eines neuen Symbols automatisch ähnlich aussehende Symbole hinzugefügt.
+      Dabei wird das Symbol in der Auswahl mit dem gesamten Bild verglichen und ein Korrelationskoeffizient <ref id="wikipedia" /> zu jeden Abschnitt gebildet.
+      Eine perfekte Übereinstimmung ergibt 100% und absolut keine Übereinstimmung 0%. Mit der Grenze kann man einstellen, ab welchen Wert ein Abschnitt akzeptiert werden soll.
+      Symbole die nicht gefunden wurden, können mit einem Doppelklick auf das entsprechende Symbol in die Liste hinzugefügt werden.
+      Die Reihenfolge in dem die Symbole markiert werden spielt keine Rolle. Nach dem alle Symbole markiert sind, muss noch auf die 1. Symbol-Taste
+      gedrückt werden und jeweils das erste Rechteck in einer Zeile angeklickt werden. Dies kann auch rückgängig gemacht werden indem man wieder auf ein
+      Rechteck klickt welches bereits markiert ist.
+
+    </section>
+
+    <section headline="Manuell">
+      Der Manuelle Modus ist für speziell formatierte Texte gedacht. Der Text wird in der Reihenfolge ausgegeben in der die Symbole markiert werden.
+      Die "1. Symbol"-Taste wird hier deshalb nicht benötigt und ist daher ausgeblendet. Außerdem ist das automatische Finden gleicher Symbole in
+      diesen Modus deaktiviert. Bereits gefundene Symbole müssen bei erneuten Auftreten mit einen Doppelklick auf dem entsprechenden Symbol in die
+      Liste hinzugefügt werden.
+    </section>
+
   </usage>
   
   <presentation lang="en">
@@ -28,5 +67,11 @@
   </presentation>
   
   <references>
+    <linkReference id="wikipedia">
+      <link url="http://en.wikipedia.org/wiki/Cross-correlation" lang="en" />
+      <caption lang="en">Cross-correlation (Wikipedia)</caption>
+	    <link url="http://de.wikipedia.org/wiki/Korrelationskoeffizient" lang="de-DE" />
+      <caption lang="de-DE">Korrelationskoeffizient (Wikipedia)</caption>
+    </linkReference>
   </references>
 </documentation>

@@ -142,7 +142,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die First symbol off ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 1st symbol off ähnelt.
         /// </summary>
         internal static string FirstSymbolOff {
             get {
@@ -151,7 +151,7 @@ namespace Transcriptor.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die First symbol on ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die 1st symbol on ähnelt.
         /// </summary>
         internal static string FirstSymbolOn {
             get {

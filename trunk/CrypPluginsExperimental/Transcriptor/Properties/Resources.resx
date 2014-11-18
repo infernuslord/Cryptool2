@@ -145,10 +145,10 @@
     <value>Error: {0}</value>
   </data>
   <data name="FirstSymbolOff" xml:space="preserve">
-    <value>First symbol off</value>
+    <value>1st symbol off</value>
   </data>
   <data name="FirstSymbolOn" xml:space="preserve">
-    <value>First symbol on</value>
+    <value>1st symbol on</value>
   </data>
   <data name="Generate" xml:space="preserve">
     <value>Generate</value>

@@ -166,6 +166,11 @@ namespace Cryptool.Plugins.Transcriptor
 
                     //Gets the Image from the Input Plugin and chage the DPI to 96
                     transcriptorPresentation.picture.Source = ByteToImage(Image.CreateReader().ReadFully());
+                    /*var test = BitmapDecoder.Create(new MemoryStream(Image.CreateReader().ReadFully()),
+                                BitmapCreateOptions.PreservePixelFormat,
+                                BitmapCacheOption.None);
+                    transcriptorPresentation.picture.Source = test.Frames[0];*/
+                    
                 }
                 catch (Exception ex)
                 {
