@@ -21,6 +21,7 @@ using Cryptool.PluginBase.Miscellaneous;
 using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using Cryptool.PluginBase.IO;
+using System.Numerics;
 
 namespace Cryptool.Plugins.Zufallsgeneratoren
 {
@@ -66,7 +67,7 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
         private bool hasSeed = false;
         private ICryptoolStream data;
         private bool littleEndian;
-        private uint[] outputNumbers;
+        private BigInteger[] outputNumbers;
 
         #endregion
 
@@ -113,7 +114,7 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
         }
 
         [PropertyInfo(Direction.OutputData, "OutputNumbersCaption", "OutputNumbersTooltip", false)]
-        public uint[] OutputNumbers
+        public BigInteger[] OutputNumbers
         {
             get
             {
@@ -175,6 +176,12 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
 
         public void Execute()
         {
+            if (amountOfNumbers <= 0)
+            {
+                GuiLogMessage("Negative amount of numbers cant be generated", NotificationLevel.Warning);
+                ProgressChanged(1, 1);
+                return;
+            }
 
             if (hasSeed)
             {
@@ -187,7 +194,7 @@ namespace Cryptool.Plugins.Zufallsgeneratoren
             data = writer;
             uint current;
             byte[] nextData;
-            outputNumbers = new uint[amountOfNumbers];
+            outputNumbers = new BigInteger[amountOfNumbers];
 
             for (int i = 0; i < amountOfNumbers; i++)
             {

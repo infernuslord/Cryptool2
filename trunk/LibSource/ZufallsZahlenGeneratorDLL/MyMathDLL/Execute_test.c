@@ -99,6 +99,8 @@ int execute_test(int dtest_num)
 
 	destroy_test(dh_test_types[dtest_num], dieharder_test);
 
+	fclose(dataIN);
+
 	return(0);
 
 }

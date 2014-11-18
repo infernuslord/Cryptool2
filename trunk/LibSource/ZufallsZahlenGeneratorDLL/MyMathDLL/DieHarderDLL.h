@@ -47,6 +47,7 @@ MYMATHDLL_API unsigned int getNextUInt();
 MYMATHDLL_API void setFasterFactor(int f);
 MYMATHDLL_API void setNTuple(int n);
 MYMATHDLL_API void setSeed(int s);
+MYMATHDLL_API void closeFile();
 
 int TDEFAULT;
 int THEADER;
