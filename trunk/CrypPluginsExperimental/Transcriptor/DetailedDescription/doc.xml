@@ -17,7 +17,7 @@
 
   <usage lang="en">
     With <docRef item="FileInput.FileInputClass"/> you can load the picture, which contains the symbols into the Transcriptor.
-    The roman alphabet in big letters is the default alphabet for transcription. It's also possible to use other alphabets with the <docRef item="Cryptool.Alphabets.Alphabet"/> component.
+    The Roman alphabet in big letters is the default alphabet for transcription. It's also possible to use other alphabets with the <docRef item="Cryptool.Alphabets.Alphabet"/> component.
     Use <docRef item="TextOutput.TextOutput"/> to display the text.
     <newline/>
     <newline/>
@@ -52,8 +52,8 @@
   </usage>
 
   <usage lang="de-DE">
-    Mit der <docRef item="FileInput.FileInputClass"/>  kann man das Bild, welches die Symbolen enthält, in den Transkriptor laden. Standardmäßig wird das lateinische
-    Alphabet in Großbuchstaben für das Transkribieren verwendet. Es ist aber auch möglich andere Alphabete zu benutzen,
+    Mit der <docRef item="FileInput.FileInputClass"/>  kann man das Bild, welches die Symbole enthält, in den Transkriptor laden. Standardmäßig wird das lateinische
+    Alphabet in Großbuchstaben für das Transkribieren verwendet. Es ist aber auch möglich, andere Alphabete zu benutzen,
     indem man <docRef item="Cryptool.Alphabets.Alphabet"/> verwendet. Um den Text später auszugeben, verwendet man die <docRef item="TextOutput.TextOutput"/>.
   <newline/>
     <newline/>
@@ -86,8 +86,8 @@
 
     <section headline="Manuell">
       Der Manuelle Modus ist für speziell formatierte Texte gedacht. Der Text wird in der Reihenfolge ausgegeben in der die Symbole markiert werden.
-      Die "1. Symbol"-Taste wird hier deshalb nicht benötigt und ist daher ausgeblendet. Außerdem ist das automatische Finden gleicher Symbole in
-      diesen Modus deaktiviert. Bereits bekannte Symbole müssen bei erneuten Auftreten mit einen Doppelklick auf dem entsprechenden Symbol in die
+      Die "1. Symbol"-Taste wird deshalb hier nicht benötigt und ist daher ausgeblendet. Außerdem ist das automatische Finden gleicher Symbole in
+      diesen Modus deaktiviert. Bereits bekannte Symbole müssen bei erneutem Auftreten mit einen Doppelklick auf dem entsprechenden Symbol in die
       Liste hinzugefügt werden.
     </section>
 
