@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using WatermarkCreator.Properties;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
@@ -25,7 +26,7 @@ namespace Cryptool.Plugins.WatermarkCreator
     {
         #region Private Variables
 
-        private int watermarkAlgorithm = 0;
+        private int _watermarkAlgorithm = 0;
 
         #endregion
 
@@ -35,18 +36,18 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("ModificationType", "What kind of Watermark should be added?", null, 1, true, ControlType.ComboBox, new string[] { "Embed Visible Text", "Embed Visible Picture", "Embed Invisible Text", "Extract Invisible Text" })]
+        [TaskPane("ModificationType", "What kind of Watermark should be added?", null, 1, true, ControlType.ComboBox, new string[] { "Vis", "Invis", "Extr" })]
         public int ModificationType
         {
             get
             {
-                return watermarkAlgorithm;
+                return _watermarkAlgorithm;
             }
             set
             {
-                if (watermarkAlgorithm != value)
+                if (_watermarkAlgorithm != value)
                 {
-                    watermarkAlgorithm = value;
+                    _watermarkAlgorithm = value;
                     // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("ModificationType");
                 }
