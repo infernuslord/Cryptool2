@@ -16,10 +16,43 @@
   </introduction>
 
   <usage lang="en">
+    With <docRef item="FileInput.FileInputClass"/> you can load the picture, which contains the symbols into the Transcriptor.
+    The roman alphabet in big letters is the default alphabet for transcription. It's also possible to use other alphabets with the <docRef item="Cryptool.Alphabets.Alphabet"/> component.
+    Use <docRef item="TextOutput.TextOutput"/> to display the text.
+    <newline/>
+    <newline/>
+    Once the workspace has been started, you can interact with the Transcriptor. You can mark a symbol by dragging a rectangle over it.
+    The selected symbol is then displayed in the selection. Now you can press the "New symbol" button and the icon is displayed in the list:
+    <newline/>
+    <img src="Transcriptor/DetailedDescription/Liste_eng.png"/>
+    <newline/>
+    It is also possible to add spaces in the text. This is done by dragging a rectangle over the place and clicking the "Add space" button. If the mouse is
+    held over a rectangle a tooltip with the represented character and figure appears:
+    <newline/>
+    <img src="Transcriptor/DetailedDescription/Tooltip.png"/>
+    <newline/>
+
+    Symbols can also be deleted by holding the Ctrl key and clicking on the rectangle. You can even delete an entire group of symbols by holding the
+    Ctrl key and double-clicking the symbol in the list. Once you are done, you can press the "Generate" button and the text is displayed.
+
+    <section headline="Semi-automatic">
+      In semi-automatic mode similar looking symbols will be added automatically if you add a new symbol. The symbol in the selection is
+      compared with the entire image and a cross-correlation coefficient <ref id="wikipedia" /> is calculated for each section. A perfect match is 100%, and absolutely no
+      match 0%. With the threshold you can set a value from which a symbol is to be accepted. Symbols that were not found can be added by
+      double clicking on its icon in the list. In this mode the order in which the symbols are marked doesn't matter.
+      After all symbols are marked you have to click on the "1st symbol" button and click on the first symbol in each row.
+      This can also be made undone by clicking on a rectangle that is already highlighted.
+    </section>
+
+    <section headline="Manually">
+      The manually mode is intended for specially formatted text. The text is printed by the order in which the symbols are marked.
+      Therefore the "1st symbol" button is not required and is disabled. In addition, automatically finding the same symbols is
+      deactivated  in this mode. Symbols which are already known have to be added with a double-click on the corresponding icon in the list.
+    </section>
   </usage>
 
   <usage lang="de-DE">
-    Mit der <docRef item="FileInput.FileInputClass"/>  kann man das Bild, welches die Symbolen enthält, in den Transkriptor laden. Standartmäßig wird das lateinische
+    Mit der <docRef item="FileInput.FileInputClass"/>  kann man das Bild, welches die Symbolen enthält, in den Transkriptor laden. Standardmäßig wird das lateinische
     Alphabet in Großbuchstaben für das Transkribieren verwendet. Es ist aber auch möglich andere Alphabete zu benutzen,
     indem man <docRef item="Cryptool.Alphabets.Alphabet"/> verwendet. Um den Text später auszugeben, verwendet man die <docRef item="TextOutput.TextOutput"/>.
   <newline/>
@@ -54,7 +87,7 @@
     <section headline="Manuell">
       Der Manuelle Modus ist für speziell formatierte Texte gedacht. Der Text wird in der Reihenfolge ausgegeben in der die Symbole markiert werden.
       Die "1. Symbol"-Taste wird hier deshalb nicht benötigt und ist daher ausgeblendet. Außerdem ist das automatische Finden gleicher Symbole in
-      diesen Modus deaktiviert. Bereits gefundene Symbole müssen bei erneuten Auftreten mit einen Doppelklick auf dem entsprechenden Symbol in die
+      diesen Modus deaktiviert. Bereits bekannte Symbole müssen bei erneuten Auftreten mit einen Doppelklick auf dem entsprechenden Symbol in die
       Liste hinzugefügt werden.
     </section>
 
