@@ -28,6 +28,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using WatermarkCreator.Properties;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
@@ -35,7 +36,7 @@ namespace Cryptool.Plugins.WatermarkCreator
     [Author("Nils Rehwald", "nilsrehwald@gmail.com", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Watermark Creator", "Let's you add a watermark to an image", "WatermarkCreator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("Cryptool.Plugins.WatermarkCreator.Properties.Resources", "Watermark Creator", "Let's you add a watermark to an image", "WatermarkCreator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.Steganography)]
     public class WatermarkCreator : ICrypComponent
@@ -44,12 +45,14 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         // HOWTO: You need to adapt the settings class as well, see the corresponding file.
         private readonly WatermarkCreatorSettings settings = new WatermarkCreatorSettings();
-        int boxSize = 10;
-        int errorCorrection = 0;
-        double opacity = 1.0;
-        long seed1 = 19;
-        long seed2 = 24;
-        enum cmd { embVisText, embVisPic, embInvisText, extInvisText };
+        //Default values for invisible watermarking
+        private const int BoxSize = 10;
+        private const int ErrorCorrection = 0;
+        private const double Opacity = 1.0;
+        private const long Seed1 = 19;
+        private const long Seed2 = 24;
+
+        enum Commands { EmbVisText, EmbInvisText, ExtInvisText };
 
         #endregion
 
@@ -73,7 +76,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Image", "Image to be used as Watermark")]
+        [PropertyInfo(Direction.InputData, "Watermark Image", "Image to be used as Watermark")]
         public ICryptoolStream WImage
         {
             get;
@@ -142,49 +145,36 @@ namespace Cryptool.Plugins.WatermarkCreator
 
             switch (settings.ModificationType)
             {
-                case (int)cmd.embVisText: //Visible Text
+                case (int)Commands.EmbVisText: //Visible Text
                     if (Watermark == null)
                     {
-                        GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
+                        GuiLogMessage("Please provide a text", NotificationLevel.Error);
                         return;
                     }
 
-                    wmVisibleText();
+                    WmVisibleText();
 
                     OnPropertyChanged("OutputPicture");
                     ProgressChanged(1, 1);
                     break;
 
-                case (int)cmd.embVisPic: //Visible Picture
-                    if (WImage == null)
-                    {
-                        GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
-                        return;
-                    }
-
-                    wmVisiblePicture();
-
-                    OnPropertyChanged("OutputPicture");
-                    ProgressChanged(1, 1);
-                    break;
-
-                case (int)cmd.embInvisText: //Invisible Text
+                case (int)Commands.EmbInvisText: //Invisible Text
                     if (Watermark == null)
                     {
-                        GuiLogMessage("Please provide a watermark", NotificationLevel.Error);
+                        GuiLogMessage("Please provide a text", NotificationLevel.Error);
                         return;
                     }
 
-                    createInvisibleWatermark();
+                    CreateInvisibleWatermark();
 
                     OnPropertyChanged("OutputPicture");
                     ProgressChanged(1, 1);
 
                     break;
 
-                case (int)cmd.extInvisText: //Detect Invisible Text
+                case (int)Commands.ExtInvisText: //Detect Invisible Text
 
-                    EmbeddedText = detectInvisibleWatermark();
+                    EmbeddedText = DetectInvisibleWatermark();
 
                     OnPropertyChanged("EmbeddedText");
                     ProgressChanged(1, 1);
@@ -259,27 +249,27 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         #region Helpers
 
-        private void wmVisibleText()
+        private void WmVisibleText()
         {
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
                     Bitmap image = PaletteToRGB(bitmap);
-                    System.Drawing.Image imagePhoto = image;
-                    int width = imagePhoto.Width; 
-                    int height = imagePhoto.Height;
+                    System.Drawing.Image photo = image;
+                    int width = photo.Width; 
+                    int height = photo.Height;
 
                     Bitmap bitmapmPhoto = new Bitmap(width, height, PixelFormat.Format24bppRgb);
                     bitmapmPhoto.SetResolution(72, 72);
                     Graphics graphicPhoto = Graphics.FromImage(bitmapmPhoto);
 
                     graphicPhoto.SmoothingMode = SmoothingMode.AntiAlias;
-                    graphicPhoto.DrawImage(imagePhoto, new Rectangle(0, 0, width, height), 0, 0, width, height, GraphicsUnit.Pixel);
-                    int[] sizes = new int[] { 20, 18, 16, 14, 12, 10, 8, 6, 4, 2 }; //possible text sizes
+                    graphicPhoto.DrawImage(photo, new Rectangle(0, 0, width, height), 0, 0, width, height, GraphicsUnit.Pixel);
+                    int[] sizes = new int[] { 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2 }; //possible text sizes
                     Font font = null;
                     SizeF size = new SizeF();
-                    for (int i = 0; i < 10; i++)
+                    for (int i = 0; i < sizes.Length; i++) //Test which is the largest possible fontsize to be used
                     {
                         font = new Font("arial", sizes[i], FontStyle.Bold);
                         size = graphicPhoto.MeasureString(Watermark, font);
@@ -288,32 +278,27 @@ namespace Cryptool.Plugins.WatermarkCreator
                     }
                     int yPixlesFromBottom = (int)(height * .05);
                     float yPosFromBottom = ((height - yPixlesFromBottom) - (size.Height / 2));
-                    float xCenterOfImg = (width / 2);
+                    float xCenterOfImg = ((float)width / 2f);
 
-                    StringFormat StrFormat = new StringFormat();
-                    StrFormat.Alignment = StringAlignment.Center;
+                    StringFormat strFormat = new StringFormat();
+                    strFormat.Alignment = StringAlignment.Center;
 
                     SolidBrush semiTransBrush2 = new SolidBrush(Color.FromArgb(153, 0, 0, 0));
 
-                    graphicPhoto.DrawString(Watermark, font, semiTransBrush2, new PointF(xCenterOfImg + 1, yPosFromBottom + 1), StrFormat);
+                    graphicPhoto.DrawString(Watermark, font, semiTransBrush2, new PointF(xCenterOfImg + 1, yPosFromBottom + 1), strFormat);
 
                     SolidBrush semiTransBrush = new SolidBrush(Color.FromArgb(153, 255, 255, 255));
 
-                    graphicPhoto.DrawString(Watermark, font, semiTransBrush, new PointF(xCenterOfImg, yPosFromBottom), StrFormat);
+                    graphicPhoto.DrawString(Watermark, font, semiTransBrush, new PointF(xCenterOfImg, yPosFromBottom), strFormat);
 
                     CreateOutputStream(bitmapmPhoto);
                 }
             }
         }
 
-        private void wmVisiblePicture()
+        private void CreateInvisibleWatermark()
         {
-            
-        }
-
-        private void createInvisibleWatermark()
-        {
-            net.watermark.Watermark water = new net.watermark.Watermark(boxSize, errorCorrection, opacity, seed1, seed2);
+            net.watermark.Watermark water = new net.watermark.Watermark(BoxSize, ErrorCorrection, Opacity, Seed1, Seed2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
@@ -324,9 +309,9 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        private string detectInvisibleWatermark()
+        private string DetectInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(boxSize, errorCorrection, opacity, seed1, seed2);
+            net.watermark.Watermark water = new net.watermark.Watermark(BoxSize, ErrorCorrection, Opacity, Seed1, Seed2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
