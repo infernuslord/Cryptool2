@@ -61,6 +61,42 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Image ähnelt.
+        /// </summary>
+        internal static string ImageCaption {
+            get {
+                return ResourceManager.GetString("ImageCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die The image which should be used to embed/extract a digital watermark. ähnelt.
+        /// </summary>
+        internal static string ImageTooltip {
+            get {
+                return ResourceManager.GetString("ImageTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Watermark Creator ähnelt.
+        /// </summary>
+        internal static string PluginCaption {
+            get {
+                return ResourceManager.GetString("PluginCaption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Component to write and extract a digital watermark to an image. ähnelt.
+        /// </summary>
+        internal static string PluginTooltip {
+            get {
+                return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Embed invisible watermark into the image ähnelt.
         /// </summary>
         internal static string WatermarkCreatorSettings_ModificationType_EmbedInvisibleText {

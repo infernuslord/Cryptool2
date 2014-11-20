@@ -36,7 +36,7 @@ namespace Cryptool.Plugins.WatermarkCreator
     [Author("Nils Rehwald", "nilsrehwald@gmail.com", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
     // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
     // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("Cryptool.Plugins.WatermarkCreator.Properties.Resources", "Watermark Creator", "Let's you add a watermark to an image", "WatermarkCreator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
+    [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
     // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.Steganography)]
     public class WatermarkCreator : ICrypComponent
@@ -62,7 +62,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// HOWTO: Input interface to read the input data. 
         /// You can add more input properties of other type if needed.
         /// </summary>
-        [PropertyInfo(Direction.InputData, "Image", "Image to add Watermark to")]
+        [PropertyInfo(Direction.InputData, "ImageCaption", "ImageTooltip")]
         public ICryptoolStream InputPicture 
         {
             get;

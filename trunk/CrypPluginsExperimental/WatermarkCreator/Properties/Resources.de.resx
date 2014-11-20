@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="WatermarkCreatorSettings_ModificationType_ExtractText" xml:space="preserve">
-    <value>Extract hidden Watermark from image</value>
+  <data name="ImageCaption" xml:space="preserve">
+    <value>Bild</value>
+  </data>
+  <data name="ImageTooltip" xml:space="preserve">
+    <value>Das Bild, dem ein Wasserzeichen hinzugefügt werden soll oder aus dem ein Wasserzeichen extrahiert werden soll.</value>
+  </data>
+  <data name="PluginCaption" xml:space="preserve">
+    <value>Wasserzeichen Generator</value>
+  </data>
+  <data name="PluginTooltip" xml:space="preserve">
+    <value>Komponente um ein digitales Wasserzeichnen zu schreiben oder extrahieren.</value>
   </data>
   <data name="WatermarkCreatorSettings_ModificationType_EmbedInvisibleText" xml:space="preserve">
     <value>Embed invisible watermark into the image</value>
@@ -127,16 +136,7 @@
     <value>Embed visible text into the image</value>
     <comment>E,g, copyright notice</comment>
   </data>
-  <data name="ImageCaption" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="ImageTooltip" xml:space="preserve">
-    <value>The image which should be used to embed/extract a digital watermark.</value>
-  </data>
-  <data name="PluginCaption" xml:space="preserve">
-    <value>Watermark Creator</value>
-  </data>
-  <data name="PluginTooltip" xml:space="preserve">
-    <value>Component to write and extract a digital watermark to an image.</value>
+  <data name="WatermarkCreatorSettings_ModificationType_ExtractText" xml:space="preserve">
+    <value>Extract hidden Watermark from image</value>
   </data>
 </root>
