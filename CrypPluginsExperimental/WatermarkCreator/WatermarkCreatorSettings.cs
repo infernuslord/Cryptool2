@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2014 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
 */
 using System;
 using System.ComponentModel;
+using System.Windows;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
-using WatermarkCreator.Properties;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
@@ -27,6 +27,14 @@ namespace Cryptool.Plugins.WatermarkCreator
         #region Private Variables
 
         private int _watermarkAlgorithm = 0;
+        private int _textSize = 0;
+        private string _font = "arial";
+        private int _location = 1;
+        private double _opacity = 1.0;
+        private int _boxSize = 10;
+        private int _errorCorrection = 0;
+        private long _s1 = 19;
+        private long _s2 = 24;
 
         #endregion
 
@@ -36,7 +44,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("ModificationType", "What kind of Watermark should be added?", null, 1, true, ControlType.ComboBox, new string[] { "Vis", "Invis", "Extr" })]
+        [TaskPane("ModificationType", "ModTypeDis", null, 0, false, ControlType.ComboBox, new string[] { "WatermarkCreatorSettings_ModificationType_EmbedText", "WatermarkCreatorSettings_ModificationType_EmbedInvisibleText", "WatermarkCreatorSettings_ModificationType_ExtractText" })]
         public int ModificationType
         {
             get
@@ -48,10 +56,189 @@ namespace Cryptool.Plugins.WatermarkCreator
                 if (_watermarkAlgorithm != value)
                 {
                     _watermarkAlgorithm = value;
-                    // HOWTO: MUST be called every time a property value changes with correct parameter name
                     OnPropertyChanged("ModificationType");
                 }
             }
+        }
+
+        
+        [TaskPane("TextSizeMax", "TextSize", null, 1, false, ControlType.TextBox)]
+        public int TextSizeMax
+        {
+            get
+            {
+                return _textSize;
+            }
+            set
+            {
+                if (_textSize != value)
+                {
+                    _textSize = value;
+                    OnPropertyChanged("TextSizeMax");
+                }
+            }
+        }
+
+        [TaskPane("FontType", "ChoseFont", null, 1, false, ControlType.ComboBox, new string[] { "arial", "other" })]
+        public string FontType
+        {
+            get
+            {
+                return _font;
+            }
+            set
+            {
+                if (_font != value)
+                {
+                    _font = value;
+                    OnPropertyChanged("FontType");
+                }
+            }
+        }
+
+        [TaskPane("WatermarkLocation", "ChoseLoc", null, 1, false, ControlType.ComboBox, new string[] { "TopLoc", "BotLoc", "OtherLoc" })]
+        public int WatermarkLocation
+        {
+            get
+            {
+                return _location;
+            }
+            set
+            {
+                if (_location != value)
+                {
+                    _location = value;
+                    OnPropertyChanged("WatermarkLocation");
+                }
+            }
+        }
+
+        [TaskPane("Opacity", "ChosOpac", null, 1, false, ControlType.TextBox)]
+        public double Opacity
+        {
+            get
+            {
+                return _opacity;
+            }
+            set
+            {
+                if (_opacity != value)
+                {
+                    _opacity = value;
+                    OnPropertyChanged("Opacity");
+                }
+            }
+        }
+
+        [TaskPane("BoxSizeCap", "BoxSize", null, 1, false, ControlType.TextBox)]
+        public int BoxSize
+        {
+            get
+            {
+                return _boxSize;
+            }
+            set
+            {
+                if (_boxSize != value)
+                {
+                    _boxSize = value;
+                    OnPropertyChanged("BoxSize");
+                }
+            }
+        }
+
+        [TaskPane("ErrorCorrection", "ErrCor", null, 1, false, ControlType.TextBox)]
+        public int ErrorCorrection
+        {
+            get
+            {
+                return _errorCorrection;
+            }
+            set
+            {
+                if (_errorCorrection != value)
+                {
+                    _errorCorrection = value;
+                    OnPropertyChanged("ErrorCorrection");
+                }
+            }
+        }
+
+        [TaskPane("Seed1", "Seed", null, 1, false, ControlType.TextBox)]
+        public long Seed1
+        {
+            get
+            {
+                return _s1;
+            }
+            set
+            {
+                if (_s1 != value)
+                {
+                    _s1 = value;
+                    OnPropertyChanged("Seed1");
+                }
+            }
+        }
+
+        [TaskPane("Seed2", "Seed", null, 1, false, ControlType.TextBox)]
+        public long Seed2
+        {
+            get
+            {
+                return _s2;
+            }
+            set
+            {
+                if (_s2 != value)
+                {
+                    _s2 = value;
+                    OnPropertyChanged("Seed2");
+                }
+            }
+        }
+
+
+        public void UpdateTaskPaneVisibility()
+        {
+            SettingChanged("ModificationType", Visibility.Visible);
+            SettingChanged("TextSizeMax", Visibility.Collapsed);
+            SettingChanged("FontType", Visibility.Collapsed);
+            SettingChanged("WatermarkLocation", Visibility.Collapsed);
+            SettingChanged("Opacity", Visibility.Collapsed);
+            SettingChanged("BoxSize", Visibility.Collapsed);
+            SettingChanged("ErrorCorrection", Visibility.Collapsed);
+            SettingChanged("Seed1", Visibility.Collapsed);
+            SettingChanged("Seed2", Visibility.Collapsed);
+
+            switch (ModificationType)
+            {
+                case 0: //Visible Watermark (embedding)
+                    SettingChanged("TextSizeMax", Visibility.Visible);
+                    SettingChanged("FontType", Visibility.Visible);
+                    SettingChanged("WatermarkLocation", Visibility.Visible);
+                    break;
+                case 1: //Invisible Watermark (embedding)
+                    SettingChanged("Opacity", Visibility.Visible);
+                    SettingChanged("BoxSize", Visibility.Visible);
+                    SettingChanged("ErrorCorrection", Visibility.Visible);
+                    SettingChanged("Seed1", Visibility.Visible);
+                    SettingChanged("Seed2", Visibility.Visible);
+                    break;
+                case 2: //Invisible Watermark (extracting)
+                    SettingChanged("Opacity", Visibility.Visible);
+                    SettingChanged("BoxSize", Visibility.Visible);
+                    SettingChanged("ErrorCorrection", Visibility.Visible);
+                    SettingChanged("Seed1", Visibility.Visible);
+                    SettingChanged("Seed2", Visibility.Visible);
+                    break;
+            }
+        }
+
+        private void SettingChanged(string setting, Visibility vis)
+        {
+            if (TaskPaneAttributeChanged != null)
+                TaskPaneAttributeChanged(this, new TaskPaneAttributeChangedEventArgs(new TaskPaneAttribteContainer(setting, vis)));
         }
 
         #endregion
@@ -59,6 +246,8 @@ namespace Cryptool.Plugins.WatermarkCreator
         #region Events
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event TaskPaneAttributeChangedHandler TaskPaneAttributeChanged;
 
         private void OnPropertyChanged(string propertyName)
         {

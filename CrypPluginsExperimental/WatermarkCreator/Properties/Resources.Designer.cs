@@ -61,6 +61,87 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Locate at bottom of the image ähnelt.
+        /// </summary>
+        internal static string BotLoc {
+            get {
+                return ResourceManager.GetString("BotLoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set Box size ähnelt.
+        /// </summary>
+        internal static string BoxSize {
+            get {
+                return ResourceManager.GetString("BoxSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Box Size ähnelt.
+        /// </summary>
+        internal static string BoxSizeCap {
+            get {
+                return ResourceManager.GetString("BoxSizeCap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Font to be used for Watermark ähnelt.
+        /// </summary>
+        internal static string ChoseFont {
+            get {
+                return ResourceManager.GetString("ChoseFont", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Location where the Watermark should be placed ähnelt.
+        /// </summary>
+        internal static string ChoseLoc {
+            get {
+                return ResourceManager.GetString("ChoseLoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set Opacity for the Watermark ähnelt.
+        /// </summary>
+        internal static string ChosOpac {
+            get {
+                return ResourceManager.GetString("ChosOpac", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sett error correction ähnelt.
+        /// </summary>
+        internal static string ErrCor {
+            get {
+                return ResourceManager.GetString("ErrCor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Error Correction ähnelt.
+        /// </summary>
+        internal static string ErrorCorrection {
+            get {
+                return ResourceManager.GetString("ErrorCorrection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Font Type ähnelt.
+        /// </summary>
+        internal static string FontType {
+            get {
+                return ResourceManager.GetString("FontType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Image ähnelt.
         /// </summary>
         internal static string ImageCaption {
@@ -79,6 +160,42 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Modification Type ähnelt.
+        /// </summary>
+        internal static string ModificationType {
+            get {
+                return ResourceManager.GetString("ModificationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die What kind of Watermark should be added? ähnelt.
+        /// </summary>
+        internal static string ModTypeDis {
+            get {
+                return ResourceManager.GetString("ModTypeDis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Opacity ähnelt.
+        /// </summary>
+        internal static string Opacity {
+            get {
+                return ResourceManager.GetString("Opacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose a custom location ähnelt.
+        /// </summary>
+        internal static string OtherLoc {
+            get {
+                return ResourceManager.GetString("OtherLoc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Watermark Creator ähnelt.
         /// </summary>
         internal static string PluginCaption {
@@ -93,6 +210,60 @@ namespace WatermarkCreator.Properties {
         internal static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Set seed ähnelt.
+        /// </summary>
+        internal static string Seed {
+            get {
+                return ResourceManager.GetString("Seed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Seed 1 ähnelt.
+        /// </summary>
+        internal static string Seed1 {
+            get {
+                return ResourceManager.GetString("Seed1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Seed 2 ähnelt.
+        /// </summary>
+        internal static string Seed2 {
+            get {
+                return ResourceManager.GetString("Seed2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum Size of the text to be embedded ähnelt.
+        /// </summary>
+        internal static string TextSize {
+            get {
+                return ResourceManager.GetString("TextSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum Text Size ähnelt.
+        /// </summary>
+        internal static string TextSizeMax {
+            get {
+                return ResourceManager.GetString("TextSizeMax", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Locate at top of the image ähnelt.
+        /// </summary>
+        internal static string TopLoc {
+            get {
+                return ResourceManager.GetString("TopLoc", resourceCulture);
             }
         }
         
@@ -120,6 +291,15 @@ namespace WatermarkCreator.Properties {
         internal static string WatermarkCreatorSettings_ModificationType_ExtractText {
             get {
                 return ResourceManager.GetString("WatermarkCreatorSettings_ModificationType_ExtractText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Watermark Location ähnelt.
+        /// </summary>
+        internal static string WatermarkLocation {
+            get {
+                return ResourceManager.GetString("WatermarkLocation", resourceCulture);
             }
         }
     }
