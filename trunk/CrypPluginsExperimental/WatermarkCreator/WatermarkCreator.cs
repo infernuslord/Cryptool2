@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2011 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2014 CrypTool 2 Team <ct2contact@cryptool.org>
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -28,29 +28,35 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-using WatermarkCreator.Properties;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
     // HOWTO: Change author name, email address, organization and URL.
     [Author("Nils Rehwald", "nilsrehwald@gmail.com", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
-    // HOWTO: Change plugin caption (title to appear in CT2) and tooltip.
-    // You can (and should) provide a user documentation as XML file and an own icon.
     [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
-    // HOWTO: Change category to one that fits to your plugin. Multiple categories are allowed.
     [ComponentCategory(ComponentCategory.Steganography)]
     public class WatermarkCreator : ICrypComponent
     {
         #region Private Variables
 
-        // HOWTO: You need to adapt the settings class as well, see the corresponding file.
-        private readonly WatermarkCreatorSettings settings = new WatermarkCreatorSettings();
+        public WatermarkCreator()
+        {
+            this._settings = new WatermarkCreatorSettings();
+            this._settings.UpdateTaskPaneVisibility();
+            _settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
+        }
+
+        private readonly WatermarkCreatorSettings _settings;
+        
         //Default values for invisible watermarking
-        private const int BoxSize = 10;
-        private const int ErrorCorrection = 0;
-        private const double Opacity = 1.0;
-        private const long Seed1 = 19;
-        private const long Seed2 = 24;
+        private int _textSize = 0;
+        private string _font = "arial";
+        private int _location = 1;
+        private double _opacity = 1.0;
+        private int _boxSize = 10;
+        private int _errorCorrection = 0;
+        private long _s1 = 19;
+        private long _s2 = 24;
 
         enum Commands { EmbVisText, EmbInvisText, ExtInvisText };
 
@@ -71,13 +77,6 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         [PropertyInfo(Direction.InputData, "Watermark", "Watermark Text to be added to the image")]
         public string Watermark
-        {
-            get;
-            set;
-        }
-
-        [PropertyInfo(Direction.InputData, "Watermark Image", "Image to be used as Watermark")]
-        public ICryptoolStream WImage
         {
             get;
             set;
@@ -111,7 +110,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// </summary>
         public ISettings Settings
         {
-            get { return settings; }
+            get { return _settings; }
         }
 
         /// <summary>
@@ -143,9 +142,12 @@ namespace Cryptool.Plugins.WatermarkCreator
                 return;
             }
 
-            switch (settings.ModificationType)
+            switch (_settings.ModificationType)
             {
                 case (int)Commands.EmbVisText: //Visible Text
+
+                    GetVisVariables();
+
                     if (Watermark == null)
                     {
                         GuiLogMessage("Please provide a text", NotificationLevel.Error);
@@ -159,6 +161,9 @@ namespace Cryptool.Plugins.WatermarkCreator
                     break;
 
                 case (int)Commands.EmbInvisText: //Invisible Text
+
+                    GetInvisVariables();
+
                     if (Watermark == null)
                     {
                         GuiLogMessage("Please provide a text", NotificationLevel.Error);
@@ -173,6 +178,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                     break;
 
                 case (int)Commands.ExtInvisText: //Detect Invisible Text
+                    GetInvisVariables();
 
                     EmbeddedText = DetectInvisibleWatermark();
 
@@ -245,6 +251,18 @@ namespace Cryptool.Plugins.WatermarkCreator
             EventsHelper.ProgressChanged(OnPluginProgressChanged, this, new PluginProgressEventArgs(value, max));
         }
 
+        private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "ModificationType":
+                    _settings.UpdateTaskPaneVisibility();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         #endregion
 
         #region Helpers
@@ -266,12 +284,19 @@ namespace Cryptool.Plugins.WatermarkCreator
 
                     graphicPhoto.SmoothingMode = SmoothingMode.AntiAlias;
                     graphicPhoto.DrawImage(photo, new Rectangle(0, 0, width, height), 0, 0, width, height, GraphicsUnit.Pixel);
-                    int[] sizes = new int[] { 30, 28, 26, 24, 22, 20, 18, 16, 14, 12, 10, 8, 6, 4, 2 }; //possible text sizes
+                    int manySizes = (_textSize/2) + 1;
+                    int tSize = _textSize;
+                    int[] sizes = new int[manySizes];
+                    for (int i = 0; i < manySizes; i++) // Possible Text sizes
+                    {
+                        sizes[i] = tSize;
+                        tSize -= 2;
+                    }
                     Font font = null;
                     SizeF size = new SizeF();
                     for (int i = 0; i < sizes.Length; i++) //Test which is the largest possible fontsize to be used
                     {
-                        font = new Font("arial", sizes[i], FontStyle.Bold);
+                        font = new Font(_font, sizes[i], FontStyle.Bold);
                         size = graphicPhoto.MeasureString(Watermark, font);
                         if ((ushort)size.Width < (ushort)width)
                             break;
@@ -298,7 +323,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private void CreateInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(BoxSize, ErrorCorrection, Opacity, Seed1, Seed2);
+            net.watermark.Watermark water = new net.watermark.Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
@@ -311,7 +336,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private string DetectInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(BoxSize, ErrorCorrection, Opacity, Seed1, Seed2);
+            net.watermark.Watermark water = new net.watermark.Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
@@ -352,6 +377,25 @@ namespace Cryptool.Plugins.WatermarkCreator
             graphics.Dispose();
             original.Dispose();
             return image;
+        }
+
+        private void GetInvisVariables()
+        {
+            this._boxSize = _settings.BoxSize;
+            this._errorCorrection = _settings.ErrorCorrection;
+            this._opacity = _settings.Opacity;
+            this._s1 = _settings.Seed1;
+            this._s2 = _settings.Seed2;
+        }
+
+        private void GetVisVariables()
+        {
+            this._textSize = _settings.TextSizeMax < 3 ? 12 : _settings.TextSizeMax;
+            this._location = _settings.WatermarkLocation;
+            if (_settings.FontType != null)
+            {
+                this._font = _settings.FontType;
+            }          
         }
 
         #endregion

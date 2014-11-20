@@ -139,4 +139,65 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Component to write and extract a digital watermark to an image.</value>
   </data>
+  <data name="ModTypeDis" xml:space="preserve">
+    <value>What kind of Watermark should be added?</value>
+  </data>
+  <data name="BotLoc" xml:space="preserve">
+    <value>Locate at bottom of the image</value>
+  </data>
+  <data name="BoxSize" xml:space="preserve">
+    <value>Set Box size</value>
+  </data>
+  <data name="BoxSizeCap" xml:space="preserve">
+    <value>Box Size</value>
+  </data>
+  <data name="ChoseFont" xml:space="preserve">
+    <value>Font to be used for Watermark</value>
+  </data>
+  <data name="ChoseLoc" xml:space="preserve">
+    <value>Location where the Watermark should be placed</value>
+  </data>
+  <data name="ChosOpac" xml:space="preserve">
+    <value>Set Opacity for the Watermark</value>
+  </data>
+  <data name="ErrCor" xml:space="preserve">
+    <value>Sett error correction</value>
+  </data>
+  <data name="ErrorCorrection" xml:space="preserve">
+    <value>Error Correction</value>
+  </data>
+  <data name="FontType" xml:space="preserve">
+    <value>Font Type</value>
+  </data>
+  <data name="ModificationType" xml:space="preserve">
+    <value>Modification Type</value>
+  </data>
+  <data name="Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="OtherLoc" xml:space="preserve">
+    <value>Choose a custom location</value>
+  </data>
+  <data name="Seed" xml:space="preserve">
+    <value>Set seed</value>
+  </data>
+  <data name="Seed1" xml:space="preserve">
+    <value>Seed 1</value>
+  </data>
+  <data name="Seed2" xml:space="preserve">
+    <value>Seed 2</value>
+  </data>
+  <data name="TextSize" xml:space="preserve">
+    <value>Maximum Size of the text to be embedded</value>
+    <comment>Size will be adjusted dynamically to fit the watermark into the picture, you can just define the maximum size</comment>
+  </data>
+  <data name="TextSizeMax" xml:space="preserve">
+    <value>Maximum Text Size</value>
+  </data>
+  <data name="TopLoc" xml:space="preserve">
+    <value>Locate at top of the image</value>
+  </data>
+  <data name="WatermarkLocation" xml:space="preserve">
+    <value>Watermark Location</value>
+  </data>
 </root>
