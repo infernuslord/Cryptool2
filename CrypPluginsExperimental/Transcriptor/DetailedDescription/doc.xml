@@ -87,7 +87,7 @@
     <section headline="Manuell">
       Der Manuelle Modus ist für speziell formatierte Texte gedacht. Der Text wird in der Reihenfolge ausgegeben in der die Symbole markiert werden.
       Die "1. Symbol"-Taste wird deshalb hier nicht benötigt und ist daher ausgeblendet. Außerdem ist das automatische Finden gleicher Symbole in
-      diesen Modus deaktiviert. Bereits bekannte Symbole müssen bei erneutem Auftreten mit einen Doppelklick auf dem entsprechenden Symbol in die
+      diesen Modus deaktiviert. Bereits bekannte Symbole müssen bei erneutem Auftreten mit einem Doppelklick auf das entsprechende Symbol zu der
       Liste hinzugefügt werden.
     </section>
 

@@ -219,8 +219,11 @@
   <data name="ThresholdTooltip" xml:space="preserve">
     <value>Wähle die Grenze für den Semi-Automatischen Modus</value>
   </data>
+  <data name="Transcriptor" xml:space="preserve">
+    <value>Transkriptor</value>
+  </data>
   <data name="TranscriptorCaption" xml:space="preserve">
-    <value>Transcriptor</value>
+    <value>Transkriptor</value>
   </data>
   <data name="TranscriptorTooltip" xml:space="preserve">
     <value>Transkribiert ein Bild, mit Symbolen, zu einem Text</value>
