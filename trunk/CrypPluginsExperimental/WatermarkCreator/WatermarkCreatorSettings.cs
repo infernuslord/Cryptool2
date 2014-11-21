@@ -35,6 +35,8 @@ namespace Cryptool.Plugins.WatermarkCreator
         private int _errorCorrection = 0;
         private long _s1 = 19;
         private long _s2 = 24;
+        private int _locPercentage = 0;
+        private int _advanced = 0;
 
         #endregion
 
@@ -44,7 +46,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
         /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
         /// </summary>
-        [TaskPane("ModificationType", "ModTypeDis", null, 0, false, ControlType.ComboBox, new string[] { "WatermarkCreatorSettings_ModificationType_EmbedText", "WatermarkCreatorSettings_ModificationType_EmbedInvisibleText", "WatermarkCreatorSettings_ModificationType_ExtractText" })]
+        [TaskPane("ModificationTypeCap", "ModificationTypeDes", null, 0, false, ControlType.ComboBox, new string[] { "WatermarkCreatorSettings_ModificationType_EmbedText", "WatermarkCreatorSettings_ModificationType_EmbedInvisibleText", "WatermarkCreatorSettings_ModificationType_ExtractText" })]
         public int ModificationType
         {
             get
@@ -61,8 +63,8 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        
-        [TaskPane("TextSizeMax", "TextSize", null, 1, false, ControlType.TextBox)]
+
+        [TaskPane("TextSizeMaxCap", "TextSizeMaxDes", null, 1, false, ControlType.TextBox)]
         public int TextSizeMax
         {
             get
@@ -79,7 +81,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("FontType", "ChoseFont", null, 1, false, ControlType.ComboBox, new string[] { "arial", "other" })]
+        [TaskPane("FontTypeCap", "FontTypeDes", null, 1, false, ControlType.ComboBox, new string[] { "arial", "other" })]
         public string FontType
         {
             get
@@ -96,7 +98,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("WatermarkLocation", "ChoseLoc", null, 1, false, ControlType.ComboBox, new string[] { "TopLoc", "BotLoc", "OtherLoc" })]
+        [TaskPane("WatermarkLocationCap", "WatermarkLocationDes", null, 1, false, ControlType.ComboBox, new string[] { "TopLoc", "BotLoc", "OtherLoc" })]
         public int WatermarkLocation
         {
             get
@@ -113,7 +115,24 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("Opacity", "ChosOpac", null, 1, false, ControlType.TextBox)]
+        [TaskPane("LocationPercentageCap", "LocationPercentageDes", null, 2, false, ControlType.Slider, 5, 95)]
+        public int LocationPercentage
+        {
+            get
+            {
+                return _locPercentage;
+            }
+            set
+            {
+                if (_locPercentage != value)
+                {
+                    _locPercentage = value;
+                    OnPropertyChanged("LocationPercentage");
+                }
+            }
+        }
+
+        [TaskPane("OpacityCap", "OpacityDes", null, 2, false, ControlType.Slider, 0, 1000)]
         public double Opacity
         {
             get
@@ -130,7 +149,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("BoxSizeCap", "BoxSize", null, 1, false, ControlType.TextBox)]
+        [TaskPane("BoxSizeCap", "BoxSizeDes", null, 1, false, ControlType.TextBox)]
         public int BoxSize
         {
             get
@@ -147,7 +166,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("ErrorCorrection", "ErrCor", null, 1, false, ControlType.TextBox)]
+        [TaskPane("ErrorCorrectionCap", "ErrorCorrectionDes", null, 1, false, ControlType.TextBox)]
         public int ErrorCorrection
         {
             get
@@ -198,6 +217,23 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
+        [TaskPane("AdvancedModeCap", "AdvancedModeDes", null, 1, false, ControlType.ComboBox, new string[] { "No", "Yes" })]
+        public int AdvancedMode
+        {
+            get
+            {
+                return _advanced;
+            }
+            set
+            {
+                if (_advanced != value)
+                {
+                    _advanced = value;
+                    OnPropertyChanged("AdvancedMode");
+                }
+            }
+        }
+
 
         public void UpdateTaskPaneVisibility()
         {
@@ -210,6 +246,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             SettingChanged("ErrorCorrection", Visibility.Collapsed);
             SettingChanged("Seed1", Visibility.Collapsed);
             SettingChanged("Seed2", Visibility.Collapsed);
+            SettingChanged("LocationPercentage", Visibility.Collapsed);
 
             switch (ModificationType)
             {
@@ -219,11 +256,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                     SettingChanged("WatermarkLocation", Visibility.Visible);
                     break;
                 case 1: //Invisible Watermark (embedding)
-                    SettingChanged("Opacity", Visibility.Visible);
-                    SettingChanged("BoxSize", Visibility.Visible);
-                    SettingChanged("ErrorCorrection", Visibility.Visible);
-                    SettingChanged("Seed1", Visibility.Visible);
-                    SettingChanged("Seed2", Visibility.Visible);
+                    SettingChanged("AdvancedMode", Visibility.Visible);
                     break;
                 case 2: //Invisible Watermark (extracting)
                     SettingChanged("Opacity", Visibility.Visible);
@@ -235,6 +268,39 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
+        public void UpdateSlider()
+        {
+            switch (WatermarkLocation)
+            {
+                case 2:
+                    SettingChanged("LocationPercentage", Visibility.Visible);
+                    break;
+                default:
+                    SettingChanged("LocationPercentage", Visibility.Collapsed);
+                    break;
+            }
+        }
+
+        public void UpdateAdvanced()
+        {
+            switch (AdvancedMode)
+            {
+                case 1:
+                    SettingChanged("Opacity", Visibility.Visible);
+                    SettingChanged("BoxSize", Visibility.Visible);
+                    SettingChanged("ErrorCorrection", Visibility.Visible);
+                    SettingChanged("Seed1", Visibility.Visible);
+                    SettingChanged("Seed2", Visibility.Visible);
+                    break;
+                case 0:
+                    SettingChanged("Opacity", Visibility.Collapsed);
+                    SettingChanged("BoxSize", Visibility.Collapsed);
+                    SettingChanged("ErrorCorrection", Visibility.Collapsed);
+                    SettingChanged("Seed1", Visibility.Collapsed);
+                    SettingChanged("Seed2", Visibility.Collapsed);
+                    break;
+            }
+        }
         private void SettingChanged(string setting, Visibility vis)
         {
             if (TaskPaneAttributeChanged != null)

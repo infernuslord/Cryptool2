@@ -139,47 +139,44 @@
   <data name="PluginTooltip" xml:space="preserve">
     <value>Component to write and extract a digital watermark to an image.</value>
   </data>
-  <data name="ModTypeDis" xml:space="preserve">
-    <value>What kind of Watermark should be added?</value>
+  <data name="ModificationTypeDes" xml:space="preserve">
+    <value>Choose what kind of modification should be done to the input image</value>
   </data>
   <data name="BotLoc" xml:space="preserve">
-    <value>Locate at bottom of the image</value>
+    <value>Locate watermark at the bottom of the image</value>
   </data>
-  <data name="BoxSize" xml:space="preserve">
-    <value>Set Box size</value>
+  <data name="BoxSizeDes" xml:space="preserve">
+    <value>The bigger the box, the higher the error correction, the more solid the watermark, but less data can be stored</value>
   </data>
   <data name="BoxSizeCap" xml:space="preserve">
-    <value>Box Size</value>
+    <value>Box size</value>
   </data>
-  <data name="ChoseFont" xml:space="preserve">
-    <value>Font to be used for Watermark</value>
+  <data name="WatermarkLocationDes" xml:space="preserve">
+    <value>Chose the location where the watermark will be placed on the image</value>
   </data>
-  <data name="ChoseLoc" xml:space="preserve">
-    <value>Location where the Watermark should be placed</value>
+  <data name="OpacityDes" xml:space="preserve">
+    <value>Opacity of the watermark. A higher value means more opacity</value>
   </data>
-  <data name="ChosOpac" xml:space="preserve">
-    <value>Set Opacity for the Watermark</value>
+  <data name="ErrorCorrectionDes" xml:space="preserve">
+    <value>Set number of bytes used for error correction</value>
   </data>
-  <data name="ErrCor" xml:space="preserve">
-    <value>Sett error correction</value>
+  <data name="ErrorCorrectionCap" xml:space="preserve">
+    <value>Error correction</value>
   </data>
-  <data name="ErrorCorrection" xml:space="preserve">
-    <value>Error Correction</value>
+  <data name="FontTypeCap" xml:space="preserve">
+    <value>Font type</value>
   </data>
-  <data name="FontType" xml:space="preserve">
-    <value>Font Type</value>
+  <data name="ModificationTypeCap" xml:space="preserve">
+    <value>Modification type</value>
   </data>
-  <data name="ModificationType" xml:space="preserve">
-    <value>Modification Type</value>
-  </data>
-  <data name="Opacity" xml:space="preserve">
-    <value>Opacity</value>
+  <data name="OpacityCap" xml:space="preserve">
+    <value>Opacity of the watermark</value>
   </data>
   <data name="OtherLoc" xml:space="preserve">
     <value>Choose a custom location</value>
   </data>
   <data name="Seed" xml:space="preserve">
-    <value>Set seed</value>
+    <value>Set some random number that will be used as seed</value>
   </data>
   <data name="Seed1" xml:space="preserve">
     <value>Seed 1</value>
@@ -187,17 +184,56 @@
   <data name="Seed2" xml:space="preserve">
     <value>Seed 2</value>
   </data>
-  <data name="TextSize" xml:space="preserve">
-    <value>Maximum Size of the text to be embedded</value>
+  <data name="TextSizeMaxDes" xml:space="preserve">
+    <value>Maximum size of the text to be used when embedding the watermark. Internally, the maximum possible size that fits the whole text onto the image in one line will be chosen</value>
     <comment>Size will be adjusted dynamically to fit the watermark into the picture, you can just define the maximum size</comment>
   </data>
-  <data name="TextSizeMax" xml:space="preserve">
-    <value>Maximum Text Size</value>
+  <data name="TextSizeMaxCap" xml:space="preserve">
+    <value>Maximum text size</value>
   </data>
   <data name="TopLoc" xml:space="preserve">
     <value>Locate at top of the image</value>
   </data>
-  <data name="WatermarkLocation" xml:space="preserve">
-    <value>Watermark Location</value>
+  <data name="WatermarkLocationCap" xml:space="preserve">
+    <value>Location of the watermark</value>
+  </data>
+  <data name="AdvancedModeCap" xml:space="preserve">
+    <value>Use advanced mode</value>
+  </data>
+  <data name="AdvancedModeDes" xml:space="preserve">
+    <value>Do you want to use advanced mode which offers more settings to be set by the user?</value>
+  </data>
+  <data name="FontTypeDes" xml:space="preserve">
+    <value>Font type that is used for the watermark</value>
+  </data>
+  <data name="LocationPercentageCap" xml:space="preserve">
+    <value>Custom location of the watermark</value>
+  </data>
+  <data name="LocationPercentageDes" xml:space="preserve">
+    <value>Lets you manually set the location of the watermark. The further to the right you put the slider, the further up to the top the watermark will move</value>
+  </data>
+  <data name="NoPictureError" xml:space="preserve">
+    <value>Please provide a valid image as a carrier for the watermark, using the file input component</value>
+  </data>
+  <data name="NoTextError" xml:space="preserve">
+    <value>Please provide a string to be added to the image as a watermark, using the text input component</value>
+  </data>
+  <data name="TextCaption" xml:space="preserve">
+    <value>Embedded Text</value>
+  </data>
+  <data name="TextTooltip" xml:space="preserve">
+    <value>Extracted text that was embedded in the image</value>
+  </data>
+  <data name="WatermarkCaption" xml:space="preserve">
+    <value>Watermark</value>
+  </data>
+  <data name="WatermarkImageCaption" xml:space="preserve">
+    <value>Image with Watermark</value>
+  </data>
+  <data name="WatermarkImageTooltip" xml:space="preserve">
+    <value>Image with text added to it as a watermark</value>
+  </data>
+  <data name="WatermarkTooltip" xml:space="preserve">
+    <value>Text to be added to the image as a watermark</value>
   </data>
 </root>
