@@ -28,10 +28,11 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
-    // HOWTO: Change author name, email address, organization and URL.
+
     [Author("Nils Rehwald", "nilsrehwald@gmail.com", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
     [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", new[] { "CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.Steganography)]
@@ -57,8 +58,10 @@ namespace Cryptool.Plugins.WatermarkCreator
         private int _errorCorrection = 0;
         private long _s1 = 19;
         private long _s2 = 24;
+        private double _locationPercentage = 0.05;
 
         enum Commands { EmbVisText, EmbInvisText, ExtInvisText };
+        enum Location { Top, Bottom, Other };
 
         #endregion
 
@@ -66,7 +69,6 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         /// <summary>
         /// HOWTO: Input interface to read the input data. 
-        /// You can add more input properties of other type if needed.
         /// </summary>
         [PropertyInfo(Direction.InputData, "ImageCaption", "ImageTooltip")]
         public ICryptoolStream InputPicture 
@@ -75,7 +77,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             set;
         }
 
-        [PropertyInfo(Direction.InputData, "Watermark", "Watermark Text to be added to the image")]
+        [PropertyInfo(Direction.InputData, "WatermarkCaption", "WatermarkTooltip")]
         public string Watermark
         {
             get;
@@ -87,14 +89,14 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// You can add more output properties ot other type if needed.
         /// </summary>
 
-        [PropertyInfo(Direction.OutputData, "WatermarkImage", "Image with watermark text added")]
+        [PropertyInfo(Direction.OutputData, "WatermarkImageCaption", "WatermarkImageTooltip")]
         public ICryptoolStream OutputPicture
         {
             get;
             set;
         }
 
-        [PropertyInfo(Direction.OutputData, "EmbeddedText", "Text that was embedded in the Picture")]
+        [PropertyInfo(Direction.OutputData, "TextCaption", "TextTooltip")]
         public string EmbeddedText
         {
             get;
@@ -138,7 +140,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
             if (InputPicture == null)
             {
-                GuiLogMessage("Please provide a picture", NotificationLevel.Error);
+                GuiLogMessage("NoPictureError", NotificationLevel.Error);
                 return;
             }
 
@@ -150,7 +152,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
                     if (Watermark == null)
                     {
-                        GuiLogMessage("Please provide a text", NotificationLevel.Error);
+                        GuiLogMessage("NoTextError", NotificationLevel.Error);
                         return;
                     }
 
@@ -166,7 +168,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
                     if (Watermark == null)
                     {
-                        GuiLogMessage("Please provide a text", NotificationLevel.Error);
+                        GuiLogMessage("NoTextError", NotificationLevel.Error);
                         return;
                     }
 
@@ -208,6 +210,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// </summary>
         public void Stop()
         {
+            //TODO
         }
 
         /// <summary>
@@ -258,7 +261,11 @@ namespace Cryptool.Plugins.WatermarkCreator
                 case "ModificationType":
                     _settings.UpdateTaskPaneVisibility();
                     break;
-                default:
+                case "WatermarkLocation":
+                    _settings.UpdateSlider();
+                    break;
+                case "AdvancedMode":
+                    _settings.UpdateAdvanced();
                     break;
             }
         }
@@ -283,37 +290,38 @@ namespace Cryptool.Plugins.WatermarkCreator
                     Graphics graphicPhoto = Graphics.FromImage(bitmapmPhoto);
 
                     graphicPhoto.SmoothingMode = SmoothingMode.AntiAlias;
-                    graphicPhoto.DrawImage(photo, new Rectangle(0, 0, width, height), 0, 0, width, height, GraphicsUnit.Pixel);
-                    int manySizes = (_textSize/2) + 1;
-                    int tSize = _textSize;
-                    int[] sizes = new int[manySizes];
-                    for (int i = 0; i < manySizes; i++) // Possible Text sizes
-                    {
-                        sizes[i] = tSize;
-                        tSize -= 2;
-                    }
+                    graphicPhoto.DrawImage(photo, new Rectangle(0, 0, width, height), 0, 0, width, height, GraphicsUnit.Pixel);                
                     Font font = null;
                     SizeF size = new SizeF();
-                    for (int i = 0; i < sizes.Length; i++) //Test which is the largest possible fontsize to be used
+
+                    for (int i = _textSize; i > 3; i--) //Test which is the largest possible fontsize to be used
                     {
-                        font = new Font(_font, sizes[i], FontStyle.Bold);
+                        font = new Font(_font, i, FontStyle.Bold);
                         size = graphicPhoto.MeasureString(Watermark, font);
                         if ((ushort)size.Width < (ushort)width)
                             break;
                     }
-                    int yPixlesFromBottom = (int)(height * .05);
+
+                    int yPixlesFromBottom = 0;
+                    switch (_location)
+                    {
+                        case (int)Location.Bottom:
+                            yPixlesFromBottom = (int) (height*.05);
+                            break;
+                        case (int)Location.Top:
+                            yPixlesFromBottom = (int) (height*.95);
+                            break;
+                        case (int)Location.Other:
+                            yPixlesFromBottom = (int) (height*_locationPercentage);
+                            break;
+                    }
                     float yPosFromBottom = ((height - yPixlesFromBottom) - (size.Height / 2));
                     float xCenterOfImg = ((float)width / 2f);
-
                     StringFormat strFormat = new StringFormat();
                     strFormat.Alignment = StringAlignment.Center;
-
                     SolidBrush semiTransBrush2 = new SolidBrush(Color.FromArgb(153, 0, 0, 0));
-
                     graphicPhoto.DrawString(Watermark, font, semiTransBrush2, new PointF(xCenterOfImg + 1, yPosFromBottom + 1), strFormat);
-
                     SolidBrush semiTransBrush = new SolidBrush(Color.FromArgb(153, 255, 255, 255));
-
                     graphicPhoto.DrawString(Watermark, font, semiTransBrush, new PointF(xCenterOfImg, yPosFromBottom), strFormat);
 
                     CreateOutputStream(bitmapmPhoto);
@@ -392,10 +400,24 @@ namespace Cryptool.Plugins.WatermarkCreator
         {
             this._textSize = _settings.TextSizeMax < 3 ? 12 : _settings.TextSizeMax;
             this._location = _settings.WatermarkLocation;
+            this._locationPercentage = (double)_settings.LocationPercentage/100;
             if (_settings.FontType != null)
             {
                 this._font = _settings.FontType;
             }          
+        }
+
+        private string[] GetFonts()
+        {
+            InstalledFontCollection installedFontCollection = new InstalledFontCollection();
+            FontFamily[] fontFamilies = installedFontCollection.Families;
+            int count = fontFamilies.Length;
+            string[] fonts = new string[count];
+            for (int j = 0; j < count; ++j)
+            {
+                fonts[j] = fontFamilies[j].Name;
+            }
+            return fonts;
         }
 
         #endregion
