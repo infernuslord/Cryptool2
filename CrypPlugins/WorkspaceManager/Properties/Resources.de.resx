@@ -244,7 +244,7 @@
     <value>Einstellungen</value>
   </data>
   <data name="Show_IControlsTooltip" xml:space="preserve">
-    <value>Zeige Eingebettete Kompononten</value>
+    <value>Zeige eingebettete Komponenten</value>
   </data>
   <data name="SleepTime_Label" xml:space="preserve">
     <value>Wartezeit:</value>
