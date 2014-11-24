@@ -1018,22 +1018,24 @@ namespace KeySearcher
                 DateTime lastTime = DateTime.Now;
 
                 //update message:
+                BigInteger totalDoneKeys = 0;
+
                 while (!stop)
                 {
-                    Thread.Sleep(2000);
+                    Thread.Sleep(1000);
 
                     updateToplist();
 
                     #region calculate global counters from local counters
+
                     BigInteger keycounter = 0;
                     BigInteger doneKeys = 0;
                     BigInteger openCLdoneKeys = 0;
-                    foreach (BigInteger dk in doneKeysA)
-                        doneKeys += dk;
-                    foreach (BigInteger dk in openCLDoneKeysA)
-                        openCLdoneKeys += dk;
-                    foreach (BigInteger kc in keycounters)
-                        keycounter += kc;
+
+                    foreach (BigInteger dk in doneKeysA) doneKeys += dk;
+                    foreach (BigInteger dk in openCLDoneKeysA) openCLdoneKeys += dk;
+                    foreach (BigInteger kc in keycounters) keycounter += kc;
+
                     #endregion
 
                     if (keycounter > keysInThisChunk)
@@ -1064,7 +1066,9 @@ namespace KeySearcher
 
                     long keysPerSecond = (long)((long)doneKeys / (DateTime.Now - lastTime).TotalSeconds);
                     long openCLKeysPerSecond = (long)((long)openCLdoneKeys / (DateTime.Now - lastTime).TotalSeconds);
+                    totalDoneKeys += doneKeys;
                     lastTime = DateTime.Now;
+
                     if (redirectResultsToStatisticsGenerator)
                     {
                         distributedBruteForceManager.StatisticsGenerator.ShowProgress(costList, keysInThisChunk, keycounter, keysPerSecond);
@@ -1085,19 +1089,21 @@ namespace KeySearcher
 
 
                     #region set doneKeys to 0
+
                     doneKeys = 0;
-                    for (int i = 0; i < doneKeysA.Length; i++)
-                        doneKeysA[i] = 0;
                     openCLdoneKeys = 0;
-                    for (int i = 0; i < openCLDoneKeysA.Length; i++)
-                        openCLDoneKeysA[i] = 0;
+
+                    for (int i = 0; i < doneKeysA.Length; i++) doneKeysA[i] = 0;
+                    for (int i = 0; i < openCLDoneKeysA.Length; i++) openCLDoneKeysA[i] = 0;
+
                     #endregion
 
                     if (keycounter >= keysInThisChunk)
                         break;
                 }//end while
 
-                showProgress(costList, 1, 1, 1);
+                long totalKeysPerSecond = (long)((long)totalDoneKeys / localBruteForceStopwatch.Elapsed.TotalSeconds);
+                showProgress(costList, 1, 1, totalKeysPerSecond);
 
                 //wake up all sleeping threads, so they can stop:
                 while (threadStack.Count != 0)
@@ -1274,116 +1280,92 @@ namespace KeySearcher
 
         private void SetStartDate()
         {
-            localQuickWatchPresentation.startTime.Content = DateTime.Now.ToString("g", Thread.CurrentThread.CurrentCulture); ;
+            localQuickWatchPresentation.startTime.Content = DateTime.Now.ToString("g", Thread.CurrentThread.CurrentCulture);
         }
 
         internal void showProgress(LinkedList<ValueKey> costList, BigInteger size, BigInteger keycounter, long keysPerSecond)
         {
-            LinkedListNode<ValueKey> linkedListNode;
             ProgressChanged((double)keycounter / (double)size, 1.0);
 
-            if (localQuickWatchPresentation.IsVisible && keysPerSecond != 0 && !stop)
+            if (!localQuickWatchPresentation.IsVisible || stop) return;
+                
+            if (keysPerSecond == 0)
             {
-                double time = (Math.Pow(10, BigInteger.Log((size - keycounter), 10) - Math.Log10(keysPerSecond)));
-                TimeSpan timeleft = new TimeSpan(-1);                
-
-                try
-                {
-                    if (time / (24 * 60 * 60) <= int.MaxValue)
-                    {
-                        int days = (int)(time / (24 * 60 * 60));
-                        time = time - (days * 24 * 60 * 60);
-                        int hours = (int)(time / (60 * 60));
-                        time = time - (hours * 60 * 60);
-                        int minutes = (int)(time / 60);
-                        time = time - (minutes * 60);
-                        int seconds = (int)time;
-
-                        timeleft = new TimeSpan(days, hours, minutes, (int)seconds, 0);
-                    }
-                }
-                catch
-                {
-                    //can not calculate time span
-                }
-
-                double testetBits = 0;
-                try
-                {
-                    testetBits = Math.Ceiling(BigInteger.Log10(pattern.size())/Math.Log10(2));
-                }
-                catch (Exception)
-                {
-                    //can not calculate testedBits
-                }
-
                 localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
                 {
-                    localQuickWatchPresentation.testedBits.Content = String.Format("{0}", testetBits);
-                    localQuickWatchPresentation.elapsedTime.Content = TimeSpanString(localBruteForceStopwatch.Elapsed);
-                    localQuickWatchPresentation.keysPerSecond.Content = String.Format("{0:0,0}", keysPerSecond);
-                    if (timeleft != new TimeSpan(-1))
+                    printEntries(costList);
+                }
+                , null);
+                return;
+            }
+
+            TimeSpan timeleft = new TimeSpan();
+
+            try
+            {
+                long ticksPerSecond = 10000000;
+                double secstodo = (double)((size - keycounter) / keysPerSecond);
+                timeleft = new TimeSpan((long)(secstodo * ticksPerSecond));
+            }
+            catch
+            {
+                timeleft = new TimeSpan(-1);
+            }
+
+            double testetBits = 0;
+            try
+            {
+                testetBits = Math.Ceiling(BigInteger.Log10(pattern.size()) / Math.Log10(2));
+            }
+            catch (Exception)
+            {
+                //can not calculate testedBits
+            }
+
+            localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+            {
+                localQuickWatchPresentation.testedBits.Content = String.Format("{0}", testetBits);
+                localQuickWatchPresentation.elapsedTime.Content = TimeSpanString(localBruteForceStopwatch.Elapsed);
+                localQuickWatchPresentation.keysPerSecond.Content = String.Format("{0:0,0}", keysPerSecond);
+
+                if (timeleft != new TimeSpan(-1))
+                {
+                    localQuickWatchPresentation.timeLeft.Content = TimeSpanString(timeleft);
+                    try
                     {
-                        localQuickWatchPresentation.timeLeft.Content = TimeSpanString(timeleft);
-                        try
-                        {
-                            localQuickWatchPresentation.endTime.Content = DateTime.Now.Add(timeleft).ToString(@"dd\.MM\.yyyy hh\:mm\:ss");
-                        }
-                        catch
-                        {
-                            localQuickWatchPresentation.endTime.Content = Resources.in_a_galaxy_far__far_away___;
-                        }
+                        localQuickWatchPresentation.endTime.Content = "" + DateTime.Now.Add(timeleft).ToString("g", Thread.CurrentThread.CurrentCulture);
                     }
-                    else
+                    catch
                     {
-                        localQuickWatchPresentation.timeLeft.Content = Resources.incalculable____;
                         localQuickWatchPresentation.endTime.Content = Resources.in_a_galaxy_far__far_away___;
                     }
-
-                    localQuickWatchPresentation.entries.Clear();
-                    linkedListNode = costList.First;
-
-                    int i = 0;
-                    while (linkedListNode != null)
-                    {
-                        i++;
-
-                        ResultEntry entry = new ResultEntry();
-                        entry.Ranking = "" + i;
-                        entry.Value = "" + Math.Round(linkedListNode.Value.value, 3);
-                        entry.Key = linkedListNode.Value.key;
-                        entry.Text = Encoding.GetEncoding(1252).GetString(linkedListNode.Value.decryption);
-
-                        localQuickWatchPresentation.entries.Add(entry);
-                        linkedListNode = linkedListNode.Next;
-                    }
                 }
-                , null);
-            }//end if
-            else if (!stop && localQuickWatchPresentation.IsVisible)
-            {
-
-                localQuickWatchPresentation.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (SendOrPostCallback)delegate
+                else
                 {
-                    localQuickWatchPresentation.entries.Clear();
-                    linkedListNode = costList.First;
-                    int i = 0;
-
-                    while (linkedListNode != null)
-                    {
-                        i++;
-
-                        ResultEntry entry = new ResultEntry();
-                        entry.Ranking = "" + i;
-                        entry.Value = "" + Math.Round(linkedListNode.Value.value, 3);
-                        entry.Key = linkedListNode.Value.key;
-                        entry.Text = Encoding.GetEncoding(1252).GetString(linkedListNode.Value.decryption);
-
-                        localQuickWatchPresentation.entries.Add(entry);
-                        linkedListNode = linkedListNode.Next;
-                    }
+                    localQuickWatchPresentation.timeLeft.Content = Resources.incalculable____;
+                    localQuickWatchPresentation.endTime.Content = Resources.in_a_galaxy_far__far_away___;
                 }
-                , null);
+
+                printEntries(costList);
+            }
+            , null);
+        }
+
+        private void printEntries(LinkedList<ValueKey> costList)
+        {
+            localQuickWatchPresentation.entries.Clear();
+
+            int i = 1;
+
+            for (LinkedListNode<ValueKey> node = costList.First; node != null; node = node.Next)
+            {
+                ResultEntry entry = new ResultEntry();
+                entry.Ranking = "" + i++;
+                entry.Value = "" + Math.Round(node.Value.value, 3);
+                entry.Key = node.Value.key;
+                entry.Text = Encoding.GetEncoding(1252).GetString(node.Value.decryption);
+
+                localQuickWatchPresentation.entries.Add(entry);
             }
         }
 
