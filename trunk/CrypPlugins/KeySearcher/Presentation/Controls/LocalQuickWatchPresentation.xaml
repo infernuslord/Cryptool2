@@ -91,14 +91,14 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{x:Static properties:Resources.Text}" DisplayMemberBinding="{Binding Path=Text}">
+                                    <GridViewColumn Header="{x:Static properties:Resources.Key}" DisplayMemberBinding="{Binding Path=Key}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label/>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{x:Static properties:Resources.Key}" DisplayMemberBinding="{Binding Path=Key}">
+                                    <GridViewColumn Header="{x:Static properties:Resources.Text}" DisplayMemberBinding="{Binding Path=Text}">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Label/>
