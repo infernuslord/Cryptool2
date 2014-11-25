@@ -166,7 +166,8 @@ namespace net.watermark
 
 			// create watermark image...
 			int[][] watermarkBitmap = RectangularArrays.ReturnRectangularIntArray(128, 128);
-			for (int y = 0; y < 128 / this.bitBoxSize * this.bitBoxSize; y++)
+			for (int y = 0; y < 128 / this.bitBoxSize * this.bitBoxSize; y++) 
+            //Yes, for some reason a/b*b != a...don't ask me why, it's also not equal to a/b^2, but seems it needs to  be this way
 			{
 				for (int x = 0; x < 128 / this.bitBoxSize * this.bitBoxSize; x++)
 				{
@@ -829,14 +830,14 @@ namespace net.watermark
 
         public static System.Drawing.Color HSBtoRGB(double hue, double saturation, double value)
         {
-            int hi = Convert.ToInt32(Math.Floor(hue / 60)) % 6;
+            int hi = (int)(Math.Floor(hue / 60)) % 6;
             double f = hue / 60 - Math.Floor(hue / 60);
 
             value = value * 255;
-            int v = Convert.ToInt32(value);
-            int p = Convert.ToInt32(value * (1 - saturation));
-            int q = Convert.ToInt32(value * (1 - f * saturation));
-            int t = Convert.ToInt32(value * (1 - (1 - f) * saturation));
+            int v = (int)(value);
+            int p = (int)(value * (1 - saturation));
+            int q = (int)(value * (1 - f * saturation));
+            int t = (int)(value * (1 - (1 - f) * saturation));
 
             if (hi == 0)
                 return System.Drawing.Color.FromArgb(255, v, t, p);

@@ -20,6 +20,8 @@
    Thanks to Nils Kopal for Support and Bugfixing 
 */
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
@@ -59,6 +61,15 @@ namespace Cryptool.Plugins.WatermarkCreator
         private long _s1 = 19;
         private long _s2 = 24;
         private double _locationPercentage = 0.05;
+
+        private string[] fontsChosen = new string[]
+        {
+            "Aharoni",
+            "Andalus", "Arabic Typesetting", "Arial", "Arial Black", "Calibri", "Buxton Sketch",
+            "Cambria Math", "Comic Sans MS", "DFKai-SB", "Franklin Gothic Medium", "Lucida Console",
+            "Simplified Arabic", "SketchFlow Print", "Symbol", "Times New Roman", "Traditional Arabic",
+            "Webdings", "Wingdings"
+        };
 
         enum Commands { EmbVisText, EmbInvisText, ExtInvisText };
         enum Location { Top, Bottom, Other };
@@ -143,7 +154,8 @@ namespace Cryptool.Plugins.WatermarkCreator
                 GuiLogMessage("NoPictureError", NotificationLevel.Error);
                 return;
             }
-
+            Stopwatch s = new Stopwatch();
+            s.Start();
             switch (_settings.ModificationType)
             {
                 case (int)Commands.EmbVisText: //Visible Text
@@ -193,6 +205,8 @@ namespace Cryptool.Plugins.WatermarkCreator
                     GuiLogMessage("This error should actually never happen. WTF?", NotificationLevel.Error);
                     break;
             }
+            s.Stop();
+            GuiLogMessage("Time elapsed: "+s.ElapsedMilliseconds, NotificationLevel.Debug);
         }
 
 
@@ -392,6 +406,22 @@ namespace Cryptool.Plugins.WatermarkCreator
             this._boxSize = _settings.BoxSize;
             this._errorCorrection = _settings.ErrorCorrection;
             this._opacity = _settings.Opacity;
+            if (this._opacity > 1000.0)
+            {
+                this._opacity = 1000;
+            }
+            if (this._opacity <= 0.0)
+            {
+                this._opacity = 0.0;
+            }
+            else
+            {
+                this._opacity = this._opacity/ (double) 1000;
+            }
+            if (this._opacity > 1) //Just in case
+            {
+                this._opacity = 1.0;
+            }
             this._s1 = _settings.Seed1;
             this._s2 = _settings.Seed2;
         }
@@ -403,7 +433,13 @@ namespace Cryptool.Plugins.WatermarkCreator
             this._locationPercentage = (double)_settings.LocationPercentage/100;
             if (_settings.FontType != null)
             {
-                this._font = _settings.FontType;
+                string[] fonts = GetFonts();
+                this._font = fontsChosen[_settings.FontType];
+                if (!fonts.Contains(this._font))
+                {
+                    GuiLogMessage(_font+" was not found on this Computer. Using Arial instead", NotificationLevel.Warning);
+                    this._font = "Arial";
+                }
             }          
         }
 
