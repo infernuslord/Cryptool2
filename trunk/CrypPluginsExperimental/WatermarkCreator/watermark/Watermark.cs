@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Drawing;
 using System.Text;
-
- /* Original Project can be found at https://code.google.com/p/dct-watermark/
+/* Original Project can be found at https://code.google.com/p/dct-watermark/
  * Ported to C# to be used within CrypTool 2 by Nils Rehwald
  * Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
  * Thanks to Nils Kopal for Support and Bugfixing 
@@ -13,14 +13,16 @@ using System.Text;
  * either express or implied. See the License for the specific language governing permissions and limitations under the
  * License.
  */
+using com.google.zxing.common.reedsolomon;
+using net.util;
 
 namespace net.watermark
 {
 
 
-	using Bits = net.util.Bits;
+	using Bits = Bits;
 
-	using ReedSolomonException = com.google.zxing.common.reedsolomon.ReedSolomonException;
+	using ReedSolomonException = ReedSolomonException;
 
 	/// <summary>
 	/// Implementation of a watermarking also. See https://code.google.com/p/dct-watermark/
@@ -30,7 +32,7 @@ namespace net.watermark
 	/// </summary>
 	public class Watermark
 	{
-
+	    private bool _stopped = false;
 		/// <summary>
 		/// Valid characters and their order in our 6-bit charset. </summary>
 		public static readonly string VALID_CHARS = " abcdefghijklmnopqrstuvwxyz0123456789.-,:/()?!\"'#*+_%$&=<>[];@§\n";
@@ -40,20 +42,7 @@ namespace net.watermark
 		/// <tt>lena2.jpg</tt>, reads it again, and extracts the watermark.
 		/// </summary>
 
-		public static void writeRaw(string filename, int[][] data)
-		{
-            System.IO.FileStream fos = new System.IO.FileStream(filename,System.IO.FileMode.OpenOrCreate);
-            System.IO.BufferedStream os = new System.IO.BufferedStream(fos, 1024);
-            System.IO.Stream dos = new System.IO.MemoryStream();
-			foreach (int[] element in data)
-			{
-				foreach (int element2 in element)
-				{
-                    dos.WriteByte((byte)element2); //TODO: Ob das so gut ist...
-				}
-			}
-			dos.Close();
-		}
+
 
 		/// <summary>
 		/// The width and height of our quantization box in pixels (n-times n pixel per bit). </summary>
@@ -61,7 +50,7 @@ namespace net.watermark
 
 		/// <summary>
 		/// Number of bytes used for Reed-Solomon error correction. No error correction if zero. </summary>
-		internal int byteLenErrorCorrection = 6;
+		internal int byteLenErrorCorrection = 0;
 
 		/// <summary>
 		/// Number of bits that could be stored, total, including error correction bits. </summary>
@@ -87,10 +76,6 @@ namespace net.watermark
 		/// Seed for randomization of the embedding. </summary>
 		private long randomizeEmbeddingSeed = 24;
 
-		/// <summary>
-		/// Enable some debugging output. </summary>
-		public static bool debug = false;
-
 		public Watermark()
 		{
 			calculateSizes();
@@ -98,26 +83,26 @@ namespace net.watermark
 
 		public Watermark(int boxSize, int errorCorrectionBytes, double opacity)
 		{
-			this.bitBoxSize = boxSize;
-			this.byteLenErrorCorrection = errorCorrectionBytes;
+			bitBoxSize = boxSize;
+			byteLenErrorCorrection = errorCorrectionBytes;
 			this.opacity = opacity;
 			calculateSizes();
 		}
 
 		public Watermark(int boxSize, int errorCorrectionBytes, double opacity, long seed1, long seed2)
 		{
-			this.bitBoxSize = boxSize;
-			this.byteLenErrorCorrection = errorCorrectionBytes;
+			bitBoxSize = boxSize;
+			byteLenErrorCorrection = errorCorrectionBytes;
 			this.opacity = opacity;
-			this.randomizeEmbeddingSeed = seed1;
-			this.randomizeWatermarkSeed = seed2;
+			randomizeEmbeddingSeed = seed1;
+			randomizeWatermarkSeed = seed2;
 			calculateSizes();
 		}
 
 		public Watermark(long seed1, long seed2)
 		{
-			this.randomizeEmbeddingSeed = seed1;
-			this.randomizeWatermarkSeed = seed2;
+			randomizeEmbeddingSeed = seed1;
+			randomizeWatermarkSeed = seed2;
 			calculateSizes();
 		}
 
@@ -125,7 +110,7 @@ namespace net.watermark
 		{
 			StringBuilder buf = new StringBuilder();
 			{
-				for (int i = 0; i < this.maxTextLen; i++)
+				for (int i = 0; i < maxTextLen; i++)
 				{
 					int c = (int) bits.getValue(i * 6, 6);
 					buf.Append(VALID_CHARS[c]);
@@ -136,58 +121,49 @@ namespace net.watermark
 
 		private void calculateSizes()
 		{
-			this.maxBitsTotal = 128 / this.bitBoxSize * (128 / this.bitBoxSize);
-			this.maxBitsData = this.maxBitsTotal - this.byteLenErrorCorrection * 8;
-			this.maxTextLen = this.maxBitsData / 6;
+			maxBitsTotal = 128 / bitBoxSize * (128 / bitBoxSize);
+			maxBitsData = maxBitsTotal - byteLenErrorCorrection * 8;
+			maxTextLen = maxBitsData / 6;
 		}
 
-		public virtual void embed(System.Drawing.Bitmap image, Bits data)
+		public virtual void embed(Bitmap image, Bits data)
 		{
 			Bits bits;
 			// make the size fit...
-			if (data.size() > this.maxBitsData)
+			if (data.size() > maxBitsData)
 			{
-				bits = new Bits(data.getBits(0, this.maxBitsData));
+				bits = new Bits(data.getBits(0, maxBitsData));
 			}
 			else
 			{
 				bits = new Bits(data);
-				while (bits.size() < this.maxBitsData)
+				while (bits.size() < maxBitsData)
 				{
 					bits.addBit(false);
 				}
 			}
 
 			// add error correction...
-			if (this.byteLenErrorCorrection > 0)
+			if (byteLenErrorCorrection > 0)
 			{
-				bits = Bits.bitsReedSolomonEncode(bits, this.byteLenErrorCorrection);
+				bits = Bits.bitsReedSolomonEncode(bits, byteLenErrorCorrection);
 			}
 
 			// create watermark image...
 			int[][] watermarkBitmap = RectangularArrays.ReturnRectangularIntArray(128, 128);
-			for (int y = 0; y < 128 / this.bitBoxSize * this.bitBoxSize; y++) 
+			for (int y = 0; y < 128 / bitBoxSize * bitBoxSize; y++) 
             //Yes, for some reason a/b*b != a...don't ask me why, it's also not equal to a/b^2, but seems it needs to  be this way
 			{
-				for (int x = 0; x < 128 / this.bitBoxSize * this.bitBoxSize; x++)
+				for (int x = 0; x < 128 / bitBoxSize * bitBoxSize; x++)
 				{
-					if (bits.size() > x / this.bitBoxSize + y / this.bitBoxSize * (128 / this.bitBoxSize))
+					if (bits.size() > x / bitBoxSize + y / bitBoxSize * (128 / bitBoxSize))
 					{
-						watermarkBitmap[y][x] = bits.getBit(x / this.bitBoxSize + y / this.bitBoxSize * (128 / this.bitBoxSize)) ? 255 : 0;
+                        if (_stopped)
+                        {
+                            return;
+                        }
+						watermarkBitmap[y][x] = bits.getBit(x / bitBoxSize + y / bitBoxSize * (128 / bitBoxSize)) ? 255 : 0;
 					}
-				}
-			}
-
-			if (debug)
-			{
-				try
-				{
-					writeRaw("water1.raw", watermarkBitmap);
-				}
-				catch (System.IO.IOException e)
-				{
-					Console.WriteLine(e.ToString());
-					Console.Write(e.StackTrace);
 				}
 			}
 
@@ -199,18 +175,22 @@ namespace net.watermark
 			{
 				for (int x = 0; x < image.Width; x++)
 				{
-                    System.Drawing.Color color = image.GetPixel(x, y);
+                    if (_stopped)
+                    {
+                        return;
+                    }
+                    Color color = image.GetPixel(x, y);
 					double[] hsb = RGBtoHSB(color);
 					// adjust brightness of the pixel...
-					hsb[2] = (float)(hsb[2] * (1.0 - this.opacity) + grey[y][x] * this.opacity / 255.0);
-                    System.Drawing.Color colorNew = HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+					hsb[2] = (float)(hsb[2] * (1.0 - opacity) + grey[y][x] * opacity / 255.0);
+                    Color colorNew = HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 					image.SetPixel(x, y, colorNew);
 
 				}
 			}
 		}
 
-		private int[][] embed(System.Drawing.Bitmap src, int[][] water1)
+		private int[][] embed(Bitmap src, int[][] water1)
 		{
 			int width = (src.Width + 7) / 8 * 8;
 			int height = (src.Height + 7) / 8 * 8;
@@ -247,7 +227,11 @@ namespace net.watermark
 			{
 				for (int x = 0; x < src.Width; x++)
 				{
-                    System.Drawing.Color color = new System.Drawing.Color();
+                    if (_stopped)
+                    {
+                        return null;
+                    }
+                    Color color = new Color();
                     color = src.GetPixel(x, y);
 					double[] hsb = RGBtoHSB(color);
 					// use brightness of the pixel...
@@ -286,7 +270,7 @@ namespace net.watermark
 
 				}
 			}
-			Random r = new Random((int)this.randomizeWatermarkSeed); // 設定亂數產生器的seed
+			Random r = new Random((int)randomizeWatermarkSeed); // 設定亂數產生器的seed
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -348,7 +332,7 @@ namespace net.watermark
 			}
 
 			// Random Embedding
-			Random r1 = new Random((int)this.randomizeEmbeddingSeed); // 設定亂數產生器的seed
+			Random r1 = new Random((int)randomizeEmbeddingSeed); // 設定亂數產生器的seed
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -427,46 +411,36 @@ namespace net.watermark
 			return buff3;
 		}
 
-		public virtual void embed(System.Drawing.Bitmap image, string data)
+		public virtual void embed(Bitmap image, string data)
 		{
 			embed(image, string2Bits(data));
 		}
 
-        public virtual Bits extractData(System.Drawing.Bitmap image)
+        public virtual Bits extractData(Bitmap image)
 		{
 			int[][] extracted = extractRaw(image);
-
-			if (debug)
-			{
-				try
-				{
-					writeRaw("water2.raw", extracted);
-				}
-
-				catch (System.IO.IOException e)
-				{
-					Console.WriteLine(e.ToString());
-					Console.Write(e.StackTrace);
-				}
-			}
+            if (extracted == null)
+            {
+                return null;
+            }
 
 			// black/white the extracted result...
-			for (int y = 0; y < 128 / this.bitBoxSize * this.bitBoxSize; y += this.bitBoxSize)
+			for (int y = 0; y < 128 / bitBoxSize * bitBoxSize; y += bitBoxSize)
 			{
-				for (int x = 0; x < 128 / this.bitBoxSize * this.bitBoxSize; x += this.bitBoxSize)
+				for (int x = 0; x < 128 / bitBoxSize * bitBoxSize; x += bitBoxSize)
 				{
 					int sum = 0;
-					for (int y2 = y; y2 < y + this.bitBoxSize; y2++)
+					for (int y2 = y; y2 < y + bitBoxSize; y2++)
 					{
-						for (int x2 = x; x2 < x + this.bitBoxSize; x2++)
+						for (int x2 = x; x2 < x + bitBoxSize; x2++)
 						{
 							sum += extracted[y2][x2];
 						}
 					}
-					sum = sum / (this.bitBoxSize * this.bitBoxSize);
-					for (int y2 = y; y2 < y + this.bitBoxSize; y2++)
+					sum = sum / (bitBoxSize * bitBoxSize);
+					for (int y2 = y; y2 < y + bitBoxSize; y2++)
 					{
-						for (int x2 = x; x2 < x + this.bitBoxSize; x2++)
+						for (int x2 = x; x2 < x + bitBoxSize; x2++)
 						{
 							extracted[y2][x2] = sum > 127 ? 255 : 0;
 						}
@@ -474,61 +448,30 @@ namespace net.watermark
 				}
 			}
 
-			if (debug)
-			{
-				try
-				{
-					writeRaw("water3.raw", extracted);
-				}
-
-				catch (System.IO.IOException e)
-				{
-					Console.WriteLine(e.ToString());
-					Console.Write(e.StackTrace);
-				}
-			}
-
 			// reconstruct bits...
 			Bits bits = new Bits();
-			for (int y = 0; y < 128 / this.bitBoxSize * this.bitBoxSize; y += this.bitBoxSize)
+			for (int y = 0; y < 128 / bitBoxSize * bitBoxSize; y += bitBoxSize)
 			{
-				for (int x = 0; x < 128 / this.bitBoxSize * this.bitBoxSize; x += this.bitBoxSize)
+				for (int x = 0; x < 128 / bitBoxSize * bitBoxSize; x += bitBoxSize)
 				{
 					bits.addBit(extracted[y][x] > 127);
 				}
 			}
-			bits = new Bits(bits.getBits(0, this.maxBitsTotal));
+			bits = new Bits(bits.getBits(0, maxBitsTotal));
 
 			// if debugging, copy original before error correction...
 			Bits bitsBeforeCorrection = null;
-			if (debug)
-			{
-				bitsBeforeCorrection = new Bits(bits.getBits(0, this.maxBitsData));
-			}
 
 			// apply error correction...
-			if (this.byteLenErrorCorrection > 0)
+			if (byteLenErrorCorrection > 0)
 			{
-				bits = Bits.bitsReedSolomonDecode(bits, this.byteLenErrorCorrection);
-			}
-
-			if (debug) // count errors (faulty bits)...
-			{
-				int errors = 0;
-				for (int i = 0; i < bitsBeforeCorrection.size(); i++)
-				{
-					if (bitsBeforeCorrection.getBit(i) != bits.getBit(i))
-					{
-						errors++;
-					}
-				}
-				Console.WriteLine("Error Correction:\n" + errors + " bits of " + bitsBeforeCorrection.size() + " are faulty");
+				bits = Bits.bitsReedSolomonDecode(bits, byteLenErrorCorrection);
 			}
 
 			return bits;
 		}
 
-        private int[][] extractRaw(System.Drawing.Bitmap src)
+        private int[][] extractRaw(Bitmap src)
 		{
 			int width = (src.Width + 7) / 8 * 8;
 			int height = (src.Height + 7) / 8 * 8;
@@ -568,7 +511,11 @@ namespace net.watermark
 			{
 				for (int x = 0; x < src.Width; x++)
 				{
-					System.Drawing.Color color = new System.Drawing.Color();
+                    if (_stopped)
+                    {
+                        return null;
+                    }
+					Color color = new Color();
                     color = src.GetPixel(x, y);
 					double[] hsb = RGBtoHSB(color);
 					// use brightness of the pixel...
@@ -630,7 +577,7 @@ namespace net.watermark
 			scan.one2two(mfbuff1, mfbuff2); // 引用zigZag class 中,one2two的方法
 
 			// random extracting
-			Random r1 = new Random((int)this.randomizeEmbeddingSeed);
+			Random r1 = new Random((int)randomizeEmbeddingSeed);
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -688,7 +635,7 @@ namespace net.watermark
 				}
 			}
 
-			Random r = new Random((int)this.randomizeWatermarkSeed); // 設定亂數產生器的seed
+			Random r = new Random((int)randomizeWatermarkSeed); // 設定亂數產生器的seed
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -712,16 +659,21 @@ namespace net.watermark
 			return water3;
 		}
 
-        public virtual string extractText(System.Drawing.Bitmap image)
-		{
-			return bits2String(extractData(image)).Trim();
+        public virtual string extractText(Bitmap image)
+        {
+            Bits b = extractData(image);
+            if (b == null)
+            {
+                return "";
+            }
+			return bits2String(b).Trim();
 		}
 
 		public virtual int BitBoxSize
 		{
 			get
 			{
-				return this.bitBoxSize;
+				return bitBoxSize;
 			}
 		}
 
@@ -729,7 +681,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.byteLenErrorCorrection;
+				return byteLenErrorCorrection;
 			}
 		}
 
@@ -737,7 +689,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.maxBitsData;
+				return maxBitsData;
 			}
 		}
 
@@ -745,7 +697,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.maxBitsTotal;
+				return maxBitsTotal;
 			}
 		}
 
@@ -753,7 +705,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.maxTextLen;
+				return maxTextLen;
 			}
 		}
 
@@ -761,7 +713,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.opacity;
+				return opacity;
 			}
 		}
 
@@ -769,7 +721,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.randomizeEmbeddingSeed;
+				return randomizeEmbeddingSeed;
 			}
 		}
 
@@ -777,7 +729,7 @@ namespace net.watermark
 		{
 			get
 			{
-				return this.randomizeWatermarkSeed;
+				return randomizeWatermarkSeed;
 			}
 		}
 
@@ -798,12 +750,12 @@ namespace net.watermark
 			}
 
 			// shorten if needed...
-			if (s.Length > this.maxTextLen)
+			if (s.Length > maxTextLen)
 			{
-				s = s.Substring(0, this.maxTextLen);
+				s = s.Substring(0, maxTextLen);
 			}
 			// padding if needed...
-			while (s.Length < this.maxTextLen)
+			while (s.Length < maxTextLen)
 			{
 				s += " ";
 			}
@@ -817,7 +769,7 @@ namespace net.watermark
 			return bits;
 		}
 
-        public static double[] RGBtoHSB(System.Drawing.Color color)
+        public static double[] RGBtoHSB(Color color)
         {
             double[] hsb = new double[3];
             int max = Math.Max(color.R, Math.Max(color.G, color.B));
@@ -828,7 +780,7 @@ namespace net.watermark
             return hsb;
         }
 
-        public static System.Drawing.Color HSBtoRGB(double hue, double saturation, double value)
+        public static Color HSBtoRGB(double hue, double saturation, double value)
         {
             int hi = (int)(Math.Floor(hue / 60)) % 6;
             double f = hue / 60 - Math.Floor(hue / 60);
@@ -840,18 +792,23 @@ namespace net.watermark
             int t = (int)(value * (1 - (1 - f) * saturation));
 
             if (hi == 0)
-                return System.Drawing.Color.FromArgb(255, v, t, p);
+                return Color.FromArgb(255, v, t, p);
             else if (hi == 1)
-                return System.Drawing.Color.FromArgb(255, q, v, p);
+                return Color.FromArgb(255, q, v, p);
             else if (hi == 2)
-                return System.Drawing.Color.FromArgb(255, p, v, t);
+                return Color.FromArgb(255, p, v, t);
             else if (hi == 3)
-                return System.Drawing.Color.FromArgb(255, p, q, v);
+                return Color.FromArgb(255, p, q, v);
             else if (hi == 4)
-                return System.Drawing.Color.FromArgb(255, t, p, v);
+                return Color.FromArgb(255, t, p, v);
             else
-                return System.Drawing.Color.FromArgb(255, v, p, q);
+                return Color.FromArgb(255, v, p, q);
         }
+
+	    public void Stop()
+	    {
+	        _stopped = true;
+	    }
         
 	}
 
