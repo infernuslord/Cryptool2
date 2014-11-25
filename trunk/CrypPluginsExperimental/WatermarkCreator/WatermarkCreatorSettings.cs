@@ -27,10 +27,10 @@ namespace Cryptool.Plugins.WatermarkCreator
         #region Private Variables
 
         private int _watermarkAlgorithm = 0;
-        private int _textSize = 0;
-        private string _font = "arial";
+        private int _textSize = 50;
+        private int _font = 3;
         private int _location = 1;
-        private double _opacity = 1.0;
+        private int _opacity = 1000;
         private int _boxSize = 10;
         private int _errorCorrection = 0;
         private long _s1 = 19;
@@ -64,7 +64,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         }
 
 
-        [TaskPane("TextSizeMaxCap", "TextSizeMaxDes", null, 1, false, ControlType.TextBox)]
+        [TaskPane("TextSizeMaxCap", "TextSizeMaxDes", null, 10, false, ControlType.TextBox)]
         public int TextSizeMax
         {
             get
@@ -81,8 +81,12 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("FontTypeCap", "FontTypeDes", null, 1, false, ControlType.ComboBox, new string[] { "arial", "other" })]
-        public string FontType
+        [TaskPane("FontTypeCap", "FontTypeDes", null, 11, false, ControlType.ComboBox, new string[] { "Aharoni", 
+            "Andalus", "Arabic Typesetting", "Arial", "Arial Black", "Calibri", "Buxton Sketch", 
+        "Cambria Math", "Comic Sans MS", "DFKai-SB", "Franklin Gothic Medium", "Lucida Console",
+        "Simplified Arabic", "SketchFlow Print", "Symbol", "Times New Roman", "Traditional Arabic",
+        "Webdings", "Wingdings"})]
+        public int FontType
         {
             get
             {
@@ -98,7 +102,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("WatermarkLocationCap", "WatermarkLocationDes", null, 1, false, ControlType.ComboBox, new string[] { "TopLoc", "BotLoc", "OtherLoc" })]
+        [TaskPane("WatermarkLocationCap", "WatermarkLocationDes", null, 12, false, ControlType.ComboBox, new string[] { "TopLoc", "BotLoc", "OtherLoc" })]
         public int WatermarkLocation
         {
             get
@@ -115,7 +119,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("LocationPercentageCap", "LocationPercentageDes", null, 2, false, ControlType.Slider, 5, 95)]
+        [TaskPane("LocationPercentageCap", "LocationPercentageDes", null, 13, false, ControlType.Slider, 5, 95)]
         public int LocationPercentage
         {
             get
@@ -132,8 +136,8 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("OpacityCap", "OpacityDes", null, 2, false, ControlType.Slider, 0, 1000)]
-        public double Opacity
+        [TaskPane("OpacityCap", "OpacityDes", null, 11, false, ControlType.TextBox)]
+        public int Opacity
         {
             get
             {
@@ -149,7 +153,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("BoxSizeCap", "BoxSizeDes", null, 1, false, ControlType.TextBox)]
+        [TaskPane("BoxSizeCap", "BoxSizeDes", null, 10, false, ControlType.TextBox)]
         public int BoxSize
         {
             get
@@ -166,7 +170,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("ErrorCorrectionCap", "ErrorCorrectionDes", null, 1, false, ControlType.TextBox)]
+        [TaskPane("ErrorCorrectionCap", "ErrorCorrectionDes", null, 13, false, ControlType.TextBox)]
         public int ErrorCorrection
         {
             get
@@ -183,7 +187,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("Seed1", "Seed", null, 1, false, ControlType.TextBox)]
+        [TaskPane("Seed1", "Seed", null, 14, false, ControlType.TextBox)]
         public long Seed1
         {
             get
@@ -200,7 +204,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("Seed2", "Seed", null, 1, false, ControlType.TextBox)]
+        [TaskPane("Seed2", "Seed", null, 15, false, ControlType.TextBox)]
         public long Seed2
         {
             get
@@ -217,7 +221,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("AdvancedModeCap", "AdvancedModeDes", null, 1, false, ControlType.ComboBox, new string[] { "No", "Yes" })]
+        [TaskPane("AdvancedModeCap", "AdvancedModeDes", null, 5, false, ControlType.ComboBox, new string[] { "No", "Yes" })]
         public int AdvancedMode
         {
             get
@@ -247,6 +251,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             SettingChanged("Seed1", Visibility.Collapsed);
             SettingChanged("Seed2", Visibility.Collapsed);
             SettingChanged("LocationPercentage", Visibility.Collapsed);
+            SettingChanged("AdvancedMode", Visibility.Collapsed);
 
             switch (ModificationType)
             {
@@ -259,11 +264,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                     SettingChanged("AdvancedMode", Visibility.Visible);
                     break;
                 case 2: //Invisible Watermark (extracting)
-                    SettingChanged("Opacity", Visibility.Visible);
-                    SettingChanged("BoxSize", Visibility.Visible);
-                    SettingChanged("ErrorCorrection", Visibility.Visible);
-                    SettingChanged("Seed1", Visibility.Visible);
-                    SettingChanged("Seed2", Visibility.Visible);
+                    SettingChanged("AdvancedMode", Visibility.Visible);
                     break;
             }
         }

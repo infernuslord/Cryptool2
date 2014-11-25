@@ -140,22 +140,22 @@
     <value>Component to write and extract a digital watermark to an image.</value>
   </data>
   <data name="ModificationTypeDes" xml:space="preserve">
-    <value>Choose what kind of modification should be done to the input image</value>
+    <value>Choose what kind of modification should be applied to the input image</value>
   </data>
   <data name="BotLoc" xml:space="preserve">
     <value>Locate watermark at the bottom of the image</value>
   </data>
   <data name="BoxSizeDes" xml:space="preserve">
-    <value>The bigger the box, the higher the error correction, the more solid the watermark, but less data can be stored</value>
+    <value>The bigger the box, the higher the error correction, the more solid the watermark, but less data can be stored.</value>
   </data>
   <data name="BoxSizeCap" xml:space="preserve">
     <value>Box size</value>
   </data>
   <data name="WatermarkLocationDes" xml:space="preserve">
-    <value>Chose the location where the watermark will be placed on the image</value>
+    <value>Choose the location where the watermark will be placed on the image.</value>
   </data>
   <data name="OpacityDes" xml:space="preserve">
-    <value>Opacity of the watermark. A higher value means more opacity</value>
+    <value>Opacity of the watermark. A higher value means more opacity and a stronger watermark, though it'll also become more visible. Maximum value is 1000. A value larger or equal 500 is recommended for a good result.</value>
   </data>
   <data name="ErrorCorrectionDes" xml:space="preserve">
     <value>Set number of bytes used for error correction</value>
@@ -185,8 +185,8 @@
     <value>Seed 2</value>
   </data>
   <data name="TextSizeMaxDes" xml:space="preserve">
-    <value>Maximum size of the text to be used when embedding the watermark. Internally, the maximum possible size that fits the whole text onto the image in one line will be chosen</value>
-    <comment>Size will be adjusted dynamically to fit the watermark into the picture, you can just define the maximum size</comment>
+    <value>Maximum size of the text to be used when embedding the watermark. Internally, the maximum possible size that fits the whole text onto the image in one line will be chosen.</value>
+    <comment>Size will be adjusted dynamically to fit the watermark into the image. You just need to define the maximum size.</comment>
   </data>
   <data name="TextSizeMaxCap" xml:space="preserve">
     <value>Maximum text size</value>
@@ -210,7 +210,7 @@
     <value>Custom location of the watermark</value>
   </data>
   <data name="LocationPercentageDes" xml:space="preserve">
-    <value>Lets you manually set the location of the watermark. The further to the right you put the slider, the further up to the top the watermark will move</value>
+    <value>Allows to manually set the location of the watermark. The further to the right you put the slider, the further up to the top the watermark will move.</value>
   </data>
   <data name="NoPictureError" xml:space="preserve">
     <value>Please provide a valid image as a carrier for the watermark, using the file input component</value>
@@ -219,7 +219,7 @@
     <value>Please provide a string to be added to the image as a watermark, using the text input component</value>
   </data>
   <data name="TextCaption" xml:space="preserve">
-    <value>Embedded Text</value>
+    <value>Embedded text</value>
   </data>
   <data name="TextTooltip" xml:space="preserve">
     <value>Extracted text that was embedded in the image</value>
@@ -228,7 +228,7 @@
     <value>Watermark</value>
   </data>
   <data name="WatermarkImageCaption" xml:space="preserve">
-    <value>Image with Watermark</value>
+    <value>Image with watermark</value>
   </data>
   <data name="WatermarkImageTooltip" xml:space="preserve">
     <value>Image with text added to it as a watermark</value>

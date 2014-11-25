@@ -97,7 +97,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The bigger the box, the higher the error correction, the more solid the watermark, but less data can be stored ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The bigger the box, the higher the error correction, the more solid the watermark, but less data can be stored. ähnelt.
         /// </summary>
         internal static string BoxSizeDes {
             get {
@@ -169,7 +169,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Lets you manually set the location of the watermark. The further to the right you put the slider, the further up to the top the watermark will move ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Allows to manually set the location of the watermark. The further to the right you put the slider, the further up to the top the watermark will move. ähnelt.
         /// </summary>
         internal static string LocationPercentageDes {
             get {
@@ -187,7 +187,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Choose what kind of modification should be done to the input image ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose what kind of modification should be applied to the input image ähnelt.
         /// </summary>
         internal static string ModificationTypeDes {
             get {
@@ -223,7 +223,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Opacity of the watermark. A higher value means more opacity ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Opacity of the watermark. A higher value means more opacity and a stronger watermark, though it&apos;ll also become more visible. Maximum value is 1000. A value larger or equal 500 is recommended for a good result. ähnelt.
         /// </summary>
         internal static string OpacityDes {
             get {
@@ -286,7 +286,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Embedded Text ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Embedded text ähnelt.
         /// </summary>
         internal static string TextCaption {
             get {
@@ -304,7 +304,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum size of the text to be used when embedding the watermark. Internally, the maximum possible size that fits the whole text onto the image in one line will be chosen ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Maximum size of the text to be used when embedding the watermark. Internally, the maximum possible size that fits the whole text onto the image in one line will be chosen. ähnelt.
         /// </summary>
         internal static string TextSizeMaxDes {
             get {
@@ -367,7 +367,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Image with Watermark ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Image with watermark ähnelt.
         /// </summary>
         internal static string WatermarkImageCaption {
             get {
@@ -394,7 +394,7 @@ namespace WatermarkCreator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Chose the location where the watermark will be placed on the image ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Choose the location where the watermark will be placed on the image. ähnelt.
         /// </summary>
         internal static string WatermarkLocationDes {
             get {
