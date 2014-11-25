@@ -44,7 +44,7 @@ namespace net.watermark
 			{
 				for (int j = 0; j < N; j++)
 				{
-					output[i][j] = (int)(input[i][j] * (this.qTable[i][j] * this.filter[i][j]));
+					output[i][j] = (int)(input[i][j] * (qTable[i][j] * filter[i][j]));
 				}
 			}
 		}
@@ -57,7 +57,7 @@ namespace net.watermark
 			{
 				for (int j = 0; j < N; j++)
 				{
-					output[i][j] = (int) Math.Round(input[i][j] / (this.qTable[i][j] * this.filter[i][j]));
+					output[i][j] = (int) Math.Round(input[i][j] / (qTable[i][j] * filter[i][j]));
 				}
 			}
 		}

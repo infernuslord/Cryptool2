@@ -18,8 +18,8 @@ namespace net.watermark
 
 		private void InitializeInstanceFields()
 		{
-			c = RectangularArrays.ReturnRectangularDoubleArray(this.n, this.n);
-			ct = RectangularArrays.ReturnRectangularDoubleArray(this.n, this.n);
+			c = RectangularArrays.ReturnRectangularDoubleArray(n, n);
+			ct = RectangularArrays.ReturnRectangularDoubleArray(n, n);
 		}
 
 		private readonly int n;
@@ -39,7 +39,7 @@ namespace net.watermark
 
 		public DCT(int N)
 		{
-            this.n = N;
+            n = N;
 			if (!InstanceFieldsInitialized)
 			{
 				InitializeInstanceFields();
@@ -50,15 +50,15 @@ namespace net.watermark
 			double pi = Math.Atan(1.0) * 4.0;
 			for (j = 0; j < N; j++)
 			{
-				this.c[0][j] = 1.0 / Math.Sqrt(N);
-				this.ct[j][0] = this.c[0][j];
+				c[0][j] = 1.0 / Math.Sqrt(N);
+				ct[j][0] = c[0][j];
 			}
 			for (i = 1; i < N; i++)
 			{
 				for (j = 0; j < N; j++)
 				{
-					this.c[i][j] = Math.Sqrt(2.0 / N) * Math.Cos(pi * (2 * j + 1) * i / (2.0 * N));
-					this.ct[j][i] = this.c[i][j];
+					c[i][j] = Math.Sqrt(2.0 / N) * Math.Cos(pi * (2 * j + 1) * i / (2.0 * N));
+					ct[j][i] = c[i][j];
 				}
 			}
 		}
@@ -66,29 +66,29 @@ namespace net.watermark
 		internal virtual void ForwardDCT(int[][] input, int[][] output)
 		{
 
-			double[][] temp = RectangularArrays.ReturnRectangularDoubleArray(this.n, this.n);
+			double[][] temp = RectangularArrays.ReturnRectangularDoubleArray(n, n);
 			double temp1;
 			int i, j, k;
-			for (i = 0; i < this.n; i++)
+			for (i = 0; i < n; i++)
 			{
-				for (j = 0; j < this.n; j++)
+				for (j = 0; j < n; j++)
 				{
 					temp[i][j] = 0.0;
-					for (k = 0; k < this.n; k++)
+					for (k = 0; k < n; k++)
 					{
-						temp[i][j] += (input[i][k] - 128) * this.ct[k][j];
+						temp[i][j] += (input[i][k] - 128) * ct[k][j];
 					}
 				}
 			}
 
-			for (i = 0; i < this.n; i++)
+			for (i = 0; i < n; i++)
 			{
-				for (j = 0; j < this.n; j++)
+				for (j = 0; j < n; j++)
 				{
 					temp1 = 0.0;
-					for (k = 0; k < this.n; k++)
+					for (k = 0; k < n; k++)
 					{
-						temp1 += this.c[i][k] * temp[k][j];
+						temp1 += c[i][k] * temp[k][j];
 					}
 					output[i][j] = (int) Math.Round(temp1);
 				}
@@ -98,30 +98,30 @@ namespace net.watermark
 		internal virtual void InverseDCT(int[][] input, int[][] output)
 		{
 
-			double[][] temp = RectangularArrays.ReturnRectangularDoubleArray(this.n, this.n);
+			double[][] temp = RectangularArrays.ReturnRectangularDoubleArray(n, n);
 			double temp1;
 			int i, j, k;
 
-			for (i = 0; i < this.n; i++)
+			for (i = 0; i < n; i++)
 			{
-				for (j = 0; j < this.n; j++)
+				for (j = 0; j < n; j++)
 				{
 					temp[i][j] = 0.0;
-					for (k = 0; k < this.n; k++)
+					for (k = 0; k < n; k++)
 					{
-						temp[i][j] += input[i][k] * this.c[k][j];
+						temp[i][j] += input[i][k] * c[k][j];
 					}
 				}
 			}
 
-			for (i = 0; i < this.n; i++)
+			for (i = 0; i < n; i++)
 			{
-				for (j = 0; j < this.n; j++)
+				for (j = 0; j < n; j++)
 				{
 					temp1 = 0.0;
-					for (k = 0; k < this.n; k++)
+					for (k = 0; k < n; k++)
 					{
-						temp1 += this.ct[i][k] * temp[k][j];
+						temp1 += ct[i][k] * temp[k][j];
 					}
 					temp1 += 128.0;
 					if (temp1 < 0)

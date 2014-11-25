@@ -31,6 +31,8 @@ using System.IO;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
+using net.watermark;
+using Image = System.Drawing.Image;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
@@ -44,8 +46,8 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         public WatermarkCreator()
         {
-            this._settings = new WatermarkCreatorSettings();
-            this._settings.UpdateTaskPaneVisibility();
+            _settings = new WatermarkCreatorSettings();
+            _settings.UpdateTaskPaneVisibility();
             _settings.PropertyChanged += new PropertyChangedEventHandler(settings_PropertyChanged);
         }
 
@@ -61,6 +63,8 @@ namespace Cryptool.Plugins.WatermarkCreator
         private long _s1 = 19;
         private long _s2 = 24;
         private double _locationPercentage = 0.05;
+        private bool _stopped;
+        private Watermark water;
 
         private string[] fontsChosen = new string[]
         {
@@ -139,6 +143,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// </summary>
         public void PreExecution()
         {
+            _stopped = false;
         }
 
         /// <summary>
@@ -154,8 +159,6 @@ namespace Cryptool.Plugins.WatermarkCreator
                 GuiLogMessage("NoPictureError", NotificationLevel.Error);
                 return;
             }
-            Stopwatch s = new Stopwatch();
-            s.Start();
             switch (_settings.ModificationType)
             {
                 case (int)Commands.EmbVisText: //Visible Text
@@ -200,13 +203,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                     ProgressChanged(1, 1);
 
                     break;
-
-                default:
-                    GuiLogMessage("This error should actually never happen. WTF?", NotificationLevel.Error);
-                    break;
             }
-            s.Stop();
-            GuiLogMessage("Time elapsed: "+s.ElapsedMilliseconds, NotificationLevel.Debug);
         }
 
 
@@ -216,6 +213,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// </summary>
         public void PostExecution()
         {
+            water = null;
         }
 
         /// <summary>
@@ -224,7 +222,12 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// </summary>
         public void Stop()
         {
-            //TODO
+            _stopped = true;
+            if (water != null)
+            {
+                water.Stop();
+            }
+            water = null;
         }
 
         /// <summary>
@@ -295,7 +298,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
                     Bitmap image = PaletteToRGB(bitmap);
-                    System.Drawing.Image photo = image;
+                    Image photo = image;
                     int width = photo.Width; 
                     int height = photo.Height;
 
@@ -310,12 +313,16 @@ namespace Cryptool.Plugins.WatermarkCreator
 
                     for (int i = _textSize; i > 3; i--) //Test which is the largest possible fontsize to be used
                     {
+                        if (_stopped)
+                        {
+                            return;
+                        }
                         font = new Font(_font, i, FontStyle.Bold);
                         size = graphicPhoto.MeasureString(Watermark, font);
                         if ((ushort)size.Width < (ushort)width)
                             break;
                     }
-
+                    
                     int yPixlesFromBottom = 0;
                     switch (_location)
                     {
@@ -345,11 +352,15 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private void CreateInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
+            water = new Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
+                    if (_stopped)
+                    {
+                        return;
+                    }
                     water.embed(bitmap, Watermark);
                     CreateOutputStream(bitmap);
                 }
@@ -358,11 +369,15 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private string DetectInvisibleWatermark()
         {
-            net.watermark.Watermark water = new net.watermark.Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
+            water = new Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
             using (CStreamReader reader = InputPicture.CreateReader())
             {
                 using (Bitmap bitmap = new Bitmap(reader))
                 {
+                    if (_stopped)
+                    {
+                        return "";
+                    }
                     return water.extractText(bitmap);   
                 }
             }
@@ -386,7 +401,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         {
             MemoryStream buffer = new MemoryStream();
             bitmap.Save(buffer, format);
-            Bitmap saveableBitmap = (Bitmap)System.Drawing.Image.FromStream(buffer);
+            Bitmap saveableBitmap = (Bitmap)Image.FromStream(buffer);
             return saveableBitmap;
         }
 
@@ -403,44 +418,41 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private void GetInvisVariables()
         {
-            this._boxSize = _settings.BoxSize;
-            this._errorCorrection = _settings.ErrorCorrection;
-            this._opacity = _settings.Opacity;
-            if (this._opacity > 1000.0)
+            _boxSize = _settings.BoxSize;
+            _errorCorrection = _settings.ErrorCorrection;
+            _opacity = _settings.Opacity;
+            if (_opacity > 1000.0)
             {
-                this._opacity = 1000;
+                _opacity = 1000;
             }
-            if (this._opacity <= 0.0)
+            if (_opacity <= 0.0)
             {
-                this._opacity = 0.0;
+                _opacity = 0.0;
             }
             else
             {
-                this._opacity = this._opacity/ (double) 1000;
+                _opacity = _opacity/ (double) 1000;
             }
-            if (this._opacity > 1) //Just in case
+            if (_opacity > 1) //Just in case
             {
-                this._opacity = 1.0;
+                _opacity = 1.0;
             }
-            this._s1 = _settings.Seed1;
-            this._s2 = _settings.Seed2;
+            _s1 = _settings.Seed1;
+            _s2 = _settings.Seed2;
         }
 
         private void GetVisVariables()
         {
-            this._textSize = _settings.TextSizeMax < 3 ? 12 : _settings.TextSizeMax;
-            this._location = _settings.WatermarkLocation;
-            this._locationPercentage = (double)_settings.LocationPercentage/100;
-            if (_settings.FontType != null)
+            _textSize = _settings.TextSizeMax < 3 ? 12 : _settings.TextSizeMax;
+            _location = _settings.WatermarkLocation;
+            _locationPercentage = (double)_settings.LocationPercentage/100;
+            string[] fonts = GetFonts();
+            _font = fontsChosen[_settings.FontType];
+            if (!fonts.Contains(_font))
             {
-                string[] fonts = GetFonts();
-                this._font = fontsChosen[_settings.FontType];
-                if (!fonts.Contains(this._font))
-                {
-                    GuiLogMessage(_font+" was not found on this Computer. Using Arial instead", NotificationLevel.Warning);
-                    this._font = "Arial";
-                }
-            }          
+                GuiLogMessage(_font+" was not found on this Computer. Using Arial instead", NotificationLevel.Warning);
+                _font = "Arial";
+            }
         }
 
         private string[] GetFonts()
