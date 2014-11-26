@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,8 +66,11 @@ namespace Startcenter
                 }
 
                 MakeTemplateInformation(templateDir, rootItem);
+
+                // sort listbox entries alphabetically
+                TemplatesListBox.Items.SortDescriptions.Add(new SortDescription("Tag.Value", ListSortDirection.Ascending));
             }
-            
+
             //Add root directory entries to the treeview based on their order number:
             var counter = 0;
             var items = rootItem.Items.Cast<CTTreeViewItem>().ToList();
