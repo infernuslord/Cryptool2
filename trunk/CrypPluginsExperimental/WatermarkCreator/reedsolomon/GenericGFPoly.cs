@@ -45,7 +45,7 @@ namespace com.google.zxing.common.reedsolomon
 		{
 			if (coefficients == null || coefficients.Length == 0)
 			{
-				throw new System.ArgumentException();
+				throw new ArgumentException();
 			}
 			this.field = field;
 			int coefficientsLength = coefficients.Length;
@@ -75,9 +75,9 @@ namespace com.google.zxing.common.reedsolomon
 
 		internal GenericGFPoly addOrSubtract(GenericGFPoly other)
 		{
-			if (!this.field.Equals(other.field))
+			if (!field.Equals(other.field))
 			{
-				throw new System.ArgumentException("GenericGFPolys do not have same GenericGF field");
+				throw new ArgumentException("GenericGFPolys do not have same GenericGF field");
 			}
 			if (Zero)
 			{
@@ -88,7 +88,7 @@ namespace com.google.zxing.common.reedsolomon
 				return this;
 			}
 
-			int[] smallerCoefficients = this.coefficients;
+			int[] smallerCoefficients = coefficients;
 			int[] largerCoefficients = other.coefficients;
 			if (smallerCoefficients.Length > largerCoefficients.Length)
 			{
@@ -106,32 +106,32 @@ namespace com.google.zxing.common.reedsolomon
 				sumDiff[i] = GenericGF.addOrSubtract(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
 			}
 
-			return new GenericGFPoly(this.field, sumDiff);
+			return new GenericGFPoly(field, sumDiff);
 		}
 
 		internal GenericGFPoly[] divide(GenericGFPoly other)
 		{
-			if (!this.field.Equals(other.field))
+			if (!field.Equals(other.field))
 			{
-				throw new System.ArgumentException("GenericGFPolys do not have same GenericGF field");
+				throw new ArgumentException("GenericGFPolys do not have same GenericGF field");
 			}
 			if (other.Zero)
 			{
-				throw new System.ArgumentException("Divide by 0");
+				throw new ArgumentException("Divide by 0");
 			}
 
-			GenericGFPoly quotient = this.field.Zero;
+			GenericGFPoly quotient = field.Zero;
 			GenericGFPoly remainder = this;
 
 			int denominatorLeadingTerm = other.getCoefficient(other.Degree);
-			int inverseDenominatorLeadingTerm = this.field.inverse(denominatorLeadingTerm);
+			int inverseDenominatorLeadingTerm = field.inverse(denominatorLeadingTerm);
 
 			while (remainder.Degree >= other.Degree && !remainder.Zero)
 			{
 				int degreeDifference = remainder.Degree - other.Degree;
-				int scale = this.field.multiply(remainder.getCoefficient(remainder.Degree), inverseDenominatorLeadingTerm);
+				int scale = field.multiply(remainder.getCoefficient(remainder.Degree), inverseDenominatorLeadingTerm);
 				GenericGFPoly term = other.multiplyByMonomial(degreeDifference, scale);
-				GenericGFPoly iterationQuotient = this.field.buildMonomial(degreeDifference, scale);
+				GenericGFPoly iterationQuotient = field.buildMonomial(degreeDifference, scale);
 				quotient = quotient.addOrSubtract(iterationQuotient);
 				remainder = remainder.addOrSubtract(term);
 			}
@@ -140,28 +140,28 @@ namespace com.google.zxing.common.reedsolomon
 		}
 
 		/// <returns> evaluation of this polynomial at a given point </returns>
-		internal int evaluateAt(int a)
+		internal int evaluateAt(int a) //TODO: Doesn't work for extracting
 		{
 			if (a == 0)
 			{
 				// Just return the x^0 coefficient
 				return getCoefficient(0);
 			}
-			int size = this.coefficients.Length;
+			int size = coefficients.Length;
 			if (a == 1)
 			{
 				// Just the sum of the coefficients
 				int result = 0;
 				for (int i = 0; i < size; i++)
 				{
-					result = GenericGF.addOrSubtract(result, this.coefficients[i]);
+					result = GenericGF.addOrSubtract(result, coefficients[i]);
 				}
 				return result;
 			}
-			int result2 = this.coefficients[0];
+			int result2 = coefficients[0];
 			for (int i = 1; i < size; i++)
 			{
-				result2 = GenericGF.addOrSubtract(this.field.multiply(a, result2), this.coefficients[i]);
+				result2 = GenericGF.addOrSubtract(field.multiply(a, result2), coefficients[i]);
 			}
 			return result2;
 		}
@@ -169,14 +169,14 @@ namespace com.google.zxing.common.reedsolomon
 		/// <returns> coefficient of x^degree term in this polynomial </returns>
 		internal int getCoefficient(int degree)
 		{
-			return this.coefficients[this.coefficients.Length - 1 - degree];
+			return coefficients[coefficients.Length - 1 - degree];
 		}
 
 		internal int[] Coefficients
 		{
 			get
 			{
-				return this.coefficients;
+				return coefficients;
 			}
 		}
 
@@ -185,7 +185,7 @@ namespace com.google.zxing.common.reedsolomon
 		{
 			get
 			{
-				return this.coefficients.Length - 1;
+				return coefficients.Length - 1;
 			}
 		}
 
@@ -194,21 +194,21 @@ namespace com.google.zxing.common.reedsolomon
 		{
 			get
 			{
-				return this.coefficients[0] == 0;
+				return coefficients[0] == 0;
 			}
 		}
 
 		internal GenericGFPoly multiply(GenericGFPoly other)
 		{
-			if (!this.field.Equals(other.field))
+			if (!field.Equals(other.field))
 			{
-				throw new System.ArgumentException("GenericGFPolys do not have same GenericGF field");
+				throw new ArgumentException("GenericGFPolys do not have same GenericGF field");
 			}
 			if (Zero || other.Zero)
 			{
-				return this.field.Zero;
+				return field.Zero;
 			}
-			int[] aCoefficients = this.coefficients;
+			int[] aCoefficients = coefficients;
 			int aLength = aCoefficients.Length;
 			int[] bCoefficients = other.coefficients;
 			int bLength = bCoefficients.Length;
@@ -218,48 +218,48 @@ namespace com.google.zxing.common.reedsolomon
 				int aCoeff = aCoefficients[i];
 				for (int j = 0; j < bLength; j++)
 				{
-					product[i + j] = GenericGF.addOrSubtract(product[i + j], this.field.multiply(aCoeff, bCoefficients[j]));
+					product[i + j] = GenericGF.addOrSubtract(product[i + j], field.multiply(aCoeff, bCoefficients[j]));
 				}
 			}
-			return new GenericGFPoly(this.field, product);
+			return new GenericGFPoly(field, product);
 		}
 
 		internal GenericGFPoly multiply(int scalar)
 		{
 			if (scalar == 0)
 			{
-				return this.field.Zero;
+				return field.Zero;
 			}
 			if (scalar == 1)
 			{
 				return this;
 			}
-			int size = this.coefficients.Length;
+			int size = coefficients.Length;
 			int[] product = new int[size];
 			for (int i = 0; i < size; i++)
 			{
-				product[i] = this.field.multiply(this.coefficients[i], scalar);
+				product[i] = field.multiply(coefficients[i], scalar);
 			}
-			return new GenericGFPoly(this.field, product);
+			return new GenericGFPoly(field, product);
 		}
 
 		internal GenericGFPoly multiplyByMonomial(int degree, int coefficient)
 		{
 			if (degree < 0)
 			{
-				throw new System.ArgumentException();
+				throw new ArgumentException();
 			}
 			if (coefficient == 0)
 			{
-				return this.field.Zero;
+				return field.Zero;
 			}
-			int size = this.coefficients.Length;
+			int size = coefficients.Length;
 			int[] product = new int[size + degree];
 			for (int i = 0; i < size; i++)
 			{
-				product[i] = this.field.multiply(this.coefficients[i], coefficient);
+				product[i] = field.multiply(coefficients[i], coefficient);
 			}
-			return new GenericGFPoly(this.field, product);
+			return new GenericGFPoly(field, product);
 		}
 
 		public override string ToString()
@@ -284,7 +284,7 @@ namespace com.google.zxing.common.reedsolomon
 					}
 					if (degree == 0 || coefficient != 1)
 					{
-						int alphaPower = this.field.log(coefficient);
+						int alphaPower = field.log(coefficient);
 						if (alphaPower == 0)
 						{
 							result.Append('1');

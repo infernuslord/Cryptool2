@@ -11,6 +11,8 @@
  * License.
  */
 
+using System;
+
 namespace com.google.zxing.common.reedsolomon
 {
 
@@ -93,11 +95,11 @@ namespace com.google.zxing.common.reedsolomon
 
 			if (degree < 0)
 			{
-				throw new System.ArgumentException();
+				throw new ArgumentException();
 			}
 			if (coefficient == 0)
 			{
-				return this.zero;
+				return zero;
 			}
 			int[] coefficients = new int[degree + 1];
 			coefficients[0] = coefficient;
@@ -106,7 +108,7 @@ namespace com.google.zxing.common.reedsolomon
 
 		private void checkInit()
 		{
-			if (!this.initialized)
+			if (!initialized)
 			{
 				initialize();
 			}
@@ -118,7 +120,7 @@ namespace com.google.zxing.common.reedsolomon
 		{
 			checkInit();
 
-			return this.expTable[a];
+			return expTable[a];
 		}
 
 		internal GenericGFPoly One
@@ -127,7 +129,7 @@ namespace com.google.zxing.common.reedsolomon
 			{
 				checkInit();
     
-				return this.one;
+				return one;
 			}
 		}
 
@@ -135,7 +137,7 @@ namespace com.google.zxing.common.reedsolomon
 		{
 			get
 			{
-				return this.size;
+				return size;
 			}
 		}
 
@@ -145,33 +147,33 @@ namespace com.google.zxing.common.reedsolomon
 			{
 				checkInit();
     
-				return this.zero;
+				return zero;
 			}
 		}
 
 		private void initialize()
 		{
-			this.expTable = new int[this.size];
-			this.logTable = new int[this.size];
+			expTable = new int[size];
+			logTable = new int[size];
 			int x = 1;
-			for (int i = 0; i < this.size; i++)
+			for (int i = 0; i < size; i++)
 			{
-				this.expTable[i] = x;
+				expTable[i] = x;
 				x <<= 1; // x = x * 2; we're assuming the generator alpha is 2
-				if (x >= this.size)
+				if (x >= size)
 				{
-					x ^= this.primitive;
-					x &= this.size - 1;
+					x ^= primitive;
+					x &= size - 1;
 				}
 			}
-			for (int i = 0; i < this.size - 1; i++)
+			for (int i = 0; i < size - 1; i++)
 			{
-				this.logTable[this.expTable[i]] = i;
+				logTable[expTable[i]] = i;
 			}
 			// logTable[0] == 0 but this should never be used
-			this.zero = new GenericGFPoly(this, new int[] {0});
-			this.one = new GenericGFPoly(this, new int[] {1});
-			this.initialized = true;
+			zero = new GenericGFPoly(this, new int[] {0});
+			one = new GenericGFPoly(this, new int[] {1});
+			initialized = true;
 		}
 
 		/// <returns> multiplicative inverse of a </returns>
@@ -181,9 +183,9 @@ namespace com.google.zxing.common.reedsolomon
 
 			if (a == 0)
 			{
-				throw new System.ArithmeticException();
+				throw new ArithmeticException();
 			}
-			return this.expTable[this.size - this.logTable[a] - 1];
+			return expTable[size - logTable[a] - 1];
 		}
 
 		/// <returns> base 2 log of a in GF(size) </returns>
@@ -194,9 +196,9 @@ namespace com.google.zxing.common.reedsolomon
 
 			if (a == 0)
 			{
-				throw new System.ArgumentException();
+				throw new ArgumentException();
 			}
-			return this.logTable[a];
+			return logTable[a];
 		}
 
 		/// <param name="a"> </param>
@@ -212,13 +214,13 @@ namespace com.google.zxing.common.reedsolomon
 				return 0;
 			}
 
-			if (a < 0 || b < 0 || a >= this.size || b >= this.size)
+			if (a < 0 || b < 0 || a >= size || b >= size)
 			{
 				a++;
 			}
 
-			int logSum = this.logTable[a] + this.logTable[b];
-			return this.expTable[logSum % this.size + logSum / this.size];
+			int logSum = logTable[a] + logTable[b];
+			return expTable[logSum % size + logSum / size];
 		}
 
 	}
