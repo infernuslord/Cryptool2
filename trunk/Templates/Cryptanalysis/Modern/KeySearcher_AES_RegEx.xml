@@ -11,7 +11,7 @@
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>AES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente und eines bekannten Abschnittes des Klartextes (Crib). Hierzu wird ein gegebener Klartext mit <i>AES</i> verschlüsselt und der entstehende Geheimtext an den <i>Keysearcher</i> weitergeleitet. Der <i>KeySearcher</i> probiert nun alle Schlüssel des angegebenen Schlüsselraumes und vergleicht die resultierenden Klartexte mit dem Crib. Der Klartext, der dem Crib am besten entspricht, wird ausgegeben und sollte dem ursprünglichen Klartext entsprechen.</description>
   <keywords lang="de">asymmetrisch, Rijmen, Rijndael, NIST, regex, regulärer Ausdruck, Keysearcher, Angriff</keywords>
 
-  <icon file="KeySearcher.png" />
+  <icon file="AES.png" />
   <relevantPlugins>
     <plugin name="AES" />
     <plugin name="CostFunction" />
