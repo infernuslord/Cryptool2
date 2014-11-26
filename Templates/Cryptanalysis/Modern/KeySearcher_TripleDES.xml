@@ -11,7 +11,7 @@
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>Triple-DES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente.</description>
   <keywords lang="de">Standard, DES, AES, symmetrisch, Keysearcher, Angriff</keywords>
 
-  <icon file="KeySearcher.png" />
+  <icon file="DES.png" />
   <relevantPlugins>
     <plugin name="CostFunction" />
     <plugin name="DES" />

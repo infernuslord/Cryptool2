@@ -11,7 +11,7 @@
   <description lang="de">Diese Vorlage zeigt die Kryptoanalyse der <i>SDES</i>-Verschlüsselung mittels der <i>KeySearcher</i>-Komponente.</description>
   <keywords lang="de">SDES, Standard, DES, AES, Beispiel, symmetrisch, Keysearcher, Angriff</keywords>
 
-  <icon file="KeySearcher.png" />
+  <icon file="SDES.png" />
   <relevantPlugins>
     <plugin name="CostFunction" />
     <plugin name="KeySearcher" />
