@@ -58,14 +58,14 @@ namespace com.google.zxing.common.reedsolomon
 		/// <exception cref="ReedSolomonException"> if decoding fails for any reason </exception>
 		public void decode(int[] received, int twoS)
 		{
-			GenericGFPoly poly = new GenericGFPoly(this.field, received);
+			GenericGFPoly poly = new GenericGFPoly(field, received);
 			int[] syndromeCoefficients = new int[twoS];
-			bool dataMatrix = this.field.Equals(GenericGF.DATA_MATRIX_FIELD_256);
+			bool dataMatrix = field.Equals(GenericGF.DATA_MATRIX_FIELD_256);
 			bool noError = true;
 			for (int i = 0; i < twoS; i++)
 			{
 				// Thanks to sanfordsquires for this fix:
-				int eval = poly.evaluateAt(this.field.exp(dataMatrix ? i + 1 : i));
+				int eval = poly.evaluateAt(field.exp(dataMatrix ? i + 1 : i));
 				syndromeCoefficients[syndromeCoefficients.Length - 1 - i] = eval;
 				if (eval != 0)
 				{
@@ -76,15 +76,15 @@ namespace com.google.zxing.common.reedsolomon
 			{
 				return;
 			}
-			GenericGFPoly syndrome = new GenericGFPoly(this.field, syndromeCoefficients);
-			GenericGFPoly[] sigmaOmega = runEuclideanAlgorithm(this.field.buildMonomial(twoS, 1), syndrome, twoS);
+			GenericGFPoly syndrome = new GenericGFPoly(field, syndromeCoefficients);
+			GenericGFPoly[] sigmaOmega = runEuclideanAlgorithm(field.buildMonomial(twoS, 1), syndrome, twoS);
 			GenericGFPoly sigma = sigmaOmega[0];
 			GenericGFPoly omega = sigmaOmega[1];
-			int[] errorLocations = findErrorLocations(sigma);
+			int[] errorLocations = findErrorLocations(sigma); //TODO: This call throws an error
 			int[] errorMagnitudes = findErrorMagnitudes(omega, errorLocations, dataMatrix);
 			for (int i = 0; i < errorLocations.Length; i++)
 			{
-				int position = received.Length - 1 - this.field.log(errorLocations[i]);
+				int position = received.Length - 1 - field.log(errorLocations[i]);
 				if (position < 0)
 				{
 					throw new ReedSolomonException("Bad error location");
@@ -103,11 +103,11 @@ namespace com.google.zxing.common.reedsolomon
 			}
 			int[] result = new int[numErrors];
 			int e = 0;
-			for (int i = 1; i < this.field.Size && e < numErrors; i++)
+			for (int i = 1; i < field.Size && e < numErrors; i++)
 			{
-				if (errorLocator.evaluateAt(i) == 0)
+				if (errorLocator.evaluateAt(i) == 0) //TODO: This doesn't work. No errors are located
 				{
-					result[e] = this.field.inverse(i);
+					result[e] = field.inverse(i);
 					e++;
 				}
 			}
@@ -126,7 +126,7 @@ namespace com.google.zxing.common.reedsolomon
 			int[] result = new int[s];
 			for (int i = 0; i < s; i++)
 			{
-				int xiInverse = this.field.inverse(errorLocations[i]);
+				int xiInverse = field.inverse(errorLocations[i]);
 				int denominator = 1;
 				for (int j = 0; j < s; j++)
 				{
@@ -136,16 +136,16 @@ namespace com.google.zxing.common.reedsolomon
 						// GenericGF.addOrSubtract(1, field.multiply(errorLocations[j], xiInverse)));
 						// Above should work but fails on some Apple and Linux JDKs due to a Hotspot bug.
 						// Below is a funny-looking workaround from Steven Parkes
-						int term = this.field.multiply(errorLocations[j], xiInverse);
+						int term = field.multiply(errorLocations[j], xiInverse);
 						int termPlus1 = (term & 0x1) == 0 ? term | 1 : term & ~1;
-						denominator = this.field.multiply(denominator, termPlus1);
+						denominator = field.multiply(denominator, termPlus1);
 					}
 				}
-				result[i] = this.field.multiply(errorEvaluator.evaluateAt(xiInverse), this.field.inverse(denominator));
+				result[i] = field.multiply(errorEvaluator.evaluateAt(xiInverse), field.inverse(denominator));
 				// Thanks to sanfordsquires for this fix:
 				if (dataMatrix)
 				{
-					result[i] = this.field.multiply(result[i], xiInverse);
+					result[i] = field.multiply(result[i], xiInverse);
 				}
 			}
 			return result;
@@ -163,13 +163,13 @@ namespace com.google.zxing.common.reedsolomon
 
 			GenericGFPoly rLast = a;
 			GenericGFPoly r = b;
-			GenericGFPoly sLast = this.field.One;
-			GenericGFPoly s = this.field.Zero;
-			GenericGFPoly tLast = this.field.Zero;
-			GenericGFPoly t = this.field.One;
+			GenericGFPoly sLast = field.One;
+			GenericGFPoly s = field.Zero;
+			GenericGFPoly tLast = field.Zero;
+			GenericGFPoly t = field.One;
 
 			// Run Euclidean algorithm until r's degree is less than R/2
-			while (r.Degree >= R / 2)
+			while (r.Degree >= (R / 2))
 			{
 				GenericGFPoly rLastLast = rLast;
 				GenericGFPoly sLastLast = sLast;
@@ -185,14 +185,14 @@ namespace com.google.zxing.common.reedsolomon
 					throw new ReedSolomonException("r_{i-1} was zero");
 				}
 				r = rLastLast;
-				GenericGFPoly q = this.field.Zero;
+				GenericGFPoly q = field.Zero;
 				int denominatorLeadingTerm = rLast.getCoefficient(rLast.Degree);
-				int dltInverse = this.field.inverse(denominatorLeadingTerm);
+				int dltInverse = field.inverse(denominatorLeadingTerm);
 				while (r.Degree >= rLast.Degree && !r.Zero)
 				{
 					int degreeDiff = r.Degree - rLast.Degree;
-					int scale = this.field.multiply(r.getCoefficient(r.Degree), dltInverse);
-					q = q.addOrSubtract(this.field.buildMonomial(degreeDiff, scale));
+					int scale = field.multiply(r.getCoefficient(r.Degree), dltInverse);
+					q = q.addOrSubtract(field.buildMonomial(degreeDiff, scale));
 					r = r.addOrSubtract(rLast.multiplyByMonomial(degreeDiff, scale));
 				}
 
@@ -206,7 +206,7 @@ namespace com.google.zxing.common.reedsolomon
 				throw new ReedSolomonException("sigmaTilde(0) was zero");
 			}
 
-			int inverse = this.field.inverse(sigmaTildeAtZero);
+			int inverse = field.inverse(sigmaTildeAtZero);
 			GenericGFPoly sigma = t.multiply(inverse);
 			GenericGFPoly omega = r.multiply(inverse);
 			return new GenericGFPoly[] {sigma, omega};

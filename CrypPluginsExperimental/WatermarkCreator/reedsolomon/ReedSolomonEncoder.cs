@@ -38,43 +38,43 @@ namespace com.google.zxing.common.reedsolomon
 		{
 			if (!GenericGF.QR_CODE_FIELD_256.Equals(field))
 			{
-				throw new System.ArgumentException("Only QR Code is supported at this time");
+				throw new ArgumentException("Only QR Code is supported at this time");
 			}
 			this.field = field;
-			this.cachedGenerators = new ArrayList();
-			this.cachedGenerators.Add(new GenericGFPoly(field, new int[] {1}));
+			cachedGenerators = new ArrayList();
+			cachedGenerators.Add(new GenericGFPoly(field, new int[] {1}));
 		}
 
 		private GenericGFPoly buildGenerator(int degree)
 		{
-			if (degree >= this.cachedGenerators.Count)
+			if (degree >= cachedGenerators.Count)
 			{
-				GenericGFPoly lastGenerator = (GenericGFPoly) this.cachedGenerators[this.cachedGenerators.Count - 1];
-				for (int d = this.cachedGenerators.Count; d <= degree; d++)
+				GenericGFPoly lastGenerator = (GenericGFPoly) cachedGenerators[cachedGenerators.Count - 1];
+				for (int d = cachedGenerators.Count; d <= degree; d++)
 				{
-					GenericGFPoly nextGenerator = lastGenerator.multiply(new GenericGFPoly(this.field, new int[] {1, this.field.exp(d - 1)}));
-					this.cachedGenerators.Add(nextGenerator);
+					GenericGFPoly nextGenerator = lastGenerator.multiply(new GenericGFPoly(field, new int[] {1, field.exp(d - 1)}));
+					cachedGenerators.Add(nextGenerator);
 					lastGenerator = nextGenerator;
 				}
 			}
-			return (GenericGFPoly) this.cachedGenerators[degree];
+			return (GenericGFPoly) cachedGenerators[degree];
 		}
 
 		public void encode(int[] toEncode, int ecBytes)
 		{
 			if (ecBytes == 0)
 			{
-				throw new System.ArgumentException("No error correction bytes");
+				throw new ArgumentException("No error correction bytes");
 			}
 			int dataBytes = toEncode.Length - ecBytes;
 			if (dataBytes <= 0)
 			{
-				throw new System.ArgumentException("No data bytes provided");
+				throw new ArgumentException("No data bytes provided");
 			}
 			GenericGFPoly generator = buildGenerator(ecBytes);
 			int[] infoCoefficients = new int[dataBytes];
 			Array.Copy(toEncode, 0, infoCoefficients, 0, dataBytes);
-			GenericGFPoly info = new GenericGFPoly(this.field, infoCoefficients);
+			GenericGFPoly info = new GenericGFPoly(field, infoCoefficients);
 			info = info.multiplyByMonomial(ecBytes, 1);
 			GenericGFPoly remainder = info.divide(generator)[1];
 			int[] coefficients = remainder.Coefficients;

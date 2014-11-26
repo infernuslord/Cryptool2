@@ -289,14 +289,14 @@ namespace Cryptool.Plugins.WatermarkCreator
                 case 1:
                     SettingChanged("Opacity", Visibility.Visible);
                     SettingChanged("BoxSize", Visibility.Visible);
-                    SettingChanged("ErrorCorrection", Visibility.Visible);
+                    //SettingChanged("ErrorCorrection", Visibility.Visible);
                     SettingChanged("Seed1", Visibility.Visible);
                     SettingChanged("Seed2", Visibility.Visible);
                     break;
                 case 0:
                     SettingChanged("Opacity", Visibility.Collapsed);
                     SettingChanged("BoxSize", Visibility.Collapsed);
-                    SettingChanged("ErrorCorrection", Visibility.Collapsed);
+                    //SettingChanged("ErrorCorrection", Visibility.Collapsed);
                     SettingChanged("Seed1", Visibility.Collapsed);
                     SettingChanged("Seed2", Visibility.Collapsed);
                     break;
