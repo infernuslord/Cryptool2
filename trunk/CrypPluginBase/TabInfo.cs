@@ -68,20 +68,37 @@ namespace Cryptool.PluginBase
                 try
                 {
                     XElement xml = XElement.Load(xmlFile);
-                    var titleElement = XMLHelper.GetGlobalizedElementFromXML(xml, "title");
-                    if (titleElement != null)
-                        title = titleElement.Value;
 
+                    var titleElement = XMLHelper.GetGlobalizedElementFromXML(xml, "title");
                     var summaryElement = XMLHelper.GetGlobalizedElementFromXML(xml, "summary");
                     var descriptionElement = XMLHelper.GetGlobalizedElementFromXML(xml, "description");
+
+                    if (titleElement != null)
+                    {
+                        title = titleElement.Value;
+                        if (title != null && title.Trim().Length > 0)
+                        {
+                            summary.Inlines.Add(new Bold(XMLHelper.ConvertFormattedXElement(titleElement)));
+                        }
+                    }
+
                     if (summaryElement != null)
                     {
+                        if (summary.Inlines.Count > 0)
+                        {
+                            summary.Inlines.Add(new LineBreak());
+                            summary.Inlines.Add(new LineBreak());
+                        }
                         summary.Inlines.Add(new Bold(XMLHelper.ConvertFormattedXElement(summaryElement)));
                     }
+
                     if (descriptionElement != null && descriptionElement.Value.Length > 1)
                     {
-                        summary.Inlines.Add(new LineBreak());
-                        summary.Inlines.Add(new LineBreak());
+                        if (summary.Inlines.Count > 0)
+                        {
+                            summary.Inlines.Add(new LineBreak());
+                            summary.Inlines.Add(new LineBreak());
+                        }
                         summary.Inlines.Add(XMLHelper.ConvertFormattedXElement(descriptionElement));
                     }
 
@@ -115,6 +132,7 @@ namespace Cryptool.PluginBase
             {
                 iconFile = Path.Combine(file.Directory.FullName, Path.GetFileNameWithoutExtension(file.Name) + ".png");
             }
+
             ImageSource image = null;
             if (File.Exists(iconFile))
             {
@@ -136,6 +154,7 @@ namespace Cryptool.PluginBase
                     image = editorType.GetImage(0).Source;
                 }
             }
+
             return new TabInfo() { Tooltip = summary, Title = title, Icon = image, filename = file };
         }
 
