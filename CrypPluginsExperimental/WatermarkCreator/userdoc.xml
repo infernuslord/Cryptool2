@@ -26,36 +26,36 @@
     Wogegen ein Wasserzeichen robust ist, hängt von den genutzten Algorithmen ab. Die Verfahren nutzen eine Diskrete Cosinus Transformation, eine Diskrete Fourier Transformation 
     oder eine Diskrete Wavelet Transformation. <newline/>
     In dieser Komponente wird ein Algorithmus verwendet, der die Diskrete Cosinus Transformation nutzt. Solche Algorithmen sind robust gegenüber Komprimierungen des Bildes, zum Beispiel
-    beim Verschicken oder Hochladen auf Seiten, und geringfügige Geometrische Veränderungen, zum Beispiel kann man im Bild einzelne Details übermalen oder Löschen.
+    beim Verschicken oder Hochladen auf Seiten, und geringfügige geometrische Veränderungen, zum Beispiel kann man im Bild einzelne Details übermalen oder löschen.
   </introduction>
 
   <usage lang="en">
     This component features three different modi: <newline/>
     <section headline="Embed visible text">
-      In this mode, we're using the inputs "Image" and "Watermark". To the input "Image", you have to add a "File Input" component where you chose the image the watermark will
-      be embedded into. To the input "Watermark", you have to add a "Text input" component where you can then enter the text that will be added to the image as a watermark. The component
+      In this mode, we're using the inputs "Image" and "Watermark". To the input "Image", you have to add a "File Input" component where you choose the image into which the watermark will be 
+      embedded. To the input "Watermark", you have to add a "Text input" component where you can then enter the text that will be added to the image as a watermark. The component
       also offers some settings: <newline/>
-      <b>Maximum text size:</b> The component test which the largest font size is that could be used to add the text as a watermark in one line. However, the user can define which the
-      largest font size that should be tested is. <newline/>
+      <b>Maximum text size:</b> The component tests what the largest font size is in order to add the text as a watermark in one line. However, the user can define largest font 
+      size allowed to be tested. <newline/>
       <b>Font type:</b> The user can select the font type to be used for the watermark from a selection of fonts. If the selected font isn't installed on the user's system, the
-      compnent will show a warning and fall back and use "Arial" instead.<newline/>
-      <b>Location of the watermark:</b> The user can select where the watermark should be located. He can chose between "Top of the image", "Bottom of the image" and a "Custom
-      location". If the user choses "Custom location", a slider will appear which let's the user define the location. The further to the right the user moves the slider, the further
+      component will show a warning and fall back and use "Arial" instead.<newline/>
+      <b>Location of the watermark:</b> The user can select where the watermark should be located. He can choose between "Top of the image", "Bottom of the image" and a "Custom
+      location". If the user chooses "Custom location", a slider will appear which let's the user define the location. The further to the right the user moves the slider, the further
       to the top the watermark will move.<newline/>
       The component only uses one output, "Image with watermark". To this output, the user can either add a "Picture Output" or a "File output" component to either display or save the 
       image with the watermark.
     </section>
 
     <section headline="Embed invisible text">
-      In this mode, we're using the inputs "Image" and "Watermark". To the input "Image", you have to add a "File Input" component where you chose the image the watermark will
+      In this mode, we're using the inputs "Image" and "Watermark". To the input "Image", you have to add a "File Input" component where you choose the image the watermark will
       be embedded into. To the input "Watermark", you have to add a "Text input" component where you can then enter the text that will be added to the image as a watermark. The component
-      also offers some settings, though they're only available in case the user choses THE "Advanced mode": <newline/>
+      also offers some settings, though they're only available in case the user chooses THE "Advanced mode": <newline/>
       <b>Box size:</b> The Box size defines the size of a square to be used for embedding one bit in pixels. The larger the box size is, the less data can be stored in the image.
       However, the watermark will also become more robust and invisible by using a larger box size. In an image of size 100x100, using a box size of 10 you can embed 100 bits
       while with a box size of 20 you can only embed 25 bits in it.
       <newline/>
-      <b>Opacity of the watermark:</b> For the opacit you can choose a value between 0 and 1000, where 1000 stands for the highest opacity. The higher the opacity, the more robust 
-      but also the more visible the watermark will be. Choosing a very low opacity can lead to the watermark becoming very instable. This way it can happen very fast that thewatermark
+      <b>Opacity of the watermark:</b> The opacity can be set to values between 0 and 1000. The higher the opacity, the more robust 
+      but also the more visible the watermark will be. Choosing a very low opacity can lead to the watermark becoming very instable. This way it can happen very fast that the watermark
       can't be extracted from the image anymore. For a good result, an opacity of 500 or higher is recommended. <newline/>
       <b>Seeds:</b> Here the user can define two random numbers that are internally used as seeds for random number generators. <newline/>
       The component only uses one output, "Image with watermark". To this output, the user can either add a "Picture Output" or a "File output" component to either display or save the
@@ -64,7 +64,7 @@
     </section>
 
     <section headline="Extract invisible text">
-      In this mode, we only use the input "Image". Here the user has to connect a "File input" component, where he choses the image a watermark should be extracted from.
+      In this mode, we only use the input "Image". Here the user has to connect a "File input" component, where he chooses the image a watermark should be extracted from.
       The component offers the same settings as in the "Embedding" mode. Please note that the settings for "Box size" and the two random numbers, "Seed 1" and "Seed 2", have to be
       <b>identical</b> to the ones used when embedding the watermark. Otherwise the watermark will not be found.
       <newline/>
@@ -81,8 +81,9 @@
       <b>Maximale Schriftgröße:</b> Hier kann der Nutzer einstellen, wie groß das Wasserzeichen maximal dargestellt werden soll. Ist die angegebene Schriftgröße zu groß,
       sodass der Text nicht in einer Zeile in das Bild eingefügt werden kann, berechnet die Komponente intern die größtmögliche Schriftgröße, mit der der Text in einer Zeile
       auf das Bild passt, und nutzt diese.<newline/>
-      <b>Schriftart:</b> Hier kann der Nutzer wählen, in welcher Schriftart das Wasserzeichen dargestellt werden soll. Dafür stehen einige Schriftarten zur Auswahl. Nutzer eine 
-      Schriftart auswählen, die auf seinem Computer nicht installiert ist, zeigt die Komponente eine Warnung an und verwendet anstelle der gewählten Schriftart "Arial".<newline/>
+      <b>Schriftart:</b> Hier kann der Nutzer wählen, in welcher Schriftart das Wasserzeichen dargestellt werden soll. Dafür stehen einige Schriftarten zur Auswahl. Wird 
+      vom Nutzer eine 
+      Schriftart ausgewählt, die auf dem Computer nicht installiert ist, zeigt die Komponente eine Warnung an und verwendet anstelle der gewählten Schriftart "Arial".<newline/>
       <b>Platzierung des Wasserzeichens:</b> Hier kann man auswählen, wo auf dem Bild das Wasserzeichen platziert werden soll. Dabei hat man die Wahl zwischen den vorgegebenen 
       Platzierungen "Oberer Bildrand" und "Unterer Bildrand" sowie einer eigenen Platzierung. Entscheidet sich der Nutzer für die Auswahl
       "Wähle eigene Platzierung", so erscheint ein Schieberegler, mit dem er das Wasserzeichen platzieren kann. <newline/>
@@ -95,14 +96,14 @@
       eingefügt werden soll, auswählt. Dem Eingang "Wasserzeichen" hängt man eine Texteingabe an, in der man den Text, der als Wasserzeichen eingefügt werden soll, eingibt. Die Komponente
       selbst ermöglicht einige Einstellmöglichkeiten. Allerdings werden diese nur angezeigt, wenn man den "Expertenmodus" wählt: <newline/>
       <b>Box-Größe:</b> Die Box-Größe gibt die Größe eines Rechtecks in Pixeln an, das für die Einbettung von einem bit genutzt wird. Je größer dieser Wert ist, desto weniger Daten
-      können im Bild gespeichert werden. Allerdings erhöht sich im Gegenzug die Robustheit und das Wasserzeichen wird weniger sichtbar. In einem 100x100 Pixel großem
+      können im Bild gespeichert werden. Allerdings erhöht sich im Gegenzug die Robustheit und das Wasserzeichen wird weniger sichtbar. In einem 100x100 Pixel großen
       Bild können somit bei einer Box-Größe von 10x10 Pixeln 100 bit versteckt werden; bei einer Box-Größe von 20x20 Pixeln nur noch 25 Bits.
       <newline/>
-      <b>Deckkraft des Wasserzeichens:</b> Die Deckkraft kann zwischen 0 und 1000 gewählt werden,  wobei 1000 die höchste Deckkraft darstellt. Je höher die Deckkraft des
+      <b>Deckkraft des Wasserzeichens:</b> Die Deckkraft kann auf Werte zwischen 0 und 1000 festgelegt werden. Je höher die Deckkraft des
       Wasserzeichens ist, desto Robuster ist das Wasserzeichen gegen Veränderungen. Allerdings wird es dadurch auch sichtbarer. Wählt man allerdings eine zu geringe Deckkraft,
       kann es passieren, dass das Wasserzeichen sehr schnell nicht mehr korrekt wiedererkannt wird. Es ist zu empfehlen, mindestens eine Deckkraft von 500 zu wählen.
       <newline/>
-      <b>Zuffalszahlen:</b> Hier kann der Nutzer 2 beliebige Zahlen auswählen, die als Startpunkt für den internen Zuffalszahlengenerator genutzt werden.
+      <b>Zufalszahlen:</b> Hier kann der Nutzer zwei beliebige Zahlen auswählen, die als Startpunkt für den internen Zufalszahlengenerator genutzt werden.
       <newline/>
       Die Komponente nutzt nur einen Ausgang, das "Bild mit Wasserzeichen". An diesen Ausgang kann man entweder eine Bildausgabe hängen, in der das Bild mit Wasserzeichen angezeigt wird,
       oder eine Dateiausgabe, falls man z.B. das Bild für eine weitere Verwendung speichern will. So kann man das Bild zum Beispiel speichern, mit Paint oder einem anderen
@@ -113,7 +114,7 @@
       In diesem Modus wird nur der Eingang "Bild" verwendet. Dem Eingang hängt man eine Dateieingabe an, in der man das Bild, aus dem das Wasserzeichen
       ausgelesen werden soll, auswählt. Die Komponente selbst ermöglicht einige Einstellmöglichkeiten. Allerdings werden diese nur angezeigt, wenn man den "Expertenmodus" wählt.
       Diese Einstellmöglichkeiten sind identisch mit denen, die beim Einfügen eines Wasserzeichens verwendet werden. Achten Sie bitte darauf, dass die Werte für die Box-Größe und
-      die beiden Zuffalszahlen <b>identisch</b> zu denen sein müssen, die beim Einfügen des Wasserzeichens genutzt wurden. Ansonsten kann das Wasserzeiche nicht ausgelesen werden.
+      die beiden Zufalszahlen <b>identisch</b> zu denen sein müssen, die beim Einfügen des Wasserzeichens genutzt wurden. Ansonsten kann das Wasserzeiche nicht ausgelesen werden.
       <newline/>
       Die Komponente nutzt nur einen Ausgang, den "Eingebetteten Text". An diesen Ausgang hängt man eine "Textausgabe", in der das gefundene Wasserzeichen angezeigt wird.
     </section>
