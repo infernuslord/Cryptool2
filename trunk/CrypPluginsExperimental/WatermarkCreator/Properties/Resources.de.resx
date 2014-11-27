@@ -172,7 +172,7 @@
     <value>Deckkraft des Wasserzeichens</value>
   </data>
   <data name="OpacityDes" xml:space="preserve">
-    <value>Deckkraft des Wasserzeichens. Ein höherer Wert führt zu einer höheren Deckkraft, wodurch das Wasserzeichen stabiler wird. Allerdings wird es dadurch ebenfalls sichtbarer. Der maximale Wert ist 1000, fuer ein gutes Ergebnis wird ein Wert von ueber 500 empfohlen.</value>
+    <value>Deckkraft des Wasserzeichens. Ein höherer Wert führt zu einer höheren Deckkraft, wodurch das Wasserzeichen stabiler wird. Allerdings wird es dadurch auch sichtbarer. Der maximale Wert ist 1000; für ein gutes Ergebnis wird ein Wert von über 500 empfohlen.</value>
   </data>
   <data name="OtherLoc" xml:space="preserve">
     <value>Wähle eine eigene Platzierung</value>
