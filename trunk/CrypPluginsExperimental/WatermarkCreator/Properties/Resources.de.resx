@@ -121,19 +121,19 @@
     <value>Expertenmodus</value>
   </data>
   <data name="AdvancedModeDes" xml:space="preserve">
-    <value>Nutze den Expertenmodus, um mehr Einstellungen vornehmen zu koennen.</value>
+    <value>Nutze den Expertenmodus, um mehr Einstellungen vornehmen zu können.</value>
   </data>
   <data name="BotLoc" xml:space="preserve">
     <value>Platziere das Wasserzeichen am unteren Bildrand</value>
   </data>
   <data name="BoxSizeCap" xml:space="preserve">
-    <value>Box Groesse</value>
+    <value>Box-Größe</value>
   </data>
   <data name="BoxSizeDes" xml:space="preserve">
-    <value>Je groesser die Box, desto staerker ist das Wasserzeichen. Allerdings sinkt die Anzahl der Daten, die gespeichert werden koennen</value>
+    <value>Je größer die Box, desto stärker ist das Wasserzeichen. Allerdings sinkt die Anzahl der Daten, die gespeichert werden können</value>
   </data>
   <data name="ErrorCorrectionCap" xml:space="preserve">
-    <value>Error Korrektion</value>
+    <value>Fehler-Korrektur</value>
   </data>
   <data name="ErrorCorrectionDes" xml:space="preserve">
     <value>Anzahl der Bytes, die zur Korrektur von Fehlern verwendet werden.</value>
@@ -142,7 +142,7 @@
     <value>Schriftart</value>
   </data>
   <data name="FontTypeDes" xml:space="preserve">
-    <value>Schriftart, die fuer das Wasserzeichen genutzt wird</value>
+    <value>Schriftart, die für das Wasserzeichen genutzt wird</value>
   </data>
   <data name="ImageCaption" xml:space="preserve">
     <value>Bild</value>
@@ -154,40 +154,40 @@
     <value>Freie Platzierung des Wasserzeichens</value>
   </data>
   <data name="LocationPercentageDes" xml:space="preserve">
-    <value>Erlaubt eine freie platzierung des Wasserzeichens. Je weiter nach rechts der Schieber gezogen wird, desto weiter nach oben wird das Wasserzeichen gesetzt</value>
+    <value>Erlaubt eine freie Platzierung des Wasserzeichens. Je weiter nach rechts der Schieber gezogen wird, desto weiter nach oben wird das Wasserzeichen gesetzt</value>
   </data>
   <data name="ModificationTypeCap" xml:space="preserve">
     <value>Art der Modifizierung</value>
   </data>
   <data name="ModificationTypeDes" xml:space="preserve">
-    <value>Waehle aus, welche Modifizierung mit der Eingabe vorgenommen wird</value>
+    <value>Wähle aus, welche Modifizierung mit der Eingabe vorgenommen wird</value>
   </data>
   <data name="NoPictureError" xml:space="preserve">
-    <value>Bitte nutzen sie die Komponente "Dateieingabe", um ein Bild als Eingabe hinzuzufuegen.</value>
+    <value>Bitte nutzen Sie die Komponente "Dateieingabe", um ein Bild als Eingabe hinzuzufügen.</value>
   </data>
   <data name="NoTextError" xml:space="preserve">
-    <value>Bitte nutzen sie die Komponente "Texteingabe", um einen String, der als Wasserzeichen verwendet wird, als Eingabe hinzuzufuegen.</value>
+    <value>Bitte nutzen Sie die Komponente "Texteingabe", um einen String, der als Wasserzeichen verwendet wird, als Eingabe hinzuzufügen.</value>
   </data>
   <data name="OpacityCap" xml:space="preserve">
     <value>Deckkraft des Wasserzeichens</value>
   </data>
   <data name="OpacityDes" xml:space="preserve">
-    <value>Deckkraft des Wasserzeichens. Ein hoeherer Wert fuehrt zu einer hoeheren Deckkraft, wodurch das Wasserzeichen stabiler wird. Allerdings wird es dadurch ebenfalls sichtbarer. Der maximale Wert ist 1000, fuer ein gutes Ergebnis wird ein Wert von ueber 500 empfohlen.</value>
+    <value>Deckkraft des Wasserzeichens. Ein höherer Wert führt zu einer höheren Deckkraft, wodurch das Wasserzeichen stabiler wird. Allerdings wird es dadurch ebenfalls sichtbarer. Der maximale Wert ist 1000, fuer ein gutes Ergebnis wird ein Wert von ueber 500 empfohlen.</value>
   </data>
   <data name="OtherLoc" xml:space="preserve">
-    <value>Waehle eine eigene Platzierung</value>
+    <value>Wähle eine eigene Platzierung</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Wasserzeichen Generator</value>
+    <value>Wasserzeichen-Generator</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Komponente um ein digitales Wasserzeichnen zu schreiben oder extrahieren.</value>
   </data>
   <data name="Seed" xml:space="preserve">
-    <value>Waehle eine Zufallszahl</value>
+    <value>Wähle eine Zufallszahl</value>
   </data>
   <data name="Seed1" xml:space="preserve">
-    <value>Zuffalszahl 1</value>
+    <value>Zufallszahl 1</value>
   </data>
   <data name="Seed2" xml:space="preserve">
     <value>Zufallszahl 2</value>
@@ -196,10 +196,10 @@
     <value>Eingebetteter Text</value>
   </data>
   <data name="TextSizeMaxCap" xml:space="preserve">
-    <value>Maximale Schriftgroesse</value>
+    <value>Maximale Schriftgröße</value>
   </data>
   <data name="TextSizeMaxDes" xml:space="preserve">
-    <value>Maximale Groesse des Textes. Sollte diese zu Gross fuer das Bild sein wird intern eine Groesse berechnet, sodass der Text in einer Zeile auf das Bild passt.</value>
+    <value>Maximale Größe des Textes. Sollte diese zu groß für das Bild sein, wird intern eine Größe berechnet, sodass der Text in einer Zeile auf das Bild passt.</value>
   </data>
   <data name="TextTooltip" xml:space="preserve">
     <value>Extrahiere das versteckte Wasserzeichen aus dem Bild</value>
@@ -223,15 +223,15 @@
     <value>Bild mit Wasserzeichen</value>
   </data>
   <data name="WatermarkImageTooltip" xml:space="preserve">
-    <value>Bild, in das ein Text als Wasserzeichen eingefuegt wurde.</value>
+    <value>Bild, in das ein Text als Wasserzeichen eingefügt wurde.</value>
   </data>
   <data name="WatermarkLocationCap" xml:space="preserve">
     <value>Platzierung des Wasserzeichens</value>
   </data>
   <data name="WatermarkLocationDes" xml:space="preserve">
-    <value>Waehle den Ort, wo auf dem Bild das Wasserzeichen eingefuegt wird.</value>
+    <value>Wähle den Ort, wo auf dem Bild das Wasserzeichen eingefügt wird.</value>
   </data>
   <data name="WatermarkTooltip" xml:space="preserve">
-    <value>Text, der dem Bild als Wasserzeichen hinzugefuegt wird.</value>
+    <value>Text, der dem Bild als Wasserzeichen hinzugefügt wird.</value>
   </data>
 </root>
