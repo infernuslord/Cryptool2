@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+
+  <title lang="en">Transcriptor semi-automatic mode</title>
+  <summary lang="en">Transcripts an image with symbols into a Text</summary>
+  <description lang="en">This template shows how to use the <i>Transcriptor</i> component with semi-automatic mode.</description>
+  <keywords>Transcriptor, Monoalphabetic, Substitution, Image, Semi-Automatic, Symbol </keywords>
+
+  <title lang="de">Transkriptor im Semi-Automatischen Modus</title>
+  <summary lang="de"> Transkribiert ein Bild, mit Symbolen, zu einem Text</summary>
+  <description lang="de">Diese Vorlage zeigt, wie die <i>Transkriptor</i>-Komponente mit dem Semi-Automatischen Modus verwendet wird.</description>
+  <keywords lang="de">Transkriptor, Monoalphabetisch, Substitution, Bild, Semi-Automatisch, Symbol</keywords>
+
+  <icon file="transcriptor.png" />
+  <relevantPlugins>
+    <plugin name="FileInput"/>
+    <plugin name="TextOutput" />
+    <plugin name="Transcriptor" />
+  </relevantPlugins>
+
+</sample>
