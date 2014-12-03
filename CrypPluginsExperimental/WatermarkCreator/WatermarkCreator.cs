@@ -38,7 +38,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 {
 
     [Author("Nils Rehwald", "nilsrehwald@gmail.com", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
-    [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", new[] {/* "WatermarkCreator/icon.png"*/"CrypWin/images/default.png" })]
+    [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", new[] {/*"WatermarkCreator/icon.png" */"CrypWin/images/default.png" })]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class WatermarkCreator : ICrypComponent
     {
