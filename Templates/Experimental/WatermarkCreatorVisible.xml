@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Watermark Creator - visible Watermark</title>
+  <summary lang="en">Usage of the <i>Watermark Creator</i></summary>
+  <description lang="en">This template shows the usage of Watermark Creator component to embed a text as a visible watermark into an image</description>
+  <keywords>Watermark</keywords>
+
+  <title lang="de">Wasserzeichen Ersteller - Sichtbares Wasserzeichen</title>
+  <summary lang="de">Benutzung des <i>Wasserzeichen Erstellers</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des Wasserzeichen Erstellers, um ein sichtbares Wasserzeichen in ein Bild einzufügen</description>
+  <keywords lang="de">Wasserzeichen</keywords>
+
+  <icon file="WatermarkCreator.png" />
+  <relevantPlugins>
+    <plugin name="WatermarkCreator" />
+  </relevantPlugins>
+</sample>

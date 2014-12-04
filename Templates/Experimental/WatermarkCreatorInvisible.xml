@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Watermark Creator - invisible Watermark</title>
+  <summary lang="en">Usage of the <i>Watermark Creator</i></summary>
+  <description lang="en">This template shows the usage of Watermark Creator component to embed a text as an invisible watermark into an image</description>
+  <keywords>Watermark</keywords>
+
+  <title lang="de">Wasserzeichen Ersteller - Unsichtbares Wasserzeichen</title>
+  <summary lang="de">Benutzung des <i>Wasserzeichen Erstellers</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Benutzung des Wasserzeichen Erstellers, um ein unsichtbares Wasserzeichen in ein Bild einzufügen</description>
+  <keywords lang="de">Wasserzeichen</keywords>
+
+  <icon file="WatermarkCreator.png" />
+  <relevantPlugins>
+    <plugin name="WatermarkCreator" />
+  </relevantPlugins>
+</sample>

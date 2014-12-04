@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sample>
+  <title lang="en">Watermark Creator - Robustness</title>
+  <summary lang="en">Usage of the <i>Watermark Creator</i></summary>
+  <description lang="en">This template shows the robustness of an invisible watermark embedded into an image</description>
+  <keywords>Watermark</keywords>
+
+  <title lang="de">Wasserzeichen Ersteller - Robustheit</title>
+  <summary lang="de">Benutzung des <i>Wasserzeichen Erstellers</i></summary>
+  <description lang="de">Diese Vorlage zeigt die Robustheit eines unsichtbaren Wasserzeichens, dass in ein Bild eingebettet wurde</description>
+  <keywords lang="de">Wasserzeichen</keywords>
+
+  <icon file="WatermarkCreator.png" />
+  <relevantPlugins>
+    <plugin name="WatermarkCreator" />
+  </relevantPlugins>
+</sample>
