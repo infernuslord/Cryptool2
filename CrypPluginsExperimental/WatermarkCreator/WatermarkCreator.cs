@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2014 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2014 Nils Rehwald
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -19,6 +19,8 @@
    Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
    Thanks to Nils Kopal for Support and Bugfixing 
 */
+
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -38,7 +40,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 {
 
     [Author("Nils Rehwald", "nilsrehwald@gmail.com", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
-    [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", new[] {/*"WatermarkCreator/icon.png" */"CrypWin/images/default.png" })]
+    [PluginInfo("WatermarkCreator.Properties.Resources", "PluginCaption", "PluginCaptionTooltip", "WatermarkCreator/userdoc.xml", "WatermarkCreator/icon.png")]
     [ComponentCategory(ComponentCategory.Steganography)]
     public class WatermarkCreator : ICrypComponent
     {
@@ -273,17 +275,29 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         private void settings_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            switch (e.PropertyName)
+            try
             {
-                case "ModificationType":
-                    _settings.UpdateTaskPaneVisibility();
-                    break;
-                case "WatermarkLocation":
-                    _settings.UpdateSlider();
-                    break;
-                case "AdvancedMode":
-                    _settings.UpdateAdvanced();
-                    break;
+                switch (e.PropertyName)
+                {
+                    case "ModificationType":
+                        _settings.UpdateTaskPaneVisibility();
+                        break;
+                    case "WatermarkLocation":
+                        _settings.UpdateSlider();
+                        break;
+                    case "AdvancedMode":
+                        _settings.UpdateAdvanced();
+                        break;
+                    case "LocationPercentage":
+                        if(!_stopped)
+                        {
+                            Execute();
+                        }
+                        break;
+                }
+            }catch(Exception ex)
+            {
+                GuiLogMessage(string.Format("Exception during settings_PropertyChanged: {0}",ex),NotificationLevel.Error);
             }
         }
 
