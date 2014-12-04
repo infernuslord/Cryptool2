@@ -119,7 +119,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        [TaskPane("LocationPercentageCap", "LocationPercentageDes", null, 13, false, ControlType.Slider, 5, 95)]
+        [TaskPane("LocationPercentageCap", "LocationPercentageDes", null, 13, true, ControlType.Slider, 5, 95)]
         public int LocationPercentage
         {
             get
