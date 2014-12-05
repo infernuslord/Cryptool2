@@ -29,9 +29,13 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace SHA
 {
-  [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
-  [PluginInfo("SHA.Properties.Resources", "PluginCaption", "PluginTooltip", "SHA/DetailedDescription/doc.xml", "SHA/SHA.png")]
-  [ComponentCategory(ComponentCategory.HashFunctions)]
+    [Author("Sebastian Przybylski", "sebastian@przybylski.org", "Uni-Siegen", "http://www.uni-siegen.de")]
+    [PluginInfo("SHA.Properties.Resources", "PluginCaption", "PluginTooltip", "SHA/DetailedDescription/doc.xml", "SHA/SHA.png")]
+    [FunctionList("SHA-1")]
+    [FunctionList("SHA-256")]
+    [FunctionList("SHA-384")]
+    [FunctionList("SHA-512")]
+    [ComponentCategory(ComponentCategory.HashFunctions)]
     public class SHA : ICrypComponent
     {
         private SHASettings settings;

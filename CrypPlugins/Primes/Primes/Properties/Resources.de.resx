@@ -217,4 +217,61 @@
   <data name="template" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\onlinehelp\helpfiles\template.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FL_F_factorization" xml:space="preserve">
+    <value>Faktorisierung einer Zahl</value>
+  </data>
+  <data name="FL_F_numbertheory" xml:space="preserve">
+    <value>Zahlentheorie</value>
+  </data>
+  <data name="FL_F_primalitytest" xml:space="preserve">
+    <value>Primzahltests</value>
+  </data>
+  <data name="FL_F_primedistribution" xml:space="preserve">
+    <value>Verteilung der Primzahlen</value>
+  </data>
+  <data name="FL_F_primegeneration" xml:space="preserve">
+    <value>Erzeugung von Primzahlen</value>
+  </data>
+  <data name="FL_P_atkin" xml:space="preserve">
+    <value>Primzahltests\ Sieb des Atkin</value>
+  </data>
+  <data name="FL_P_bruteforce" xml:space="preserve">
+    <value>Faktorisierung\ Probedivision</value>
+  </data>
+  <data name="FL_P_eratosthenes" xml:space="preserve">
+    <value>Primzahltests\ Sieb des Eratosthenes</value>
+  </data>
+  <data name="FL_P_goldbach" xml:space="preserve">
+    <value>Zahlentheorie\ Goldbach-Vermutung</value>
+  </data>
+  <data name="FL_P_millerrabin" xml:space="preserve">
+    <value>Primzahltests\ Miller-Rabin-Test</value>
+  </data>
+  <data name="FL_P_numbergrid" xml:space="preserve">
+    <value>Verteilung der Primzahlen\ Zahlengitter</value>
+  </data>
+  <data name="FL_P_numberline" xml:space="preserve">
+    <value>Verteilung der Primzahlen\ Zahlengerade</value>
+  </data>
+  <data name="FL_P_numberofprimes" xml:space="preserve">
+    <value>Verteilung der Primzahlen\ Anzahl der Primzahlen</value>
+  </data>
+  <data name="FL_P_numbertheoryfunctions" xml:space="preserve">
+    <value>Zahlentheorie\ Zahlentheoretische Funktionen</value>
+  </data>
+  <data name="FL_P_powering" xml:space="preserve">
+    <value>Zahlentheorie\ Potenzieren</value>
+  </data>
+  <data name="FL_P_primegeneration" xml:space="preserve">
+    <value>Erzeugung von Primzahlen\ Erzeugung von Primzahlen</value>
+  </data>
+  <data name="FL_P_primitiveroots" xml:space="preserve">
+    <value>Zahlentheorie\ Primitivwurzeln</value>
+  </data>
+  <data name="FL_P_qs" xml:space="preserve">
+    <value>Faktorisierung\ Quadratisches Sieb</value>
+  </data>
+  <data name="FL_P_ulam" xml:space="preserve">
+    <value>Verteilung der Primzahlen\ Ulam-Spirale</value>
+  </data>
 </root>

@@ -11,6 +11,8 @@ namespace PKCS1
 {
     [Author("Jens Schomburg", "mail@escobar.de", "Universität Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("PKCS1.Properties.Resources", "PluginCaption", "PluginTooltip", "PKCS1/DetailedDescription/doc.xml", "PKCS1/PKCS1.png")]
+    [FunctionList("FL_F_pkcs1", "FL_P_bleichenbacher")]
+    [FunctionList("FL_F_pkcs1", "FL_P_kuehn")]
 
     public class PKCS1Plugin : ICrypTutorial
     {

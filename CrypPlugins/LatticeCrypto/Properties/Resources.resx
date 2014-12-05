@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FL_F_cryptanalysis" xml:space="preserve">
+    <value>Lattice-based cryptanalysis</value>
+  </data>
+  <data name="FL_F_cryptography" xml:space="preserve">
+    <value>Lattice-based cryptography</value>
+  </data>
+  <data name="FL_F_problems" xml:space="preserve">
+    <value>Lattice-based problems</value>
+  </data>
+  <data name="FL_P_gauss" xml:space="preserve">
+    <value>Shortest Vector Problem (SVP)\ Gauss algorithm</value>
+  </data>
+  <data name="FL_P_GGH" xml:space="preserve">
+    <value>Lattice-based cryptography\ GGH</value>
+  </data>
+  <data name="FL_P_LLL" xml:space="preserve">
+    <value>Shortest Vector Problem (SVP)\ LLL algorithm</value>
+  </data>
+  <data name="FL_P_LWE" xml:space="preserve">
+    <value>Lattice-based cryptography\ LWE</value>
+  </data>
+  <data name="FL_P_merkle" xml:space="preserve">
+    <value>Lattice-based cryptanalysis\ Merkle-Hellmann Knapsack</value>
+  </data>
+  <data name="FL_P_next" xml:space="preserve">
+    <value>Closest Vector Problem\ Find closest vector</value>
+  </data>
+  <data name="FL_P__RSA" xml:space="preserve">
+    <value>Lattice-based cryptanalysis\ RSA (Coppersmith's Attack)</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Lattice-based cryptography</value>
   </data>
