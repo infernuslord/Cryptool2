@@ -37,7 +37,7 @@ namespace OnlineDocumentationGenerator
             {
                 generator.OutputDir = baseDir;
 
-                var templatesDir = ReadTemplates(baseDir, "", generator);
+                var templatesDir = ReadTemplates(baseDir, "", null, generator);
                 ReadPlugins(generator);
                 ReadCommonDocPages(generator);
 
@@ -94,15 +94,15 @@ namespace OnlineDocumentationGenerator
             return String.Compare(x.CurrentLocalization.Name, y.CurrentLocalization.Name);
         }
 
-        private TemplateDirectory ReadTemplates(string baseDir, string subdir, Generator generator)
+        private TemplateDirectory ReadTemplates(string baseDir, string subdir, TemplateDirectory parent, Generator generator)
         {
             var directory = new DirectoryInfo(Path.Combine(baseDir, Path.Combine(TemplateDirectory, subdir)));
-            var templateDir = new TemplateDirectory(directory);
+            var templateDir = new TemplateDirectory(directory, parent);
 
             //recursively analyze subdirs:
             foreach(var childdir in directory.GetDirectories())
             {
-                var subDir = ReadTemplates(baseDir, Path.Combine(subdir, childdir.Name), generator);
+                var subDir = ReadTemplates(baseDir, Path.Combine(subdir, childdir.Name), templateDir, generator);
                 templateDir.SubDirectories.Add(subDir);
             }
             templateDir.SubDirectories.Sort(CompareTemplateDirectories);
@@ -111,7 +111,7 @@ namespace OnlineDocumentationGenerator
             {
                 try
                 {
-                    var templatePage = new TemplateDocumentationPage(file.FullName, subdir);
+                    var templatePage = new TemplateDocumentationPage(file.FullName, subdir, templateDir);
                     if (templatePage.RelevantPlugins != null)
                     {
                         foreach (var relevantPlugin in templatePage.RelevantPlugins)

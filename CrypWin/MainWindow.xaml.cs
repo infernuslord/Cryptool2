@@ -50,6 +50,7 @@ using DevComponents.WpfRibbon;
 using Microsoft.Win32;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
 using OnlineDocumentationGenerator.Generators.LaTeXGenerator;
+using OnlineDocumentationGenerator.Generators.FunctionListGenerator;
 using Application = System.Windows.Application;
 using Button = System.Windows.Controls.Button;
 using ComboBox = System.Windows.Controls.ComboBox;
@@ -284,6 +285,7 @@ namespace Cryptool.CrypWin
                 }
                 Environment.Exit(0);
             }
+
             if (IsCommandParameterGiven("-GenerateDocLaTeX"))
             {
                 try
@@ -303,6 +305,24 @@ namespace Cryptool.CrypWin
                 catch(Exception ex)
                 {
                     //wtf?    
+                }
+                Environment.Exit(0);
+            }
+
+            if (IsCommandParameterGiven("-GenerateFunctionList"))
+            {
+                try
+                {
+                    var generatingDocWindow = new GeneratingWindow();
+                    generatingDocWindow.Message.Content = Properties.Resources.GeneratingFunctionListWaitMessage;
+                    generatingDocWindow.Title = Properties.Resources.Generating_Documentation_Title;
+                    generatingDocWindow.Show();
+                    var docGenerator = new OnlineDocumentationGenerator.DocGenerator();
+                    docGenerator.Generate(DirectoryHelper.BaseDirectory, new FunctionListGenerator());
+                    generatingDocWindow.Close();
+                }
+                catch (Exception ex)
+                {  
                 }
                 Environment.Exit(0);
             }

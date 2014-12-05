@@ -22,6 +22,7 @@ namespace OnlineDocumentationGenerator
 
         public List<TemplateDocumentationPage> ContainingTemplateDocPages { get; private set; }
         public List<TemplateDirectory> SubDirectories { get; private set; }
+        public TemplateDirectory Parent { get; private set; }
         public Dictionary<string, LocalizedTemplateInfos> LocalizedInfos { get; private set; }
         public BitmapFrame DirIcon { get; private set; }
         public int Order { get; private set; }
@@ -65,12 +66,14 @@ namespace OnlineDocumentationGenerator
             return string.Format("{0} - {1}", GetName(), GetSummary());
         }
 
-        public TemplateDirectory(DirectoryInfo directory)
+        public TemplateDirectory(DirectoryInfo directory, TemplateDirectory parent = null)
         {
             ContainingTemplateDocPages = new List<TemplateDocumentationPage>();
             SubDirectories = new List<TemplateDirectory>();
             LocalizedInfos = new Dictionary<string, LocalizedTemplateInfos>();
             LocalizedInfos.Add("en", new LocalizedTemplateInfos() {Lang = "en", Name = directory.Name});
+
+            Parent = parent;
 
             //Read metainfos:
             var metainfo = directory.GetFiles("dir.xml");

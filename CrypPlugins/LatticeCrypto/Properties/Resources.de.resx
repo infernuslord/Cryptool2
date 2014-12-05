@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FL_F_cryptanalysis" xml:space="preserve">
+    <value>Gitterbasierte Kryptoanalyse</value>
+  </data>
+  <data name="FL_F_cryptography" xml:space="preserve">
+    <value>Gitterbasierte Kryptographie</value>
+  </data>
+  <data name="FL_F_problems" xml:space="preserve">
+    <value>Gitterbasierte Probleme</value>
+  </data>
+  <data name="FL_P_gauss" xml:space="preserve">
+    <value>Kürzester Vektor Problem (SVP)\ Gauß-Algorithmus</value>
+  </data>
+  <data name="FL_P_GGH" xml:space="preserve">
+    <value>Gitterbasierte Verschlüsselungssysteme\ GGH</value>
+  </data>
+  <data name="FL_P_LLL" xml:space="preserve">
+    <value>Kürzester Vektor Problem (SVP)\ LLL-Algorithmus</value>
+  </data>
+  <data name="FL_P_LWE" xml:space="preserve">
+    <value>Gitterbasierte Verschlüsselungssysteme\ LWE</value>
+  </data>
+  <data name="FL_P_merkle" xml:space="preserve">
+    <value>Gitterbasierte Angriffe \ Merkle-Hellmann Knapsack</value>
+  </data>
+  <data name="FL_P_next" xml:space="preserve">
+    <value>Nächster Vektor Problem\ Finde nächsten Vektor</value>
+  </data>
+  <data name="FL_P__RSA" xml:space="preserve">
+    <value>Gitterbasierte Angriffe \ RSA (Angriff auf stereotype Nachrichten)</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Gitterbasierte Kryptographie</value>
   </data>

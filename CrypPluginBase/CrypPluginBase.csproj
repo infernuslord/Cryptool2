@@ -87,6 +87,7 @@
     <Compile Include="Attributes\ComponentCategoryAttribute.cs" />
     <Compile Include="Attributes\ComponentVisualAppearance.cs" />
     <Compile Include="Attributes\DontSaveAttribute.cs" />
+    <Compile Include="Attributes\FunctionListAttribute.cs" />
     <Compile Include="Attributes\LocalizationAttribute.cs" />
     <Compile Include="Attributes\NotStoredInSessionAttribute.cs" />
     <Compile Include="Attributes\SettingsFormatAttribute.cs" />

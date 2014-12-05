@@ -5,7 +5,14 @@ namespace LatticeCrypto
 {
     [Author("Eric Schmeck", "eric.schmeck@gmx.de", "Universität Siegen", "http://www.uni-siegen.de")]
     [PluginInfo("LatticeCrypto.Properties.Resources", "PluginCaption", "PluginTooltip", "LatticeCrypto/DetailedDescription/doc.xml", "LatticeCrypto/LatticeCryptoPlugin.png")]
-    
+    [FunctionList("FL_F_cryptanalysis", "FL_P_merkle")]
+    [FunctionList("FL_F_cryptanalysis", "FL_P__RSA")]
+    [FunctionList("FL_F_cryptography", "FL_P_GGH")]
+    [FunctionList("FL_F_cryptography", "FL_P_LWE")]
+    [FunctionList("FL_F_problems", "FL_P_gauss")]
+    [FunctionList("FL_F_problems", "FL_P_LLL")]
+    [FunctionList("FL_F_problems", "FL_P_next")]
+
     public class LatticeCryptoPlugin : ICrypTutorial
     {
         private LatticeCryptoMain latticeCryptoMain;

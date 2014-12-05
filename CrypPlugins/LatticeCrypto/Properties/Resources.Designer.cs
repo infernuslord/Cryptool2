@@ -61,6 +61,96 @@ namespace LatticeCrypto.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptanalysis ähnelt.
+        /// </summary>
+        internal static string FL_F_cryptanalysis {
+            get {
+                return ResourceManager.GetString("FL_F_cryptanalysis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptography ähnelt.
+        /// </summary>
+        internal static string FL_F_cryptography {
+            get {
+                return ResourceManager.GetString("FL_F_cryptography", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based problems ähnelt.
+        /// </summary>
+        internal static string FL_F_problems {
+            get {
+                return ResourceManager.GetString("FL_F_problems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptanalysis\ RSA (Coppersmith&apos;s Attack) ähnelt.
+        /// </summary>
+        internal static string FL_P__RSA {
+            get {
+                return ResourceManager.GetString("FL_P__RSA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shortest Vector Problem (SVP)\ Gauss algorithm ähnelt.
+        /// </summary>
+        internal static string FL_P_gauss {
+            get {
+                return ResourceManager.GetString("FL_P_gauss", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptography\ GGH ähnelt.
+        /// </summary>
+        internal static string FL_P_GGH {
+            get {
+                return ResourceManager.GetString("FL_P_GGH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Shortest Vector Problem (SVP)\ LLL algorithm ähnelt.
+        /// </summary>
+        internal static string FL_P_LLL {
+            get {
+                return ResourceManager.GetString("FL_P_LLL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptography\ LWE ähnelt.
+        /// </summary>
+        internal static string FL_P_LWE {
+            get {
+                return ResourceManager.GetString("FL_P_LWE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptanalysis\ Merkle-Hellmann Knapsack ähnelt.
+        /// </summary>
+        internal static string FL_P_merkle {
+            get {
+                return ResourceManager.GetString("FL_P_merkle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Closest Vector Problem\ Find closest vector ähnelt.
+        /// </summary>
+        internal static string FL_P_next {
+            get {
+                return ResourceManager.GetString("FL_P_next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Lattice-based cryptography ähnelt.
         /// </summary>
         internal static string PluginCaption {

@@ -955,4 +955,7 @@
   <data name="SI_System_Type_64" xml:space="preserve">
     <value>64-bit Operating System</value>
   </data>
+  <data name="GeneratingFunctionListWaitMessage" xml:space="preserve">
+    <value>Please wait... Generating Function List.</value>
+  </data>
 </root>
