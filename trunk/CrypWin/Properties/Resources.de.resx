@@ -934,4 +934,7 @@
   <data name="SI_System_Type_64" xml:space="preserve">
     <value>64 Bit-Betriebssystem</value>
   </data>
+  <data name="GeneratingFunctionListWaitMessage" xml:space="preserve">
+    <value>Bitte warten... Funktionsliste wird erzeugt.</value>
+  </data>
 </root>

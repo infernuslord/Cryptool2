@@ -2,6 +2,8 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Media.Imaging;
+using System.Collections.Generic;
+using System.Linq;
 using System.Xml.Linq;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations.Utils;
@@ -46,6 +48,34 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
                     return Description;
                 return null;
             }
+        }
+
+        public List<string> CategoryPathList()
+        {
+            List<string> categories = new List<string>();
+            TemplateDirectory tdir = ((TemplateDocumentationPage)DocumentationPage).TemplateDir;
+
+            while (tdir != null)
+            {
+                string name;
+                try
+                {
+                    name = tdir.LocalizedInfos[Lang].Name;
+                }
+                catch (System.Exception ex)
+                {
+                    name = "???";
+                }
+                categories.Insert(0, name);
+                tdir = tdir.Parent;
+            }
+
+            return categories;
+        }
+
+        public string CategoryPath()
+        {
+            return string.Join("\\ ", CategoryPathList().Skip(1));
         }
 
         public LocalizedTemplateDocumentationPage(TemplateDocumentationPage templateDocumentationPage, string lang, BitmapFrame icon)

@@ -304,4 +304,64 @@
   <data name="ComponentTemplate_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="Category_FL_CiphersModernAsymmetric" xml:space="preserve">
+    <value>Modern Ciphers\ Asymmetric</value>
+  </data>
+  <data name="Category_FL_CiphersModernSymmetric" xml:space="preserve">
+    <value>Modern Ciphers\ Symmetric</value>
+  </data>
+  <data name="Category_FL_Classic_Ciphers" xml:space="preserve">
+    <value>Classic Ciphers</value>
+  </data>
+  <data name="Category_FL_CryptanalysisGeneric" xml:space="preserve">
+    <value>Cryptanalysis\ Generic</value>
+  </data>
+  <data name="Category_FL_CryptanalysisSpecific" xml:space="preserve">
+    <value>Cryptanalysis\ Specific</value>
+  </data>
+  <data name="Category_FL_HashFunctions" xml:space="preserve">
+    <value>Hash Functions</value>
+  </data>
+  <data name="Category_FL_Protocols" xml:space="preserve">
+    <value>Protocols</value>
+  </data>
+  <data name="Category_FL_Steganography" xml:space="preserve">
+    <value>Steganography</value>
+  </data>
+  <data name="Category_FL_ToolsBoolean" xml:space="preserve">
+    <value>Tools\ Boolean</value>
+  </data>
+  <data name="Category_FL_ToolsDataflow" xml:space="preserve">
+    <value>Tools\ Data flow</value>
+  </data>
+  <data name="Category_FL_ToolsDataInputOutput" xml:space="preserve">
+    <value>Tools\ Data input/output</value>
+  </data>
+  <data name="Category_FL_ToolsMisc" xml:space="preserve">
+    <value>Tools\ Misc</value>
+  </data>
+  <data name="Category_FL_ToolsP2P" xml:space="preserve">
+    <value>Tools\ Peer-to-peer</value>
+  </data>
+  <data name="Category_FL_Unknown" xml:space="preserve">
+    <value>Others</value>
+  </data>
+  <data name="FL_Letter_Component" xml:space="preserve">
+    <value>C</value>
+  </data>
+  <data name="FL_Letter_Template" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="FL_Letter_Tutorial" xml:space="preserve">
+    <value>N</value>
+  </data>
+  <data name="FL_Letter_Wizard" xml:space="preserve">
+    <value>W</value>
+  </data>
+  <data name="FL_Tutorial" xml:space="preserve">
+    <value>Crypto Tutorials</value>
+  </data>
+  <data name="FunctionListTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\generators\functionlistgenerator\functionlisttemplate-en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
 </root>

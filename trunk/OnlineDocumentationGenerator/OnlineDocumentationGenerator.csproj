@@ -80,6 +80,7 @@
     <Compile Include="DocInformations\Localization\LocalizedComponentDocumentationPage.cs" />
     <Compile Include="DocInformations\ComponentDocumentationPage.cs" />
     <Compile Include="DocInformations\Utils\ComponentTemplateList.cs" />
+    <Compile Include="Generators\FunctionListGenerator\FunctionListGenerator.cs" />
     <Compile Include="Generators\LaTeXGenerator\Helper.cs" />
     <Compile Include="Generators\LaTeXGenerator\LaTeXGenerator.cs" />
     <Compile Include="Generators\LaTeXGenerator\ObjectConverter.cs" />
@@ -122,7 +123,6 @@
     <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Components-en.tex" />
     <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Templates-de.tex" />
     <None Include="Generators\LaTeXGenerator\LaTeXTmpl-Templates-en.tex" />
-    <None Include="Resources\LaTeXAppendix.txt" />
     <Resource Include="StaticDocs\Images\CT2-Paillier.png" />
     <Resource Include="StaticDocs\Images\Voting-Example.jpeg" />
     <Resource Include="Generators\HtmlGenerator\editors.png" />
@@ -130,6 +130,8 @@
       <SubType>Designer</SubType>
     </Resource>
     <Resource Include="Generators\HtmlGenerator\doc.css" />
+    <None Include="Generators\FunctionListGenerator\FunctionListTemplate-en.txt" />
+    <None Include="Generators\FunctionListGenerator\FunctionListTemplate-de.txt" />
     <Content Include="Generators\HtmlGenerator\AdditionalResources.xml">
       <SubType>Designer</SubType>
     </Content>

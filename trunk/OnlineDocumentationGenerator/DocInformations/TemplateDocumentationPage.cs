@@ -19,6 +19,7 @@ namespace OnlineDocumentationGenerator.DocInformations
         }
 
         public string TemplateFile { get; private set; }
+        public TemplateDirectory TemplateDir { get; private set; }
         public XElement TemplateXML { get; private set; }
         public List<string> RelevantPlugins { get; private set; }
         public string Icon { get; private set; }
@@ -44,10 +45,11 @@ namespace OnlineDocumentationGenerator.DocInformations
             get { return (LocalizedTemplateDocumentationPage) base.CurrentLocalization; }
         }
 
-        public TemplateDocumentationPage(string templateFile, string relativeTemplateDirectory)
+        public TemplateDocumentationPage(string templateFile, string relativeTemplateDirectory, TemplateDirectory templateDir)
         {
             _relativeTemplateDirectory = relativeTemplateDirectory;
             TemplateFile = templateFile;
+            TemplateDir = templateDir;
             
             string templateXMLFile = Path.Combine(Path.GetDirectoryName(templateFile), Path.GetFileNameWithoutExtension(templateFile) + ".xml");
             if (!File.Exists(templateXMLFile))

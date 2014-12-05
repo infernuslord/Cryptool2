@@ -116,6 +116,10 @@ namespace Wizard
             }
         }
 
+        public XElement WizardConfigXML
+        {
+            get { return wizardConfigXML; }
+        }
 
         private XElement GetXml(string xmlPath)
         {
