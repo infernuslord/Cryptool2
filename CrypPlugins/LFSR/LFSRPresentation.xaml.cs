@@ -38,23 +38,12 @@ namespace Cryptool.LFSR
     /// <summary>
     /// Interaction logic for LFSRPresentation.xaml
     /// </summary>
-    [Localization("LFSR.Properties.Resources")]
+    //[Localization("LFSR.Properties.Resources")]
     public partial class LFSRPresentation : UserControl
     {
         public LFSRPresentation()
         {
             InitializeComponent();
-            /*
-            char[] tapSequence = { '1', '1', '0', '0' };
-            //char[] myState = { '0'};
-            //char[] myState = { '0', '1'};
-            //char[] myState = { '0', '1', '0'};
-            char[] myState = { '0', '1', '0', '0' };
-            char output = '1';
-
-            DrawLFSR(myState, tapSequence);
-            FillBoxes(myState, tapSequence, output);
-            //DeleteAll(100);*/
         }
 
         public void DrawLFSR(char[] state, char[] tapSequence, int clockingBit)
@@ -65,42 +54,48 @@ namespace Cryptool.LFSR
                 {
                     try
                     {
+                        const double x0 = 25;
+                        const double boxWidth = 30;
+                        double boxesWidth = state.Length * boxWidth;
+                        const double arrowWidth = 7;
+                        const double arrowHeight = 6;
+
                         // hide initial textbox
                         infoText.Visibility = Visibility.Hidden;
                         polynomialText.Visibility = Visibility.Visible;
 
                         // add lines and triangles
                         Line HoriLine1 = new Line();
-                        HoriLine1.X1 = 5;
+                        HoriLine1.X1 = x0;
                         HoriLine1.Y1 = 18;
-                        HoriLine1.X2 = 60 + state.Length * 30;
+                        HoriLine1.X2 = x0 + boxesWidth + 55;
                         HoriLine1.Y2 = 18;
                         HoriLine1.Stroke = Brushes.Black;
                         HoriLine1.StrokeThickness = 1;
                         myGrid.Children.Add(HoriLine1);
 
                         Line HoriLine2 = new Line();
-                        HoriLine2.X1 = 5;
+                        HoriLine2.X1 = x0;
                         HoriLine2.Y1 = 47;
-                        HoriLine2.X2 = 35 + (state.Length - 1) * 29;
+                        HoriLine2.X2 = x0 + boxesWidth - state.Length + 1;
                         HoriLine2.Y2 = 47;
                         HoriLine2.Stroke = Brushes.Black;
                         HoriLine1.StrokeThickness = 1;
                         myGrid.Children.Add(HoriLine2);
 
                         Line VertLine1 = new Line();
-                        VertLine1.X1 = 5;
+                        VertLine1.X1 = x0;
                         VertLine1.Y1 = 17.5;
-                        VertLine1.X2 = 5;
+                        VertLine1.X2 = x0;
                         VertLine1.Y2 = 47.5;
                         VertLine1.Stroke = Brushes.Black;
                         VertLine1.StrokeThickness = 1;
                         myGrid.Children.Add(VertLine1);
 
                         Line VertLine2 = new Line();
-                        VertLine2.X1 = 35 + (state.Length - 1) * 29;
+                        VertLine2.X1 = x0 + boxesWidth - state.Length + 1;
                         VertLine2.Y1 = 32;
-                        VertLine2.X2 = 35 + (state.Length - 1) * 29;
+                        VertLine2.X2 = x0 + boxesWidth - state.Length + 1;
                         VertLine2.Y2 = 47;
                         VertLine2.Stroke = Brushes.Black;
                         VertLine2.StrokeThickness = 1;
@@ -131,16 +126,17 @@ namespace Cryptool.LFSR
                         // object's contents.
                         using (StreamGeometryContext ctx = geometryLT.Open())
                         {
-
+                            double x = x0 + 8;
+                            double y = 18;
                             // Begin the triangle at the point specified. Notice that the shape is set to 
                             // be closed so only two lines need to be specified below to make the triangle.
-                            ctx.BeginFigure(new Point(13, 15), true /* is filled */, true /* is closed */);
+                            ctx.BeginFigure(new Point(x, y - arrowHeight / 2), true /* is filled */, true /* is closed */);
 
                             // Draw a line to the next specified point.
-                            ctx.LineTo(new Point(13, 21), true /* is stroked */, false /* is smooth join */);
+                            ctx.LineTo(new Point(x, y + arrowHeight / 2), true /* is stroked */, false /* is smooth join */);
 
                             // Draw another line to the next specified point.
-                            ctx.LineTo(new Point(20, 18), true /* is stroked */, false /* is smooth join */);
+                            ctx.LineTo(new Point(x + arrowWidth, y), true /* is stroked */, false /* is smooth join */);
                         }
 
                         // Freeze the geometry (make it unmodifiable)
@@ -167,16 +163,17 @@ namespace Cryptool.LFSR
                         // object's contents.
                         using (StreamGeometryContext ctx = geometryRT.Open())
                         {
-
+                            double x = x0 + 55 + boxesWidth;
+                            double y = 18;
                             // Begin the triangle at the point specified. Notice that the shape is set to 
                             // be closed so only two lines need to be specified below to make the triangle.
-                            ctx.BeginFigure(new Point(60 + state.Length * 30, 15), true /* is filled */, true /* is closed */);
+                            ctx.BeginFigure(new Point(x, y - arrowHeight / 2), true /* is filled */, true /* is closed */);
 
                             // Draw a line to the next specified point.
-                            ctx.LineTo(new Point(60 + state.Length * 30, 21), true /* is stroked */, false /* is smooth join */);
+                            ctx.LineTo(new Point(x, y + arrowHeight / 2), true /* is stroked */, false /* is smooth join */);
 
                             // Draw another line to the next specified point.
-                            ctx.LineTo(new Point(67 + state.Length * 30, 18), true /* is stroked */, false /* is smooth join */);
+                            ctx.LineTo(new Point(x + 7, y), true /* is stroked */, false /* is smooth join */);
                         }
 
                         // Freeze the geometry (make it unmodifiable)
@@ -204,11 +201,11 @@ namespace Cryptool.LFSR
                         for (i = 0; i < state.Length; i++)
                         {
                             // add textboxes
-                            left = (double)i * 29 + 20;
+                            left = x0 + (double)i * 29 + 15;
                             myTextBoxes[i] = new TextBox();
                             myTextBoxes[i].Margin = new Thickness(left, 3, 0, 0);
-                            myTextBoxes[i].Width = 30;
-                            myTextBoxes[i].Height = 30;
+                            myTextBoxes[i].Width = boxWidth;
+                            myTextBoxes[i].Height = boxWidth;
                             myTextBoxes[i].HorizontalAlignment = HorizontalAlignment.Left;
                             myTextBoxes[i].VerticalAlignment = VerticalAlignment.Top;
                             myTextBoxes[i].Name = "textBoxBit" + i;
@@ -226,8 +223,8 @@ namespace Cryptool.LFSR
                             // add XORs
                             myGrids[i] = new Grid();
                             myGrids[i].Name = "XORGrid" + i;
-                            myGrids[i].Height = 30;
-                            myGrids[i].Width = 30;
+                            myGrids[i].Height = boxWidth;
+                            myGrids[i].Width = boxWidth;
                             myGrids[i].HorizontalAlignment = HorizontalAlignment.Left;
                             myGrids[i].VerticalAlignment = VerticalAlignment.Top;
                             myGrids[i].Margin = new Thickness(left, 32, 0, 0);
@@ -237,6 +234,8 @@ namespace Cryptool.LFSR
                             if (tapSequence[i] == '0') myGrids[i].Visibility = Visibility.Hidden;
                             else
                             {
+                                myGrids[i].Visibility = Visibility.Visible;
+
                                 myEllipses[i] = new Ellipse();
                                 myEllipses[i].Name = "ellipseXOR" + i;
                                 myEllipses[i].Stroke = Brushes.DodgerBlue;
@@ -246,18 +245,18 @@ namespace Cryptool.LFSR
                                 myLinesVert[i].Name = "VertLineXOR" + i;
                                 myLinesVert[i].Stroke = Brushes.Black;
                                 myLinesVert[i].StrokeThickness = 1;
-                                myLinesVert[i].X1 = 15;
+                                myLinesVert[i].X1 = boxWidth / 2;
                                 myLinesVert[i].Y1 = 0.5;
-                                myLinesVert[i].X2 = 15;
+                                myLinesVert[i].X2 = boxWidth / 2;
                                 myLinesVert[i].Y2 = 9;
 
                                 myLinesVertRed[i] = new Line();
                                 myLinesVertRed[i].Name = "VertLineXORRed" + i;
                                 myLinesVertRed[i].Stroke = Brushes.DodgerBlue;
                                 myLinesVertRed[i].StrokeThickness = 1;
-                                myLinesVertRed[i].X1 = 15;
+                                myLinesVertRed[i].X1 = boxWidth / 2;
                                 myLinesVertRed[i].Y1 = 9;
-                                myLinesVertRed[i].X2 = 15;
+                                myLinesVertRed[i].X2 = boxWidth / 2;
                                 myLinesVertRed[i].Y2 = 20;
 
                                 myLinesHori[i] = new Line();
@@ -265,9 +264,9 @@ namespace Cryptool.LFSR
                                 myLinesHori[i].Stroke = Brushes.DodgerBlue;
                                 myLinesHori[i].StrokeThickness = 1;
                                 myLinesHori[i].X1 = 9;
-                                myLinesHori[i].Y1 = 15;
+                                myLinesHori[i].Y1 = boxWidth / 2;
                                 myLinesHori[i].X2 = 20;
-                                myLinesHori[i].Y2 = 15;
+                                myLinesHori[i].Y2 = boxWidth / 2;
 
                                 myGrids[i].Children.Add(myEllipses[i]);
                                 myGrids[i].Children.Add(myLinesVert[i]);
@@ -281,16 +280,29 @@ namespace Cryptool.LFSR
 
                         // add output bit label
                         Label outPutLabel = new Label();
-                        left = (double)i * 30 + 65;
+                        left = x0 + 60 + i * boxWidth;
                         outPutLabel.Margin = new Thickness(left, 3, 0, 0);
-                        outPutLabel.Width = 30;
-                        outPutLabel.Height = 30;
+                        outPutLabel.Width = boxWidth;
+                        outPutLabel.Height = boxWidth;
                         outPutLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
                         outPutLabel.VerticalContentAlignment = VerticalAlignment.Center;
                         outPutLabel.HorizontalAlignment = HorizontalAlignment.Left;
                         outPutLabel.VerticalAlignment = VerticalAlignment.Top;
                         outPutLabel.Name = "outputLabel";
                         myGrid.Children.Add(outPutLabel);
+
+                        // add input bit label
+                        Label inPutLabel = new Label();
+                        left = 0;
+                        inPutLabel.Margin = new Thickness(left, 18, 0, 0);
+                        inPutLabel.Width = boxWidth;
+                        inPutLabel.Height = boxWidth;
+                        inPutLabel.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        inPutLabel.VerticalContentAlignment = VerticalAlignment.Center;
+                        inPutLabel.HorizontalAlignment = HorizontalAlignment.Left;
+                        inPutLabel.VerticalAlignment = VerticalAlignment.Top;
+                        inPutLabel.Name = "inputLabel";
+                        myGrid.Children.Add(inPutLabel);
                     }
                     catch (Exception)
                     {
@@ -306,7 +318,7 @@ namespace Cryptool.LFSR
 
         }
 
-        public void FillBoxes(char[] state, char[] tapSequence, char output, string polynomial)
+        public void FillBoxes(char[] state, char[] tapSequence, char output, char input, string polynomial)
         {
             
             // fill the boxes with current state
@@ -314,13 +326,12 @@ namespace Cryptool.LFSR
             {
                 try
                 {
-                    // get the textboxes as children of myGrid. textboxes are 6 + 2 + 2 + ... [don't forget to change line 314, Col 73]
+                    // get the textboxes as children of myGrid
                     Visual childVisual;
-                    int i;
 
-                    for (i = 0; i < state.Length; i++)
+                    for (int i = 0; i < state.Length; i++)
                     {
-                        childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 6 + i * 2);
+                        childVisual = (Visual)LogicalTreeHelper.FindLogicalNode(myGrid, "textBoxBit" + i);
                         childVisual.SetValue(TextBox.TextProperty, state[i].ToString());
 
                         /*
@@ -333,8 +344,12 @@ namespace Cryptool.LFSR
                     }
 
                     // update output label
-                    childVisual = (Visual)VisualTreeHelper.GetChild(myGrid, 8 + (i - 1) * 2);
+                    childVisual = (Visual)LogicalTreeHelper.FindLogicalNode(myGrid, "outputLabel");
                     childVisual.SetValue(Label.ContentProperty, output);
+
+                    // update input label
+                    childVisual = (Visual)LogicalTreeHelper.FindLogicalNode(myGrid, "inputLabel");
+                    childVisual.SetValue(Label.ContentProperty, input);
 
                     // update polynome
                     childVisual = (Visual)VisualTreeHelper.GetChild(polynomialGrid, 0);

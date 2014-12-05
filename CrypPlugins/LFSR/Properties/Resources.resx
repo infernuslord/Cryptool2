@@ -190,7 +190,7 @@
     <value>With this checkbox enabled, the current state will be output.</value>
   </data>
   <data name="PeriodCaption" xml:space="preserve">
-    <value>Period</value>
+    <value>Period of LFSR</value>
   </data>
   <data name="PeriodTooltip" xml:space="preserve">
     <value>Indicates the period depending on feedback polynomial and seed.</value>

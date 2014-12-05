@@ -95,7 +95,7 @@ namespace Cryptool.LFSR
         }
 
         string period;
-        [TaskPane( "PeriodCaption", "PeriodTooltip", null, 2, false, ControlType.TextBoxReadOnly)]
+        [TaskPane( "PeriodCaption", "PeriodTooltip", null, 2, true, ControlType.TextBoxReadOnly)]
         public string Period
         {
             get { return this.period; }
@@ -107,7 +107,6 @@ namespace Cryptool.LFSR
         }
 
         private bool noQuickwatch = false;
-        [ContextMenu("NoQuickwatchCaption", "NoQuickwatchTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "NoQuickwatchList1" })]
         [TaskPane( "NoQuickwatchCaption", "NoQuickwatchTooltip", null, 3, true, ControlType.CheckBox, "", null)]
         public bool NoQuickwatch
         {
@@ -120,7 +119,6 @@ namespace Cryptool.LFSR
         }
 
         private bool saveCurrentState = false;
-        [ContextMenu("SaveCurrentStateCaption", "SaveCurrentStateTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "SaveCurrentStateList1" })]
         [TaskPane( "SaveCurrentStateCaption", "SaveCurrentStateTooltip", null, 3, true, ControlType.CheckBox, "", null)]
         public bool SaveCurrentState
         {
@@ -133,7 +131,6 @@ namespace Cryptool.LFSR
         }
 
         private bool outputStages = false;
-        [ContextMenu("OutputStagesCaption", "OutputStagesTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "SaveCurrentStateList1" })]
         [TaskPane( "OutputStagesCaption", "OutputStagesTooltip", null, 4, true, ControlType.CheckBox, "", null)]
         public bool OutputStages
         {
@@ -146,7 +143,6 @@ namespace Cryptool.LFSR
         }
 
         private bool useAdditionalOutputBit = false;
-        [ContextMenu("UseAdditionalOutputBitCaption", "UseAdditionalOutputBitTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "UseAdditionalOutputBitList1" })]
         [TaskPane("UseAdditionalOutputBitCaption", "UseAdditionalOutputBitTooltip", "ClockingBitGroup", 0, false, ControlType.CheckBox, "", null)]
         public bool UseAdditionalOutputBit
         {
@@ -175,7 +171,6 @@ namespace Cryptool.LFSR
         }
 
         private bool useBoolClock = false;
-        [ContextMenu("UseBoolClockCaption", "UseBoolClockTooltip", 0, ContextMenuControlType.CheckBox, null, new string[] { "UseBoolClockList1" })]
         [TaskPane("UseBoolClockTPCaption", "UseBoolClockTPTooltip", "ClockGroup", 0, false, ControlType.CheckBox, "", null)]
         public bool UseBoolClock
         {
@@ -192,7 +187,6 @@ namespace Cryptool.LFSR
         }
 
         private bool alwaysCreateOutput = false;
-        [ContextMenu("AlwaysCreateOutputCaption", "AlwaysCreateOutputTooltip", 1, ContextMenuControlType.CheckBox, null, new string[] { "AlwaysCreateOutputList1" })]
         [TaskPane("AlwaysCreateOutputCaption", "AlwaysCreateOutputTooltip", "ClockGroup", 1, false, ControlType.CheckBox, "", null)]
         public bool AlwaysCreateOutput
         {

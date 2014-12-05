@@ -190,7 +190,7 @@
     <value>Wenn dieses Kontrollkästchen aktiviert ist, wird der momentane Zustand ausgegeben.</value>
   </data>
   <data name="PeriodCaption" xml:space="preserve">
-    <value>Periode</value>
+    <value>Periode des LFSR</value>
   </data>
   <data name="PeriodTooltip" xml:space="preserve">
     <value>Die berechnete Periode des LFSR</value>

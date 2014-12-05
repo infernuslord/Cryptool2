@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NLFSR.Properties {
+namespace Cryptool.NLFSR.Properties {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace NLFSR.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace NLFSR.Properties {
         ///   Gibt die zwischengespeicherte ResourceManager-Instanz zurück, die von dieser Klasse verwendet wird.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NLFSR.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Cryptool.NLFSR.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace NLFSR.Properties {
         ///   Ressourcenzuordnungen, die diese stark typisierte Ressourcenklasse verwenden.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Always create output ähnelt.
         /// </summary>
-        internal static string AlwaysCreateOutputCaption {
+        public static string AlwaysCreateOutputCaption {
             get {
                 return ResourceManager.GetString("AlwaysCreateOutputCaption", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Always generate output? ähnelt.
         /// </summary>
-        internal static string AlwaysCreateOutputList1 {
+        public static string AlwaysCreateOutputList1 {
             get {
                 return ResourceManager.GetString("AlwaysCreateOutputList1", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, an output will be generated, even though the clock is set to false. The output bit will be the bit from the last clock cycle. ähnelt.
         /// </summary>
-        internal static string AlwaysCreateOutputTooltip {
+        public static string AlwaysCreateOutputTooltip {
             get {
                 return ResourceManager.GetString("AlwaysCreateOutputTooltip", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Clock Properties ähnelt.
         /// </summary>
-        internal static string ClockGroup {
+        public static string ClockGroup {
             get {
                 return ResourceManager.GetString("ClockGroup", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Additional output bit # ähnelt.
         /// </summary>
-        internal static string ClockingBitCaption {
+        public static string ClockingBitCaption {
             get {
                 return ResourceManager.GetString("ClockingBitCaption", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Additional Output Bit ähnelt.
         /// </summary>
-        internal static string ClockingBitGroup {
+        public static string ClockingBitGroup {
             get {
                 return ResourceManager.GetString("ClockingBitGroup", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Which bit shall be generated as an additional output? For example as a clocking bit. ähnelt.
         /// </summary>
-        internal static string ClockingBitTooltip {
+        public static string ClockingBitTooltip {
             get {
                 return ResourceManager.GetString("ClockingBitTooltip", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Draw NLFSR ähnelt.
         /// </summary>
-        internal static string initNLFSRCaption {
+        public static string initNLFSRCaption {
             get {
                 return ResourceManager.GetString("initNLFSRCaption", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Initializes NLFSR and draws the presentation. This is used to view the NLFSR before pressing play. ähnelt.
         /// </summary>
-        internal static string initNLFSRTooltip {
+        public static string initNLFSRTooltip {
             get {
                 return ResourceManager.GetString("initNLFSRTooltip", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Clock ähnelt.
         /// </summary>
-        internal static string InputClockBoolCaption {
+        public static string InputClockBoolCaption {
             get {
                 return ResourceManager.GetString("InputClockBoolCaption", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Optional clock input. NLFSR only advances if clock is true. ähnelt.
         /// </summary>
-        internal static string InputClockBoolTooltip {
+        public static string InputClockBoolTooltip {
             get {
                 return ResourceManager.GetString("InputClockBoolTooltip", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Seed ähnelt.
         /// </summary>
-        internal static string InputSeedCaption {
+        public static string InputSeedCaption {
             get {
                 return ResourceManager.GetString("InputSeedCaption", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Seed of the NLFSR in binary presentation. ähnelt.
         /// </summary>
-        internal static string InputSeedTooltip {
+        public static string InputSeedTooltip {
             get {
                 return ResourceManager.GetString("InputSeedTooltip", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Feedback function ähnelt.
         /// </summary>
-        internal static string InputTapSequenceCaption {
+        public static string InputTapSequenceCaption {
             get {
                 return ResourceManager.GetString("InputTapSequenceCaption", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Feedback function as a string, for example x0 * x2 + x1 + 1 ähnelt.
         /// </summary>
-        internal static string InputTapSequenceTooltip {
+        public static string InputTapSequenceTooltip {
             get {
                 return ResourceManager.GetString("InputTapSequenceTooltip", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die No data to present right now. ähnelt.
         /// </summary>
-        internal static string No_Quickwatch_data_right_now_ {
+        public static string No_Quickwatch_data_right_now_ {
             get {
                 return ResourceManager.GetString("No_Quickwatch_data_right_now_", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Do not display presentation ähnelt.
         /// </summary>
-        internal static string NoQuickwatchCaption {
+        public static string NoQuickwatchCaption {
             get {
                 return ResourceManager.GetString("NoQuickwatchCaption", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Display presentation? ähnelt.
         /// </summary>
-        internal static string NoQuickwatchList1 {
+        public static string NoQuickwatchList1 {
             get {
                 return ResourceManager.GetString("NoQuickwatchList1", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, no presentation will be shown and performance will be better. ähnelt.
         /// </summary>
-        internal static string NoQuickwatchTooltip {
+        public static string NoQuickwatchTooltip {
             get {
                 return ResourceManager.GetString("NoQuickwatchTooltip", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Boolean[] Output ähnelt.
         /// </summary>
-        internal static string OutputBoolArrayCaption {
+        public static string OutputBoolArrayCaption {
             get {
                 return ResourceManager.GetString("OutputBoolArrayCaption", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die NLFSR Boolean Output. Use this output together with a clock input. ähnelt.
         /// </summary>
-        internal static string OutputBoolArrayTooltip {
+        public static string OutputBoolArrayTooltip {
             get {
                 return ResourceManager.GetString("OutputBoolArrayTooltip", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Boolean Output ähnelt.
         /// </summary>
-        internal static string OutputBoolCaption {
+        public static string OutputBoolCaption {
             get {
                 return ResourceManager.GetString("OutputBoolCaption", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die NLFSR Boolean Output. Use this output together with a clock input. ähnelt.
         /// </summary>
-        internal static string OutputBoolTooltip {
+        public static string OutputBoolTooltip {
             get {
                 return ResourceManager.GetString("OutputBoolTooltip", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Additional Output Bit ähnelt.
         /// </summary>
-        internal static string OutputClockingBitCaption {
+        public static string OutputClockingBitCaption {
             get {
                 return ResourceManager.GetString("OutputClockingBitCaption", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Additional Output Bit. ähnelt.
         /// </summary>
-        internal static string OutputClockingBitTooltip {
+        public static string OutputClockingBitTooltip {
             get {
                 return ResourceManager.GetString("OutputClockingBitTooltip", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die String Output ähnelt.
         /// </summary>
-        internal static string OutputStringCaption {
+        public static string OutputStringCaption {
             get {
                 return ResourceManager.GetString("OutputStringCaption", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Produces the output bits as a string with length==rounds. Use this output without a clock input. ähnelt.
         /// </summary>
-        internal static string OutputStringTooltip {
+        public static string OutputStringTooltip {
             get {
                 return ResourceManager.GetString("OutputStringTooltip", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die NLFSR ähnelt.
         /// </summary>
-        internal static string PluginCaption {
+        public static string PluginCaption {
             get {
                 return ResourceManager.GetString("PluginCaption", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Non-Linear Feedback Shift Register ähnelt.
         /// </summary>
-        internal static string PluginTooltip {
+        public static string PluginTooltip {
             get {
                 return ResourceManager.GetString("PluginTooltip", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Feedback function ähnelt.
         /// </summary>
-        internal static string PolynomialCaption {
+        public static string PolynomialCaption {
             get {
                 return ResourceManager.GetString("PolynomialCaption", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Define the feedback function, for example x0 * x2 + x1 + 1 ähnelt.
         /// </summary>
-        internal static string PolynomialTooltip {
+        public static string PolynomialTooltip {
             get {
                 return ResourceManager.GetString("PolynomialTooltip", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Rounds ähnelt.
         /// </summary>
-        internal static string RoundsCaption {
+        public static string RoundsCaption {
             get {
                 return ResourceManager.GetString("RoundsCaption", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die How many bits shall be generated? Note: This only applies if no boolean clock is used. ähnelt.
         /// </summary>
-        internal static string RoundsTooltip {
+        public static string RoundsTooltip {
             get {
                 return ResourceManager.GetString("RoundsTooltip", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save the state of the NLFSR ähnelt.
         /// </summary>
-        internal static string SaveCurrentStateCaption {
+        public static string SaveCurrentStateCaption {
             get {
                 return ResourceManager.GetString("SaveCurrentStateCaption", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Save current state? ähnelt.
         /// </summary>
-        internal static string SaveCurrentStateList1 {
+        public static string SaveCurrentStateList1 {
             get {
                 return ResourceManager.GetString("SaveCurrentStateList1", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, the current state will be restored after opening a .cte. ähnelt.
         /// </summary>
-        internal static string SaveCurrentStateTooltip {
+        public static string SaveCurrentStateTooltip {
             get {
                 return ResourceManager.GetString("SaveCurrentStateTooltip", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Seed ähnelt.
         /// </summary>
-        internal static string SeedCaption {
+        public static string SeedCaption {
             get {
                 return ResourceManager.GetString("SeedCaption", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Define the seed of the LFSR. For example 11100 ähnelt.
         /// </summary>
-        internal static string SeedTooltip {
+        public static string SeedTooltip {
             get {
                 return ResourceManager.GetString("SeedTooltip", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Use BoolClock ähnelt.
         /// </summary>
-        internal static string UseBoolClockCaption {
+        public static string UseBoolClockCaption {
             get {
                 return ResourceManager.GetString("UseBoolClockCaption", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Use external clock? ähnelt.
         /// </summary>
-        internal static string UseBoolClockList1 {
+        public static string UseBoolClockList1 {
             get {
                 return ResourceManager.GetString("UseBoolClockList1", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, BoolClock will be used. ähnelt.
         /// </summary>
-        internal static string UseBoolClockTooltip {
+        public static string UseBoolClockTooltip {
             get {
                 return ResourceManager.GetString("UseBoolClockTooltip", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Generate add. output bit ähnelt.
         /// </summary>
-        internal static string UseClockingBitCaption {
+        public static string UseClockingBitCaption {
             get {
                 return ResourceManager.GetString("UseClockingBitCaption", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Generate additional output bit? ähnelt.
         /// </summary>
-        internal static string UseClockingBitList1 {
+        public static string UseClockingBitList1 {
             get {
                 return ResourceManager.GetString("UseClockingBitList1", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace NLFSR.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die With this checkbox enabled, the additional output bit will be generated. ähnelt.
         /// </summary>
-        internal static string UseClockingBitTooltip {
+        public static string UseClockingBitTooltip {
             get {
                 return ResourceManager.GetString("UseClockingBitTooltip", resourceCulture);
             }

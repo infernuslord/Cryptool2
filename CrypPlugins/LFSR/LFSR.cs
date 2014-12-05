@@ -41,7 +41,7 @@ using System.Windows.Media;
 namespace Cryptool.LFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("LFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "LFSR/DetailedDescription/doc.xml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
+    [PluginInfo("Cryptool.LFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "LFSR/DetailedDescription/doc.xml", "LFSR/Images/LFSR.png", "LFSR/Images/encrypt.png", "LFSR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class LFSR : ICrypComponent
     {
@@ -99,26 +99,25 @@ namespace Cryptool.LFSR
                 try
                 {
                     preprocessLFSR(true);
-                } catch (Exception) {}
-            if (e.PropertyName == "SaveCurrentState")
-            {
-                if (settings.SaveCurrentState)
-                    settings.CurrentState = seedbuffer;
-                else
-                    settings.CurrentState = null;
-            }
-            if (e.PropertyName == "Polynomial" || e.PropertyName == "Seed")
-            {
-                try
-                {
-                    int myPeriod = computePeriod();
-                    if (myPeriod == ((int)Math.Pow(2.0, (double)seedbuffer.Length) - 1))
-                        settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString() + " (max.)";
-                    else
-                        settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString();
-                    //GuiLogMessage("Period: " + myPeriod, NotificationLevel.Info, true);
                 }
                 catch (Exception) { }
+
+            if (e.PropertyName == "SaveCurrentState")
+                settings.CurrentState = settings.SaveCurrentState ? seedbuffer : null;
+
+            if (e.PropertyName == "Polynomial" || e.PropertyName == "Seed")
+                setPeriod();
+        }
+
+        void setPeriod()
+        {
+            try
+            {
+                int period = computePeriod();
+                settings.Period = period + (period == (1 << seedbuffer.Length) - 1 ? " (max.)" : "");
+            }
+            catch (Exception)
+            {
             }
         }
 
@@ -390,7 +389,7 @@ namespace Cryptool.LFSR
 
         private string BuildPolynomialFromBinary(char [] tapSequence)
         {
-            string polynomial = typeof(LFSR).GetPluginStringResource("Feedback_polynomial") + ": \n";
+            string polynomial = Cryptool.LFSR.Properties.Resources.Feedback_polynomial + ": \n";
             char[] tempTapSequence = ReverseOrder(tapSequence);
             int power;
 
@@ -478,7 +477,6 @@ namespace Cryptool.LFSR
 
         public void Execute()
         {
-            //lFSRPresentation.DeleteAll(100);
             processLFSR();
         }
 
@@ -544,8 +542,6 @@ namespace Cryptool.LFSR
                         Dispose();
                         return;
                     }
-
-                    //GuiLogMessage("Polynomial after length fitting: " + tapSequencebuffer, NotificationLevel.Info, true);
                 }
                 else
                 {
@@ -574,9 +570,6 @@ namespace Cryptool.LFSR
 
             int tapSequenceBits = tapSequencebuffer.Length;
             seedBits = seedbuffer.Length;
-
-            //GuiLogMessage("inputTapSequence length [bits]: " + tapSequenceBits.ToString(), NotificationLevel.Debug, createLog);
-            //GuiLogMessage("inputSeed length [bits]: " + seedBits.ToString(), NotificationLevel.Debug, createLog);
 
             //check if last tap is 1, otherwise stop
             if (tapSequenceCharArray[tapSequenceCharArray.Length - 1] == '0')
@@ -624,7 +617,7 @@ namespace Cryptool.LFSR
             {
                 lFSRPresentation.DeleteAll(100);
                 lFSRPresentation.DrawLFSR(seedCharArray, tapSequenceCharArray, clocking);
-                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
+                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', getNewBit(), BuildPolynomialFromBinary(tapSequenceCharArray));
             }
         }
 
@@ -645,7 +638,6 @@ namespace Cryptool.LFSR
             {
                 // do nothing if we should use bool clock, but become event from other inputs
                 if (settings.UseBoolClock) return;
-                //GuiLogMessage("Second if.", NotificationLevel.Info, true);
             }
             // process LFSR
             
@@ -653,17 +645,7 @@ namespace Cryptool.LFSR
             {
                 // make all this stuff only one time at the beginning of our chainrun
                 if (newSeed)
-                {
-                    try
-                    {
-                        preprocessLFSR(true);
-                        int myPeriod = computePeriod();
-                        if (myPeriod == ((int)Math.Pow(2.0, (double)seedbuffer.Length) - 1))
-                            settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString() + " (max.)";
-                        else
-                            settings.Period = typeof(LFSR).GetPluginStringResource("Period_of_LFSR") + ": " + myPeriod.ToString();
-                    } catch (Exception) { }
-                }
+                    setPeriod();
                 
                 // Here we go!
                 // check which clock to use
@@ -689,7 +671,6 @@ namespace Cryptool.LFSR
                 //////////////////////////////////////////////////////
                 // compute LFSR //////////////////////////////////////
                 //////////////////////////////////////////////////////
-                //GuiLogMessage("Starting computation", NotificationLevel.Debug, true);
                 
                 int i = 0;
                 
@@ -701,9 +682,7 @@ namespace Cryptool.LFSR
                         StatusChanged((int)LFSRImage.Encode);
 
                         // make bool output
-                        if (seedCharArray[seedBits - 1] == '0') outputBool = false;
-                        else outputBool = true;
-                        //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info, true);
+                        outputBool = seedCharArray[seedBits - 1] == '1';
 
                         // write last bit to output buffer, output stream buffer, stream and bool
                         outputbuffer = seedCharArray[seedBits - 1];
@@ -713,50 +692,27 @@ namespace Cryptool.LFSR
                         OnPropertyChanged("OutputBool");
 
                         // shift seed array
-                        char newBit = '0';
 
-                        // compute new bit
-                        bool firstDone = false;
-                        for (int j = 0; j < seedBits; j++)
-                        {
-                            // check if tapSequence is 1
-                            if (tapSequenceCharArray[j] == '1')
-                            {
-                                // if it is the first one, just take it
-                                if (!firstDone)
-                                {
-                                    newBit = seedCharArray[j];
-                                    firstDone = true;
-                                }
-                                // or do an XOR with the last computed bit
-                                else
-                                {
-                                    newBit = (newBit ^ seedCharArray[j]).ToString()[0];
-                                }
-                            }
-                        }
                         // keep output bit for presentation
                         outputBit = seedCharArray[seedBits - 1];
 
                         // shift seed array
+                        char newBit = getNewBit();
+
                         for (int j = seedBits - 1; j > 0; j--)
-                        {
                             seedCharArray[j] = seedCharArray[j - 1];
-                            //GuiLogMessage("seedCharArray[" + j + "] is: " + seedCharArray[j], NotificationLevel.Info, true);
-                        }
+
                         seedCharArray[0] = newBit;
 
                         //update quickwatch presentation
                         if (!settings.NoQuickwatch)
                         {
-                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, BuildPolynomialFromBinary(tapSequenceCharArray));
+                            lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, getNewBit(), BuildPolynomialFromBinary(tapSequenceCharArray));
                         }
 
                         // write current "seed" back to seedbuffer
                         seedbuffer = null;
                         foreach (char c in seedCharArray) seedbuffer += c;
-
-                        //GuiLogMessage("New Bit: " + newBit.ToString(), NotificationLevel.Info, true);
                     }
                     else // clock is false
                     {
@@ -787,12 +743,11 @@ namespace Cryptool.LFSR
                                 outputStringBuffer += outputBit;
                                 OnPropertyChanged("OutputBool");
                             }
-                            //GuiLogMessage("OutputBool is: " + outputBool.ToString(), NotificationLevel.Info, true);
 
                             // update quickwatch presentation
                             if (!settings.NoQuickwatch)
                             {
-                                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, BuildPolynomialFromBinary(tapSequenceCharArray));
+                                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, getNewBit(), BuildPolynomialFromBinary(tapSequenceCharArray));
                             }
 
                         }
@@ -801,7 +756,7 @@ namespace Cryptool.LFSR
                             // update quickwatch with current state but without any output bit
                             if (!settings.NoQuickwatch)
                             {
-                                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', BuildPolynomialFromBinary(tapSequenceCharArray));
+                                lFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', getNewBit(), BuildPolynomialFromBinary(tapSequenceCharArray));
                             }
                         }
                     }
@@ -827,20 +782,11 @@ namespace Cryptool.LFSR
                     newSeed = false;
                 }
 
-                // stop counter
-                //DateTime stopTime = DateTime.Now;
-                // compute overall time
-                //TimeSpan duration = stopTime - startTime;
-
                 if (!stop)
                 {
                     // finally write output string
                     outputString = outputStringBuffer;
                     OnPropertyChanged("OutputString");
-
-                    //GuiLogMessage("Complete!", NotificationLevel.Debug, true);
-
-                    //GuiLogMessage("Time used: " + duration, NotificationLevel.Debug, true);
                 }
 
                 if (stop)
@@ -860,17 +806,22 @@ namespace Cryptool.LFSR
             }
         }
 
+        private char getNewBit()
+        {
+            bool bit = false;
+
+            for (int j = 0; j < seedBits; j++)
+                bit ^= (tapSequenceCharArray[j] == '1') && (seedCharArray[j] == '1');
+
+            return bit ? '1' : '0';
+        }
+
         private bool[] MakeBooleanArrayFromCharArray(char[] charArray)
         {
             bool[] boolArray = new bool[charArray.Length];
 
             for (int i = 0; i < charArray.Length; i++)
-            {
-                if (charArray[i] == '0')
-                    boolArray[i] = false;
-                else
-                    boolArray[i] = true;
-            }
+                boolArray[i] = charArray[i] != '0';
 
             return boolArray;
         }
