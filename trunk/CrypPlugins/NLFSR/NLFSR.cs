@@ -41,7 +41,7 @@ using Cryptool.MathParser;
 namespace Cryptool.NLFSR
 {
     [Author("Soeren Rinne", "soeren.rinne@cryptool.de", "Ruhr-Universitaet Bochum, Chair for System Security", "http://www.trust.rub.de/")]
-    [PluginInfo("NLFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "NLFSR/DetailedDescription/doc.xml", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
+    [PluginInfo("Cryptool.NLFSR.Properties.Resources", "PluginCaption", "PluginTooltip", "NLFSR/DetailedDescription/doc.xml", "NLFSR/Images/NLFSR.png", "NLFSR/Images/encrypt.png", "NLFSR/Images/decrypt.png")]
     [ComponentCategory(ComponentCategory.Protocols)]
     public class NLFSR : ICrypComponent
     {
@@ -584,9 +584,9 @@ namespace Cryptool.NLFSR
             // (re-)draw NLFSR Quickwatch
             if (!settings.NoQuickwatch)
             {
-                NLFSRPresentation.DeleteAll(100);
+                NLFSRPresentation.DeleteAll();
                 NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
-                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', tapSequencebuffer);
+                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', getNewBit(), tapSequencebuffer);
             }
         }
 
@@ -632,7 +632,7 @@ namespace Cryptool.NLFSR
                 // (re-)draw NLFSR Quickwatch
                 if (!settings.NoQuickwatch)
                 {
-                    NLFSRPresentation.DeleteAll(100);
+                    NLFSRPresentation.DeleteAll();
                     NLFSRPresentation.DrawNLFSR(seedCharArray, tapSequenceCharArray, clocking);
                 }
 
@@ -670,50 +670,25 @@ namespace Cryptool.NLFSR
                         OnPropertyChanged("OutputBoolArray");
                         OnPropertyChanged("OutputStream");
 
-                        // shift seed array
-                        char newBit = '0';
-
                         ////////////////////
                         // compute new bit
-                        // replace variables with bits from FSR
-                        string tapPolynomial = null;
-                        tapPolynomial = ReplaceVariables(tapSequencebuffer, seedCharArray);
-                        //GuiLogMessage("tapPoly: " + tapPolynomial, NotificationLevel.Info);
-                        if (!IsPolynomial(tapPolynomial))
-                        {
-                            GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
-                            return;
-                        }
-                        //GuiLogMessage("tapPolynomial is: " + tapPolynomial, NotificationLevel.Info);
-
-                        bool resultBool = true;
-                        resultBool = EvaluateString(tapPolynomial);
-                        /*MathParser.Parser p = new MathParser.Parser();
-                        if (p.Evaluate(tapPolynomial))
-                        {
-                            resultBool = Convert.ToBoolean(p.Result);
-                        }
-                        else
-                            GuiLogMessage("Parsing of function failed.", NotificationLevel.Error);
-                        */
-                        //GuiLogMessage("resultBool is: " + resultBool, NotificationLevel.Info);
-                        if (resultBool) newBit = '1'; else newBit = '0';
 
                         // keep output bit for presentation
                         outputBit = seedCharArray[seedBits - 1];
 
                         // shift seed array
+                        char newBit = getNewBit();
+
                         for (int j = seedBits - 1; j > 0; j--)
-                        {
                             seedCharArray[j] = seedCharArray[j - 1];
-                            //GuiLogMessage("seedCharArray[" + j + "] is: " + seedCharArray[j], NotificationLevel.Info);
-                        }
+
                         seedCharArray[0] = newBit;
+
 
                         //update quickwatch presentation
                         if (!settings.NoQuickwatch)
                         {
-                            NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, tapSequencebuffer);
+                            NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputBit, getNewBit(), tapSequencebuffer);
                         }
 
                         // write current "seed" back to seedbuffer
@@ -755,7 +730,7 @@ namespace Cryptool.NLFSR
                             // update quickwatch presentation
                             if (!settings.NoQuickwatch)
                             {
-                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, tapSequencebuffer);
+                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, outputbuffer, getNewBit(), tapSequencebuffer);
                             }
                             /////////
                         }
@@ -764,7 +739,7 @@ namespace Cryptool.NLFSR
                             // update quickwatch with current state but without any output bit
                             if (!settings.NoQuickwatch)
                             {
-                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', tapSequencebuffer);
+                                NLFSRPresentation.FillBoxes(seedCharArray, tapSequenceCharArray, ' ', getNewBit(), tapSequencebuffer);
                             }
                         }
 
@@ -824,6 +799,19 @@ namespace Cryptool.NLFSR
                 ProgressChanged(1, 1);
                 settings.PluginIsRunning = false;
             }
+        }
+
+        private char getNewBit()
+        {
+            string tapPolynomial = ReplaceVariables(tapSequencebuffer, seedCharArray);
+
+            if (!IsPolynomial(tapPolynomial))
+            {
+                GuiLogMessage("ERROR - " + tapSequencebuffer + " is NOT a valid polynomial. Aborting now.", NotificationLevel.Error);
+                return ' ';
+            }
+
+            return EvaluateString(tapPolynomial) ? '1' : '0';
         }
 
         #region events and stuff
