@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FL_F_pkcs1" xml:space="preserve">
+    <value>Angriff auf PKCS#1</value>
+  </data>
+  <data name="FL_P_bleichenbacher" xml:space="preserve">
+    <value>Angriff auf PKCS#1\ Bleichenbacher-Angriff</value>
+  </data>
+  <data name="FL_P_kuehn" xml:space="preserve">
+    <value>Angriff auf PKCS#1\ Angriff mit kürzeren Schlüsseln (Kühn)</value>
+  </data>
   <data name="PluginCaption" xml:space="preserve">
     <value>Angriff auf PKCS#1</value>
   </data>

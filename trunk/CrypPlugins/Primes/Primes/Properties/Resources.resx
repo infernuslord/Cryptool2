@@ -217,4 +217,61 @@
   <data name="template" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\onlinehelp\helpfiles\template.en.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="FL_F_factorization" xml:space="preserve">
+    <value>Factorization of a number</value>
+  </data>
+  <data name="FL_F_numbertheory" xml:space="preserve">
+    <value>Number theory</value>
+  </data>
+  <data name="FL_F_primalitytest" xml:space="preserve">
+    <value>Primality test</value>
+  </data>
+  <data name="FL_F_primedistribution" xml:space="preserve">
+    <value>Distribution of primes</value>
+  </data>
+  <data name="FL_F_primegeneration" xml:space="preserve">
+    <value>Generation of primes</value>
+  </data>
+  <data name="FL_P_atkin" xml:space="preserve">
+    <value>Primality test\ Sieve of Atkin</value>
+  </data>
+  <data name="FL_P_bruteforce" xml:space="preserve">
+    <value>Factorization\ Brute-force</value>
+  </data>
+  <data name="FL_P_eratosthenes" xml:space="preserve">
+    <value>Primality test\ Sieve of Eratosthenes</value>
+  </data>
+  <data name="FL_P_goldbach" xml:space="preserve">
+    <value>Number theory\ Goldbach's conjecture</value>
+  </data>
+  <data name="FL_P_millerrabin" xml:space="preserve">
+    <value>Primality test\ Miller-Rabin test</value>
+  </data>
+  <data name="FL_P_numbergrid" xml:space="preserve">
+    <value>Distribution of primes\ Number grid</value>
+  </data>
+  <data name="FL_P_numberline" xml:space="preserve">
+    <value>Distribution of primes\ Number line</value>
+  </data>
+  <data name="FL_P_numberofprimes" xml:space="preserve">
+    <value>Distribution of primes\ Number of primes</value>
+  </data>
+  <data name="FL_P_numbertheoryfunctions" xml:space="preserve">
+    <value>Number theory\ Number-theoretic functions</value>
+  </data>
+  <data name="FL_P_powering" xml:space="preserve">
+    <value>Number theory\ Powering</value>
+  </data>
+  <data name="FL_P_primegeneration" xml:space="preserve">
+    <value>Generation of primes\ Generation of primes</value>
+  </data>
+  <data name="FL_P_primitiveroots" xml:space="preserve">
+    <value>Number theory\ Primitive roots</value>
+  </data>
+  <data name="FL_P_qs" xml:space="preserve">
+    <value>Factorization\ Quadratic Sieve</value>
+  </data>
+  <data name="FL_P_ulam" xml:space="preserve">
+    <value>Distribution of primes\ Ulam's spiral</value>
+  </data>
 </root>
