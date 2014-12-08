@@ -22,7 +22,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
 using Cryptool.PluginBase;
@@ -84,9 +83,6 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         #region Data Properties
 
-        /// <summary>
-        /// HOWTO: Input interface to read the input data. 
-        /// </summary>
         [PropertyInfo(Direction.InputData, "ImageCaption", "ImageTooltip")]
         public ICryptoolStream InputPicture 
         {
@@ -100,11 +96,6 @@ namespace Cryptool.Plugins.WatermarkCreator
             get;
             set;
         }
-
-        /// <summary>
-        /// HOWTO: Output interface to write the output data.
-        /// You can add more output properties ot other type if needed.
-        /// </summary>
 
         [PropertyInfo(Direction.OutputData, "WatermarkImageCaption", "WatermarkImageTooltip")]
         public ICryptoolStream OutputPicture
@@ -124,17 +115,11 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         #region IPlugin Members
 
-        /// <summary>
-        /// Provide plugin-related parameters (per instance) or return null.
-        /// </summary>
         public ISettings Settings
         {
             get { return _settings; }
         }
 
-        /// <summary>
-        /// Provide custom presentation to visualize the execution or return null.
-        /// </summary>
         public UserControl Presentation
         {
             get { return null; }
@@ -153,7 +138,6 @@ namespace Cryptool.Plugins.WatermarkCreator
         /// </summary>
         public void Execute()
         {
-            // HOWTO: Use this to show the progress of a plugin algorithm execution in the editor.
             ProgressChanged(0, 1);
 
             if (InputPicture == null)
@@ -163,7 +147,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
             switch (_settings.ModificationType)
             {
-                case (int)Commands.EmbVisText: //Visible Text
+                case (int)Commands.EmbVisText: //Embed Visible Text
 
                     GetVisVariables();
 
@@ -179,7 +163,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                     ProgressChanged(1, 1);
                     break;
 
-                case (int)Commands.EmbInvisText: //Invisible Text
+                case (int)Commands.EmbInvisText: //Embed Invisible Text
 
                     GetInvisVariables();
 
@@ -216,6 +200,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         public void PostExecution()
         {
             water = null;
+            _stopped = true;
         }
 
         /// <summary>
@@ -295,7 +280,8 @@ namespace Cryptool.Plugins.WatermarkCreator
                         }
                         break;
                 }
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 GuiLogMessage(string.Format("Exception during settings_PropertyChanged: {0}",ex),NotificationLevel.Error);
             }
