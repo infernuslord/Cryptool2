@@ -5,9 +5,9 @@
     * Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
     * Thanks to Nils Kopal for Support and Bugfixing */
 
-	// 程式名稱：zigZag.java
-	// 程式功能：zigZag 類別,含two2one(二維轉一維)與one2two
-	// (一維轉二維)兩種zigzag scan方法
+    // Program name: zigZag.java
+    // Program features: zigZag categories, including two2one (turn one-dimensional two-dimensional) and one2two
+    // (One-dimensional two-dimensional rotation) in two zigzag scan method
     // Ported to C# by Nils Rehwald
 
 	internal class ZigZag

@@ -170,7 +170,6 @@ namespace com.google.zxing.common.reedsolomon
 			{
 				logTable[expTable[i]] = i;
 			}
-			// logTable[0] == 0 but this should never be used
 			zero = new GenericGFPoly(this, new int[] {0});
 			one = new GenericGFPoly(this, new int[] {1});
 			initialized = true;

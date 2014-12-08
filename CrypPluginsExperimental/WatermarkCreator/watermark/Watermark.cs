@@ -38,13 +38,6 @@ namespace net.watermark
 		public static readonly string VALID_CHARS = " abcdefghijklmnopqrstuvwxyz0123456789.-,:/()?!\"'#*+_%$&=<>[];@§\n";
 
 		/// <summary>
-		/// Just for debugging. It reads a file called <tt>lena.jpg</tt> and embeds a watermark. Writes it to
-		/// <tt>lena2.jpg</tt>, reads it again, and extracts the watermark.
-		/// </summary>
-
-
-
-		/// <summary>
 		/// The width and height of our quantization box in pixels (n-times n pixel per bit). </summary>
 		internal int bitBoxSize = 10;
 
@@ -253,8 +246,8 @@ namespace net.watermark
 						k++;
 					}
 					k = 0;
-					DCT o1 = new DCT(); // 宣告 DCT 物件
-					o1.ForwardDCT(b1, b2); // 引用 DCT class 中,ForwardDCT的方法
+					DCT o1 = new DCT();
+					o1.ForwardDCT(b1, b2); 
 
 					for (int p = y; p < y + N; p++)
 					{
@@ -270,7 +263,7 @@ namespace net.watermark
 
 				}
 			}
-			Random r = new Random((int)randomizeWatermarkSeed); // 設定亂數產生器的seed
+			Random r = new Random((int)randomizeWatermarkSeed); 
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -289,7 +282,7 @@ namespace net.watermark
 					tmp[c] = 1;
 				}
 			}
-			// 將 watermark image 切成 4x4 的 block 作 DCT 轉換與quantization
+			
 			k = 0;
 			l = 0;
 			for (int y = 0; y < 128; y += W)
@@ -308,14 +301,12 @@ namespace net.watermark
 					}
 					k = 0;
 
-					// 宣告 DCT2 物件
 					DCT wm1 = new DCT(4);
 
-					// 引用DCT2 class 中,ForwardDCT的方法
 					wm1.ForwardDCT(w1, w2);
 
-					Qt qw1 = new Qt(); // 宣告 Qt 物件
-					qw1.WaterQt(w2, w3); // 引用Qt class 中,WaterQt的方法
+					Qt qw1 = new Qt(); 
+					qw1.WaterQt(w2, w3); 
 
 					for (int p = y; p < y + W; p++)
 					{
@@ -332,7 +323,7 @@ namespace net.watermark
 			}
 
 			// Random Embedding
-			Random r1 = new Random((int)randomizeEmbeddingSeed); // 設定亂數產生器的seed
+			Random r1 = new Random((int)randomizeEmbeddingSeed); 
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -352,7 +343,6 @@ namespace net.watermark
 				}
 			}
 
-			// 二維 轉 一維
 			ZigZag scan = new ZigZag();
 			scan.two2one(mfbuff1, mfbuff2);
 
@@ -372,7 +362,6 @@ namespace net.watermark
 				}
 			}
 			cc = 0;
-			// 將 Watermarked image 切成 8*8 的 block 作 IDCT 轉換
 			k = 0;
 			l = 0;
 			for (int y = 0; y < height; y += N)
@@ -391,8 +380,8 @@ namespace net.watermark
 					}
 					k = 0;
 
-					DCT o2 = new DCT(); // 宣告 DCT 物件
-					o2.InverseDCT(b3, b4); // 引用DCT class 中,InverseDCT的方法
+					DCT o2 = new DCT(); 
+					o2.InverseDCT(b3, b4); 
 
 					for (int p = y; p < y + N; p++)
 					{
@@ -459,9 +448,6 @@ namespace net.watermark
 			}
 			bits = new Bits(bits.getBits(0, maxBitsTotal));
 
-			// if debugging, copy original before error correction...
-			Bits bitsBeforeCorrection = null;
-
 			// apply error correction...
 			if (byteLenErrorCorrection > 0)
 			{
@@ -523,7 +509,6 @@ namespace net.watermark
 				}
 			}
 
-			// 將 watermark image 切成 8x8 的 block 作 DCT 轉換
 			for (int y = 0; y < height; y += N)
 			{
 				for (int x = 0; x < width; x += N)
@@ -540,8 +525,8 @@ namespace net.watermark
 					}
 					k = 0;
 
-					DCT o1 = new DCT(); // 宣告 DCT 物件
-					o1.ForwardDCT(b1, b2); // 引用DCT class 中,ForwardDCT的方法
+					DCT o1 = new DCT(); 
+					o1.ForwardDCT(b1, b2); 
 
 					for (int p = y; p < y + N; p++)
 					{
@@ -573,8 +558,8 @@ namespace net.watermark
 			}
 			cc = 0;
 
-			ZigZag scan = new ZigZag(); // 宣告 zigZag 物件
-			scan.one2two(mfbuff1, mfbuff2); // 引用zigZag class 中,one2two的方法
+			ZigZag scan = new ZigZag(); 
+			scan.one2two(mfbuff1, mfbuff2); 
 
 			// random extracting
 			Random r1 = new Random((int)randomizeEmbeddingSeed);
@@ -616,11 +601,11 @@ namespace net.watermark
 					}
 					k = 0;
 
-					Qt qw2 = new Qt(); // 宣告 Qt 物件
-					qw2.WaterDeQt(w1, w2); // 引用Qt class 中,WaterDeQt的方法
+					Qt qw2 = new Qt(); 
+					qw2.WaterDeQt(w1, w2); 
 
-					DCT wm2 = new DCT(4); // 宣告 DCT2 物件
-					wm2.InverseDCT(w2, w3); // 引用DCT2 class 中,InverseDCT的方法
+					DCT wm2 = new DCT(4);
+					wm2.InverseDCT(w2, w3); 
 					for (int p = y; p < y + W; p++)
 					{
 						for (int q = x; q < x + W; q++)
@@ -635,7 +620,7 @@ namespace net.watermark
 				}
 			}
 
-			Random r = new Random((int)randomizeWatermarkSeed); // 設定亂數產生器的seed
+			Random r = new Random((int)randomizeWatermarkSeed); 
 			for (int i = 0; i < 128; i++)
 			{
 				for (int j = 0; j < 128; j++)
@@ -654,7 +639,6 @@ namespace net.watermark
 					tmp[c] = 1;
 				}
 			}
-			// System.out.println("                       OK!      ");
 
 			return water3;
 		}

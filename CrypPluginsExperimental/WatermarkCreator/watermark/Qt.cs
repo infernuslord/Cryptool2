@@ -7,9 +7,9 @@ namespace net.watermark
     * Ported to C# to be used within CrypTool 2 by Nils Rehwald
     * Thanks to cgaffa, ZXing and everyone else who worked on the original Project for making the original Java sources available publicly
     * Thanks to Nils Kopal for Support and Bugfixing */
-  
-	// 程式名稱：Qt.java
-	// 程式功能： Qt 類別,含WaterQt(量化)與WaterDeQt(反量化)兩種方法
+
+    // Program name: Qt.java
+    // Program features: Qt category, including WaterQt (quantization) and WaterDeQt (inverse quantization) two methods
     // Ported to C# by Nils Rehwald
 
 	internal class Qt

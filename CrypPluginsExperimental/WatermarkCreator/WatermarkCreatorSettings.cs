@@ -1,5 +1,5 @@
 ﻿/*
-   Copyright 2014 CrypTool 2 Team <ct2contact@cryptool.org>
+   Copyright 2014 Nils Rehwald 
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ using Cryptool.PluginBase.Miscellaneous;
 
 namespace Cryptool.Plugins.WatermarkCreator
 {
-    // HOWTO: rename class (click name, press F2)
     public class WatermarkCreatorSettings : ISettings
     {
         #region Private Variables
@@ -169,7 +168,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                 }
             }
         }
-
+        
         [TaskPane("ErrorCorrectionCap", "ErrorCorrectionDes", null, 13, false, ControlType.TextBox)]
         public int ErrorCorrection
         {
@@ -186,7 +185,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                 }
             }
         }
-
+        
         [TaskPane("Seed1", "Seed", null, 14, false, ControlType.TextBox)]
         public long Seed1
         {
