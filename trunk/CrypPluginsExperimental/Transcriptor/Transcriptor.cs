@@ -166,10 +166,6 @@ namespace Cryptool.Plugins.Transcriptor
 
                     //Gets the Image from the Input Plugin and chage the DPI to 96
                     transcriptorPresentation.picture.Source = ByteToImage(Image.CreateReader().ReadFully());
-                    /*var test = BitmapDecoder.Create(new MemoryStream(Image.CreateReader().ReadFully()),
-                                BitmapCreateOptions.PreservePixelFormat,
-                                BitmapCacheOption.None);
-                    transcriptorPresentation.picture.Source = test.Frames[0];*/
                     
                 }
                 catch (Exception ex)
@@ -281,12 +277,27 @@ namespace Cryptool.Plugins.Transcriptor
             const int dpi = 96;
             var width = sourceImage.PixelWidth;
             var height = sourceImage.PixelHeight;
-            var stride = width * 4;
-            var pixelData = new byte[stride * height];
-            sourceImage.CopyPixels(pixelData, stride, 0);
-            var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, PixelFormats.Bgra32, null, pixelData, stride);
-            //finally return the new image source
-            return dpi96Image;
+            int stride;
+
+            //If the format has 8 Bits per Pixel the Image will be represented wrong therefor the gray8 format is used
+            if (sourceImage.Format.BitsPerPixel == 8)
+            {
+                stride = (width * PixelFormats.Gray8.BitsPerPixel + 7) / 8;
+                var pixelData = new byte[stride * height];
+                sourceImage.CopyPixels(pixelData, stride, 0);
+                var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, PixelFormats.Gray8, null, pixelData, stride);
+                //finally return the new image source
+                return dpi96Image;
+            }
+            else
+            {
+                stride = (width * sourceImage.Format.BitsPerPixel + 7) / 8;
+                var pixelData = new byte[stride * height];
+                sourceImage.CopyPixels(pixelData, stride, 0);
+                var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, sourceImage.Format, null, pixelData, stride);
+                //finally return the new image source
+                return dpi96Image;
+            }
         }
 
         /// <summary>
