@@ -177,7 +177,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Hash Functions ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Hash functions ähnelt.
         /// </summary>
         public static string Category_FL_HashFunctions {
             get {
@@ -483,7 +483,7 @@ namespace OnlineDocumentationGenerator.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Crypto Tutorials ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Crypto tutorials ähnelt.
         /// </summary>
         public static string FL_Tutorial {
             get {

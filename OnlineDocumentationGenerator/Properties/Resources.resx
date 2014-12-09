@@ -320,7 +320,7 @@
     <value>Cryptanalysis\ Specific</value>
   </data>
   <data name="Category_FL_HashFunctions" xml:space="preserve">
-    <value>Hash Functions</value>
+    <value>Hash functions</value>
   </data>
   <data name="Category_FL_Protocols" xml:space="preserve">
     <value>Protocols</value>
@@ -359,7 +359,7 @@
     <value>W</value>
   </data>
   <data name="FL_Tutorial" xml:space="preserve">
-    <value>Crypto Tutorials</value>
+    <value>Crypto tutorials</value>
   </data>
   <data name="FunctionListTemplate" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\generators\functionlistgenerator\functionlisttemplate-en.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>

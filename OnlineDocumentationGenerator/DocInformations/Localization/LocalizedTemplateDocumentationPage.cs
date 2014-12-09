@@ -5,6 +5,7 @@ using System.Windows.Media.Imaging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 using Cryptool.PluginBase;
 using OnlineDocumentationGenerator.DocInformations.Utils;
 using OnlineDocumentationGenerator.Generators.HtmlGenerator;
@@ -61,6 +62,7 @@ namespace OnlineDocumentationGenerator.DocInformations.Localization
                 try
                 {
                     name = tdir.LocalizedInfos[Lang].Name;
+                    name = name.Trim();
                 }
                 catch (System.Exception ex)
                 {
