@@ -47,8 +47,8 @@ namespace OnlineDocumentationGenerator
                 }
                 catch (Exception ex)
                 {
-                    GuiLogMessage(string.Format("Error trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
-                    MessageBox.Show("Error trying to open documentation! Please read the log for details.");
+                    GuiLogMessage(string.Format("Error while trying to generate documentation: {0}", ex.Message), NotificationLevel.Error);
+                    MessageBox.Show("Error while trying to generate documentation! Please read the log for details.");
                 }
             }
             finally
