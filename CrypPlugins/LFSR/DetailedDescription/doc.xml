@@ -24,12 +24,12 @@
   
   <usage lang="en">
     Some scenarios including detailed walkthroughs that describe the usage of the LFSR plugin can be found here:<newline />
-    <external ref="http://cryptool2.vs.uni-due.de/downloads/howto/StreamCipherToolboxScenarios.pdf" />
+    <external ref="https://www.cryptool.org/ct2download/Tutorials/StreamCipherToolboxScenarios.pdf" />
   </usage>
   
   <usage lang="de-DE">
     Einige Beispielanwendungen des LFSR finden Sie hier:<newline />
-    <external ref="http://cryptool2.vs.uni-due.de/downloads/howto/StreamCipherToolboxScenarios.pdf" />
+    <external ref="https://www.cryptool.org/ct2download/Tutorials/StreamCipherToolboxScenarios.pdf" />
   </usage>
   
   <presentation lang="en">
