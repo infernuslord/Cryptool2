@@ -142,7 +142,7 @@
     <value>Output of the random value that is to be tested.</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Zero Knowledge Checker</value>
+    <value>Zero Knowledge Verifier</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verifier component for the Zero Knowledge protocol</value>

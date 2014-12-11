@@ -136,7 +136,7 @@
     <value>Ausgabe</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Zero Knowledge Checked</value>
+    <value>Zero-Knowledge-Beweiser</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Beweiser-Komponente für das Zero-Knowledge-Protokoll</value>

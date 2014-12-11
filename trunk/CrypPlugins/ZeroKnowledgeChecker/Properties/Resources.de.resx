@@ -142,7 +142,7 @@
     <value>Ausgabe des zu testenden Zufallswertes</value>
   </data>
   <data name="PluginCaption" xml:space="preserve">
-    <value>Zero Knowledge Checker</value>
+    <value>Zero-Knowledge-Verifizierer</value>
   </data>
   <data name="PluginTooltip" xml:space="preserve">
     <value>Verifizierer-Komponente für das Zero-Knowledge-Protokoll</value>
