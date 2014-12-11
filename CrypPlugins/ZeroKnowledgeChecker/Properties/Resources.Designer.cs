@@ -151,7 +151,7 @@ namespace ZeroKnowledgeChecker.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Zero Knowledge Checker ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Zero Knowledge Verifier ähnelt.
         /// </summary>
         internal static string PluginCaption {
             get {
