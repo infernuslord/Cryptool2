@@ -47,24 +47,84 @@ namespace OnlineDocumentationGenerator.Generators.FunctionListGenerator
                 var cultureInfo = new CultureInfo(lang);
                 Thread.CurrentThread.CurrentCulture = cultureInfo;
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
-                                
-                //
+
                 // create list of functions
-                //
                 itemlist.Clear();
 
                 GetComponents(lang);
                 GetWizard(lang);
                 //GetTemplates(templatesDir, lang, "");
 
-                var componentDoc = Properties.Resources.FunctionListTemplate
+                // create CSV file
+                var CSVDesc = GenerateCSVDescription();
+
+                StoreFunctionList(CSVDesc, "FunctionList-" + lang + ".csv");
+
+                // create text file
+                var TextDesc = Properties.Resources.FunctionListTemplate
                     .Replace("\r", "")
                     .Replace("$VERSION$", GetVersion())
                     .Replace("$DATE$", DateTime.Now.ToString(CultureInfo.CurrentUICulture.DateTimeFormat))
-                    + GenerateCode(lang);
+                    + GenerateDescription();
 
-                StoreFunctionList(componentDoc, "FunctionList-" + lang + ".txt");
+                StoreFunctionList(TextDesc, "FunctionList-" + lang + ".txt");
             }
+        }
+
+        private string GenerateDescription()
+        {
+            var list = itemlist.Keys.ToList();
+            list.Sort();
+
+            StringBuilder result = new StringBuilder();
+
+            foreach (var key in list)
+            {
+                var types = itemlist[key].Keys.ToList();
+                types.Sort();
+                String occuringTypes = String.Join("/", types.Select(i => ItemType2Char(i)));
+
+                bool firstLine = true;
+
+                foreach (var itemtype in types)
+                {
+                    foreach (var path in itemlist[key][itemtype])
+                    {
+                        result.Append(String.Format("{0,-50} {1,-10}", firstLine ? key : "", firstLine ? occuringTypes : ""));
+                        result.Append(String.Format(" [{0}] {1}\n", ItemType2Char(itemtype), path));
+                        firstLine = false;
+                    }
+                }
+
+                result.Append("\n");
+            }
+
+            return result.ToString();
+        }
+
+        private string GenerateCSVDescription()
+        {
+            var list = itemlist.Keys.ToList();
+            list.Sort();
+
+            StringBuilder result = new StringBuilder();
+
+            foreach (var key in list)
+            {
+                var types = itemlist[key].Keys.ToList();
+                types.Sort();
+                String occuringTypes = String.Join("/", types.Select(i => ItemType2Char(i)));
+
+                result.Append(String.Format("{0};{1};\n", key, occuringTypes));
+
+                foreach (var itemtype in types)
+                    foreach (var path in itemlist[key][itemtype])
+                        result.Append(String.Format(";[{0}];{1}\n", ItemType2Char(itemtype), path));
+
+                result.Append("\n");
+            }
+
+            return result.ToString();
         }
 
         private void GetComponents(string lang)
@@ -176,37 +236,6 @@ namespace OnlineDocumentationGenerator.Generators.FunctionListGenerator
             }
         }
 
-        private string GenerateCode(string lang)
-        {
-            var list = itemlist.Keys.ToList();
-            list.Sort();
-
-            StringBuilder result = new StringBuilder();
-
-            foreach (var key in list)
-            {
-                var types = itemlist[key].Keys.ToList();
-                types.Sort();
-                String occuringTypes = String.Join("/", types.Select(i => ItemType2Char(i)));
-
-                bool firstLine = true;
-
-                foreach (var itemtype in types)
-                {
-                    foreach (var path in itemlist[key][itemtype])
-                    {
-                        result.Append(String.Format("{0,-50} {1,-10}", firstLine ? key : "", firstLine ? occuringTypes : ""));
-                        result.Append(String.Format(" [{0}] {1}\n", ItemType2Char(itemtype), path));
-                        firstLine = false;
-                    }
-                }
-
-                result.Append("\n");
-            }
-
-            return result.ToString();
-        }
-
         private string ItemType2Char(ItemType t)
         {
             switch (t)
@@ -286,7 +315,7 @@ namespace OnlineDocumentationGenerator.Generators.FunctionListGenerator
             }
             catch (Exception ex)
             {
-                throw new Exception(string.Format("Error trying to write file {0}! Message: {1}", filePath, ex.Message));
+                System.Windows.MessageBox.Show(string.Format("Error while trying to write file \"{0}\"!\n\nMessage: {1}", filePath, ex.Message));
             }
         }
     }
