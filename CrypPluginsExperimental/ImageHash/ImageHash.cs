@@ -39,7 +39,7 @@ using ImageHash.Properties;
 namespace Cryptool.Plugins.ImageHash
 {
     [Author("Bastian Heuser", "bhe@student.uni-kassel.de", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
-    [PluginInfo("ImageHash.Properties.Resources", "PluginCaption", "PluginTooltip", "ImageHash/userdoc.xml", "ImageHash/icon.png")]
+    [PluginInfo("ImageHash.Properties.Resources", "PluginCaption", "PluginTooltip", "ImageHash/DetailedDescription/doc.xml", "ImageHash/icon.png")]
     [ComponentCategory(ComponentCategory.HashFunctions)]
     public class ImageHash : ICrypComponent
     {
