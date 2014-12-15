@@ -17,6 +17,7 @@ using System;
 using System.ComponentModel;
 using Cryptool.PluginBase;
 using Cryptool.PluginBase.Miscellaneous;
+using ImageHash.Properties;
 
 namespace Cryptool.Plugins.ImageHash
 {
@@ -27,14 +28,14 @@ namespace Cryptool.Plugins.ImageHash
         private int outputFileFormat = 0;
         private int size = 16;
         private int presentationStep = 5;
-        private static String stepName = "Step 4: Black and White";
-        private Boolean showEachStep = true;
+        private static String stepName = Resources.Step4Caption;
+        private Boolean showEachStep = false;
 
         #endregion
 
         #region TaskPane Settings
 
-        [TaskPane("Size (standard: 16x16)", "Enter a value of horizontal and vertical pixels, from 4 to 128, only powers of two.", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 0, 5000)]
+        [TaskPane("SizeCaption", "SizeTooltip", null, 1, false, ControlType.TextBox, ValidationType.RangeInteger, 0, 5000)]
         public int Size
         {
             get
@@ -82,7 +83,7 @@ namespace Cryptool.Plugins.ImageHash
         /// <summary>
         /// Boolean that sets if every step of the image processing is directly shown.
         /// </summary>
-        [TaskPane("Show each step", "showEachStepTooltip", "SliderGroup", 3, false, ControlType.CheckBox)]
+        [TaskPane("StepsCaption", "StepsTooltip", "SliderGroup", 3, false, ControlType.CheckBox)]
         public bool ShowEachStep
         {
             get { return this.showEachStep; }
@@ -93,7 +94,7 @@ namespace Cryptool.Plugins.ImageHash
         }
 
 
-        [TaskPane("", "StepNameTooltip", "SliderGroup", 4, false, ControlType.TextBoxReadOnly)]
+        [TaskPane("", "PresentationStepTooltip", "SliderGroup", 4, false, ControlType.TextBoxReadOnly)]
         public String StepName
         {
             get { return stepName; }
@@ -119,19 +120,19 @@ namespace Cryptool.Plugins.ImageHash
                     switch (presentationStep)
                     {
                         case 1:
-                            StepName = "Original Image";
+                            StepName = Resources.Step0Caption;
                             break;
                         case 2:
-                            StepName = "Step 1: Gray scale";
+                            StepName = Resources.Step1Caption;
                             break;
                         case 3:
-                            StepName = "Step 2: Resize";
+                            StepName = Resources.Step2Caption;
                             break;
                         case 4:
-                            StepName = "Step 3: Flip";
+                            StepName = Resources.Step3Caption;
                             break;
                         case 5:
-                            StepName = "Step 4: Black and White";
+                            StepName = Resources.Step4Caption;
                             break;
                     }
                     OnPropertyChanged("StepName");
