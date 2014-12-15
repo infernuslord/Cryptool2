@@ -34,11 +34,12 @@ using System.Windows;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
+using ImageHash.Properties;
+
 namespace Cryptool.Plugins.ImageHash
 {
-    [Author("Bastian Heuser", "bhe@student.uni-kassel.de", "", "")]
-    // You can (and should) provide a user documentation as XML file and an own icon.
-    [PluginInfo("ImageHash", "Calculate the robust hash of an image", "ImageHash/userdoc.xml", new[] { "ImageHash/icon.png"/*"CrypWin/images/default.png"*/ })]
+    [Author("Bastian Heuser", "bhe@student.uni-kassel.de", "Uni Kassel", "http://www.uni-kassel.de/eecs/fachgebiete/ais/")]
+    [PluginInfo("ImageHash.Properties.Resources", "PluginCaption", "PluginTooltip", "ImageHash/userdoc.xml", "ImageHash/icon.png")]
     [ComponentCategory(ComponentCategory.HashFunctions)]
     public class ImageHash : ICrypComponent
     {
@@ -62,7 +63,7 @@ namespace Cryptool.Plugins.ImageHash
         /// <summary>
         /// Input image ICryptoolStream, handles "inputImage".
         /// </summary>
-        [PropertyInfo(Direction.InputData, "InputImage", "This is the standard image used for the hashing.", true)]
+        [PropertyInfo(Direction.InputData, "InputImageCaption", "InputImageTooltip", true)]
         public ICryptoolStream InputImage
         {
             get
@@ -98,7 +99,7 @@ namespace Cryptool.Plugins.ImageHash
         /// <summary>
         /// Output processed image as ICryptoolStream.
         /// </summary>
-        [PropertyInfo(Direction.OutputData, "OutputImage", "This is the OutputImage after processing.")]
+        [PropertyInfo(Direction.OutputData, "OutputImageCaption", "OutputImageTooltip")]
         public ICryptoolStream OutputImage
         {
             get;
@@ -158,16 +159,16 @@ namespace Cryptool.Plugins.ImageHash
             const int STEPS = 10;
 
             // An imagesize under 4x4 does not make any sense
-            // Sices above 128x128 get to slow
+            // Sizes above 128x128 get to slow
             if (settings.Size < 4)
             {
                 settings.Size = 4;
-                GuiLogMessage("The chosen size is too small. Changed size to 4x4.", NotificationLevel.Warning);
+                GuiLogMessage(Resources.ToSmallWarning, NotificationLevel.Warning);
             }
             else if (settings.Size > 128)
             {
                 settings.Size = 128;
-                GuiLogMessage("The chosen size is too big. Changed size to 128x128.", NotificationLevel.Warning);
+                GuiLogMessage(Resources.ToBigWarning, NotificationLevel.Warning);
             }
             else
             {
@@ -203,7 +204,7 @@ namespace Cryptool.Plugins.ImageHash
                         size = max;
                     }
                     settings.Size = size;
-                    GuiLogMessage("Please select a power of two. Changed size to " + size + "x" + size + ".", NotificationLevel.Warning);
+                    GuiLogMessage(Resources.PowerOfTwoWarning + " " + size + "x" + size + ".", NotificationLevel.Warning);
                 }
             }
             OnPropertyChanged("size");
@@ -212,7 +213,7 @@ namespace Cryptool.Plugins.ImageHash
 
             if (InputImage == null)
             {
-                GuiLogMessage("Please select an image.", NotificationLevel.Error);
+                GuiLogMessage(Resources.NoImageError, NotificationLevel.Error);
                 return;
             }
 
