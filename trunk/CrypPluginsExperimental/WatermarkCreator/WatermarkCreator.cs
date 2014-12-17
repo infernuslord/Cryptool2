@@ -423,7 +423,7 @@ namespace Cryptool.Plugins.WatermarkCreator
         private void GetInvisVariables() //Get user defined settings for invisible watermarking
         {
             _boxSize = _settings.BoxSize;
-            _errorCorrection = _settings.ErrorCorrection;
+            //_errorCorrection = _settings.ErrorCorrection;
             _opacity = _settings.Opacity;
             if (_opacity > 1000.0)
             {
