@@ -43,7 +43,7 @@ namespace Cryptool.Plugins.WatermarkCreator
     [ComponentCategory(ComponentCategory.Steganography)]
     public class WatermarkCreator : ICrypComponent
     {
-        #region Private Variables
+        #region Private Variables and Constructor
 
         public WatermarkCreator()
         {
@@ -64,9 +64,11 @@ namespace Cryptool.Plugins.WatermarkCreator
         private long _s1 = 19;
         private long _s2 = 24;
         private double _locationPercentage = 0.05;
+
         private bool _stopped;
         private Watermark water;
 
+        //Selection of fonts
         private string[] fontsChosen = new string[]
         {
             "Aharoni",
@@ -212,6 +214,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             _stopped = true;
             if (water != null)
             {
+                //Stop embedding/extracting process for invisible watermark which can take quite some time in case of larce pictures
                 water.Stop();
             }
             water = null;
@@ -291,7 +294,7 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         #region Helpers
 
-        private void WmVisibleText()
+        private void WmVisibleText() //Embed visible text
         {
             using (CStreamReader reader = InputPicture.CreateReader())
             {
@@ -319,7 +322,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                         }
                         font = new Font(_font, i, FontStyle.Bold);
                         size = graphicPhoto.MeasureString(Watermark, font);
-                        if ((ushort)size.Width < (ushort)width)
+                        if ((ushort)size.Width < (ushort)width) //Text fits into image
                             break;
                     }
                     
@@ -350,7 +353,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        private void CreateInvisibleWatermark()
+        private void CreateInvisibleWatermark() //Embed invisible Watermark
         {
             water = new Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
             using (CStreamReader reader = InputPicture.CreateReader())
@@ -367,7 +370,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        private string DetectInvisibleWatermark()
+        private string DetectInvisibleWatermark() //Extract invisible watermark
         {
             water = new Watermark(_boxSize, _errorCorrection, _opacity, _s1, _s2);
             using (CStreamReader reader = InputPicture.CreateReader())
@@ -383,6 +386,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
+        //Some functions for creating the image output / doing manipulations
         private void CreateOutputStream(Bitmap bitmap)
         {
             ImageFormat format = ImageFormat.Bmp;
@@ -416,7 +420,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             return image;
         }
 
-        private void GetInvisVariables()
+        private void GetInvisVariables() //Get user defined settings for invisible watermarking
         {
             _boxSize = _settings.BoxSize;
             _errorCorrection = _settings.ErrorCorrection;
@@ -441,7 +445,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             _s2 = _settings.Seed2;
         }
 
-        private void GetVisVariables()
+        private void GetVisVariables() //Get user defined settings for visible watermarking
         {
             _textSize = _settings.TextSizeMax < 3 ? 12 : _settings.TextSizeMax;
             _location = _settings.WatermarkLocation;
@@ -455,7 +459,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-        private string[] GetFonts()
+        private string[] GetFonts() //Get fonts installed on the user's system to check whether chosen font is available
         {
             InstalledFontCollection installedFontCollection = new InstalledFontCollection();
             FontFamily[] fontFamilies = installedFontCollection.Families;

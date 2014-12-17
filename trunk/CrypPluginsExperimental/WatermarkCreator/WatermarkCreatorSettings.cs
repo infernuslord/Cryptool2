@@ -41,10 +41,6 @@ namespace Cryptool.Plugins.WatermarkCreator
 
         #region TaskPane Settings
 
-        /// <summary>
-        /// HOWTO: This is an example for a setting entity shown in the settings pane on the right of the CT2 main window.
-        /// This example setting uses a number field input, but there are many more input types available, see ControlType enumeration.
-        /// </summary>
         [TaskPane("ModificationTypeCap", "ModificationTypeDes", null, 0, false, ControlType.ComboBox, new string[] { "WatermarkCreatorSettings_ModificationType_EmbedText", "WatermarkCreatorSettings_ModificationType_EmbedInvisibleText", "WatermarkCreatorSettings_ModificationType_ExtractText" })]
         public int ModificationType
         {
@@ -168,7 +164,8 @@ namespace Cryptool.Plugins.WatermarkCreator
                 }
             }
         }
-        
+        // NOT YET WORKING. Code fails for values different from 0
+        /*
         [TaskPane("ErrorCorrectionCap", "ErrorCorrectionDes", null, 13, false, ControlType.TextBox)]
         public int ErrorCorrection
         {
@@ -185,7 +182,7 @@ namespace Cryptool.Plugins.WatermarkCreator
                 }
             }
         }
-        
+        */
         [TaskPane("Seed1", "Seed", null, 14, false, ControlType.TextBox)]
         public long Seed1
         {
@@ -237,7 +234,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             }
         }
 
-
+        //Managing visibility of options
         public void UpdateTaskPaneVisibility()
         {
             SettingChanged("ModificationType", Visibility.Visible);
@@ -246,7 +243,7 @@ namespace Cryptool.Plugins.WatermarkCreator
             SettingChanged("WatermarkLocation", Visibility.Collapsed);
             SettingChanged("Opacity", Visibility.Collapsed);
             SettingChanged("BoxSize", Visibility.Collapsed);
-            SettingChanged("ErrorCorrection", Visibility.Collapsed);
+            //SettingChanged("ErrorCorrection", Visibility.Collapsed);
             SettingChanged("Seed1", Visibility.Collapsed);
             SettingChanged("Seed2", Visibility.Collapsed);
             SettingChanged("LocationPercentage", Visibility.Collapsed);
