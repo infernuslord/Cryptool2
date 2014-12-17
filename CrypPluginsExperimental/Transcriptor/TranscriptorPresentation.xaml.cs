@@ -23,10 +23,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using System.Text;
+using Cryptool.Plugins.Transcriptor;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System.IO;
 using System.ComponentModel;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace Transcriptor
 {
@@ -39,19 +41,19 @@ namespace Transcriptor
         # region Variables
 
         private readonly Cryptool.Plugins.Transcriptor.Transcriptor transcriptor;
-        String rectangleColor, selectedRectangleColor;
-        int alphabetCount = 0, indexCount = 0, currentRectangeleWidth, currentRectangleHeight;
-        bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false, isBlackImage = false;
-        List<Symbol> symbolList = new List<Symbol>(); //contains all symbols wich will are used for the Text
-        ObservableCollection<Symbol> symbolItems = new ObservableCollection<Symbol>(); // Handels ListboxItems
-        Dictionary<char, int> statsList = new Dictionary<char, int>();
-        List<Symbol> firstSymbols = new List<Symbol>();
-        double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
-        Rectangle rectangle;
-        BitmapSource croppedBitmap;
-        Int32Rect rcFrom;
-        Rect rect;
-        float threshold;
+        private String rectangleColor, selectedRectangleColor;
+        private int alphabetCount = 0, indexCount = 0, currentRectangeleWidth, currentRectangleHeight;
+        private bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false, isBlackImage = false;
+        private List<Symbol> symbolList = new List<Symbol>(); //contains all symbols wich will are used for the Text
+        private ObservableCollection<Symbol> symbolItems = new ObservableCollection<Symbol>(); // Handels ListboxItems
+        private Dictionary<char, int> statsList = new Dictionary<char, int>();
+        private List<Symbol> firstSymbols = new List<Symbol>();
+        private double xCordinateDown, yCordinateDown, xCordinateUp, yCordinateUp;
+        private Rectangle rectangle;
+        private BitmapSource croppedBitmap;
+        private Int32Rect rcFrom;
+        private Rect rect;
+        private float threshold;
 
         #endregion
 
@@ -150,6 +152,8 @@ namespace Transcriptor
                                             break;
                                         }
                                     }
+
+                                    //Serialisieren
 
                                     symbolListbox.Items.Refresh();
                                     statsList.Remove(symbolList[i].Letter);
@@ -562,7 +566,7 @@ namespace Transcriptor
         /// <param name="x"></param>
         /// <param name="y"></param>
         private void AddSymbolToList(Symbol newSymbol, int width, int height, double x, double y)
-        {
+        {            
             //Adds a fixed rectangle to the canvas
             Rectangle newRectangle = new Rectangle
             {
@@ -816,6 +820,79 @@ namespace Transcriptor
             
         }
 
+        public void Deserialize(TranscriptorSettings settings)
+        {            
+            canvas.Children.Clear();
+            indexCount = 0;
+            alphabetCount = 0;
+            symbolList.Clear();
+            symbolItems.Clear();
+            firstSymbols.Clear();
+
+            var stream = new MemoryStream(Convert.FromBase64String(settings.SerializedData));
+            var reader = new BinaryReader(stream);
+            var count = reader.ReadInt32();
+            for (var i = 0; i < count; i++)
+            {
+                var size = reader.ReadInt32();
+                var symbol = Symbol.Deserialize(reader.ReadBytes(size));
+                symbolItems.Add(symbol);                
+            }
+            symbolListbox.ItemsSource = symbolItems;            
+            count = reader.ReadInt32();
+            for (var i = 0; i < count; i++)
+            {
+                var size = reader.ReadInt32();
+                var symbol = Symbol.Deserialize(reader.ReadBytes(size));                
+                AddSymbolToList(symbol, (int)symbol.Rectangle.Width, (int)symbol.Rectangle.Height, symbol.X, symbol.Y);                
+                indexCount++;
+            }
+            count = reader.ReadInt32();
+            for (var i = 0; i < count; i++)
+            {
+                var size = reader.ReadInt32();
+                var symbol = Symbol.Deserialize(reader.ReadBytes(size));
+                firstSymbols.Add(symbol);
+
+                //mark first symbols
+                foreach (Symbol t in symbolList)
+                {
+                    if (t.Id == symbol.Id)
+                    {
+                        t.Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void Serialize(TranscriptorSettings settings)
+        {
+            var stream = new MemoryStream();            
+            stream.Write(BitConverter.GetBytes(symbolItems.Count), 0, 4);
+            foreach (var s in symbolItems)
+            {
+                var data = Symbol.Serialize(s);
+                stream.Write(BitConverter.GetBytes(data.Length), 0, 4);
+                stream.Write(data, 0, data.Length);
+            }
+            stream.Write(BitConverter.GetBytes(symbolList.Count), 0, 4);
+            foreach (var s in symbolList)
+            {
+                var data = Symbol.Serialize(s);
+                stream.Write(BitConverter.GetBytes(data.Length), 0, 4);
+                stream.Write(data, 0, data.Length);
+            }            
+            stream.Write(BitConverter.GetBytes(firstSymbols.Count), 0, 4);
+            foreach (var s in firstSymbols)
+            {
+                var data = Symbol.Serialize(s);
+                stream.Write(BitConverter.GetBytes(data.Length), 0, 4);
+                stream.Write(data, 0, data.Length);
+            }
+
+            settings.SerializedData = Convert.ToBase64String(stream.GetBuffer());
+        }
         #endregion
     }
 }

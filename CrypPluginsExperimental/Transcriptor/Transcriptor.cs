@@ -155,6 +155,8 @@ namespace Cryptool.Plugins.Transcriptor
             {
                 try
                 {
+                    transcriptorPresentation.Deserialize(settings);
+
                     // When the workflow runs the GUI is set to be enabled
                     transcriptorPresentation.grid.IsEnabled = true;
 
@@ -194,6 +196,7 @@ namespace Cryptool.Plugins.Transcriptor
             {
                 try
                 {
+                    transcriptorPresentation.Serialize(settings);
                     transcriptorPresentation.grid.IsEnabled = false;
                 }
                 catch (Exception ex)
