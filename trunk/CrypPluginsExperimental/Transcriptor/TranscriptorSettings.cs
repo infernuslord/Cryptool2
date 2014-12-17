@@ -31,7 +31,8 @@ namespace Cryptool.Plugins.Transcriptor
         private int mode = 1;
         private int threshold = 75;
         private String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
- 
+        private String serializedData = String.Empty;
+
         #endregion
 
         #region TaskPane Settings
@@ -119,6 +120,22 @@ namespace Cryptool.Plugins.Transcriptor
                 {
                     threshold = value;
                     OnPropertyChanged("Threshold");
+                }
+            }
+        }
+
+        public string SerializedData
+        {
+            get
+            {
+                return serializedData;
+            }
+            set
+            {
+                if (!serializedData.Equals(value))
+                {
+                    serializedData = value;
+                    OnPropertyChanged("SerializedData");
                 }
             }
         }
