@@ -25,7 +25,7 @@ namespace Transcriptor
     {
         int id;
         double xCordinate, yCordinate;
-        double probability;
+        double probability = 100;
         Rectangle rectangle = new Rectangle();
         char letter;
         BitmapSource image = new BitmapImage();
