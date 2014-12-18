@@ -92,21 +92,24 @@ namespace Transcriptor
         /// Serializes a given symbol
         /// </summary>
         /// <returns></returns>
-        public static byte[] Serialize(Symbol symbol)
+        public static byte[] Serialize(Symbol symbol, bool serializeImage = true)
         {
             //serialize all needed members
             var idBytes = BitConverter.GetBytes(symbol.id);
             var xCordinateBytes = BitConverter.GetBytes(symbol.xCordinate);
             var yCordinateBytes = BitConverter.GetBytes(symbol.yCordinate);
-            byte[] imageBytes;
-            var encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(symbol.Image));
-            using (var stream = new MemoryStream())
+            var imageBytes = new byte[0];
+            if (serializeImage)
             {
+                var encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(symbol.Image));
-                encoder.Save(stream);
-                imageBytes = stream.ToArray(); 
-                stream.Close();               
+                using (var stream = new MemoryStream())
+                {
+                    encoder.Frames.Add(BitmapFrame.Create(symbol.Image));
+                    encoder.Save(stream);
+                    imageBytes = stream.ToArray();
+                    stream.Close();
+                }                
             }
             var imageSizeBytes = BitConverter.GetBytes(imageBytes.Length);
             var charBytes = BitConverter.GetBytes(symbol.letter);
@@ -153,12 +156,15 @@ namespace Transcriptor
             var imageBytes = new byte[imageSize];
             Array.Copy(data, 24, imageBytes, 0, imageSize);
             var stream = new MemoryStream(imageBytes);
-            stream.Seek(0, SeekOrigin.Begin);
-            var image = new BitmapImage();
-            image.BeginInit();
-            image.StreamSource = stream;
-            image.EndInit();
-            symbol.Image = image;
+            if (imageBytes.Length != 0)
+            {
+                stream.Seek(0, SeekOrigin.Begin);
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = stream;
+                image.EndInit();
+                symbol.Image = image;
+            }
             var charsize = BitConverter.ToInt32(data, 24 + imageBytes.Length);
             var chararray = new byte[charsize];
             Array.Copy(data, 24 + imageBytes.Length + 4, chararray, 0, charsize);

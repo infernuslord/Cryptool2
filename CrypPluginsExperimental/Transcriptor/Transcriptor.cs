@@ -48,7 +48,6 @@ namespace Cryptool.Plugins.Transcriptor
         {
             transcriptorPresentation = new TranscriptorPresentation(this);
             settings = new TranscriptorSettings();
-
             Presentation = transcriptorPresentation;
         }
 
@@ -143,8 +142,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void Execute()
         {
-            ProgressChanged(0, 1);
-
+            ProgressChanged(0, 1);            
             // If the Alphabet plugin is not plug the standard Alphabet will be used
             if (Alphabet == null || Alphabet.Length == 0)
             {
@@ -155,7 +153,8 @@ namespace Cryptool.Plugins.Transcriptor
             {
                 try
                 {
-                    transcriptorPresentation.Deserialize(settings);
+                    //deserialize data structure from settings
+                    transcriptorPresentation.Deserialize();
 
                     // When the workflow runs the GUI is set to be enabled
                     transcriptorPresentation.grid.IsEnabled = true;
@@ -195,8 +194,7 @@ namespace Cryptool.Plugins.Transcriptor
             transcriptorPresentation.Dispatcher.Invoke(DispatcherPriority.Background, (SendOrPostCallback)delegate
             {
                 try
-                {
-                    transcriptorPresentation.Serialize(settings);
+                {                    
                     transcriptorPresentation.grid.IsEnabled = false;
                 }
                 catch (Exception ex)
@@ -211,6 +209,7 @@ namespace Cryptool.Plugins.Transcriptor
         /// </summary>
         public void Initialize()
         {
+            ((TranscriptorPresentation)Presentation).Settings = settings;
         }
 
         /// <summary>

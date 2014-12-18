@@ -58,6 +58,8 @@ namespace Transcriptor
 
         #endregion
 
+        public TranscriptorSettings Settings { get; set; }
+
         public TranscriptorPresentation(Cryptool.Plugins.Transcriptor.Transcriptor transcriptor)
         {
             InitializeComponent();
@@ -180,6 +182,9 @@ namespace Transcriptor
                         {
                             addSymbolButton.IsEnabled = true;
                         }
+
+                        //we changed our data structure => serialize
+                        Serialize();
                     }
                 }
                 else
@@ -230,6 +235,8 @@ namespace Transcriptor
                                     }
                                 }
                             }
+                            //we changed our data structure => serialize
+                            Serialize();
                         }
                     }
                 }
@@ -368,6 +375,8 @@ namespace Transcriptor
                         AddSymbolToList(newSymbol, currentRectangeleWidth, currentRectangleHeight,
                         Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
                     }
+                    //we changed our data structure => serialize
+                    Serialize();
                 }
             }
             catch (Exception ex)
@@ -441,6 +450,8 @@ namespace Transcriptor
                         AddSymbolToList(symbol, currentRectangeleWidth, currentRectangleHeight, Math.Min(xCordinateDown, xCordinateUp),
                             Math.Min(yCordinateDown, yCordinateUp));
                     }
+                    //we changed our data structure => serialize
+                    Serialize();
                 }
             }
             catch (Exception ex)
@@ -491,6 +502,8 @@ namespace Transcriptor
 
                 AddSymbolToList(spaceSymbol, currentRectangeleWidth, currentRectangleHeight,
                             Math.Min(xCordinateDown, xCordinateUp), Math.Min(yCordinateDown, yCordinateUp));
+                //we changed our data structure => serialize
+                Serialize();
             }
             catch (Exception ex)
             {
@@ -823,16 +836,22 @@ namespace Transcriptor
             
         }
 
-        public void Deserialize(TranscriptorSettings settings)
-        {            
+        /// <summary>
+        /// Deserializes data structure of the transcriptor from a hidden field of the settings
+        /// </summary>
+        public void Deserialize()
+        {                        
             canvas.Children.Clear();
             indexCount = 0;
             alphabetCount = 0;
             symbolList.Clear();
             symbolItems.Clear();
             firstSymbols.Clear();
-
-            var stream = new MemoryStream(Convert.FromBase64String(settings.SerializedData));
+            if (string.IsNullOrEmpty(Settings.SerializedData))
+            {
+                return;
+            }
+            var stream = new MemoryStream(Convert.FromBase64String(Settings.SerializedData));
             var reader = new BinaryReader(stream);
             var count = reader.ReadInt32();
             for (var i = 0; i < count; i++)
@@ -849,6 +868,12 @@ namespace Transcriptor
                 var size = reader.ReadInt32();
                 var symbol = Symbol.Deserialize(reader.ReadBytes(size));
                 symbol.Probability = 0;
+                //set picture reference to each symbol
+                foreach (var s in symbolItems.Where(s => s.Id == symbol.Id))
+                {
+                    symbol.Id = s.Id;
+                    break;
+                }
                 AddSymbolToList(symbol, (int)symbol.Rectangle.Width, (int)symbol.Rectangle.Height, symbol.X, symbol.Y);                
                 indexCount++;
             }
@@ -859,19 +884,28 @@ namespace Transcriptor
                 var symbol = Symbol.Deserialize(reader.ReadBytes(size));
                 symbol.Probability = 0;
                 firstSymbols.Add(symbol);
-                //mark first symbols
-                foreach (Symbol t in symbolList)
+                //set picture reference to each symbol
+                foreach (var s in firstSymbols.Where(s => s.Id == symbol.Id))
                 {
-                    if (t.Id == symbol.Id)
+                    symbol.Id = s.Id;
+                    break;
+                }
+                //mark first symbols
+                foreach (var s in symbolList)
+                {
+                    if (s.Id == symbol.Id)
                     {
-                        t.Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
+                        s.Rectangle.Stroke = (SolidColorBrush)new BrushConverter().ConvertFromString(RectangleColor);
                         break;
                     }
                 }
-            }
+            }           
         }
 
-        public void Serialize(TranscriptorSettings settings)
+        /// <summary>
+        /// Serializes the data scructure of the transcriptor to a hidden field of the settings
+        /// </summary>
+        public void Serialize()
         {
             var stream = new MemoryStream();            
             stream.Write(BitConverter.GetBytes(symbolItems.Count), 0, 4);
@@ -884,19 +918,18 @@ namespace Transcriptor
             stream.Write(BitConverter.GetBytes(symbolList.Count), 0, 4);
             foreach (var s in symbolList)
             {
-                var data = Symbol.Serialize(s);
+                var data = Symbol.Serialize(s, false);
                 stream.Write(BitConverter.GetBytes(data.Length), 0, 4);
                 stream.Write(data, 0, data.Length);
             }            
             stream.Write(BitConverter.GetBytes(firstSymbols.Count), 0, 4);
             foreach (var s in firstSymbols)
             {
-                var data = Symbol.Serialize(s);
+                var data = Symbol.Serialize(s, false);
                 stream.Write(BitConverter.GetBytes(data.Length), 0, 4);
                 stream.Write(data, 0, data.Length);
             }
-
-            settings.SerializedData = Convert.ToBase64String(stream.GetBuffer());
+            Settings.SerializedData = Convert.ToBase64String(stream.GetBuffer());
         }
         #endregion
     }
