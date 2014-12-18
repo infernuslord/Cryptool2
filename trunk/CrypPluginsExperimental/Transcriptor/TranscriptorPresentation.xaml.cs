@@ -15,6 +15,7 @@
 */
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -677,8 +678,10 @@ namespace Transcriptor
 
                 //Handels the sorting
                 symbolListbox.Items.SortDescriptions.Clear();
-                SortDescription sortDescription = new SortDescription("Probability", ListSortDirection.Descending);
+                var sortDescription = new SortDescription("Probability", ListSortDirection.Descending);
                 symbolListbox.Items.SortDescriptions.Add(sortDescription);
+                symbolListbox.SelectedIndex = 0;
+                symbolListbox.ScrollIntoView(symbolListbox.Items[0]);
             }
             else
             {
@@ -836,6 +839,7 @@ namespace Transcriptor
             {
                 var size = reader.ReadInt32();
                 var symbol = Symbol.Deserialize(reader.ReadBytes(size));
+                symbol.Probability = 0;
                 symbolItems.Add(symbol);                
             }
             symbolListbox.ItemsSource = symbolItems;            
@@ -843,7 +847,8 @@ namespace Transcriptor
             for (var i = 0; i < count; i++)
             {
                 var size = reader.ReadInt32();
-                var symbol = Symbol.Deserialize(reader.ReadBytes(size));                
+                var symbol = Symbol.Deserialize(reader.ReadBytes(size));
+                symbol.Probability = 0;
                 AddSymbolToList(symbol, (int)symbol.Rectangle.Width, (int)symbol.Rectangle.Height, symbol.X, symbol.Y);                
                 indexCount++;
             }
@@ -852,8 +857,8 @@ namespace Transcriptor
             {
                 var size = reader.ReadInt32();
                 var symbol = Symbol.Deserialize(reader.ReadBytes(size));
+                symbol.Probability = 0;
                 firstSymbols.Add(symbol);
-
                 //mark first symbols
                 foreach (Symbol t in symbolList)
                 {
