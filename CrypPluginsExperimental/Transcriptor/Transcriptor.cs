@@ -108,7 +108,6 @@ namespace Cryptool.Plugins.Transcriptor
             Alphabet = null;
             Image = null;
 
-
             // Transfer the choosen rectangle color setting to the GUI
             switch (settings.RectangleColor)
             {
@@ -163,6 +162,10 @@ namespace Cryptool.Plugins.Transcriptor
                     if (transcriptorPresentation.MatchTemplateOn == false)
                     {
                         transcriptorPresentation.TransformButton.IsEnabled = false;
+                    }
+                    else
+                    {
+                        transcriptorPresentation.TransformButton.IsEnabled = true;
                     }
 
                     //Gets the Image from the Input Plugin and chage the DPI to 96
@@ -279,27 +282,20 @@ namespace Cryptool.Plugins.Transcriptor
             const int dpi = 96;
             var width = sourceImage.PixelWidth;
             var height = sourceImage.PixelHeight;
-            int stride;
+            var pixelFormat = sourceImage.Format;
 
-            //If the format has 8 Bits per Pixel the Image will be represented wrong therefor the gray8 format is used
-            if (sourceImage.Format.BitsPerPixel == 8)
+            //If the format of the Image has 8 Bits per Pixel the Image in the Transcriptor will be represented wrong therefor the Gray8 format is used
+            if (pixelFormat.BitsPerPixel == 8)
             {
-                stride = (width * PixelFormats.Gray8.BitsPerPixel + 7) / 8;
-                var pixelData = new byte[stride * height];
-                sourceImage.CopyPixels(pixelData, stride, 0);
-                var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, PixelFormats.Gray8, null, pixelData, stride);
-                //finally return the new image source
-                return dpi96Image;
+                pixelFormat = PixelFormats.Gray8;
             }
-            else
-            {
-                stride = (width * sourceImage.Format.BitsPerPixel + 7) / 8;
-                var pixelData = new byte[stride * height];
-                sourceImage.CopyPixels(pixelData, stride, 0);
-                var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, sourceImage.Format, null, pixelData, stride);
-                //finally return the new image source
-                return dpi96Image;
-            }
+            
+            var stride = (width * pixelFormat.BitsPerPixel + 7) / 8;
+            var pixelData = new byte[stride * height];
+            sourceImage.CopyPixels(pixelData, stride, 0);
+            var dpi96Image = BitmapSource.Create(width, height, dpi, dpi, pixelFormat, null, pixelData, stride);
+            //finally return the new image source
+            return dpi96Image;
         }
 
         /// <summary>
