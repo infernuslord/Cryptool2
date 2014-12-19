@@ -45,7 +45,7 @@ namespace Transcriptor
         private String rectangleColor, selectedRectangleColor;
         private int alphabetCount = 0, indexCount = 0, currentRectangeleWidth, currentRectangleHeight;
         private bool mtOn, mouseDown, ctrlBtnPressed = false, firstSymbolOn = false, isBlackImage = false;
-        private List<Symbol> symbolList = new List<Symbol>(); //contains all symbols wich will are used for the Text
+        private List<Symbol> symbolList = new List<Symbol>(); //contains all symbols wich will be used for the Text
         private ObservableCollection<Symbol> symbolItems = new ObservableCollection<Symbol>(); // Handels ListboxItems
         private Dictionary<char, int> statsList = new Dictionary<char, int>();
         private List<Symbol> firstSymbols = new List<Symbol>();
