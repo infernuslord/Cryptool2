@@ -33,7 +33,7 @@ namespace Cryptool.Plugins.Transcriptor
     [Author("Olga Groh", "o_groh@student.uni-kassel.de", "Uni Kassel", "www.uni-kassel.de")]
     [PluginInfo("Transcriptor.Properties.Resources", "TranscriptorCaption", "TranscriptorTooltip", "Transcriptor/DetailedDescription/doc.xml", new[] { "Transcriptor/icon.png" })]
     
-    [ComponentCategory(ComponentCategory.ToolsMisc)]
+    [ComponentCategory(ComponentCategory.CryptanalysisGeneric)]
     [ComponentVisualAppearance(ComponentVisualAppearance.VisualAppearanceEnum.Opened)]
     public class Transcriptor : ICrypComponent
     {
