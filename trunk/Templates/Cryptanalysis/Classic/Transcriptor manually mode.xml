@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <sample>
 
-  <title lang="en">Transcriptor manually mode</title>
+  <title lang="en">Transcriptor -- manual mode</title>
   <summary lang="en">Transcripts an image with symbols into a Text</summary>
   <description lang="en">
-    This template shows how to use the <i>Transcriptor</i> component with manually mode.
+    This template shows how to use the manual mode of the <i>Transcriptor</i> component.
   </description>
   <keywords>Transcriptor, Monoalphabetic, Substitution, Image, Manually, Symbol </keywords>
 
-  <title lang="de">Transkriptor im Manuellen Modus</title>
-  <summary lang="de"> Transkribiert ein Bild, mit Symbolen, zu einem Text</summary>
+  <title lang="de">Transkriptor im manuellen Modus</title>
+  <summary lang="de"> Transkribiert ein Bild, mit Symbolen zu einem Text</summary>
   <description lang="de">
-    Diese Vorlage zeigt, wie die <i>Transkriptor</i>-Komponente mit dem Manuellen Modus verwendet wird.
+    Diese Vorlage zeigt, wie die <i>Transkriptor</i>-Komponente im manuellen Modus verwendet wird.
   </description>
   <keywords lang="de">Transkriptor, Monoalphabetisch, Substitution, Bild, Manuell, Symbol</keywords>
 
