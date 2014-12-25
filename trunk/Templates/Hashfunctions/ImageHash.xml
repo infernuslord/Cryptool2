@@ -3,7 +3,7 @@
 
   <title lang="en">ImageHash</title>
   <summary lang="en">Generate a hash to a given image</summary>
-  <description lang="en">This template generates a blockhash to the chosen image and visualize each step of the process.</description>
+  <description lang="en">This template generates a blockhash of the chosen image and visualizes each step of the process.</description>
   <keywords>hash, blockhash, image</keywords>
 
   <title lang="de">BildHash</title>
